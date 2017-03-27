@@ -1,0 +1,7 @@
+url=jdbc:sqlserver://vgdb0540\\\\i01:62212;databaseName=apk;integratedSecurity=true;
+driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+user=vgregion\\someUser123
+password=secret123
+old.code=C:\\workspace\\kod-apk
+
+

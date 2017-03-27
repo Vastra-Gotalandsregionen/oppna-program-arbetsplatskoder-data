@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="org.postgresql.Driver" />
+    <property name="url" value="jdbc:postgresql://localhost:5432/hotell62_staging_1" />
+    <property name="username" value="hotell_staging" />
+    <property name="password" value="hotell" />
+  </bean>
+
+  <context:annotation-config />
+
+  <!-- Uses by default transaction bean with name transactionManager -->
+  <tx:annotation-driven />
+
+  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <property name="entityManagerFactory" ref="entityManagerFactory" />
+  </bean>
+
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="persistenceXmlLocation" value="classpath:META-INF/persistence-postgres-test.xml"></property>
+    <!--<property name="jpaVendorAdapter" ref="jpaVendor" />-->
+    <!--<property name="jpaPropertyMap">
+      <map>
+        <entry key="hibernate.format_sql" value="true" />
+      </map>
+    </property>-->
+    <property name="jpaPropertyMap">
+      <map>
+        <!--<entry key="hibernate.format_sql" value="true" />-->
+        <!--<entry key="eclipselink.weaving" value="false"/>-->
+        <!--<entry key="eclipselink.target-database" value="HSQL"/>-->
+      </map>
+    </property>
+  </bean>
+
+  <bean id="jpaVendor" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+    <!--<property name="database" value="POSTGRESQL" />
+    <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
+    <property name="generateDdl" value="true" />
+    <property name="showSql" value="true" />-->
+  </bean>
+
+</beans>

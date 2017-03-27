@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+  <h:head>
+    <style>
+
+      table.lookup {
+      border-collapse: separate;
+      border-spacing: 0.5rem;border-spacing: 15px;
+      }
+
+      tr.heading {
+      font-weight: bold;
+      height: 2rem;height: 30px;
+      vertical-align: bottom;
+      }
+
+      tr.heading > td, tr.result > td {
+      border-collapse: separate;
+      border-spacing: 5px;
+      border-color: lightgray;
+      border-bottom-style: solid;
+      border-width: thin;
+      }
+
+      tr.result > td {
+        height: 2rem;height: 30px;
+      }
+
+      tr.io input {
+      height: 2rem!important;height: 30px!important;
+      margin: 0px!important;
+      padding: 0px!important;
+      width: 100%!important;
+      border-width: 0px!important;
+      vertical-align: middle;
+      }
+
+      tr.io>td {
+      border-color: lightgray;
+      border-style: solid;
+      border-width: thin;
+      padding:0px;
+      }
+
+      .under-lined {
+      border-bottom-color: lightgray;
+      border-bottom-style: solid;
+      border-bottom-width: thin;
+      padding:0px;
+      }
+
+    </style>
+  </h:head>
+
+  <script type="application/javascript" src="#{request.contextPath}/scripts.js?v=12"></script>
+
+  <h:form id="mainForm">
+
+    <table class="lookup">
+      <tr>
+        <td colspan="2" class="under-lined">
+          <h2 class="title">Personnummer i stulna Obstetrix-databaser?</h2>
+        </td>
+      </tr>
+      <tr class="io">
+        <td style="width:70%;">
+          <h:inputText id="personalNumber" value="#{app.number}"/>
+          <p:watermark for="personalNumber" value="yyyymmdd-nnnn"/>
+          <p:focus for="personalNumber"/>
+        </td>
+        <td style="width:30%;">
+          <h:commandButton value="Kontrollera" styleClass="reset-this-no" onclick="this.disabled='disabled';">
+            <f:ajax listener="#{app.search}" execute="mainForm" render="@form"/>
+          </h:commandButton>
+        </td>
+      </tr>
+      <tr style="visibility: #{empty app.numberWarning ? 'hidden' : 'visible'};">
+        <td colspan="2">
+          <span><font color="red">#{app.numberWarning}</font></span>
+        </td>
+      </tr>
+      <tbody style="visibility: #{empty app.numberWarning ? 'visible' : 'hidden'};">
+      <tr class="heading" style="display: #{empty app.results ? 'none' : 'table-row'};">
+        <td colspan="1">
+          Databas
+        </td>
+        <td colspan="1">
+          Stulen?
+        </td>
+      </tr>
+      <ui:repeat value="#{app.results}" var="result">
+        <tr class="result">
+          <td colspan="1">
+            #{result.database}
+          </td>
+          <td colspan="1">
+            #{result.state}
+          </td>
+        </tr>
+      </ui:repeat>
+      </tbody>
+
+      <tr style="display: #{empty app.results ? 'none' : 'table-row'};">
+        <td colspan="2" class="under-lined">
+          <small>Sökning <span id="current-time">not set yet</span> för '#{app.number}'.</small>
+        </td>
+      </tr>
+    </table>
+
+    <script>
+      putCurrentTimeIntoDisplay();
+
+
+
+
+    </script>
+
+  </h:form>
+
+</f:view>

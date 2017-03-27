@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+  <!--
+    This is the System-level Maven POM. Usage: Define all truly common things for the system here. For example:
+    versions of third-party dependencies used throughout the system. Template version: 1.5
+    Generation time : 2015-01-14 09:02:50 CET
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>se.vgregion.common</groupId>
+    <artifactId>profile-open</artifactId>
+    <version>2.13</version>
+  </parent>
+
+  <groupId>se.vgregion.arbetsplatskoder</groupId>
+  <artifactId>arbetsplatskoder</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>${project.artifactId}</name>
+
+  <modules>
+    <module>core-bc</module>
+  </modules>
+
+  <!--NB! SCM config below assumes system name equals VGR subversion/googlecode project name! -->
+  <!-- Open Source repo -->
+  <!--<scm>
+    <developerConnection>scm:svn:https://blandbarhet.googlecode.com/svn/trunk</developerConnection>
+    <url>https://blandbarhet.googlecode.com/svn/trunk</url>
+  </scm>-->
+
+  <properties>
+    <compileSource>1.7</compileSource>
+    <compileTarget>1.7</compileTarget>
+    <spring.fw.version>3.2.14.RELEASE</spring.fw.version>
+    <jsf.version>2.2.8</jsf.version>
+  </properties>
+
+</project>

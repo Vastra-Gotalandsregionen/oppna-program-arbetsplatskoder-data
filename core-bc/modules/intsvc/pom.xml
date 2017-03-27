@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>se.vgregion.arbetsplatskoder</groupId>
+    <artifactId>arbetsplatskoder-bc</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <groupId>se.vgregion.arbetsplatskoder</groupId>
+  <artifactId>arbetsplatskoder-bc-module-intsvc</artifactId>
+  <packaging>war</packaging>
+  <name>${project.artifactId}</name>
+
+  <!-- copied from
+  <groupId>se.clalu4.test</groupId>
+  <artifactId>SpringMVC</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>SpringMVC Json Webapp</name>
+  <url>http://maven.apache.org</url>
+  -->
+
+  <properties>
+    <!--
+    <spring.version>3.2.2.RELEASE</spring.version>
+    -->
+    <spring.fw.version>4.3.6.RELEASE</spring.fw.version>
+    <spring.version>4.3.6.RELEASE</spring.version>
+    <jackson.version>1.9.10</jackson.version>
+    <jdk.version>1.8</jdk.version>
+  </properties>
+
+  <dependencies>
+
+    <!-- Spring 3 dependencies -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!-- Jackson JSON Mapper -->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/sqljdbc4 -->
+    <dependency>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>sqljdbc4</artifactId>
+      <version>4.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>se.vgregion.arbetsplatskoder</groupId>
+      <artifactId>arbetsplatskoder-bc-composite-svc</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>arbetsplatskoder-data</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <downloadSources>true</downloadSources>
+          <downloadJavadocs>false</downloadJavadocs>
+          <wtpversion>2.0</wtpversion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

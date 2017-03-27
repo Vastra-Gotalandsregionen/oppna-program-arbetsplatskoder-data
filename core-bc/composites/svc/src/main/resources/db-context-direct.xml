@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+        >
+
+    <context:property-placeholder location="file:${user.home}/.hotell/arbetsplatskoder/main.jdbc.properties"/>
+
+    <context:annotation-config />
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+    <bean class="se.vgregion.arbetsplatskoder.db.service.Crud"/>
+
+    <!-- Uses by default transaction bean with name transactionManager -->
+    <tx:annotation-driven />
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!--<property name="dataSource" ref="dataSourceTest" />-->
+        <!--<property name="dataSource" ref="dataSourceStage" />-->
+        <!--<property name="dataSource" ref="dataSourceProd" />-->
+        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"></property>
+        <!--<property name="jpaVendorAdapter" ref="jpaVendor" />-->
+        <!--<property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.format_sql" value="false" />
+            </map>
+        </property>-->
+        <property name="jpaPropertyMap">
+            <map>
+                <!--<entry key="hibernate.format_sql" value="true" />-->
+                <!--<entry key="eclipselink.weaving" value="false"/>-->
+                <!--<entry key="eclipselink.target-database" value="HSQL"/>-->
+            </map>
+        </property>
+    </bean>
+
+    <!--<bean id="jpaVendor" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+        <property name="database" value="POSTGRESQL" />
+        <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
+        <property name="generateDdl" value="true" />
+        <property name="showSql" value="false" />
+    </bean>-->
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
+    </bean>
+
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/hotell62_staging_1"/>
+        <property name="username" value="hotell_staging"/>
+        <property name="password" value="hotell"/>
+    </bean>-->
+
+    <!--
+    <bean id="dataSourceTest" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://vgdb0203:5432/hotell62_test_1"/>
+        <property name="username" value="hotell_test"/>
+        <property name="password" value="19hotell"/>
+    </bean>
+
+    <bean id="dataSourceStage" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://vgdb0203:5432/hotell62_staging_1"/>
+        <property name="username" value="hotell_staging"/>
+        <property name="password" value="hotell19"/>
+    </bean>
+
+    <bean id="dataSourceProd" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://vgdb0203:5432/hotell62_1"/>
+        <property name="username" value="hotell"/>
+        <property name="password" value="hotell19"/>
+    </bean>
+    -->
+
+</beans>
