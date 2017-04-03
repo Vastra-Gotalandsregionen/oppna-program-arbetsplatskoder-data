@@ -19,9 +19,8 @@ public class FindController {
     Crud crud;
 
     @RequestMapping(value = "{name}", method = RequestMethod.GET)
-    public
     @ResponseBody
-    List<Object> main(@PathVariable String name, @RequestParam Map<String, String> params) {
+    public List<Object> main(@PathVariable String name, @RequestParam Map<String, String> params) {
         try {
             Object bean = Class.forName(AbstractEntity.class.getPackage().getName() + "." + name).newInstance();
             for (Map.Entry<String, String> entry : params.entrySet()) {

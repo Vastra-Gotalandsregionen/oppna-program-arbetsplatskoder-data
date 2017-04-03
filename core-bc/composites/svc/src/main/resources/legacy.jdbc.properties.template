@@ -1,7 +1,6 @@
-url=jdbc:sqlserver://vgdb0540\\\\i01:62212;databaseName=apk;integratedSecurity=true;
-driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-user=vgregion\\someUser123
+# Location [user.home]/.hotell/arbetsplatskoder
+url=jdbc:jtds:sqlserver://machine:62212/db;instance=instanceId;databaseName=db;integratedSecurity=true;authenticationScheme=JavaKerberos;domain=domainName
+driver=net.sourceforge.jtds.jdbc.Driver
+user=userName
 password=secret123
 old.code=C:\\workspace\\kod-apk
-
-

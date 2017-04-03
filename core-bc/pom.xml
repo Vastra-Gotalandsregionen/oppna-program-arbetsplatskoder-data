@@ -7,7 +7,7 @@ Template version: 1.5
 Generation time : 2015-01-14 09:02:50 CET
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>se.vgregion.arbetsplatskoder</groupId>
@@ -24,7 +24,8 @@ Generation time : 2015-01-14 09:02:50 CET
     <module>composites/types</module>
     <module>composites/svc</module>
     <module>composites/db-migration-svc</module>
-    <!--<module>modules/portlet</module>-->
+    <!--<module>composites/webcomp</module>-->
+    <module>modules/portlet</module>
     <module>modules/intsvc</module>
   </modules>
 </project>

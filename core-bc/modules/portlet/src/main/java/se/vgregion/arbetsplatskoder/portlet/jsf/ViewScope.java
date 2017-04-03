@@ -1,12 +1,11 @@
-package se.vgregion.obstetrix.lookup.jsf;
+package se.vgregion.arbetsplatskoder.portlet.jsf;
 
-import java.util.Map;
- 
-import javax.faces.context.FacesContext;
- 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
- 
+
+import javax.faces.context.FacesContext;
+import java.util.Map;
+
 public class ViewScope implements Scope {
  
     public Object get(String name, ObjectFactory objectFactory) {

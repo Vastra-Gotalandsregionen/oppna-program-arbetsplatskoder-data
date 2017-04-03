@@ -18,6 +18,7 @@ public class ControllerUtil {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             entry.setValue(formatBeforeJpaUsage(entry.getValue().toString()));
         }
+        map.remove("callback");
     }
 
 }

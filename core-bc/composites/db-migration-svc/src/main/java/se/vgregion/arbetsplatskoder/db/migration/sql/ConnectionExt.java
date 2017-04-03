@@ -92,7 +92,7 @@ public class ConnectionExt {
     private ResultSet getResultSetByQueryImp(String sql, Object... values) throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareCall(sql);
+            ps = connection.prepareStatement(sql);
             int i = 1;
             for (Object value : values) {
                 ps.setObject(i++, value);
@@ -237,8 +237,9 @@ public class ConnectionExt {
                 prims.add(prim.getColumnName());
             }
 
-            CallableStatement ps = connection.prepareCall(
-                    "select * from " + t1.getTableSchema() + "." + t1.getTableName());
+            PreparedStatement ps = connection.prepareStatement(
+                    "select t.* from " + t1.getTableSchema() + "." + t1.getTableName() + " t");
+
             rs = ps.executeQuery();
             t1.getColumns().addAll(JdbcUtil.toColumnInfs(rs));
             rs.close();

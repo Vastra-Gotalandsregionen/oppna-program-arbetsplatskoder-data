@@ -1,7 +1,9 @@
 package se.vgregion.arbetsplatskoder.db.migration.sql;
 
 import se.vgregion.arbetsplatskoder.db.migration.util.BeanMap;
+import se.vgregion.arbetsplatskoder.db.migration.util.Zerial;
 
+import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -69,7 +71,11 @@ public class JdbcUtil {
             Map<String, Object> item = new HashMap<>();
             result.add(item);
             for (int i = 1; i < columnLimit; i++) {
-                item.put(meta.getColumnName(i), rs.getObject(i));
+                Object value = rs.getObject(i);
+                if (value instanceof Clob) {
+                    value = Zerial.toText(((Clob) value).getAsciiStream());
+                }
+                item.put(meta.getColumnName(i), value);
             }
         }
         rs.close();
@@ -108,10 +114,15 @@ public class JdbcUtil {
         String[] parts = s.split("_");
         String camelCaseString = "";
         for (String part : parts) {
-            camelCaseString = camelCaseString + toProperCase(part);
+            camelCaseString = camelCaseString + firstLetterUpRestLower(part);
         }
         return camelCaseString.substring(0, 1).toLowerCase() +
                 camelCaseString.substring(1);
+    }
+
+    public static String firstLetterUpRestLower(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
     }
 
     public static String toProperCase(String s) {

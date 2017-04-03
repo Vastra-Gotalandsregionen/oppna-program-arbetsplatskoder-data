@@ -90,29 +90,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-      <version>2.3.16</version>
-    </dependency>
-
-    <dependency>
-      <groupId>se.vgregion.healthcare-context</groupId>
-      <artifactId>healthcare-context-patient-context-composite-webcomp</artifactId>
-      <version>1.10</version>
-    </dependency>
-
-    <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.4.190</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>com.microsoft.sqlserver</groupId>
       <artifactId>sqljdbc4</artifactId>
       <version>4.0</version>
@@ -123,13 +100,6 @@
       <artifactId>h2</artifactId>
       <version>1.4.190</version>
     </dependency>
-
-    <!--		<dependency>
-                <groupId>xerces</groupId>
-                <artifactId>xerces</artifactId>
-                <version>1.4.0</version>
-            </dependency>-->
-
 
   </dependencies>
 </project>

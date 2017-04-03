@@ -1,3 +1,4 @@
+# Location [user.home]/.hotell/arbetsplatskoder
 driver=org.postgresql.Driver
 url=jdbc:postgresql://localhost:5432/hotell62_staging_1
 user=hotell_staging

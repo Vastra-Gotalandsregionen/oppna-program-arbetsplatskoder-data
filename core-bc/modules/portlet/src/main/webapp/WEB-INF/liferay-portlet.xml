@@ -5,7 +5,7 @@
 <liferay-portlet-app>
 
     <portlet>
-        <portlet-name>Obstetrix Uppslag</portlet-name>
+        <portlet-name>Arbetsplatskoder-Data</portlet-name>
         <instanceable>false</instanceable>
         <requires-namespaced-parameters>false</requires-namespaced-parameters>
         <header-portlet-javascript>/js/scripts.js</header-portlet-javascript>

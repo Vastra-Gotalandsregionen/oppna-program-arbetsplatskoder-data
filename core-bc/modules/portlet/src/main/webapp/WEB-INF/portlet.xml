@@ -14,9 +14,9 @@
              id="miscibility-core-bc-module-portlet">
   <portlet>
 
-    <description>Obstetrix Uppslag</description>
-    <portlet-name>Obstetrix Uppslag</portlet-name>
-    <display-name>Obstetrix Uppslag</display-name>
+    <description>Arbetsplatskoder-Data</description>
+    <portlet-name>Arbetsplatskoder-Data</portlet-name>
+    <display-name>Arbetsplatskoder-Data</display-name>
     <portlet-class>com.liferay.faces.bridge.GenericLiferayFacesPortlet</portlet-class>
 
     <init-param>
@@ -30,9 +30,9 @@
     </supports>
 
     <portlet-info>
-      <title>Obstetrix Uppslag</title>
-      <short-title>Obstetrix Uppslag</short-title>
-      <keywords>Obstetrix Uppslag</keywords>
+      <title>Arbetsplatskoder-Data</title>
+      <short-title>Arbetsplatskoder-Data</short-title>
+      <keywords>Arbetsplatskoder-Data</keywords>
     </portlet-info>
 
     <portlet-preferences>

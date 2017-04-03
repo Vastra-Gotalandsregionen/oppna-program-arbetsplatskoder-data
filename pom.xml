@@ -31,8 +31,8 @@
   </scm>-->
 
   <properties>
-    <compileSource>1.7</compileSource>
-    <compileTarget>1.7</compileTarget>
+    <compileSource>1.8</compileSource>
+    <compileTarget>1.8</compileTarget>
     <spring.fw.version>3.2.14.RELEASE</spring.fw.version>
     <jsf.version>2.2.8</jsf.version>
   </properties>

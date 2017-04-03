@@ -37,4 +37,21 @@ public class Zerial {
         return  (T) ois.readObject();
     }
 
+    public static String toText(InputStream input) {
+        try(BufferedInputStream bis = new BufferedInputStream(input);ByteArrayOutputStream buf = new ByteArrayOutputStream()) {
+            try {
+                int result = 0;
+                while (result != -1) {
+                    buf.write((byte) result);
+                    result = bis.read();
+                }
+                return buf.toString("UTF-8");
+            } finally {
+                input.close();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

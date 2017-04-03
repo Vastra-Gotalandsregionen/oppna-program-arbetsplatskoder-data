@@ -175,7 +175,11 @@ public abstract class AbstractJob {
         Set<String> textFormatsWithNoParm = new HashSet<>(Arrays.asList("text"));
 
         for (ColumnInf column : table.getColumns()) {
-            String type = translations.getProperty(column.getColumnTypeName(), column.getColumnTypeName());
+            String originalType = column.getColumnTypeName();
+            if (originalType.endsWith(" identity")) {
+                originalType = originalType.replace(" identity", "");
+            }
+            String type = translations.getProperty(originalType, originalType);
 
             if (!textFormatsWithNoParm.contains(type))
                 if (column.getColumnClassName().equals(String.class.getName())) {

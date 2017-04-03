@@ -3,3 +3,4 @@
 target
 *.iml
 /database-cache/
+/my-build.sh
