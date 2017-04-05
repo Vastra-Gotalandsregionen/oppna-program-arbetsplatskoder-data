@@ -126,6 +126,7 @@ public class ConnectionExt {
 
     public void insert(String intoTable, Map<String, Object> tupel) {
         // INSERT INTO products (name, price, product_no) VALUES ('Cheese', 9.99, 1);
+        PreparedStatement ps = null;
         try {
             String columns = tupel.keySet().toString();
             columns = columns.substring(1, columns.length() - 1);
@@ -138,12 +139,30 @@ public class ConnectionExt {
                     + " (" + columns + ") values ("
                     + args + ")";
 
-            PreparedStatement ps = connection.prepareCall(
+            ps = connection.prepareCall(
                     sql);
 
             int c = 1;
             for (String key : tupel.keySet()) {
-                ps.setObject(c++, tupel.get(key));
+                Object value = tupel.get(key);
+                if (value instanceof String) {
+                    String string = (String) value;
+                    if (string != null && string.toCharArray().length > 0 && string.toCharArray()[0] == 0x00) {
+                        ps.setString(c++, string.substring(1));
+                    } else {
+                        ps.setString(c++, string);
+                    }
+                } else if (value instanceof Integer){
+                    ps.setInt(c++, (Integer) value);
+                } else if (value instanceof Boolean){
+                    ps.setBoolean(c++, (Boolean) value);
+                } else if (value instanceof byte[]){
+                    ps.setBytes(c++, new byte[]{0x01});
+                } else if (value == null){
+                    ps.setNull(c++, Types.NULL);
+                } else {
+                    ps.setObject(c++, value);
+                }
             }
 
             ps.executeUpdate();

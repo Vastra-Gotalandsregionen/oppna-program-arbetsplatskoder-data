@@ -5,6 +5,7 @@ import se.vgregion.arbetsplatskoder.db.migration.util.Filez;
 import se.vgregion.arbetsplatskoder.db.migration.util.Zerial;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -43,11 +44,17 @@ public abstract class AbstractJob {
     }
 
     public ConnectionExt getLegacyConnectionExt() {
+//        Console console = System.console();
+
+//        char[] chars = console.readPassword("Password?");
+//        String password = new String(chars);
+
         Properties prop = getLegacyProperties();
         ConnectionExt connection = new ConnectionExt(
                 prop.getProperty("url"),
                 prop.getProperty("user"),
                 prop.getProperty("password"),
+//                password,
                 prop.getProperty("driver"));
         return connection;
     }
@@ -96,7 +103,7 @@ public abstract class AbstractJob {
         ConnectionExt connection = getMainConnectionExt();
         long timeBefore = System.currentTimeMillis();
         for (SchemaInf schema : connection.getSchemas("dbo")) {
-            Path path = Paths.get(System.getProperty("user.home"), "Temp", "Apk", "Schemas", schema.getName() + ".java.obj");
+            Path path = Paths.get(System.getProperty("user.home"), "temp", "Apk", "Schemas", schema.getName() + ".java.obj");
             Zerial.toFile(schema, path);
         }
         System.out.println("Time for getting the schema where " + Math.round(System.currentTimeMillis() - timeBefore) / 1000);
@@ -127,7 +134,8 @@ public abstract class AbstractJob {
         for (TableInf table : getTablesOnDisc()) {
             try {
                 System.out.println("Inserts data into " + table.getTableName());
-                Path path = Paths.get(System.getProperty("user.home"), "Temp", "Apk", "Data", table.getTableName() + ".java.obj");
+//                Path path = Paths.get(System.getProperty("user.home"), "temp", "Apk", "Data", table.getTableName() + ".java.obj");
+                Path path = Paths.get(getDataCacheDirectory().toString(), table.getTableName() + ".java.obj");
                 List<Map<String, Object>> items = Zerial.fromFile(List.class, path);
                 for (Map<String, Object> item : items) {
                     mainCon.insert(table.getTableName(), item);
@@ -315,7 +323,7 @@ public abstract class AbstractJob {
     public Properties getTypeTranslations() {
         try {
             URL url = this.getClass().getResource("SQLServer-PostgreSQL-DataTypes.txt");
-            List<String> rows = Files.readAllLines(Paths.get(url.getFile().substring(1)));
+            List<String> rows = Files.readAllLines(Paths.get(url.getFile().substring(0)));
 
             Properties result = new Properties();
 

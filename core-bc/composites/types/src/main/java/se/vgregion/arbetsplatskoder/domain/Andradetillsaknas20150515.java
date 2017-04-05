@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Andradetillsaknas20150515 extends AbstractEntity {
 
     @Id
-    @Column (name = "id", nullable = false)
+//    @Column (name = "id", nullable = false)
     private java.lang.Integer id;
 
     @Column (name = "lankod", nullable = true)
