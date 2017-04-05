@@ -130,6 +130,15 @@ public class TableInf implements Serializable {
         return columns;
     }
 
+    public ColumnInf getColumn(String byName) {
+        for (ColumnInf column : columns) {
+            if (column.getColumnName().equalsIgnoreCase(byName)) {
+                return column;
+            }
+        }
+        return null;
+    }
+
     public List<PrimaryKeyInf> getPrimaryKeys() {
         return primaryKeys;
     }

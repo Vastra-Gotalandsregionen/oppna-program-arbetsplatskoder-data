@@ -4,16 +4,14 @@ import se.vgregion.arbetsplatskoder.db.migration.sql.*;
 import se.vgregion.arbetsplatskoder.db.migration.util.Filez;
 import se.vgregion.arbetsplatskoder.db.migration.util.Zerial;
 
-import java.io.BufferedReader;
-import java.io.Console;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Created by clalu4 on 2017-03-22.
@@ -98,12 +96,11 @@ public abstract class AbstractJob {
         mainCon.commit();
     }
 
-
     public void main() {
         ConnectionExt connection = getMainConnectionExt();
         long timeBefore = System.currentTimeMillis();
         for (SchemaInf schema : connection.getSchemas("dbo")) {
-            Path path = Paths.get(System.getProperty("user.home"), "temp", "Apk", "Schemas", schema.getName() + ".java.obj");
+            Path path = Paths.get(getTypesCacheDirectory().toString(), schema.getName() + ".java.obj");
             Zerial.toFile(schema, path);
         }
         System.out.println("Time for getting the schema where " + Math.round(System.currentTimeMillis() - timeBefore) / 1000);
@@ -132,17 +129,25 @@ public abstract class AbstractJob {
 
     public void copyDataIntoMainDatabase() {
         for (TableInf table : getTablesOnDisc()) {
+            Map<String, Object> lastItem = null;
             try {
                 System.out.println("Inserts data into " + table.getTableName());
 //                Path path = Paths.get(System.getProperty("user.home"), "temp", "Apk", "Data", table.getTableName() + ".java.obj");
                 Path path = Paths.get(getDataCacheDirectory().toString(), table.getTableName() + ".java.obj");
                 List<Map<String, Object>> items = Zerial.fromFile(List.class, path);
+                int index = 0;
                 for (Map<String, Object> item : items) {
+                    lastItem = item;
+                    if (table.getPrimaryKeys().isEmpty()) {
+                        if (!item.containsKey("id") && !item.containsKey("ID") && !item.containsKey("Id")) {
+                            item.put("id", index--);
+                        }
+                    }
                     mainCon.insert(table.getTableName(), item);
                 }
                 mainCon.commit();
             } catch (Exception e) {
-                System.out.println("Failed insert into " + table);
+                System.out.println("Failed insert into " + table + " the data was " + lastItem);
                 throw new RuntimeException(e);
             }
         }
@@ -182,6 +187,7 @@ public abstract class AbstractJob {
 
         Set<String> textFormatsWithNoParm = new HashSet<>(Arrays.asList("text"));
 
+
         for (ColumnInf column : table.getColumns()) {
             String originalType = column.getColumnTypeName();
             if (originalType.endsWith(" identity")) {
@@ -209,6 +215,11 @@ public abstract class AbstractJob {
             StringBuilder pkSb = new StringBuilder();
             pks.toSql(pkSb, new ArrayList());
             types.add(new Atom("constraint " + table.getTableName() + "_pk primary key" + pkSb));
+        } else {
+            if (table.getColumn("id") == null) {
+                types.add(new Atom("id bigint NOT NULL"));
+            }
+            types.add(new Atom("constraint " + table.getTableName() + "_pk primary key (id)"));
         }
 
         types.toSql(sb, new ArrayList());
@@ -321,9 +332,10 @@ public abstract class AbstractJob {
 
 
     public Properties getTypeTranslations() {
-        try {
-            URL url = this.getClass().getResource("SQLServer-PostgreSQL-DataTypes.txt");
-            List<String> rows = Files.readAllLines(Paths.get(url.getFile().substring(0)));
+        try (InputStream resource = getClass().getResourceAsStream("SQLServer-PostgreSQL-DataTypes.txt")) {
+            List<String> rows =
+                    new BufferedReader(new InputStreamReader(resource,
+                            StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
 
             Properties result = new Properties();
 
