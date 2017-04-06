@@ -11,64 +11,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
 
-	<!--<persistence-unit name="obstetrix-lookup">-->
 	<persistence-unit name="arbetsplatskoder">
-		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>se.vgregion.arbetsplatskoder.domain.Agarform</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Allaapk60820150121</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Andraansvar2</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Andradetillsaknas20150515</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Ansvarandring</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Anvandare</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Anvandartyp</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Ao3</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Arbplkod20150121</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Behorighet</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Changeao3</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Changejourcentraler</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Data</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Data20140310</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Data20150126</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Data20150212</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Driftform</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Ersatthsaid</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Fakturering</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Historik</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Inlasningvgprimar</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Justeringarapk20150212</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Kommun</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Kommunort</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Leverans</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Lk</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Namndpvao3</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Namndpvao320150126</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Ortkommun</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Prodn1</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Prodn2</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Prodn3</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Producent</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Recept</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Tmpvgpv</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Vardform</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Vcansvar</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Verksamhet</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Viewapkforsesamlmn</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Viewapkhsaid</class>
-		<class>se.vgregion.arbetsplatskoder.domain.Viewapkwithao3</class>
 
-		<properties>
-			<property name="eclipselink.target-database" value="PostgreSQL"/>
-			<!--<property name="eclipselink.target-database" value="HSQL"/>-->
-			<property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
-			<!--<property name="eclipselink.ddl-generation" value="create-tables"/>-->
-			<property name="eclipselink.ddl-generation.output-mode" value="database"/>
-			<!--<property name="eclipselink.target-server" value="JBoss"/>-->
-			<property name="eclipselink.weaving" value="static"/>
-			<!--<property name="eclipselink.weaving" value="false"/>-->
-			<!--<property name="eclipselink.logging.level" value="FINE"/>-->
-			<!--<property name="eclipselink.cache.shared.default" value="true"/>-->
-			<property name="eclipselink.cache.shared.default" value="false"/>
-		</properties>
 	</persistence-unit>
 
 </persistence>

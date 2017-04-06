@@ -12,20 +12,7 @@
 	version="2.0">
 
 
-	<persistence-unit name="obstetrix-lookup">
-		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-
-		<class>se.vgregion.obstetrix.lookup.domain.VgrObstetrixUserLookupLog</class>
-
-		<properties>
-			<!--<property name="eclipselink.target-database" value="PostgreSQL"/>-->
-			<property name="eclipselink.target-database" value="HSQL"/>
-			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-			<property name="eclipselink.ddl-generation.output-mode" value="database"/>
-			<!--<property name="eclipselink.target-server" value="JBoss"/>-->
-			<property name="eclipselink.weaving" value="false"/>
-			<property name="eclipselink.logging.level" value="FINE"/>
-		</properties>
+	<persistence-unit name="migrate-apk">
 	</persistence-unit>
 
 </persistence>

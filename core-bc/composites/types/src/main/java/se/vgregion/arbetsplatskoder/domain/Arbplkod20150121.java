@@ -10,7 +10,7 @@ public class Arbplkod20150121 extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column (name = "lÄn_arbetsplatskod", nullable = true)
+    @Column (name = "lan_arbetsplatskod", nullable = true)
     private java.lang.String länArbetsplatskod;
 
     @Column (name = "ao3", nullable = true)

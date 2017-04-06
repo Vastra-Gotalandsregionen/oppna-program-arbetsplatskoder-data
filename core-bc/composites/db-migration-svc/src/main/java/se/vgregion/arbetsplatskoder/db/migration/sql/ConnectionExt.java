@@ -129,7 +129,15 @@ public class ConnectionExt {
         PreparedStatement ps = null;
         try {
             String columns = tupel.keySet().toString();
-            columns = columns.substring(1, columns.length() - 1);
+
+            columns = columns.substring(1, columns.length() - 1)
+                    .replaceAll("[Å]", "A")
+                    .replaceAll("[Ä]", "A")
+                    .replaceAll("[Ö]", "O")
+                    .replaceAll("[å]", "a")
+                    .replaceAll("[ä]", "a")
+                    .replaceAll("[ö]", "o");
+
             StringBuilder args = new StringBuilder("?");
             for (int i = 1, j = tupel.keySet().size(); i < j; i++)
                 args.append(", ?");

@@ -60,10 +60,10 @@ public abstract class AbstractJob {
     public ConnectionExt getMainConnectionExt() {
         Properties prop = getMainJdbcProperties();
         ConnectionExt connection = new ConnectionExt(
-                prop.getProperty("url"),
-                prop.getProperty("user"),
-                prop.getProperty("password"),
-                prop.getProperty("driver"));
+                prop.getProperty("jdbc.url"),
+                prop.getProperty("jdbc.user"),
+                prop.getProperty("jdbc.password"),
+                prop.getProperty("jdbc.driver"));
         return connection;
     }
 
@@ -135,7 +135,7 @@ public abstract class AbstractJob {
 //                Path path = Paths.get(System.getProperty("user.home"), "temp", "Apk", "Data", table.getTableName() + ".java.obj");
                 Path path = Paths.get(getDataCacheDirectory().toString(), table.getTableName() + ".java.obj");
                 List<Map<String, Object>> items = Zerial.fromFile(List.class, path);
-                int index = 0;
+                int index = -1;
                 for (Map<String, Object> item : items) {
                     lastItem = item;
                     if (table.getPrimaryKeys().isEmpty()) {
@@ -195,14 +195,25 @@ public abstract class AbstractJob {
             }
             String type = translations.getProperty(originalType, originalType);
 
-            if (!textFormatsWithNoParm.contains(type))
+            if (!textFormatsWithNoParm.contains(type)) {
                 if (column.getColumnClassName().equals(String.class.getName())) {
                     type += "(" + column.getColumnDisplaySize() + ")";
                 }
-            if (column.isNullable())
-                types.add(new Atom<>(column.getColumnName() + " " + type));
-            else
-                types.add(new Atom<>(column.getColumnName() + " " + type + " not null"));
+            }
+
+            String improvedColumnName = column.getColumnName()
+                    .replaceAll("[Å]", "A")
+                    .replaceAll("[Ä]", "A")
+                    .replaceAll("[Ö]", "O")
+                    .replaceAll("[å]", "a")
+                    .replaceAll("[ä]", "a")
+                    .replaceAll("[ö]", "o");
+
+            if (column.isNullable()) {
+                types.add(new Atom<>(improvedColumnName + " " + type));
+            } else {
+                types.add(new Atom<>(improvedColumnName + " " + type + " not null"));
+            }
         }
 
         // CONSTRAINT user_pkey PRIMARY KEY (id)

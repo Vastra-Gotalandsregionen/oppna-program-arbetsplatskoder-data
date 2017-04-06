@@ -103,7 +103,7 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>2.2</version>
         <configuration>
-          <path>/apk</path>
+          <path>/api</path>
         </configuration>
       </plugin>
     </plugins>

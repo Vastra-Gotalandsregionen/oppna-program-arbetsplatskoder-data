@@ -2,16 +2,14 @@ package se.vgregion.arbetsplatskoder.domain;
 
 import javax.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "alla_apk_608_20150121")
 public class AllaApk60820150121 extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column (name = "lÄn_arbetsplatskod", nullable = true)
-    private java.lang.String länArbetsplatskod;
+    @Column (name = "lan_arbetsplatskod", nullable = true)
+    private java.lang.String lanArbetsplatskod;
 
     @Column (name = "ao3", nullable = true)
     private java.lang.String ao3;
@@ -22,12 +20,12 @@ public class AllaApk60820150121 extends AbstractEntity {
     public void setId(Long id) {
         this.id = id;
     }
-    public java.lang.String getLänArbetsplatskod(){
-        return länArbetsplatskod;
+    public java.lang.String getLanArbetsplatskod(){
+        return lanArbetsplatskod;
     }
 
-    public void setLänArbetsplatskod(java.lang.String v){
-        this.länArbetsplatskod = v;
+    public void setLanArbetsplatskod(java.lang.String v){
+        this.lanArbetsplatskod = v;
     }
 
     public java.lang.String getAo3(){

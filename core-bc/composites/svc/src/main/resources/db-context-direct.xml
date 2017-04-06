@@ -31,7 +31,7 @@
         <!--<property name="dataSource" ref="dataSourceStage" />-->
         <!--<property name="dataSource" ref="dataSourceProd" />-->
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"></property>
-        <!--<property name="jpaVendorAdapter" ref="jpaVendor" />-->
+        <property name="jpaVendorAdapter" ref="jpaVendor" />
         <!--<property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.format_sql" value="false" />
@@ -46,18 +46,18 @@
         </property>
     </bean>
 
-    <!--<bean id="jpaVendor" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+    <bean id="jpaVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
         <property name="database" value="POSTGRESQL" />
-        <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
+        <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQL9Dialect" />
         <property name="generateDdl" value="true" />
         <property name="showSql" value="false" />
-    </bean>-->
+    </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${driver}"/>
-        <property name="url" value="${url}"/>
-        <property name="username" value="${user}"/>
-        <property name="password" value="${password}"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
