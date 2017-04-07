@@ -1,0 +1,33 @@
+<md-input-container>
+  <input mdInput placeholder="Filtrera" [formControl]="stateCtrl" [(ngModel)]="query"
+         >
+</md-input-container>
+
+<table *ngIf="response">
+  <thead>
+  <tr>
+    <th>Prod</th>
+    <th>Benämning</th>
+    <th>Arbetsplatskod</th>
+    <th>id</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of response.content">
+    <td>{{data.sorteringskodProd}}</td>
+    <td>{{data.benamning}}</td>
+    <td>{{data.arbetsplatskod}}</td>
+    <td>{{data.id}}</td>
+    <td><a routerLink="/apk/{{data.id}}">Detaljer</a></td>
+  </tr>
+  </tbody>
+
+</table>
+
+<div *ngIf="response">
+  Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
+</div>
+<div>
+  <button (click)="previousPage()">Föregående</button>
+  <button (click)="nextPage()">Nästa</button>
+</div>
