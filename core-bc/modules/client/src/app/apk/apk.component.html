@@ -3,6 +3,8 @@
          >
 </md-input-container>
 
+<a routerLink="create" md-fab><md-icon>add</md-icon></a>
+
 <table *ngIf="response">
   <thead>
   <tr>
@@ -10,6 +12,8 @@
     <th>Benämning</th>
     <th>Arbetsplatskod</th>
     <th>id</th>
+    <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -18,7 +22,8 @@
     <td>{{data.benamning}}</td>
     <td>{{data.arbetsplatskod}}</td>
     <td>{{data.id}}</td>
-    <td><a routerLink="/apk/{{data.id}}">Detaljer</a></td>
+    <td><a routerLink="{{data.id}}"><md-icon>folder_open</md-icon></a></td>
+    <td><a routerLink="{{data.id}}/edit"><md-icon>edit</md-icon></a></td>
   </tr>
   </tbody>
 

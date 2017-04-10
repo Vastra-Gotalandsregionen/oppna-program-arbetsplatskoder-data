@@ -13,19 +13,21 @@ export class ApkDetailComponent implements OnInit {
   id: string;
   data: Data;
 
-  constructor(private route: ActivatedRoute,
-              private http: Http) { }
+  constructor(protected route: ActivatedRoute,
+              protected http: Http) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       console.log(params);
       this.id = params.id;
 
-      this.http.get('/api/data/' + this.id)
-        .map(response => response.json())
-        .subscribe((data: Data) => {
-          this.data = data;
-        });
+      if (this.id) {
+        this.http.get('/api/data/' + this.id)
+          .map(response => response.json())
+          .subscribe((data: Data) => {
+            this.data = data;
+          });
+      }
     });
   }
 

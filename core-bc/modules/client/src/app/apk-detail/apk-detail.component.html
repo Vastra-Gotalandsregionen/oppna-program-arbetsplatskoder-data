@@ -2,10 +2,13 @@
   apk-detail works!
 </p>
 
-
-{{id}}
-
 <div *ngIf="data">
+  <div>
+    <a routerLink="edit"><md-icon>edit</md-icon></a>
+  </div>
+  <div>
+    {{data.id}}
+  </div>
   <div>
     {{data.arbetsplatskod}}
   </div>

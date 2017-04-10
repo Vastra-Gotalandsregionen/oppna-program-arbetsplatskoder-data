@@ -13,8 +13,6 @@
 
   <context:component-scan base-package="se.vgregion.arbetsplatskoder.intsvc.controller" />
 
-  <beans:repositories base-package="se.vgregion.arbetsplatskoder.repository" />
-
   <bean class="se.vgregion.arbetsplatskoder.spring.AppConfig"/>
 
   <mvc:annotation-driven />
