@@ -5,6 +5,10 @@
   padding: 12px;
 }
 
+.mat-sidenav {
+  border-right: 1px solid #dedede;
+}
+
 div.mat-autocomplete-panel {
   max-width: none;
 }

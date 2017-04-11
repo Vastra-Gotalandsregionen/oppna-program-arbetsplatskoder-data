@@ -1,0 +1,175 @@
+<h4>Skapa ny arbetsplatskod</h4>
+
+<div>
+  <form [formGroup]="createApkForm" (ngSubmit)="save(createApkForm.value, createApkForm.valid)" novalidate>
+  <!--<form >-->
+
+    <md-card class="example-card">
+      <md-card-header>
+        <!--<div md-card-avatar class="example-header-image"></div>-->
+        <md-card-title>Ägarform</md-card-title>
+        <!--<md-card-subtitle>Dog Breed</md-card-subtitle>-->
+      </md-card-header>
+
+      <md-card-content>
+        <!--<md-radio-group [(ngModel)]="data.agarform" name="agarform">-->
+        <md-radio-group formControlName="agarform">
+          <!--<md-radio-button *ngFor="let agarform of agarforms" value="{{agarform.id}}">{{agarform.agarformtext}}</md-radio-button>-->
+          <md-radio-button value="countyCouncil">Landsting</md-radio-button>
+          <md-radio-button value="municipality">Kommun</md-radio-button>
+          <md-radio-button value="state">Statlig</md-radio-button>
+          <md-radio-button value="privateContract">Privat, vårdavtal</md-radio-button>
+          <md-radio-button value="privateLaw">Privat, enl lag om läkarvårdsersättning</md-radio-button>
+          <md-radio-button value="privateWithoutPublicFunding">Privat, utan offentlig finansiering</md-radio-button>
+          <md-radio-button value="municipalitiesFederation">Kommunförbund</md-radio-button>
+          <md-radio-button value="other">Övrigt</md-radio-button>
+        </md-radio-group>
+      </md-card-content>
+      <!--
+        <md-card-actions>
+          <button md-button>LIKE</button>
+          <button md-button>SHARE</button>
+        </md-card-actions>
+      -->
+    </md-card>
+
+    <!--<md-card class="example-card" *ngIf="healthCareType === 'public'">-->
+    <md-card class="example-card" [@slideIn]="createApkForm.value.agarform === 'countyCouncil' ? 'in' : 'out'">
+      <md-card-header>
+        Offentlig
+      </md-card-header>
+      <md-card-content>
+        Flera val...
+      </md-card-content>
+    </md-card>
+
+    <md-card class="example-card" [@slideIn]="createApkForm.value.agarform === 'privateContract' ? 'in' : 'out'">
+      <md-card-header>
+        Privat
+      </md-card-header>
+      <md-card-content>
+        Flera val...
+      </md-card-content>
+    </md-card>
+
+    <md-card class="example-card" [@slideIn]="createApkForm.value.agarform ? 'in' : 'out'">
+      <!--
+          <md-card-header>
+            Ao3
+          </md-card-header>
+      -->
+      <md-card-content>
+        <md-input-container>
+          <!--<input placeholder="Ao3" type="text" mdInput [formControl]="ao3Control" [mdAutocomplete]="ao3AutocompleteRef"-->
+          <input placeholder="Ao3" type="text" mdInput [mdAutocomplete]="ao3AutocompleteRef"
+                 formControlName="ao3">
+        </md-input-container>
+
+        <md-autocomplete class="autocomplete" #ao3AutocompleteRef="mdAutocomplete" [displayWith]="displayAo3Fn">
+          <md-option class="md-option" *ngFor="let option of filteredAo3Options | async" [value]="option">
+            {{ option.ao3id}} - {{ option.foretagsnamn }}
+          </md-option>
+        </md-autocomplete>
+
+        <md-input-container>
+          <input mdInput placeholder="Ansvar" formControlName="ansvar" type="text" />
+          <md-icon mdTooltip="Förklaring...">help</md-icon>
+        </md-input-container>
+
+        <md-input-container>
+          <input placeholder="Vårdform" type="text" mdInput
+                 [mdAutocomplete]="vardformAutocompleteRef" formControlName="vardform" >
+        </md-input-container>
+
+        <md-autocomplete class="autocomplete" #vardformAutocompleteRef="mdAutocomplete"
+                         [displayWith]="displayVardformFn">
+          <md-option class="md-option" *ngFor="let option of filteredVardformOptions | async" [value]="option">
+            {{ option.vardformid}} - {{ option.vardformtext }}
+          </md-option>
+        </md-autocomplete>
+
+        <md-input-container>
+          <input placeholder="Medicinsk verksamhetskod" type="text" mdInput
+                 [mdAutocomplete]="verksamhetAutocompleteRef" formControlName="verksamhet" name="verksamhet">
+        </md-input-container>
+
+        <md-autocomplete class="autocomplete" #verksamhetAutocompleteRef="mdAutocomplete"
+                         [displayWith]="displayVerksamhetFn">
+          <md-option class="md-option" *ngFor="let option of filteredVerksamhetOptions | async" [value]="option">
+            {{ option.verksamhetid}} - {{ option.verksamhettext }}
+          </md-option>
+        </md-autocomplete>
+
+        <md-input-container>
+          <input placeholder="Sorteringskod Producent TODO" type="text" mdInput formControlName="sorteringskodProd" name="sorteringskodProd">
+        </md-input-container>
+
+        <md-input-container>
+          <input
+            placeholder="Benämning/enhetsnamn - Tas från KIV? +att man måste ha kortnamn för att det ska gå igenom i Concise"
+            type="text" mdInput formControlName="benamning" name="banamning">
+        </md-input-container>
+
+        <label>Faktureras externt</label>
+        <md-radio-group formControlName="externfaktura" name="externfaktura">
+          <!--<md-radio-button *ngFor="let agarform of agarforms" value="{{agarform.id}}">{{agarform.agarformtext}}</md-radio-button>-->
+          <md-radio-button value="no">Nej</md-radio-button>
+          <md-radio-button value="gothenburg">Göteborg</md-radio-button>
+          <md-radio-button value="others">Övriga</md-radio-button>
+        </md-radio-group>
+
+      </md-card-content>
+
+    </md-card>
+
+    <!--<md-card [@slideIn]="data.agarform ? 'in' : 'out'">
+      <md-card-header>
+        &lt;!&ndash;<div md-card-avatar class="example-header-image"></div>&ndash;&gt;
+        <md-card-title>Faktureras externt</md-card-title>
+        &lt;!&ndash;<md-card-subtitle>Dog Breed</md-card-subtitle>&ndash;&gt;
+      </md-card-header>
+
+      <md-card-content>
+        <md-radio-group [(ngModel)]="data.externfaktura">
+          &lt;!&ndash;<md-radio-button *ngFor="let agarform of agarforms" value="{{agarform.id}}">{{agarform.agarformtext}}</md-radio-button>&ndash;&gt;
+          <md-radio-button value="no">Nej</md-radio-button>
+          <md-radio-button value="gothenburg">Göteborg</md-radio-button>
+          <md-radio-button value="others">Övriga</md-radio-button>
+        </md-radio-group>
+
+        <md-input-container>
+          <input mdInput placeholder="Vårdgivarkod"/>
+          <md-icon mdTooltip="Det verkar inte finnas något fält som mappar mot detta???">help</md-icon>
+        </md-input-container>
+
+      </md-card-content>
+    </md-card>-->
+
+    <pre style="
+    position: absolute;
+    top: 0;
+    right: 0;">{{data | json}}</pre>
+
+    <!--<pre>dirty: {{ao3Control.dirty | json}}</pre>
+    <pre>invalid: {{ao3Control.invalid | json}}</pre>
+    <pre>pristine: {{ao3Control.pristine | json}}</pre>
+    <pre>status: {{ao3Control.status | json}}</pre>
+    <pre>touched: {{ao3Control.touched | json}}</pre>
+    <pre>untouched: {{ao3Control.untouched | json}}</pre>
+    <pre>value: {{ao3Control.value | json}}</pre>
+    <pre>errors: {{ao3Control.errors | json}}</pre>
+    <pre>valid: {{ao3Control.valid | json}}</pre>
+-->
+    <p>&nbsp;</p>
+    <!--<pre>createApkForm: {{createApkForm.checkValidity | json}}</pre>-->
+    <!--<pre>currentForm: {{currentForm | json}}</pre>-->
+
+    <md-card>
+      <pre>{{createApkForm.value | json}}</pre>
+      <pre>{{createApkForm.status}}</pre>
+      <pre>{{createApkForm.controls}}</pre>
+      <pre>{{createApkForm.controls.ao3}}</pre>
+      <pre>{{createApkForm.get('ao3').errors | json}}</pre>
+    </md-card>
+  </form>
+</div>
