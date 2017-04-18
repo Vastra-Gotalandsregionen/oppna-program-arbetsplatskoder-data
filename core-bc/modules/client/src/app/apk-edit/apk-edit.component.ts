@@ -19,4 +19,7 @@ export class ApkEditComponent extends ApkDetailComponent implements OnInit {
     super.ngOnInit();
   }
 
+  get dataId() {
+    return super.getId();
+  }
 }

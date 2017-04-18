@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +12,7 @@ import { ApkEditComponent } from './apk-edit/apk-edit.component';
 import { ApkCreateComponent } from './apk-create/apk-create.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ApkMaterialModule} from "./apk-material/apk-material.module";
+import { ApkFormComponent } from './apk-form/apk-form.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {ApkMaterialModule} from "./apk-material/apk-material.module";
     ApkComponent,
     ApkDetailComponent,
     ApkEditComponent,
-    ApkCreateComponent
+    ApkCreateComponent,
+    ApkFormComponent
   ],
   imports: [
     BrowserModule,

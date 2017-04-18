@@ -31,4 +31,8 @@ export class ApkDetailComponent implements OnInit {
     });
   }
 
+  protected getId() {
+    return this.id;
+  }
+
 }

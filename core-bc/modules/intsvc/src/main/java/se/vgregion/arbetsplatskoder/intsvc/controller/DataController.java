@@ -18,8 +18,10 @@ import se.vgregion.arbetsplatskoder.domain.Data;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Random;
+import java.util.TimeZone;
 
 @Controller
 @RequestMapping("/data")
@@ -79,10 +81,26 @@ public class DataController {
     public Data saveData(@RequestBody Data data) {
         Random random = new Random();
 
-        data.setId(Math.abs(random.nextInt()));
-        data.setArbetsplatskod(Math.abs(random.nextInt()) + "");
+        if (data.getId() == null) {
+            data.setId(Math.abs(random.nextInt()));
+        }
+
+        if (data.getArbetsplatskod() == null) {
+            data.setArbetsplatskod(Math.abs(random.nextInt()) + "");
+        }
+
         data.setSsmaTimestamp(new Byte[]{0x00});
-        data.setRegDatum(Timestamp.from(Instant.now()));
+
+        Timestamp now = Timestamp.from(Instant.now());
+
+        if (data.getRegDatum() == null) {
+            data.setRegDatum(now);
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        sdf.setTimeZone(TimeZone.getTimeZone("Europe/Stockholm"));
+
+        data.setAndringsdatum(sdf.format(now));
 
         return dataRepository.save(data);
     }

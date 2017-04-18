@@ -1,14 +1,24 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
-  MdAutocompleteModule, MdButtonModule, MdCardModule, MdIconModule, MdInputModule, MdListModule, MdRadioModule,
+  MdAutocompleteModule, MdButtonModule, MdCardModule, MdCheckboxModule, MdIconModule, MdInputModule, MdListModule,
+  MdRadioModule,
   MdSidenavModule,
   MdToolbarModule, MdTooltipModule
 } from "@angular/material";
 
 @NgModule({
   imports: [
-    CommonModule
+    MdAutocompleteModule,
+    MdIconModule,
+    MdInputModule,
+    MdSidenavModule,
+    MdToolbarModule,
+    MdListModule,
+    MdButtonModule,
+    MdCardModule,
+    MdRadioModule,
+    MdTooltipModule,
+    MdCheckboxModule
   ],
   declarations: [],
   exports: [
@@ -21,7 +31,8 @@ import {
     MdButtonModule,
     MdCardModule,
     MdRadioModule,
-    MdTooltipModule
+    MdTooltipModule,
+    MdCheckboxModule
   ]
 })
 export class ApkMaterialModule { }

@@ -71,9 +71,11 @@ public class Data extends AbstractEntity {
     @Column (name = "anmarkning", nullable = true)
     private java.lang.String anmarkning;
 
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "Europe/Stockholm")
     @Column (name = "from_datum", nullable = true)
     private java.sql.Timestamp fromDatum;
 
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "Europe/Stockholm")
     @Column (name = "till_datum", nullable = true)
     private java.sql.Timestamp tillDatum;
 
