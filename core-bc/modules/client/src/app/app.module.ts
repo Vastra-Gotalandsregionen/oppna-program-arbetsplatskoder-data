@@ -25,7 +25,7 @@ import {ApkMaterialModule} from "./apk-material/apk-material.module";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
+    // FormsModule,
     HttpModule,
     AppRoutingModule,
     ApkMaterialModule,

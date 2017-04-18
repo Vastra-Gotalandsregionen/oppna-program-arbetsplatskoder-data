@@ -12,3 +12,7 @@
 div.mat-autocomplete-panel {
   max-width: none;
 }
+
+.submitted.ng-invalid .field-label {
+  color: red;
+}

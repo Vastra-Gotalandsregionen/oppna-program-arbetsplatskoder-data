@@ -21,7 +21,7 @@ export class Data {
   anmarkning: string;
   fromDatum: string;
   tillDatum: string;
-  regDatum: string;
+  regDatum: Date;
   ersattav: string;
   userId: string;
   arbetsplatskodlan: string;

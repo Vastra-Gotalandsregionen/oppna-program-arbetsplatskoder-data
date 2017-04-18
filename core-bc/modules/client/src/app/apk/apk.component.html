@@ -8,9 +8,10 @@
 <table *ngIf="response">
   <thead>
   <tr>
-    <th>Prod</th>
-    <th>Benämning</th>
+    <th>Prod <button md-icon-button (click)="toggleSort('sorteringskodProd')" [ngClass]="{'sort-field': sort?.field === 'sorteringskodProd', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button> </th>
+    <th>Benämning <button md-icon-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
     <th>Arbetsplatskod</th>
+    <th>Reg-datum <button md-icon-button (click)="toggleSort('regDatum')" [ngClass]="{'sort-field': sort?.field === 'regDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button> </th>
     <th>id</th>
     <th></th>
     <th></th>
@@ -21,6 +22,7 @@
     <td>{{data.sorteringskodProd}}</td>
     <td>{{data.benamning}}</td>
     <td>{{data.arbetsplatskod}}</td>
+    <td>{{data.regDatum}}</td>
     <td>{{data.id}}</td>
     <td><a routerLink="{{data.id}}"><md-icon>folder_open</md-icon></a></td>
     <td><a routerLink="{{data.id}}/edit"><md-icon>edit</md-icon></a></td>

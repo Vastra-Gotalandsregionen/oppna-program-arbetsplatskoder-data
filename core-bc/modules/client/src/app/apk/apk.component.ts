@@ -6,6 +6,7 @@ import {RestResponse} from '../model/rest-response';
 import {Observable} from 'rxjs';
 import {Location} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
+import {isUndefined} from "util";
 
 @Component({
   selector: 'app-apk',
@@ -14,13 +15,12 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ApkComponent implements OnInit {
 
-  // paginatorData: PaginatorData;
   stateCtrl: FormControl;
   query: string;
   page: number = 0;
-// labelWithLinks: LabelWithLink[] = [];
   datas: Data[];
   response: RestResponse<Data>;
+  sort: { field: string, ascending: boolean };
 
   constructor(private http: Http,
               private location: Location,
@@ -39,30 +39,26 @@ export class ApkComponent implements OnInit {
           this.page = Number(params.page);
         }
 
+        if (params.sort) {
+          this.sort = {field: params.sort, ascending: params.asc === 'true'}
+        }
+
         this.fetchDatas();
 
         this.stateCtrl.valueChanges
-          .startWith(null)
           .subscribe(query => {
-            if (query) {
-              this.location.replaceState('/apk', 'query=' + query + '&page=' + this.page);
-            } else if (this.page > 0) {
-              this.location.replaceState('/apk', 'page=' + this.page);
+
+            if (query || this.page > 0 || this.sort) {
+              this.location.replaceState('/apk', (query ? '&query=' + query : '') + (this.page > 0 ? '&page=' + this.page : '') + (this.sort ? '&sort=' + this.sort.field + '&asc=' + this.sort.ascending: ''));
             } else {
               this.location.replaceState('/apk');
             }
-            this.fetchDatas();
+
+            if (!isUndefined(query)) {
+              this.fetchDatas();
+            }
           });
       });
-
-
-    /*.switchMap(query => {
-     this.query = query;
-     return this.observeData();
-     })
-     .subscribe(response => {
-     this.handleResponse(response);
-     });*/
   }
 
   private fetchDatas() {
@@ -83,10 +79,8 @@ export class ApkComponent implements OnInit {
       }
     }
 
-    if (this.query) {
-      this.location.replaceState('/apk', 'query=' + this.query + '&page=' + this.page);
-    } else if (this.page > 0) {
-      this.location.replaceState('/apk', 'page=' + this.page);
+    if (this.query || this.page > 0 || this.sort) {
+      this.location.replaceState('/apk', (this.query ? '&query=' + this.query : '') + (this.page > 0 ? '&page=' + this.page : '') + (this.sort ? '&sort=' + this.sort.field + '&asc=' + this.sort.ascending: ''));
     } else {
       this.location.replaceState('/apk');
     }
@@ -101,14 +95,16 @@ export class ApkComponent implements OnInit {
       params.set('query', this.query);
     }
 
+    if (this.sort) {
+      params.set('sort', this.sort.field);
+      params.set('asc', this.sort.ascending + '');
+    }
+
     const requestOptions = new RequestOptions();
     requestOptions.params = params;
     requestOptions.headers = new Headers({'Content-Type': 'application/json; charset=UTF-8'});
 
-    return this.http.get('/api/data', requestOptions)
-
-    // return this.http.get('/api/data', {params: {page: this.page}})
-      .map(response => response.json());
+    return this.http.get('/api/data', requestOptions).map(response => response.json());
   }
 
   nextPage(): void {
@@ -125,23 +121,15 @@ export class ApkComponent implements OnInit {
     }
   }
 
+  toggleSort(field: string) {
+    if (this.sort && this.sort.field === field) {
+      const currentAscending = this.sort.ascending;
+      this.sort = {field: field, ascending: !currentAscending};
+    } else {
+      this.sort = {field: field, ascending: true}
+    }
+
+    this.fetchDatas();
+  }
+
 }
-
-/*class PaginatorData {
- size: number;
- totalElements: number;
- totalPages: number;
- number: number;
- }*/
-
-/*
- class LabelWithLink {
- label: string;
- link: string;
-
- constructor(label: string, link: string) {
- this.label = label;
- this.link = link;
- }
- }
- */

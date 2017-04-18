@@ -1,5 +1,7 @@
 package se.vgregion.arbetsplatskoder.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -75,6 +77,7 @@ public class Data extends AbstractEntity {
     @Column (name = "till_datum", nullable = true)
     private java.sql.Timestamp tillDatum;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone = "Europe/Stockholm")
     @Column (name = "reg_datum", nullable = true)
     private java.sql.Timestamp regDatum;
 

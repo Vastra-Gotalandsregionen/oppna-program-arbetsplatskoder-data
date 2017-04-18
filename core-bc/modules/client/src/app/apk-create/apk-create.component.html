@@ -1,8 +1,8 @@
 <h4>Skapa ny arbetsplatskod</h4>
 
-<div>
-  <form [formGroup]="createApkForm" (ngSubmit)="save(createApkForm.value, createApkForm.valid)" novalidate>
-  <!--<form >-->
+<div *ngIf="createApkForm; else loading">
+  <form #theForm="ngForm" [formGroup]="createApkForm" (ngSubmit)="save()"
+        novalidate>
 
     <md-card class="example-card">
       <md-card-header>
@@ -60,6 +60,14 @@
       -->
       <md-card-content>
         <md-input-container>
+          <input placeholder="Arbetsplatskod" type="text" mdInput formControlName="arbetsplatskod">
+        </md-input-container>
+
+        <md-input-container>
+          <input placeholder="Län" type="text" mdInput formControlName="lankod">
+        </md-input-container>
+
+        <md-input-container>
           <!--<input placeholder="Ao3" type="text" mdInput [formControl]="ao3Control" [mdAutocomplete]="ao3AutocompleteRef"-->
           <input placeholder="Ao3" type="text" mdInput [mdAutocomplete]="ao3AutocompleteRef"
                  formControlName="ao3">
@@ -72,13 +80,13 @@
         </md-autocomplete>
 
         <md-input-container>
-          <input mdInput placeholder="Ansvar" formControlName="ansvar" type="text" />
+          <input mdInput placeholder="Ansvar" formControlName="ansvar" type="text"/>
           <md-icon mdTooltip="Förklaring...">help</md-icon>
         </md-input-container>
 
         <md-input-container>
           <input placeholder="Vårdform" type="text" mdInput
-                 [mdAutocomplete]="vardformAutocompleteRef" formControlName="vardform" >
+                 [mdAutocomplete]="vardformAutocompleteRef" formControlName="vardform">
         </md-input-container>
 
         <md-autocomplete class="autocomplete" #vardformAutocompleteRef="mdAutocomplete"
@@ -101,7 +109,8 @@
         </md-autocomplete>
 
         <md-input-container>
-          <input placeholder="Sorteringskod Producent TODO" type="text" mdInput formControlName="sorteringskodProd" name="sorteringskodProd">
+          <input placeholder="Sorteringskod Producent TODO" type="text" mdInput formControlName="sorteringskodProd"
+                 name="sorteringskodProd">
         </md-input-container>
 
         <md-input-container>
@@ -110,40 +119,47 @@
             type="text" mdInput formControlName="benamning" name="banamning">
         </md-input-container>
 
-        <label>Faktureras externt</label>
-        <md-radio-group formControlName="externfaktura" name="externfaktura">
-          <!--<md-radio-button *ngFor="let agarform of agarforms" value="{{agarform.id}}">{{agarform.agarformtext}}</md-radio-button>-->
-          <md-radio-button value="no">Nej</md-radio-button>
-          <md-radio-button value="gothenburg">Göteborg</md-radio-button>
-          <md-radio-button value="others">Övriga</md-radio-button>
-        </md-radio-group>
+        <div formGroupName="externfakturaGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+          <label class="field-label">Faktureras externt</label>
+          <md-radio-group formControlName="externfaktura">
+            <md-radio-button value="no">Nej</md-radio-button>
+            <md-radio-button value="gothenburg">Göteborg</md-radio-button>
+            <md-radio-button value="others">Övriga</md-radio-button>
+          </md-radio-group>
+        </div>
+
+        <div formGroupName="groupCodeGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+          <label class="field-label">Gruppkod</label>
+          <md-radio-group formControlName="groupCode">
+            <md-radio-button value="true">Ja</md-radio-button>
+            <md-radio-button value="false">Nej</md-radio-button>
+          </md-radio-group>
+        </div>
+
+        <div formGroupName="apodosGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+          <label class="field-label">Apodos</label>
+          <md-radio-group formControlName="apodos">
+            <md-radio-button value="true">Ja</md-radio-button>
+            <md-radio-button value="false">Nej</md-radio-button>
+          </md-radio-group>
+        </div>
+
+        <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+          <label class="field-label">VGPV</label>
+          <md-radio-group formControlName="vgpv">
+            <md-radio-button value="true">Ja</md-radio-button>
+            <md-radio-button value="false">Nej</md-radio-button>
+          </md-radio-group>
+        </div>
 
       </md-card-content>
 
     </md-card>
 
-    <!--<md-card [@slideIn]="data.agarform ? 'in' : 'out'">
-      <md-card-header>
-        &lt;!&ndash;<div md-card-avatar class="example-header-image"></div>&ndash;&gt;
-        <md-card-title>Faktureras externt</md-card-title>
-        &lt;!&ndash;<md-card-subtitle>Dog Breed</md-card-subtitle>&ndash;&gt;
-      </md-card-header>
-
-      <md-card-content>
-        <md-radio-group [(ngModel)]="data.externfaktura">
-          &lt;!&ndash;<md-radio-button *ngFor="let agarform of agarforms" value="{{agarform.id}}">{{agarform.agarformtext}}</md-radio-button>&ndash;&gt;
-          <md-radio-button value="no">Nej</md-radio-button>
-          <md-radio-button value="gothenburg">Göteborg</md-radio-button>
-          <md-radio-button value="others">Övriga</md-radio-button>
-        </md-radio-group>
-
-        <md-input-container>
-          <input mdInput placeholder="Vårdgivarkod"/>
-          <md-icon mdTooltip="Det verkar inte finnas något fält som mappar mot detta???">help</md-icon>
-        </md-input-container>
-
-      </md-card-content>
-    </md-card>-->
+    <button type="submit"
+            [disabled]="createApkForm.pristine" class="btn btn-success">Save
+    </button> &nbsp;
+    <span *ngIf="!createApkForm.valid">{{saveMessage}}</span>
 
     <pre style="
     position: absolute;
@@ -170,6 +186,13 @@
       <pre>{{createApkForm.controls}}</pre>
       <pre>{{createApkForm.controls.ao3}}</pre>
       <pre>{{createApkForm.get('ao3').errors | json}}</pre>
+      <pre>{{createApkForm.status}}</pre>
+      <pre>{{createApkForm.errors}}</pre>
+      <pre>{{createApkForm.pristine}}</pre>
     </md-card>
   </form>
 </div>
+
+<ng-template #loading>
+  Läser in...
+</ng-template>

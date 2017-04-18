@@ -1,0 +1,9 @@
+.sort-field .material-icons {
+  background: #000;
+  color: #ffffff;
+  border-radius: 50%;
+}
+
+.sort-field.desc {
+  transform: rotate(180deg);
+}
