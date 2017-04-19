@@ -1,0 +1,28 @@
+.example-card {
+  width: 400px;
+  margin-bottom: 24px;
+}
+
+.example-card {
+  overflow: hidden;
+}
+
+md-input-container, .autocomplete {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+}
+
+md-input-container md-icon {
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+}
+
+md-option.md-option {
+  font-size: .9em;
+  height: 24px;
+  line-height: 24px;
+}
