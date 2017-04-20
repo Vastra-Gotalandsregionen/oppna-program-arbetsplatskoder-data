@@ -30,15 +30,19 @@ export class ApkFormComponent implements OnInit {
   apkForm: FormGroup;
 
   data: Data;
-  unitSearchResult: any;
+  unitSearchResult: any; // todo Make typed
 
   allAo3s: Ao3[];
   allVardforms: Vardform[];
   allVerksamhets: Verksamhet[];
+  allProdn1s: any[]; // todo Make typed
 
   filteredAo3Options: Observable<Ao3[]>;
   filteredVardformOptions: Observable<Vardform[]>;
   filteredVerksamhetOptions: Observable<Verksamhet[]>;
+
+  prodn2Options: any; // todo Make typed
+  prodn3Options: any; // todo Make typed
 
   ao3IdMap: Map<string, Ao3>;
   vardformIdMap: Map<string, Vardform>;
@@ -66,8 +70,9 @@ export class ApkFormComponent implements OnInit {
     let ao3Observable = this.http.get('/api/ao3').map(response => response.json());
     let vardformObservable = this.http.get('/api/vardform').map(response => response.json());
     let verksamhetObservable = this.http.get('/api/verksamhet').map(response => response.json());
+    let prodn1 = this.http.get('/api/prodn1').map(response => response.json());
 
-    Observable.forkJoin([ao3Observable, vardformObservable, verksamhetObservable, dataObservable])
+    Observable.forkJoin([ao3Observable, vardformObservable, verksamhetObservable, dataObservable, prodn1])
       .subscribe((result: any[]) => {
         const ao3s = result[0];
         const vardforms = result[1];
@@ -75,11 +80,15 @@ export class ApkFormComponent implements OnInit {
 
         const data = result[3];
 
+        const prodn1s = result[4]; // These won't change as opposed to prodn2 and prodn3 which may change.
+
         this.allAo3s = ao3s;
         this.allVardforms = vardforms;
         this.allVerksamhets = verksamhets;
 
         this.data = data;
+
+        this.allProdn1s = prodn1s;
 
         let tempMap: Map<string, any> = new Map();
         for (let ao3 of ao3s) {
@@ -105,6 +114,8 @@ export class ApkFormComponent implements OnInit {
         this.initVardformControl();
         this.initVerksamhetControl();
 
+        this.initSummeringsnivaControls();
+
         this.isPrivate = this.data.agarform === '4' || this.data.agarform === '5' || this.data.agarform === '6';
 
       });
@@ -122,16 +133,15 @@ export class ApkFormComponent implements OnInit {
       'ansvar': [this.data.ansvar, Validators.required],
       'vardform': [this.vardformIdMap.get(this.data.vardform), Validators.required],
       'verksamhet': [this.verksamhetIdMap.get(this.data.verksamhet), Validators.required],
-      'sorteringskodProd': [this.data.sorteringskodProd, Validators.required],
+      'summeringsniva1': [null, Validators.required], // Set further down
+      'summeringsniva2': [null, Validators.required], // Set further down
+      'summeringsniva3': [null, Validators.required], // Set further down
       'benamning': [this.data.benamning, Validators.required],
       'externfakturaGroup': this.formBuilder.group({
         'externfakturamodell': [this.data.externfakturamodell, Validators.required]
       }),
       'groupCodeGroup': this.formBuilder.group({
         'groupCode': ['', Validators.required]
-      }),
-      'apodosGroup': this.formBuilder.group({
-        'apodos': [this.data.apodos + '', Validators.required]
       }),
       'vgpvGroup': this.formBuilder.group({
         'vgpv': [this.data.vgpv + '', Validators.required]
@@ -189,6 +199,12 @@ export class ApkFormComponent implements OnInit {
           this.apkForm.get('frivilligUppgift').disable();
         }
       });
+
+    if (this.data.sorteringskodProd) {
+      this.http.get('/api/prodn3/' + this.data.sorteringskodProd)
+        .map(response => response.json())
+        .subscribe(prodn3 => console.log(JSON.stringify(prodn3))); // todo Finish this
+    }
   }
 
   private initVerksamhetControl() {
@@ -229,6 +245,40 @@ export class ApkFormComponent implements OnInit {
     });
 
     ao3FormControl.setValidators(ao3Validator(ao3s))
+  }
+
+  private initSummeringsnivaControls() {
+    if (this.data.sorteringskodProd) {
+      // We assume the form is already built, so we don't need to fetch the prodn3 again.
+// todo finish this
+
+    }
+
+    let summeringsniva1Control = this.apkForm.get('summeringsniva1');
+    let summeringsniva2Control = this.apkForm.get('summeringsniva2');
+
+    summeringsniva1Control.valueChanges
+      .filter(value => value ? true : false)
+      .flatMap(prodn1Producentid =>
+        this.http.get('/api/prodn2?prodn1=' + prodn1Producentid).map(response => response.json()))
+      .subscribe(prodn2s => {
+        this.prodn2Options = prodn2s;
+        this.apkForm.patchValue({
+          'summeringsniva2': null,
+          'summeringsniva3': null
+        });
+      });
+
+    summeringsniva2Control.valueChanges
+      .filter(value => value ? true : false)
+      .flatMap(prodn2Producentid =>
+        this.http.get('/api/prodn3?prodn2=' + prodn2Producentid).map(response => response.json()))
+      .subscribe(prodn3s => {
+        this.prodn3Options = prodn3s;
+        this.apkForm.patchValue({
+          'summeringsniva3': null
+        });
+      });
   }
 
   save(formValue: any, valid: boolean, form: NgForm) {
@@ -301,7 +351,7 @@ export class ApkFormComponent implements OnInit {
   }
 
   displayUnitFn(unit: any): string {
-    return unit ? unit.dn : '';
+    return unit && unit.attributes && unit.attributes.ou && unit.attributes.ou.length > 0 ? unit.attributes.ou[0] : '';
   }
 
   selectUnit(unit: any): void {

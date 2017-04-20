@@ -2,21 +2,6 @@
   <form #theForm="ngForm" [formGroup]="apkForm" (ngSubmit)="save()"
         novalidate>
 
-    <md-card class="" style="max-width: 800px; margin-bottom: 24px;">
-      <md-card-content>
-        <md-input-container>
-          <input placeholder="Sök enhet" type="text" mdInput [mdAutocomplete]="unitAutocompleteRef"
-                 formControlName="unitSearch">
-        </md-input-container>
-
-        <md-autocomplete class="autocomplete" #unitAutocompleteRef="mdAutocomplete" [displayWith]="displayUnitFn">
-          <md-option class="md-option" *ngFor="let unit of unitSearchResult" [value]="unit" (onSelectionChange)="selectUnit(unit)">
-            {{unit.dn}}
-          </md-option>
-        </md-autocomplete>
-      </md-card-content>
-    </md-card>
-
     <md-card class="example-card">
       <md-card-header>
         <md-card-title>Ägarform</md-card-title>
@@ -36,21 +21,27 @@
       </md-card-content>
     </md-card>
 
-    <md-card class="example-card" [@slideIn]="apkForm.value.agarform === '1' ? 'in' : 'out'">
-      <md-card-header>
-        Offentlig
-      </md-card-header>
+    <md-card [@slideIn]="apkForm.value.agarform === '1' || apkForm.value.agarform === '4' || apkForm.value.agarform === '5' || apkForm.value.agarform === '6' ? 'in' :'out'" class="example-card">
       <md-card-content>
-        Flera val...
-      </md-card-content>
-    </md-card>
+        <md-input-container>
+          <input placeholder="Sök enhet" type="text" mdInput [mdAutocomplete]="unitAutocompleteRef"
+                 formControlName="unitSearch">
+        </md-input-container>
 
-    <md-card class="example-card" [@slideIn]="apkForm.value.agarform === '4' ? 'in' : 'out'">
-      <md-card-header>
-        Privat
-      </md-card-header>
-      <md-card-content>
-        Flera val...
+        <md-autocomplete class="autocomplete" #unitAutocompleteRef="mdAutocomplete" [displayWith]="displayUnitFn">
+          <!--<md-option class="md-option" *ngFor="let unit of unitSearchResult" [value]="unit" (onSelectionChange)="selectUnit(unit)">-->
+          <md-option class="md-option" *ngFor="let unit of unitSearchResult" [value]="unit">
+            {{unit.dn}}
+          </md-option>
+        </md-autocomplete>
+
+        <div [@slideIn]="apkForm.value.unitSearch?.dn ? 'in': 'out'">
+          <div class="label">Enhetens sökväg</div>
+          <div style="word-break: break-all">{{apkForm.value.unitSearch?.dn}}</div>
+        </div>
+
+        <button type="button" md-raised-button (click)="selectUnit(apkForm.value.unitSearch)">Använd</button>
+        <span><md-icon mdTooltip="Fyll i egenskaper från enheten i fälten nedan">help</md-icon></span>
       </md-card-content>
     </md-card>
 
@@ -81,8 +72,8 @@
           <md-icon mdTooltip="Förklaring...">help</md-icon>
         </md-input-container>
 
-        <md-input-container [@slideIn]="apkForm.value.agarform === '4' || apkForm.value.agarform === '5' || apkForm.value.agarform === '6' ? 'in' : 'out'">
-          <input mdInput placeholder="Frivillig uppgift" formControlName="frivilligUppgift" type="text"/>
+        <md-input-container *ngIf="apkForm.value.agarform === '4' || apkForm.value.agarform === '5' || apkForm.value.agarform === '6'">
+          <textarea mdInput placeholder="Frivillig uppgift" formControlName="frivilligUppgift" rows="3"></textarea>
           <md-icon mdTooltip="Förklaring...">help</md-icon>
         </md-input-container>
 
@@ -110,10 +101,29 @@
           </md-option>
         </md-autocomplete>
 
-        <md-input-container>
-          <input placeholder="Sorteringskod Producent TODO" type="text" mdInput formControlName="sorteringskodProd"
-                 name="sorteringskodProd">
-        </md-input-container>
+        <div>
+          <md-select placeholder="Summeringsnivå 1" formControlName="summeringsniva1">
+            <md-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1.producentid">
+              {{prodn1.foretagsnamn}}
+            </md-option>
+          </md-select>
+        </div>
+
+        <div>
+          <md-select placeholder="Summeringsnivå 2" formControlName="summeringsniva2">
+            <md-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2.producentid">
+              {{prodn2.avdelning}}
+            </md-option>
+          </md-select>
+        </div>
+
+        <div>
+          <md-select placeholder="Summeringsnivå 3" formControlName="summeringsniva3">
+            <md-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3.producentid">
+              {{prodn3.foretagsnamn}}
+            </md-option>
+          </md-select>
+        </div>
 
         <md-input-container>
           <input
@@ -138,14 +148,6 @@
           </md-radio-group>
         </div>
 
-        <div formGroupName="apodosGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-          <label class="field-label">Apodos</label>
-          <md-radio-group formControlName="apodos">
-            <md-radio-button value="true">Ja</md-radio-button>
-            <md-radio-button value="false">Nej</md-radio-button>
-          </md-radio-group>
-        </div>
-
         <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
           <label class="field-label">VGPV</label>
           <md-radio-group formControlName="vgpv">
@@ -159,17 +161,19 @@
         </md-input-container>
 
         <md-input-container>
-          <input placeholder="HSA-ID" mdInput formControlName="hsaid" type="text" />
+          <input placeholder="HSA-ID" mdInput formControlName="hsaid" type="text"/>
         </md-input-container>
 
         <md-input-container>
-          <input placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD) (TODO mer sofistikerad validering)" type="text" mdInput formControlName="fromDatum" />
+          <input placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD) (TODO mer sofistikerad validering)" type="text" mdInput
+                 formControlName="fromDatum"/>
         </md-input-container>
 
         <md-checkbox align="end" formControlName="noTillDatum">Giltig tills vidare</md-checkbox>
 
         <md-input-container>
-          <input placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD) (TODO mer sofistikerad validering)" type="text" mdInput formControlName="tillDatum" />
+          <input placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD) (TODO mer sofistikerad validering)" type="text" mdInput
+                 formControlName="tillDatum"/>
         </md-input-container>
 
         <div>
