@@ -11,4 +11,6 @@ import java.util.List;
 public interface Prodn2Repository extends JpaRepository<Prodn2, Integer> {
 
     List<Prodn2> findAllByN1Equals(String n1);
+
+    Prodn2 findProdn2ByProducentidEquals(String producentId);
 }

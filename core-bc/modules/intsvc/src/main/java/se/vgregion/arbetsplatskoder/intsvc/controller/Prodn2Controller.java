@@ -2,6 +2,7 @@ package se.vgregion.arbetsplatskoder.intsvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,5 +27,11 @@ public class Prodn2Controller {
         } else {
             return prodn2Repository.findAll();
         }
+    }
+
+    @RequestMapping(value = "/{producentid}", method = RequestMethod.GET)
+    @ResponseBody
+    public Prodn2 getProdn2(@PathVariable(value = "producentid", required = true) String producentid) {
+        return prodn2Repository.findProdn2ByProducentidEquals(producentid);
     }
 }

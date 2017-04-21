@@ -33,6 +33,10 @@ md-option.md-option {
 }
 
 md-select {
-  margin: 8px 0;
+  margin: 16px 0;
   width: 400px;
+}
+
+.checkbox-container {
+  margin: 8px 0;
 }

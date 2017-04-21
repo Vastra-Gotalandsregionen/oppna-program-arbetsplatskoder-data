@@ -2,12 +2,13 @@ import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import {Data} from "../model/data";
 // import {state, style, triggers} from "@angular/platform-browser/animations";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Http, RequestOptions, Headers} from "@angular/http";
+import {Http, RequestOptions, Headers, Response} from "@angular/http";
 import {Ao3} from "../model/ao3";
 import {AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 import {Vardform} from "../model/vardform";
 import {Verksamhet} from "../model/verksamhet";
+import {MdSnackBar} from "@angular/material";
 
 
 @Component({
@@ -53,7 +54,8 @@ export class ApkFormComponent implements OnInit {
   saveMessage: string;
 
   constructor(private http: Http,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private snackBar: MdSnackBar) {
   }
 
   ngOnInit() {
@@ -90,6 +92,8 @@ export class ApkFormComponent implements OnInit {
 
         this.allProdn1s = prodn1s;
 
+        this.isPrivate = this.data.agarform === '4' || this.data.agarform === '5' || this.data.agarform === '6';
+
         let tempMap: Map<string, any> = new Map();
         for (let ao3 of ao3s) {
           tempMap.set(ao3.ao3id, ao3);
@@ -113,11 +117,6 @@ export class ApkFormComponent implements OnInit {
         this.initAo3FormControl(ao3s);
         this.initVardformControl();
         this.initVerksamhetControl();
-
-        this.initSummeringsnivaControls();
-
-        this.isPrivate = this.data.agarform === '4' || this.data.agarform === '5' || this.data.agarform === '6';
-
       });
   }
 
@@ -137,12 +136,16 @@ export class ApkFormComponent implements OnInit {
       'summeringsniva2': [null, Validators.required], // Set further down
       'summeringsniva3': [null, Validators.required], // Set further down
       'benamning': [this.data.benamning, Validators.required],
+      'addressGroup': this.formBuilder.group({
+        'postadress': [this.data.postadress],
+        'postnr': [this.data.postnr],
+        'postort': [this.data.postort],
+      }),
+
       'externfakturaGroup': this.formBuilder.group({
         'externfakturamodell': [this.data.externfakturamodell, Validators.required]
       }),
-      'groupCodeGroup': this.formBuilder.group({
-        'groupCode': ['', Validators.required]
-      }),
+      'groupCode': [false, Validators.required],
       'vgpvGroup': this.formBuilder.group({
         'vgpv': [this.data.vgpv + '', Validators.required]
       }),
@@ -189,6 +192,15 @@ export class ApkFormComponent implements OnInit {
         }
       });
 
+    this.apkForm.get('groupCode').valueChanges
+      .subscribe((checked: boolean) => {
+        if (checked) {
+          this.apkForm.get('addressGroup').disable();
+        } else {
+          this.apkForm.get('addressGroup').enable();
+        }
+      });
+
     this.apkForm.get('agarform').valueChanges
       .subscribe((value: string) => {
         this.isPrivate = value === '4' || value === '5' || value === '6';
@@ -203,7 +215,13 @@ export class ApkFormComponent implements OnInit {
     if (this.data.sorteringskodProd) {
       this.http.get('/api/prodn3/' + this.data.sorteringskodProd)
         .map(response => response.json())
-        .subscribe(prodn3 => console.log(JSON.stringify(prodn3))); // todo Finish this
+        .subscribe(prodn3 => {
+          this.apkForm.patchValue({'summeringsniva3': prodn3.producentid});
+
+          this.initSummeringsnivaControls(prodn3);
+        });
+    } else {
+      this.initSummeringsnivaControls(null);
     }
   }
 
@@ -247,13 +265,51 @@ export class ApkFormComponent implements OnInit {
     ao3FormControl.setValidators(ao3Validator(ao3s))
   }
 
-  private initSummeringsnivaControls() {
-    if (this.data.sorteringskodProd) {
+  private initSummeringsnivaControls(prodn3: any /*todo make typed*/) {
+    if (prodn3) {
       // We assume the form is already built, so we don't need to fetch the prodn3 again.
-// todo finish this
+      let prodn2Key = prodn3.n2;
 
+      let prodn2;
+      let prodn1;
+
+      // Now we now prodn3. Based on that we want to find prodn2, prodn1 as well as options for prodn2 and prodn3.
+      // Start by finding the specific prodn2
+      this.http.get('/api/prodn2/' + prodn2Key)
+        .map(response => response.json())
+        .concatMap(prodn2 => {
+          this.apkForm.patchValue({'summeringsniva2': prodn2.producentid});
+
+          // From this prodn2 we can find the chosen prodn1 but also the options for prodn3.
+          let prodn1Observable: Observable<Response> = this.http.get('/api/prodn1/' + prodn2.n1)
+            .map(response => response.json());
+
+          let prodn3sObservable:  Observable<Response> = this.http.get('/api/prodn3?prodn2=' + prodn2.producentid)
+            .map(response => response.json());
+
+          return Observable.forkJoin(prodn1Observable, prodn3sObservable);
+        })
+        .concatMap((result: any[]) => {
+          let prodn1 = result[0];
+          let prodn3s = result[1];
+
+          this.apkForm.patchValue({'summeringsniva1': prodn1.producentid});
+          this.prodn3Options = prodn3s;
+
+          // Moving on with finding the options for prodn2, based on prodn1
+          return this.http.get('/api/prodn2?prodn1=' + prodn1.producentid);
+        })
+        .map(response => response.json())
+        .subscribe(prodn2s => {
+          this.prodn2Options = prodn2s;
+          this.listenToChangesToProdnx();
+        });
+    } else {
+      this.listenToChangesToProdnx();
     }
+  }
 
+  listenToChangesToProdnx() {
     let summeringsniva1Control = this.apkForm.get('summeringsniva1');
     let summeringsniva2Control = this.apkForm.get('summeringsniva2');
 
@@ -294,14 +350,16 @@ export class ApkFormComponent implements OnInit {
     data.ao3 = (<Ao3> formModel.ao3).ao3id;
     data.anmarkning = formModel.anmarkning;
     data.ansvar = formModel.ansvar;
+    data.frivilligUppgift = formModel.frivilligUppgift;
+    data.hsaid = formModel.hsaid;
     data.vardform = (<Vardform> formModel.vardform).vardformid;
     data.verksamhet = (<Verksamhet> formModel.verksamhet).verksamhetid;
-    data.sorteringskodProd = formModel.sorteringskodProd;
     data.benamning = formModel.benamning;
+    data.postadress = formModel.addressGroup.postadress;
+    data.postnr = formModel.addressGroup.postnr;
+    data.postort = formModel.addressGroup.postort;
     data.externfakturamodell = formModel.externfakturaGroup.externfakturamodell;
-    data.sorteringskodProd = formModel.sorteringskodProd;
-    // data.groupCode = formModel.groupCode; todo Add this to model?
-    data.apodos = formModel.apodosGroup.apodos;
+    data.sorteringskodProd = formModel.summeringsniva3;
     data.vgpv = formModel.vgpvGroup.vgpv;
     data.fromDatum = formModel.fromDatum;
     data.tillDatum = formModel.tillDatum;
@@ -314,7 +372,13 @@ export class ApkFormComponent implements OnInit {
       .subscribe((data: Data) => {
         this.data = data;
         this.buildForm();
+        this.snackBar.open('Lyckades spara!', null, {duration: 3000});
       });
+  }
+
+  resetForm() {
+    this.apkForm.reset();
+    this.buildForm();
   }
 
   filterAo3(name: string): Ao3[] {
@@ -355,7 +419,19 @@ export class ApkFormComponent implements OnInit {
   }
 
   selectUnit(unit: any): void {
-    console.log(JSON.stringify(unit));
+    if (unit.attributes.hsaStreetAddress && unit.attributes.hsaStreetAddress.length > 0) {
+      let parts = unit.attributes.hsaStreetAddress[0].split('$');
+
+      if (parts.length >= 3) {
+        this.apkForm.patchValue({
+          'addressGroup': {
+            'postadress': parts[0],
+            'postnr': parts[1],
+            'postort': parts[2]
+          }
+        })
+      }
+    }
 
     this.apkForm.patchValue({
       'lankod': unit.attributes.hsaCountyCode,
@@ -364,11 +440,13 @@ export class ApkFormComponent implements OnInit {
       'benamning': unit.attributes.ou ? unit.attributes.ou[0] : null,
       'ansvar': unit.attributes.vgrAnsvarsnummer ? unit.attributes.vgrAnsvarsnummer[0] : null,
     });
-    // value.lankod = unit.attributes.hsaCountyCode;
-    // value.ao3 = this.ao3IdMap.get(unit.attributes.vgrAo3kod[0]);
-    //
-    // value.hsaid = unit.attributes.hsaIdentity[0];
-    // value.benamning = unit.attributes.ou[0];
+
+    this.apkForm.get('lankod').markAsTouched();
+    this.apkForm.get('ao3').markAsTouched();
+    this.apkForm.get('hsaid').markAsTouched();
+    this.apkForm.get('benamning').markAsTouched();
+    this.apkForm.get('ansvar').markAsTouched();
+    this.apkForm.get('addressGroup').markAsTouched();
   }
 }
 
@@ -382,7 +460,6 @@ export function datePattern(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     let datePattern = /^\d{4}-\d{2}-\d{2}$/;
 
-    console.log(control.value);
     if (!control.value || !control.value.match(datePattern)) {
       return {"datePattern": true};
     }

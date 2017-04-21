@@ -11,4 +11,6 @@ import java.util.List;
 public interface Prodn1Repository extends JpaRepository<Prodn1, Integer> {
 
     List<Prodn1> findAllByOrderByForetagsnamn();
+
+    Prodn1 findProdn1ByProducentidEquals(String producentId);
 }

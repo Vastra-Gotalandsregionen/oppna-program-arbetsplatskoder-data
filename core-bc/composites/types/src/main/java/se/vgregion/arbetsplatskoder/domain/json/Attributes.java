@@ -45,6 +45,9 @@ public class Attributes {
     @JsonProperty("vgrOrganizationalUnitNameShort")
     private String vgrOrganizationalUnitNameShort;
 
+    @JsonProperty("hsaStreetAddress")
+    private String[] hsaStreetAddress;
+
     public String getHsaCountyCode() {
         return hsaCountyCode;
     }
@@ -139,5 +142,13 @@ public class Attributes {
 
     public void setVgrOrganizationalUnitNameShort(String vgrOrganizationalUnitNameShort) {
         this.vgrOrganizationalUnitNameShort = vgrOrganizationalUnitNameShort;
+    }
+
+    public String[] getHsaStreetAddress() {
+        return hsaStreetAddress;
+    }
+
+    public void setHsaStreetAddress(String[] hsaStreetAddress) {
+        this.hsaStreetAddress = hsaStreetAddress;
     }
 }
