@@ -1,13 +1,12 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {Data} from "../model/data";
-// import {state, style, triggers} from "@angular/platform-browser/animations";
+import {Component, OnInit} from "@angular/core";
+import {Data} from "../../model/data";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Http, RequestOptions, Headers} from "@angular/http";
-import {Ao3} from "../model/ao3";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, ValidatorFn, Validators} from "@angular/forms";
-import {BehaviorSubject, Observable} from "rxjs";
-import {Vardform} from "../model/vardform";
-import {Verksamhet} from "../model/verksamhet";
+import {Headers, Http, RequestOptions} from "@angular/http";
+import {Ao3} from "../../model/ao3";
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {Observable} from "rxjs/Observable";
+import {Vardform} from "../../model/vardform";
+import {Verksamhet} from "../../model/verksamhet";
 
 
 @Component({

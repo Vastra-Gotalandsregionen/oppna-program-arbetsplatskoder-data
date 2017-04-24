@@ -1,9 +1,9 @@
 import {FormControl} from '@angular/forms';
 import {Component, OnInit} from '@angular/core';
 import {Http, RequestOptions, URLSearchParams, Headers} from '@angular/http';
-import {Data} from '../model/data';
-import {RestResponse} from '../model/rest-response';
-import {Observable} from 'rxjs';
+import {Data} from '../../model/data';
+import {RestResponse} from '../../model/rest-response';
+import {Observable} from 'rxjs/Observable';
 import {Location} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
 import {isUndefined} from "util";

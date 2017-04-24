@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Http} from '@angular/http';
-import {Data} from '../model/data';
+import {Data} from '../../model/data';
 
 @Component({
   selector: 'app-apk-detail',

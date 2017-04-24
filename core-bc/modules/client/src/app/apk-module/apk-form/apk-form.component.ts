@@ -1,13 +1,15 @@
-import {Component, Input, OnInit, ViewChild} from "@angular/core";
-import {Data} from "../model/data";
-// import {state, style, triggers} from "@angular/platform-browser/animations";
+import {Component, Input, OnInit} from "@angular/core";
+import {Data} from "../../model/data";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Http, RequestOptions, Headers, Response} from "@angular/http";
-import {Ao3} from "../model/ao3";
+import {Ao3} from "../../model/ao3";
 import {AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
-import {Vardform} from "../model/vardform";
-import {Verksamhet} from "../model/verksamhet";
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/concatMap";
+import "rxjs/add/observable/from";
+import {Vardform} from "../../model/vardform";
+import {Verksamhet} from "../../model/verksamhet";
 import {MdSnackBar} from "@angular/material";
 
 

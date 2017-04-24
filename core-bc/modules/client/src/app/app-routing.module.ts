@@ -1,10 +1,6 @@
-import {HomeComponent} from './home/home.component';
-import {ApkComponent} from './apk/apk.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {ApkDetailComponent} from './apk-detail/apk-detail.component';
-import {ApkEditComponent} from "./apk-edit/apk-edit.component";
-import {ApkCreateComponent} from "./apk-create/apk-create.component";
+import {HomeComponent} from "./home/home.component";
+import {NgModule} from "@angular/core";
+import {PreloadAllModules, RouterModule, Routes} from "@angular/router";
 
 const routes: Routes = [
   {
@@ -16,19 +12,7 @@ const routes: Routes = [
       },
       {
         path: 'apk',
-        component: ApkComponent,
-      },
-      {
-        path: 'apk/create',
-        component: ApkCreateComponent
-      },
-      {
-        path: 'apk/:id',
-        component: ApkDetailComponent
-      },
-      {
-        path: 'apk/:id/edit',
-        component: ApkEditComponent
+        loadChildren: './apk-module/apk.module#ApkModule'
       }
     ]
   }
@@ -36,7 +20,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(
+      routes, {
+        preloadingStrategy: PreloadAllModules
+      })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
