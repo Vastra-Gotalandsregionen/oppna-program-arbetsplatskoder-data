@@ -7,7 +7,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {HomeComponent} from "./home/home.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {ApkMaterialModule} from "./apk-module/apk-material/apk-material.module";
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import {ApkMaterialModule} from "./apk-module/apk-material/apk-material.module";
     BrowserAnimationsModule,
     HttpModule,
     AppRoutingModule,
-    ApkMaterialModule,
+    SharedModule,
     ReactiveFormsModule
   ],
   providers: [],

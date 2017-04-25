@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {Location} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
 import {isUndefined} from "util";
+import {ErrorHandler} from "../../shared/error-handler";
 
 @Component({
   selector: 'app-apk',
@@ -24,7 +25,8 @@ export class ApkComponent implements OnInit {
 
   constructor(private http: Http,
               private location: Location,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private errorHandler: ErrorHandler) {
     this.stateCtrl = new FormControl();
   }
 
@@ -65,7 +67,7 @@ export class ApkComponent implements OnInit {
     this.observeData()
       .subscribe(response => {
         this.handleResponse(response);
-      });
+      }, error => this.errorHandler.notifyError(error));
   }
 
   private handleResponse(response) {

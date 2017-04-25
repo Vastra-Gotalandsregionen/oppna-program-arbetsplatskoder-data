@@ -11,6 +11,7 @@ import "rxjs/add/observable/from";
 import {Vardform} from "../../model/vardform";
 import {Verksamhet} from "../../model/verksamhet";
 import {MdSnackBar} from "@angular/material";
+import {ErrorHandler} from "../../shared/error-handler";
 
 
 @Component({
@@ -57,7 +58,8 @@ export class ApkFormComponent implements OnInit {
 
   constructor(private http: Http,
               private formBuilder: FormBuilder,
-              private snackBar: MdSnackBar) {
+              private snackBar: MdSnackBar,
+              private errorHandler: ErrorHandler) {
   }
 
   ngOnInit() {
@@ -175,9 +177,10 @@ export class ApkFormComponent implements OnInit {
         return this.http.get('/api/search/unit?query=' + query);
       })
       .map(result => result.json())
-      .subscribe(result => {
-        this.unitSearchResult = result;
-      });
+      .subscribe(
+        result => this.unitSearchResult = result,
+        error => this.errorHandler.notifyError(error)
+      );
 
     this.apkForm.statusChanges.subscribe(value => {
       if (value === 'VALID') {
@@ -221,7 +224,7 @@ export class ApkFormComponent implements OnInit {
           this.apkForm.patchValue({'summeringsniva3': prodn3.producentid});
 
           this.initSummeringsnivaControls(prodn3);
-        });
+        }, error => this.errorHandler.notifyError(error));
     } else {
       this.initSummeringsnivaControls(null);
     }
@@ -305,7 +308,7 @@ export class ApkFormComponent implements OnInit {
         .subscribe(prodn2s => {
           this.prodn2Options = prodn2s;
           this.listenToChangesToProdnx();
-        });
+        }, error => this.errorHandler.notifyError(error));
     } else {
       this.listenToChangesToProdnx();
     }
@@ -325,7 +328,7 @@ export class ApkFormComponent implements OnInit {
           'summeringsniva2': null,
           'summeringsniva3': null
         });
-      });
+      }, error => this.errorHandler.notifyError(error));
 
     summeringsniva2Control.valueChanges
       .filter(value => value ? true : false)
@@ -336,7 +339,7 @@ export class ApkFormComponent implements OnInit {
         this.apkForm.patchValue({
           'summeringsniva3': null
         });
-      });
+      }, error => this.errorHandler.notifyError(error));
   }
 
   save(formValue: any, valid: boolean, form: NgForm) {
@@ -375,7 +378,7 @@ export class ApkFormComponent implements OnInit {
         this.data = data;
         this.buildForm();
         this.snackBar.open('Lyckades spara!', null, {duration: 3000});
-      });
+      }, error => this.errorHandler.notifyError(error));
   }
 
   resetForm() {

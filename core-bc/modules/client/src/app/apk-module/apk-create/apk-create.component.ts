@@ -7,6 +7,7 @@ import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "
 import {Observable} from "rxjs/Observable";
 import {Vardform} from "../../model/vardform";
 import {Verksamhet} from "../../model/verksamhet";
+import {ErrorHandler} from "../../shared/error-handler";
 
 
 @Component({
@@ -46,7 +47,8 @@ export class ApkCreateComponent implements OnInit {
   saveMessage: string;
 
   constructor(private http: Http,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private errorHandler: ErrorHandler) {
   }
 
   ngOnInit() {
@@ -90,7 +92,7 @@ export class ApkCreateComponent implements OnInit {
         this.initAo3FormControl(ao3s);
         this.initVardformControl();
         this.initVerksamhetControl();
-      });
+      }, error => this.errorHandler.notifyError(error));
   }
 
   private buildForm() {
@@ -195,7 +197,7 @@ export class ApkCreateComponent implements OnInit {
       .subscribe((data: Data) => {
         this.data = data;
         this.buildForm();
-      });
+      }, error => this.errorHandler.notifyError(error));
   }
 
   filterAo3(name: string): Ao3[] {
