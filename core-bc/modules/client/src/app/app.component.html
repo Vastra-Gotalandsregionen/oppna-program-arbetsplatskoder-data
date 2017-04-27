@@ -2,6 +2,8 @@
   <button md-mini-fab class="example-fab" (click)="sidenav.toggle()">
     <md-icon>menu</md-icon>
   </button>
+
+  <div style="position: absolute; right: 100px;">Inloggad som (TEMP): {{stateService.loggedInUser?.uid}}</div>
 </md-toolbar>
 
 
@@ -10,13 +12,23 @@
     <!-- sidenav content -->
     <md-list>
       <md-list-item>
-        <a routerLink="home">
+        <a routerLink="home" routerLinkActive="active">
           <md-icon>home</md-icon> Hem
         </a>
       </md-list-item>
       <md-list-item>
-        <a routerLink="apk">
+        <a routerLink="apk" routerLinkActive="active">
           <md-icon>list</md-icon> Arbetsplatskoder
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="old-users" routerLinkActive="active">
+          <md-icon>people</md-icon> Användare (gamla)
+        </a>
+      </md-list-item>
+      <md-list-item *ngIf="stateService.loggedInUser?.behorighet === 2">
+        <a routerLink="users" routerLinkActive="active">
+          <md-icon>people</md-icon> Användare (nya)
         </a>
       </md-list-item>
     </md-list>

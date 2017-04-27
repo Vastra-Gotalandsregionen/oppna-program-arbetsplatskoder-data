@@ -1,6 +1,7 @@
 import {HomeComponent} from "./home/home.component";
 import {NgModule} from "@angular/core";
 import {PreloadAllModules, RouterModule, Routes} from "@angular/router";
+import {AdminGuard} from "./core/guard/admin.guard";
 
 const routes: Routes = [
   {
@@ -12,7 +13,20 @@ const routes: Routes = [
       },
       {
         path: 'apk',
-        loadChildren: './apk-module/apk.module#ApkModule'
+        loadChildren: './apk/apk.module#ApkModule'
+      },
+      {
+        path: 'old-users',
+        loadChildren: './old-users/old-users.module#OldUsersModule'
+      },
+      {
+        path: 'users',
+        canActivate: [AdminGuard],
+        loadChildren: './users/users.module#UsersModule'
+      },
+      {
+        path: '**',
+        redirectTo: ''
       }
     ]
   }

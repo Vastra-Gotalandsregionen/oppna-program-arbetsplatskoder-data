@@ -1,0 +1,19 @@
+<div *ngIf="userForm; else loading">
+
+  <form #formRef="ngForm" [formGroup]="userForm" (ngSubmit)="save()" novalidate>
+    <md-card>
+      <md-card-content>
+
+        <md-input-container>
+          <input placeholder="VGR-ID" type="text" mdInput formControlName="userId">
+        </md-input-container>
+
+      </md-card-content>
+    </md-card>
+  </form>
+
+</div>
+
+<ng-template #loading>
+  Läser in...
+</ng-template>

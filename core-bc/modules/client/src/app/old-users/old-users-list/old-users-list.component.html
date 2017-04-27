@@ -1,0 +1,35 @@
+<md-card *ngIf="anvandares">
+  <md-card-content>
+
+    <table>
+
+      <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>Förnamn</th>
+        <th>Efternamn</th>
+        <th>E-post</th>
+        <th>Behörighet</th>
+        <th>Sorteringskod</th>
+        <!--<th></th>-->
+        <!--<th></th>-->
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let anvandare of anvandares">
+        <td><a href="" (click)="impersonate(anvandare); false;">Impersonera</a> </td>
+        <td>{{anvandare.uid}}</td>
+        <td>{{anvandare.fnamn}}</td>
+        <td>{{anvandare.enamn}}</td>
+        <td>{{anvandare.email}}</td>
+        <td>{{anvandare.behorighet}}</td>
+        <td>{{anvandare.sorteringskodProd}}</td>
+        <!--<td><a routerLink="{{anvandare.id}}"><md-icon>folder_open</md-icon></a></td>-->
+        <!--<td><a routerLink="{{anvandare.id}}/edit"><md-icon>edit</md-icon></a></td>-->
+      </tr>
+      </tbody>
+    </table>
+  </md-card-content>
+</md-card>

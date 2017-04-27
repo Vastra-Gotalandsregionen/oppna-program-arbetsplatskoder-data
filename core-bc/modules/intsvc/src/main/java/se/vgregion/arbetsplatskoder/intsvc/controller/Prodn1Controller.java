@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import se.vgregion.arbetsplatskoder.domain.Prodn1;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.repository.Prodn1Repository;
 
 import java.util.List;

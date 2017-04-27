@@ -1,7 +1,7 @@
 package se.vgregion.arbetsplatskoder.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import se.vgregion.arbetsplatskoder.domain.Verksamhet;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Verksamhet;
 
 import java.util.List;
 

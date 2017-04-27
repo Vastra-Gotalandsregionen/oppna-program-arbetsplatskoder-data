@@ -1,7 +1,7 @@
 package se.vgregion.arbetsplatskoder.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import se.vgregion.arbetsplatskoder.domain.AllaApk60820150121;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.AllaApk60820150121;
 
 /**
  * @author Patrik Björk
