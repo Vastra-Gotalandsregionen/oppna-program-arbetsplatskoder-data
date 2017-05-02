@@ -9,6 +9,7 @@ import {ActivatedRoute} from "@angular/router";
 import {isUndefined} from "util";
 import {ErrorHandler} from "../../shared/error-handler";
 import {AuthService} from "../../core/auth/auth.service";
+import {JwtHttp} from "../../core/jwt-http";
 
 @Component({
   selector: 'app-apk',
@@ -24,7 +25,7 @@ export class ApkComponent implements OnInit {
   response: RestResponse<Data>;
   sort: { field: string, ascending: boolean };
 
-  constructor(private http: Http,
+  constructor(private http: JwtHttp,
               private location: Location,
               private route: ActivatedRoute,
               private authService: AuthService,

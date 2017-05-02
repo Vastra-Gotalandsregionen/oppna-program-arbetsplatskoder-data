@@ -4,13 +4,22 @@
     <md-card>
       <md-card-content>
 
-        <md-input-container>
-          <input placeholder="VGR-ID" type="text" mdInput formControlName="userId">
-        </md-input-container>
+        <div>
+          <md-input-container>
+            <input placeholder="VGR-ID" type="text" mdInput formControlName="userId">
+          </md-input-container>
+        </div>
 
-        <md-chip-list id="prodn1ChipList" class="madddt-chip-list-stacked">
+        <div formGroupName="roleGroup" ngClass="{{formRef.submitted ? 'submitted' : ''}}">
+          <label class="field-label">Behörighet</label>
+          <md-radio-group formControlName="role">
+            <md-radio-button value="ADMIN">ADMIN</md-radio-button>
+            <md-radio-button value="USER">USER</md-radio-button>
+          </md-radio-group>
+        </div>
+
+        <md-chip-list id="prodn1ChipList">
           <md-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
-                   <!--color="{{chipColor.color}}">-->
             {{prodn1.foretagsnamn}}
           </md-chip>
         </md-chip-list>

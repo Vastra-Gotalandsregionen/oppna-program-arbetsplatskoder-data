@@ -1,8 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {Http, Response} from "@angular/http";
+import {Response} from "@angular/http";
 import {ErrorHandler} from "../../shared/error-handler";
 import {User} from "../../model/user";
 import {Prodn1} from "../../model/prodn1";
+import {JwtHttp} from "../../core/jwt-http";
+import {AuthService} from "../../core/auth/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-users-list',
@@ -13,8 +16,10 @@ export class UsersListComponent implements OnInit {
 
   users: User[];
 
-  constructor(private http: Http,
-              private errorHandler: ErrorHandler) { }
+  constructor(private http: JwtHttp,
+              private errorHandler: ErrorHandler,
+              private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
     this.updateUsers();
@@ -31,13 +36,19 @@ export class UsersListComponent implements OnInit {
   confirmDeleteTODO(user: User) {
     this.http.delete('/api/user/' + user.id)
       .subscribe(response => {
-        console.log(response);
         this.updateUsers();
       });
   }
 
   prodn1sToString(prodn1: Prodn1[]) {
     return prodn1.map(prodn1 => prodn1.producentid).join(', ')
+  }
+
+  impersonate(user: User) {
+    this.http.post('/api/login/impersonate', user).subscribe(response => {
+      this.authService.jwt = response.text();
+      this.router.navigate(['/']);
+    });
   }
 
 }

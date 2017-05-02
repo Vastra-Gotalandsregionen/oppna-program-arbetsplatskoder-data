@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {JwtHelper} from "angular2-jwt/angular2-jwt";
 import {Data} from "../../model/data";
-import {Prodn1} from "../../model/prodn1";
+import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 
 @Injectable()
@@ -11,11 +11,12 @@ export class AuthService {
   private jwtToken: any;
 
   constructor(private jwtHelper: JwtHelper,
-              private http: Http) {
-    let localStorageToken = localStorage.getItem('apkJwtToken');
+              private http: Http,
+              private router: Router) {
+    let sessionStorageToken = sessionStorage.getItem('apkJwtToken');
 
-    if (localStorageToken) {
-      this.jwt = localStorageToken;
+    if (sessionStorageToken) {
+      this.jwt = sessionStorageToken;
     }
 
     setInterval(() => {
@@ -39,13 +40,11 @@ export class AuthService {
     if (value) {
       this.jwtToken = this.jwtHelper.decodeToken(value);
 
-      localStorage.setItem('apkJwtToken', value);
-
-      console.log(this.jwtToken);
+      sessionStorage.setItem('apkJwtToken', value);
     } else if (this.jwtToken) {
-      // todo Show dialog stating you've been logged out.
+      this.router.navigate(['/']);
       this.jwtToken = null;
-      localStorage.removeItem('apkJwtToken');
+      sessionStorage.removeItem('apkJwtToken');
     }
 
 

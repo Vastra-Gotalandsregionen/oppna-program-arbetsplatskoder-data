@@ -3,11 +3,12 @@ import {Headers, Http, RequestOptions, Response} from "@angular/http";
 import {User} from "../model/user";
 import {Observable} from "rxjs/Observable";
 import {StateService} from "../core/state/state.service";
+import {JwtHttp} from "../core/jwt-http";
 
 @Injectable()
 export class RestServiceService {
 
-  constructor(private http: Http,
+  constructor(private http: JwtHttp,
               private stateService: StateService) { }
 
   // Example

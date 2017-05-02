@@ -5,6 +5,8 @@ import {Http, Response} from "@angular/http";
 import {User} from "../../model/user";
 import {Prodn1} from "../../model/prodn1";
 import {Observable} from "rxjs/Observable";
+import {JwtHttp} from "../../core/jwt-http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-form',
@@ -22,9 +24,10 @@ export class UserFormComponent implements OnInit {
   prodn1sMap: Map<string, Prodn1>;
   selectedProdn1Ids: string[];
 
-  constructor(private http: Http,
+  constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
-              private errorHandler: ErrorHandler) { }
+              private errorHandler: ErrorHandler,
+              private router: Router) { }
 
   ngOnInit() {
 
@@ -47,6 +50,7 @@ export class UserFormComponent implements OnInit {
       this.user = new User();
       prodn1s$.subscribe(allProdn1 => {
         this.allProdn1s = allProdn1;
+        this.allProdn1s.forEach(prodn1 => this.prodn1sMap.set(prodn1.id, prodn1));
         this.selectedProdn1Ids = [];
         this.buildForm();
       });
@@ -58,7 +62,10 @@ export class UserFormComponent implements OnInit {
   private buildForm() {
 
     this.userForm = this.formBuilder.group({
-      'userId': [{value: this.user.id, disabled: false}, [Validators.required]]
+      'userId': [{value: this.user.id, disabled: false}, [Validators.required]],
+      'roleGroup': this.formBuilder.group({
+        'role': [{value: this.user.role, disabled: false}, [Validators.required]]
+      })
     });
 
   }
@@ -70,7 +77,6 @@ export class UserFormComponent implements OnInit {
     } else {
       this.selectedProdn1Ids.push(prodn1.id);
     }
-
   }
 
   isSelected(prodn1: Prodn1) {
@@ -85,10 +91,11 @@ export class UserFormComponent implements OnInit {
 
     this.user.id = this.userForm.get('userId').value;
     this.user.prodn1s = this.selectedProdn1Ids.map(id => this.prodn1sMap.get(id));
+    this.user.role = this.userForm.get('roleGroup').get('role').value;
 
     this.http.put('/api/user', this.user)
       .subscribe(result => {
-        this.ngOnInit();
+        this.router.navigate(['/users']);
       });
   }
 }

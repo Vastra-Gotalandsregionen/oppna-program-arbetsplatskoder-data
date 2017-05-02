@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import 'rxjs/add/operator/timeout';
 import {TimeoutError} from "rxjs/Rx";
 import {AuthService} from "../../core/auth/auth.service";
+import {JwtHttp} from "../../core/jwt-http";
 
 @Component({
   selector: 'app-login-dialog',
@@ -25,7 +26,7 @@ export class LoginDialogComponent implements OnInit {
   loginMessage: string;
 
   constructor(dialogRef: MdDialogRef<LoginDialogComponent>,
-              private http: Http,
+              private http: JwtHttp,
               private stateService: StateService,
               private authService: AuthService) {
     this.dialogRef = dialogRef;
@@ -46,8 +47,8 @@ export class LoginDialogComponent implements OnInit {
 
           // this.location.navigate(['/']);
 
-          this.authService.jwt = response.text()
-          ;
+          this.authService.jwt = response.text();
+
           this.dialogRef.close(response);
         }, error => {
           if (Object.getPrototypeOf(error) === Object.getPrototypeOf(new TimeoutError())) {

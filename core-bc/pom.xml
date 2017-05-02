@@ -25,7 +25,7 @@ Generation time : 2015-01-14 09:02:50 CET
     <module>composites/svc</module>
     <module>composites/db-migration-svc</module>
     <!--<module>composites/webcomp</module>-->
-    <module>modules/portlet</module>
+    <!--<module>modules/portlet</module>-->
     <module>modules/intsvc</module>
   </modules>
 </project>

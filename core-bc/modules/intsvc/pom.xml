@@ -47,6 +47,13 @@
       <version>${spring.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/sqljdbc4 -->
     <dependency>
       <groupId>com.microsoft.sqlserver</groupId>

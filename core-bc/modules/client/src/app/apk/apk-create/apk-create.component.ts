@@ -8,6 +8,7 @@ import {Observable} from "rxjs/Observable";
 import {Vardform} from "../../model/vardform";
 import {Verksamhet} from "../../model/verksamhet";
 import {ErrorHandler} from "../../shared/error-handler";
+import {JwtHttp} from "../../core/jwt-http";
 
 
 @Component({
@@ -46,7 +47,7 @@ export class ApkCreateComponent implements OnInit {
 
   saveMessage: string;
 
-  constructor(private http: Http,
+  constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
               private errorHandler: ErrorHandler) {
   }

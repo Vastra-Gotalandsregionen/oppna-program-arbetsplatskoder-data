@@ -15,6 +15,7 @@ import {ErrorHandler} from "../../shared/error-handler";
 import {Prodn1} from "../../model/prodn1";
 import {Prodn2} from "../../model/prodn2";
 import {Prodn3} from "../../model/prodn3";
+import {JwtHttp} from "../../core/jwt-http";
 
 
 @Component({
@@ -59,7 +60,7 @@ export class ApkFormComponent implements OnInit {
 
   saveMessage: string;
 
-  constructor(private http: Http,
+  constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
               private snackBar: MdSnackBar,
               private errorHandler: ErrorHandler) {
@@ -154,7 +155,7 @@ export class ApkFormComponent implements OnInit {
       }),
       'groupCode': [false, Validators.required],
       'vgpvGroup': this.formBuilder.group({
-        'vgpv': [this.data.vgpv, Validators.required]
+        'vgpv': [this.data.vgpv ? 'true' : 'false', Validators.required]
       }),
       'anmarkning': [this.data.anmarkning],
       'hsaid': [this.data.hsaid, Validators.required],

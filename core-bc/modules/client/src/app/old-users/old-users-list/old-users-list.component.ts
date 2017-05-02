@@ -3,6 +3,7 @@ import {Http, Response} from "@angular/http";
 import {Anvandare} from "../../model/anvandare";
 import {ErrorHandler} from "../../shared/error-handler";
 import {StateService} from "../../core/state/state.service";
+import {JwtHttp} from "../../core/jwt-http";
 
 @Component({
   selector: 'app-old-users-list',
@@ -12,7 +13,7 @@ import {StateService} from "../../core/state/state.service";
 export class OldUsersListComponent implements OnInit {
   anvandares: Anvandare[]; // todo Type
 
-  constructor(private http: Http,
+  constructor(private http: JwtHttp,
               private errorHandler: ErrorHandler,
               private stateService: StateService) { }
 
