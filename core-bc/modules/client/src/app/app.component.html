@@ -1,6 +1,6 @@
 <md-progress-bar *ngIf="showProgress" mode="indeterminate"></md-progress-bar>
-<md-toolbar>
-  <button md-mini-fab class="example-fab" (click)="sidenav.toggle()">
+<md-toolbar class="header">
+  <button md-mini-fab class="menu-toggle" (click)="sidenav.toggle()">
     <md-icon>menu</md-icon>
   </button>
 
@@ -18,22 +18,26 @@
     <md-list>
       <md-list-item>
         <a routerLink="home" routerLinkActive="active">
-          <md-icon>home</md-icon> Hem
+          <md-icon>home</md-icon>
+          <span class="nav-label">Hem</span>
         </a>
       </md-list-item>
       <md-list-item>
         <a routerLink="apk" routerLinkActive="active">
-          <md-icon>list</md-icon> Arbetsplatskoder
+          <md-icon>list</md-icon>
+          <span class="nav-label">Arbetsplatskoder</span>
         </a>
       </md-list-item>
       <md-list-item *ngIf="admin">
         <a routerLink="old-users" routerLinkActive="active">
-          <md-icon>people</md-icon> Användare (gamla)
+          <md-icon>people</md-icon>
+          <span class="nav-label">Användare (gamla)</span>
         </a>
       </md-list-item>
       <md-list-item *ngIf="admin">
         <a routerLink="users" routerLinkActive="active">
-          <md-icon>people</md-icon> Användare (nya)
+          <md-icon>people</md-icon>
+          <span class="nav-label">Användare (nya)</span>
         </a>
       </md-list-item>
     </md-list>
@@ -44,7 +48,3 @@
   <router-outlet></router-outlet>
 
 </md-sidenav-container>
-
-
-
-
