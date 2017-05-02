@@ -1,0 +1,124 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
+.search-summary {
+  //background: #eee;
+  font-size: 0.9em;
+  text-align: right;
+}
+
+a.active {
+  font-weight: bold;
+}
+
+.example-card {
+  //width: 400px;
+  margin-bottom: 24px;
+}
+
+.example-card {
+  overflow: hidden;
+}
+
+.mat-sidenav-content {
+  padding: 12px;
+}
+
+.mat-sidenav {
+  border-right: 1px solid #dedede;
+}
+
+div.mat-autocomplete-panel {
+  max-width: none;
+}
+
+.submitted.ng-invalid {
+  .field-label, .mat-select-trigger {
+    color: red;
+  }
+}
+
+.apk-validate .ng-valid.ng-touched .mat-input-underline {
+  border-top-width: 2px;
+}
+
+.apk-validate .ng-valid.ng-touched .mat-select-underline {
+  background-color: green;
+  height: 2px;
+}
+
+.apk-validate .ng-valid.ng-touched .mat-input-underline,
+.apk-validate .ng-valid.ng-touched .mat-radio-outer-circle {
+  border-color: green;
+}
+
+table {
+  td, th {
+    padding-right: 8px;
+    text-align: left;
+  }
+
+  thead {
+
+    th {
+      border-bottom: 1px solid #ddd;
+    }
+  }
+
+}
+
+.mat-sidenav {
+  background: transparent;
+  border: none;
+  padding: 10px;
+
+  .mat-list {
+    padding: 0;
+
+    .mat-list-item {
+      height: auto;
+
+      .mat-list-item-content {
+        height: auto;
+        padding: 0;
+      }
+
+    }
+  }
+
+  a,
+  a:visited {
+    display: block;
+    color: #222;
+    padding: 10px;
+    text-decoration: none;
+    width: 100%;
+
+    .mat-icon {
+      float: left;
+      margin-right: 10px;
+    }
+
+    .nav-label {
+      display: inline-block;
+      line-height: 24px;
+    }
+
+    // Clearfix
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    &.active {
+      background: #ddd;
+    }
+
+  }
+
+}
+
+.mat-card-actions {
+  border-top: 1px solid #ddd;
+}

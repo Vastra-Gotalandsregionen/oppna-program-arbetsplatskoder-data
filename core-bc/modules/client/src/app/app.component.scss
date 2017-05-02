@@ -5,6 +5,7 @@ md-sidenav-container {
 }
 md-sidenav {
   width: 240px;
+  width: 300px;
 }
 
 /*.example-container {
@@ -32,18 +33,4 @@ md-sidenav {
 md-progress-bar {
   position: fixed;
   top: 0;
-}
-
-.header {
-  background: #005c95;
-  color: #fff;
-
-  .menu-toggle {
-    background: transparent;
-    color: #fff;
-    box-shadow: none;
-    border-radius: 0;
-  }
-
-
 }
