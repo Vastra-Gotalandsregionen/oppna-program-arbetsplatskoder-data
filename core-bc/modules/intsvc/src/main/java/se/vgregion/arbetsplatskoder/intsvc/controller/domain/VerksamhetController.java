@@ -1,25 +1,25 @@
-package se.vgregion.arbetsplatskoder.intsvc.controller;
+package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import se.vgregion.arbetsplatskoder.domain.jpa.User;
-import se.vgregion.arbetsplatskoder.repository.UserRepository;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Verksamhet;
+import se.vgregion.arbetsplatskoder.repository.VerksamhetRepository;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/verksamhet")
+public class VerksamhetController {
 
     @Autowired
-    private UserRepository userRepository;
+    private VerksamhetRepository verksamhetRepository;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<Verksamhet> getAgarforms() {
+        return verksamhetRepository.findVerksamhetsByRaderadIsFalse();
     }
 }

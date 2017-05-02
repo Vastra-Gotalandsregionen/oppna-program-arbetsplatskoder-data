@@ -1,9 +1,14 @@
+<md-progress-bar *ngIf="showProgress" mode="indeterminate"></md-progress-bar>
 <md-toolbar>
   <button md-mini-fab class="example-fab" (click)="sidenav.toggle()">
     <md-icon>menu</md-icon>
   </button>
 
-  <div style="position: absolute; right: 100px;">Inloggad som (TEMP): {{stateService.loggedInUser?.uid}}</div>
+  <div style="position: absolute; right: 20px;">
+    <span *ngIf="getLoggedInDisplayName()">Inloggad som: {{getLoggedInDisplayName()}}</span>
+    <span *ngIf="!getLoggedInDisplayName()"><button md-button (click)="openLogin()">Logga in</button> </span>
+    <span *ngIf="getLoggedInDisplayName()"><button md-button (click)="logout()">Logga ut</button> </span>
+  </div>
 </md-toolbar>
 
 
@@ -21,12 +26,12 @@
           <md-icon>list</md-icon> Arbetsplatskoder
         </a>
       </md-list-item>
-      <md-list-item>
+      <md-list-item *ngIf="admin">
         <a routerLink="old-users" routerLinkActive="active">
           <md-icon>people</md-icon> Användare (gamla)
         </a>
       </md-list-item>
-      <md-list-item *ngIf="stateService.loggedInUser?.behorighet === 2">
+      <md-list-item *ngIf="admin">
         <a routerLink="users" routerLinkActive="active">
           <md-icon>people</md-icon> Användare (nya)
         </a>

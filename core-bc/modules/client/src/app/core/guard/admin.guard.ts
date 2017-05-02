@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {StateService} from "../state/state.service";
+import {AuthService} from "../auth/auth.service";
 
 @Injectable()
 export class AdminGuard implements CanActivate {
 
-  constructor(private stateService: StateService) {}
+  constructor(private authService: AuthService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    const loggedInUser = this.stateService.loggedInUser;
+    const role = this.authService.getLoggedInRole();
 
-    return loggedInUser && loggedInUser.behorighet === 2;
+    return role === 'ADMIN';
   }
 }

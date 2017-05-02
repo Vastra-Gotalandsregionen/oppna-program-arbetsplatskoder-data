@@ -4,6 +4,8 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -26,4 +28,75 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Prodn1.class)
     private Set<Prodn1> prodn1s = new HashSet<>();
 
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
+    @Column
+    private String mail;
+
+    @Column
+    private String displayName;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Set<Prodn1> getProdn1s() {
+        return prodn1s;
+    }
+
+    public void setProdn1s(Set<Prodn1> prodn1s) {
+        this.prodn1s = prodn1s;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

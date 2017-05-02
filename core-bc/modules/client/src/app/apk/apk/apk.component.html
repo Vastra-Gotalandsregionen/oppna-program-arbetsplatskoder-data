@@ -31,7 +31,7 @@
         <td>{{data.regDatum}}</td>
         <td>{{data.id}}</td>
         <td><a routerLink="{{data.id}}"><md-icon>folder_open</md-icon></a></td>
-        <td><a routerLink="{{data.id}}/edit"><md-icon>edit</md-icon></a></td>
+        <td><a routerLink="{{data.id}}/edit" *ngIf="userHasEditPermission(data)"><md-icon>edit</md-icon></a></td>
       </tr>
       </tbody>
 

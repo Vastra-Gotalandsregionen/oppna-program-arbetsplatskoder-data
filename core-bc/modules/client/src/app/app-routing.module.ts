@@ -17,6 +17,7 @@ const routes: Routes = [
       },
       {
         path: 'old-users',
+        canActivate: [AdminGuard],
         loadChildren: './old-users/old-users.module#OldUsersModule'
       },
       {
@@ -26,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: ''
+        redirectTo: 'home'
       }
     ]
   }

@@ -1,3 +1,5 @@
-<p>
-  user-edit works!
-</p>
+<h3>Redigera användare</h3>
+
+<app-user-form [userId]="userId" *ngIf="userId; else loading"></app-user-form>
+
+<ng-template #loading>Läser in...</ng-template>

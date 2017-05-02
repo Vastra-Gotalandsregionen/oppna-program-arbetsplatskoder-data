@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Http} from "@angular/http";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-user-edit',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserEditComponent implements OnInit {
 
-  constructor() { }
+  userId: string;
+
+  constructor(protected route: ActivatedRoute,
+              protected http: Http) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      console.log(params);
+      this.userId = params.userId;
+
+      /*if (this.userId) {
+        this.http.get('/api/user/' + this.userId)
+          .map(response => response.json())
+          .subscribe((user: User) => {
+            this.data = data;
+          });
+      }*/
+    });
   }
 
 }

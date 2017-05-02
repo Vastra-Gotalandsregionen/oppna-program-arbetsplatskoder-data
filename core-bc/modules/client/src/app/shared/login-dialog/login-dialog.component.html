@@ -1,0 +1,24 @@
+<h1 md-dialog-title>Logga in</h1>
+
+<!--<div md-dialog-content>-->
+<div class="alert">{{loginMessage}}</div>
+
+<form #loginForm="ngForm">
+  <div>
+    <md-input-container>
+      <input placeholder="VGR-ID" type="text" mdInput [(ngModel)]="userId" name="USER" required>
+    </md-input-container>
+  </div>
+
+  <div>
+    <md-input-container>
+      <input placeholder="Lösenord" type="password" mdInput [(ngModel)]="password" name="PASSWORD" required>
+    </md-input-container>
+  </div>
+
+  <div md-dialog-actions>
+    <button md-button (click)="login()">Logga in</button>
+  </div>
+</form>
+
+<!--</div>-->

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import {
-  MdAutocompleteModule, MdButtonModule, MdCardModule, MdCheckboxModule, MdDialogModule, MdIconModule, MdInputModule,
-  MdListModule,
+  MdAutocompleteModule, MdButtonModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdDialogModule, MdIconModule,
+  MdInputModule,
+  MdListModule, MdProgressBarModule,
   MdRadioModule, MdSelectModule,
   MdSidenavModule, MdSnackBarModule,
   MdToolbarModule, MdTooltipModule
@@ -22,7 +23,9 @@ import {
     MdCheckboxModule,
     MdSelectModule,
     MdSnackBarModule,
-    MdDialogModule
+    MdDialogModule,
+    MdProgressBarModule,
+    MdChipsModule
   ],
   declarations: [],
   exports: [
@@ -39,7 +42,9 @@ import {
     MdCheckboxModule,
     MdSelectModule,
     MdSnackBarModule,
-    MdDialogModule
+    MdDialogModule,
+    MdProgressBarModule,
+    MdChipsModule
   ]
 })
 export class ApkMaterialModule { }

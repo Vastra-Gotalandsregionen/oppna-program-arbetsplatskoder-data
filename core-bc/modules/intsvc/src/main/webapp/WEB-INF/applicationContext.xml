@@ -10,6 +10,8 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+    <context:property-placeholder location="file:${user.home}/.hotell/arbetsplatskoder/main.jdbc.properties,file:${user.home}/.hotell/arbetsplatskoder/application.properties"/>
+
     <import resource="classpath:db-context-direct.xml"/>
 
     <beans:repositories base-package="se.vgregion.arbetsplatskoder.repository" />

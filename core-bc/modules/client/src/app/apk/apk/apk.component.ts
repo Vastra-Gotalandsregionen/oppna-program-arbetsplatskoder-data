@@ -8,6 +8,7 @@ import {Location} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
 import {isUndefined} from "util";
 import {ErrorHandler} from "../../shared/error-handler";
+import {AuthService} from "../../core/auth/auth.service";
 
 @Component({
   selector: 'app-apk',
@@ -26,6 +27,7 @@ export class ApkComponent implements OnInit {
   constructor(private http: Http,
               private location: Location,
               private route: ActivatedRoute,
+              private authService: AuthService,
               private errorHandler: ErrorHandler) {
     this.stateCtrl = new FormControl();
   }
@@ -131,6 +133,10 @@ export class ApkComponent implements OnInit {
     }
 
     this.fetchDatas();
+  }
+
+  userHasEditPermission(data: Data) {
+    return this.authService.userHasDataEditPermission(data);
   }
 
 }

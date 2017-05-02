@@ -1,4 +1,4 @@
-package se.vgregion.arbetsplatskoder.intsvc.controller;
+package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

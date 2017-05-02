@@ -8,8 +8,19 @@
           <input placeholder="VGR-ID" type="text" mdInput formControlName="userId">
         </md-input-container>
 
+        <md-chip-list id="prodn1ChipList" class="madddt-chip-list-stacked">
+          <md-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
+                   <!--color="{{chipColor.color}}">-->
+            {{prodn1.foretagsnamn}}
+          </md-chip>
+        </md-chip-list>
+
+        <div class="btn-group">
+          <button md-button type="submit">Spara</button>
+        </div>
       </md-card-content>
     </md-card>
+
   </form>
 
 </div>

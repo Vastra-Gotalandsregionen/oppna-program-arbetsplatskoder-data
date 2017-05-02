@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+body {
+  margin: 0;
+}
+
 a.active {
   font-weight: bold;
 }
@@ -44,4 +48,11 @@ div.mat-autocomplete-panel {
 .apk-validate .ng-valid.ng-touched .mat-input-underline,
 .apk-validate .ng-valid.ng-touched .mat-radio-outer-circle {
   border-color: green;
+}
+
+table {
+  td, th {
+    padding-right: 8px;
+    text-align: left;
+  }
 }

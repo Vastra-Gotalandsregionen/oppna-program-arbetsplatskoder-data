@@ -3,21 +3,26 @@ import { CommonModule } from '@angular/common';
 import {ErrorDialogComponent} from "./error-dialog/error-dialog.component";
 import {ErrorHandler} from "./error-handler";
 import {ApkMaterialModule} from "./apk-material/apk-material.module";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import {JwtHelper} from "angular2-jwt/angular2-jwt";
 
 @NgModule({
   imports: [
     CommonModule,
     ApkMaterialModule,
+    FormsModule,
     ReactiveFormsModule,
-    RouterModule,
+    RouterModule
   ],
   declarations: [
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    LoginDialogComponent
   ],
   entryComponents: [
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    LoginDialogComponent
   ],
   exports: [
     ApkMaterialModule,
@@ -26,7 +31,8 @@ import {RouterModule} from "@angular/router";
     RouterModule,
   ],
   providers: [
-    ErrorHandler
+    ErrorHandler,
+    JwtHelper
   ]
 
 })

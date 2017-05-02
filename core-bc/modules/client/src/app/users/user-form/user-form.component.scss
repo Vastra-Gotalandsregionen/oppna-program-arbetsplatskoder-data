@@ -1,0 +1,9 @@
+#prodn1ChipList md-chip {
+  display: inline;
+  margin-bottom: 8px;
+  margin-right: 8px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

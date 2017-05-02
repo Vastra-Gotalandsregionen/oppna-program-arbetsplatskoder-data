@@ -28,3 +28,8 @@ md-sidenav {
     /*background-color: #ffffff;*/
     color: rgba(0,0,0,.87);
 }
+
+md-progress-bar {
+  position: fixed;
+  top: 0;
+}

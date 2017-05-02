@@ -1,1 +1,36 @@
 <a routerLink="create" md-fab mdTooltip="Lägg till ny användare"><md-icon>person_add</md-icon></a>
+
+<md-card>
+  <md-card-content>
+
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Förnamn</th>
+        <th>Efernamn</th>
+        <th>E-post</th>
+        <th>Behörighet</th>
+        <th>Sorteringskod 1</th>
+        <th>Redigera</th>
+        <th>Radera</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{user.id}}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.mail}}</td>
+        <td>{{user.role}}</td>
+        <td>{{prodn1sToString(user.prodn1s)}}</td>
+        <td><a routerLink="{{user.id}}/edit"><md-icon>edit</md-icon></a></td>
+        <td><button md-button (click)="confirmDeleteTODO(user)"><md-icon>delete</md-icon></button></td>
+      </tr>
+      </tbody>
+
+    </table>
+
+  </md-card-content>
+</md-card>
