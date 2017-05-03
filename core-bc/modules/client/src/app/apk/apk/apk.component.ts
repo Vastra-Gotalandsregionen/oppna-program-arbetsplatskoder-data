@@ -60,15 +60,18 @@ export class ApkComponent implements OnInit {
         this.fetchDatas();
 
         this.stateCtrl.valueChanges
+          .skip(1) // Skip on init
           .subscribe(query => {
             this.query = query;
             this.updateState();
           });
 
-        this.onlyMyDatasCtrl.valueChanges.subscribe(value => {
-          this.onlyMyDatas = value;
-          this.updateState();
-        });
+        this.onlyMyDatasCtrl.valueChanges
+          .skip(1) // Skip on init
+          .subscribe(value => {
+            this.onlyMyDatas = value;
+            this.updateState();
+          });
 
       });
 

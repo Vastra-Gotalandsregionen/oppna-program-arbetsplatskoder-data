@@ -1,26 +1,38 @@
-package se.vgregion.arbetsplatskoder.util;
+package se.vgregion.arbetsplatskoder.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 
+import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
  * @author Patrik Björk
  */
+@Service
 public class JwtUtil {
 
-    private static final String secret = UUID.randomUUID().toString();
+    private static String secret;
+
+    @Value("${jwt.sign.secret}")
+    private String jwtSignSecret;
+
     private static int MINUTES_AGE = 30;
+
+    @PostConstruct
+    public void init() {
+        secret = jwtSignSecret;
+    }
 
     public static String createToken(String userId, String displayName, String role, Set<Prodn1> prodn1s) {
         try {
@@ -28,7 +40,7 @@ public class JwtUtil {
             Date now = Date.from(Instant.now());
 
             String[] prodn1sStrings = prodn1s.stream()
-                    .map(prodn1 -> prodn1.getProducentid())
+                    .map(Prodn1::getProducentid)
                     .collect(Collectors.toList()).toArray(new String[]{});
 
             return JWT.create()

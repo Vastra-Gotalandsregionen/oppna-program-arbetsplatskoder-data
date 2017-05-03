@@ -1,7 +1,7 @@
 package se.vgregion.arbetsplatskoder.intsvc.controller.util;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import se.vgregion.arbetsplatskoder.util.JwtUtil;
+import se.vgregion.arbetsplatskoder.service.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -117,15 +117,19 @@ public class DataController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Data saveData(@RequestBody Data data) {
+        User user = getUser();
+
         Random random = new Random();
 
         if (data.getId() == null) {
-            data.setId(Math.abs(random.nextInt()));
+            data.setId(Math.abs(random.nextInt())); // todo Improve this
         }
 
         if (data.getArbetsplatskod() == null) {
             data.setArbetsplatskod(Math.abs(random.nextInt()) + "");
         }
+
+        data.setUserId(user.getId());
 
         data.setSsmaTimestamp(new Byte[]{0x00});
 

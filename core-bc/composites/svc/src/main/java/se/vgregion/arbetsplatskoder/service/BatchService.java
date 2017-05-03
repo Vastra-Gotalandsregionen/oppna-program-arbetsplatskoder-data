@@ -43,7 +43,7 @@ public class BatchService {
     @PostConstruct
     public void init() {
 
-        List<Data> allDatas = dataRepository.findAll();
+        List<Data> allDatas = dataRepository.findAllByProdn1IsNull();
 
         List<Prodn3> allProdn3s = prodn3Repository.findAll();
         List<Prodn2> allProdn2s = prodn2Repository.findAll();
@@ -87,6 +87,13 @@ public class BatchService {
             String n1 = prodn2.getN1();
 
             Prodn1 prodn1 = prodn1Map.get(n1);
+
+            if (prodn1 == null) {
+                LOGGER.warn("Prodn1 " + n1 + " doesn't exist.");
+
+                continue;
+            }
+
 
             data.setProdn1(prodn1);
 

@@ -255,7 +255,6 @@ export class ApkFormComponent implements OnInit {
 
     this.filteredAo3Options = ao3FormControl.valueChanges // Side effect
       .startWith(null)
-      // .map(ao3 => ao3 && typeof ao3 === 'object' ? ao3.foretagsnamn : ao3)
       .map((name: string) => name ? this.filterAo3(name) : this.allAo3s.slice());
 
     let map: Map<string, Ao3> = new Map();

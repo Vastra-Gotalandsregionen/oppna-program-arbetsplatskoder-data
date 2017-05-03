@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Http} from '@angular/http';
 import {Data} from '../../model/data';
+import {AuthService} from "../../core/auth/auth.service";
 
 @Component({
   selector: 'app-apk-detail',
@@ -14,7 +15,8 @@ export class ApkDetailComponent implements OnInit {
   data: Data;
 
   constructor(protected route: ActivatedRoute,
-              protected http: Http) { }
+              protected http: Http,
+              protected authService: AuthService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -35,4 +37,7 @@ export class ApkDetailComponent implements OnInit {
     return this.id;
   }
 
+  userHasEditPermission(data: Data) {
+    return this.authService.userHasDataEditPermission(data);
+  }
 }

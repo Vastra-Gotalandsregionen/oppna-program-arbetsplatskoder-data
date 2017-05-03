@@ -3,7 +3,7 @@
 </p>
 
 <div *ngIf="data">
-  <div>
+  <div *ngIf="userHasEditPermission(data)">
     <a routerLink="edit"><md-icon>edit</md-icon></a>
   </div>
   <div>

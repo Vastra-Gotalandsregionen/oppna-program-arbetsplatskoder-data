@@ -2,3 +2,5 @@ ldap.service.user.dn=
 ldap.service.user.password=
 ldap.search.base=
 ldap.url=
+
+jwt.sign.secret=

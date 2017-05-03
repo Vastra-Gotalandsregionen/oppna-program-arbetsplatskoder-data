@@ -14,7 +14,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.json.LoginRequest;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
 import se.vgregion.arbetsplatskoder.service.LdapLoginService;
-import se.vgregion.arbetsplatskoder.util.JwtUtil;
+import se.vgregion.arbetsplatskoder.service.JwtUtil;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.servlet.http.HttpServletRequest;

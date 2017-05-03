@@ -66,6 +66,10 @@ export class AuthService {
   }
 
   userHasDataEditPermission(data: Data) {
+    if (this.getLoggedInRole() === 'ADMIN') {
+      return true;
+    }
+
     // todo Is this the best way to check this? No more robust way than using "startsWith()"?
     if (this.jwtToken && this.jwtToken.prodn1s) {
       let matchArr: string[] = (<string[]>this.jwtToken.prodn1s)

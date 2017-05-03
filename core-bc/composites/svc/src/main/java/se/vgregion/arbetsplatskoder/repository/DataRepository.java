@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,4 +23,6 @@ public interface DataRepository extends JpaRepository<Data, Integer> {
     Page<Data> advancedSearchByProdn1In(@Param("field1") String field1, @Param("prodn1s") Set<Prodn1> prodn1s, Pageable page);
 
     Page<Data> findAllByProdn1In(Set<Prodn1> prodn1s, Pageable page);
+
+    List<Data> findAllByProdn1IsNull();
 }

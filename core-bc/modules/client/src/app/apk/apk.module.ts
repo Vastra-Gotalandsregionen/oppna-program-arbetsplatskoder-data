@@ -6,6 +6,7 @@ import {ApkCreateComponent} from "./apk-create/apk-create.component";
 import {ApkFormComponent} from "./apk-form/apk-form.component";
 import {ApkRoutingModule} from "./apk-routing.module";
 import {SharedModule} from "../shared/shared.module";
+import {UserHasDataPermissionGuard} from "./guard/user-has-data-permission.guard";
 
 @NgModule({
   imports: [
@@ -18,6 +19,9 @@ import {SharedModule} from "../shared/shared.module";
     ApkEditComponent,
     ApkCreateComponent,
     ApkFormComponent
+  ],
+  providers: [
+    UserHasDataPermissionGuard
   ]
 })
 export class ApkModule { }

@@ -23,7 +23,6 @@ export class JwtHttp extends Http {
 
   request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
     let token = this.authService.jwt;
-    debugger;
     if (token) {
       if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
         if (!options) {

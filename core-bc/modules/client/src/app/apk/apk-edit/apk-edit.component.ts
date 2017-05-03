@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApkDetailComponent} from "../apk-detail/apk-detail.component";
 import {Http} from "@angular/http";
 import {ActivatedRoute} from "@angular/router";
+import {AuthService} from "../../core/auth/auth.service";
 
 @Component({
   selector: 'app-apk-edit',
@@ -10,9 +11,10 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ApkEditComponent extends ApkDetailComponent implements OnInit {
 
-  constructor(protected route: ActivatedRoute,
-              protected http: Http) {
-    super(route, http);
+  constructor(route: ActivatedRoute,
+              http: Http,
+              authService: AuthService) {
+    super(route, http, authService);
   }
 
   ngOnInit() {
