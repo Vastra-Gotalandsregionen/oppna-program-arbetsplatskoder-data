@@ -76,7 +76,9 @@ public class DataController {
         Page<Data> result;
         if (query != null && query.length() > 0) {
             if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
-                result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
+                Set<Prodn1> prodn1s = getUserProdn1s();
+
+                result = dataRepository.advancedSearchByProdn1In("%" + query.toLowerCase() + "%", prodn1s, pageable);
             } else {
                 result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
             }
