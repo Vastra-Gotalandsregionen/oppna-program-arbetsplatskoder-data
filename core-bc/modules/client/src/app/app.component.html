@@ -1,54 +1,89 @@
 <md-progress-bar *ngIf="showProgress" mode="indeterminate"></md-progress-bar>
 
-<md-toolbar class="header">
-  <button md-mini-fab class="menu-toggle" (click)="sidenav.toggle()">
-    <md-icon>menu</md-icon>
-  </button>
 
-  <div style="position: absolute; right: 20px;">
-    <span *ngIf="getLoggedInDisplayName()">Inloggad som: {{getLoggedInDisplayName()}}</span>
-    <span *ngIf="!getLoggedInDisplayName()"><button md-button (click)="openLogin()">Logga in</button> </span>
-    <span *ngIf="getLoggedInDisplayName()"><button md-button (click)="logout()">Logga ut</button> </span>
+<div class="header">
+  <div class="retain-contain">
+
+    <md-toolbar class="">
+        <button md-mini-fab class="menu-toggle" (click)="sidenav.toggle()">
+          <md-icon>menu</md-icon>
+        </button>
+
+        <div class="header-toolbar-spacer"></div>
+
+        <div class="header-controls">
+          <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
+            <span class="user-avatar" style="background-image: url(/assets/images/avatar-temp/shiba1.jpg)"></span>
+          </span>
+
+          <!--
+          <span *ngIf="getLoggedInDisplayName()" class="header-control-item">Inloggad som: {{getLoggedInDisplayName()}}</span>
+          -->
+          <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
+            {{getLoggedInDisplayName()}}
+          </span>
+          <span *ngIf="!getLoggedInDisplayName()" class="header-control-item">
+            <button md-button (click)="openLogin()"><md-icon>lock</md-icon> Logga in</button>
+          </span>
+          <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
+            <button md-button (click)="logout()"><md-icon>lock_open</md-icon> Logga ut</button>
+          </span>
+        </div>
+    </md-toolbar>
+
   </div>
-</md-toolbar>
+</div>
 
-<md-sidenav-container class="example-container">
-  <md-sidenav class="example-sidenav" #sidenav mode="side" opened="true">
-    <!-- sidenav content -->
-    <md-list>
-      <md-list-item>
-        <a routerLink="home" routerLinkActive="active">
-          <md-icon>home</md-icon>
-          <span class="nav-label">Hem</span>
-        </a>
-      </md-list-item>
-      <md-list-item>
-        <a routerLink="apk" routerLinkActive="active">
-          <md-icon>list</md-icon>
-          <span class="nav-label">Arbetsplatskoder</span>
-        </a>
-      </md-list-item>
-      <md-list-item *ngIf="admin">
-        <a routerLink="old-users" routerLinkActive="active">
-          <md-icon>people</md-icon>
-          <span class="nav-label">Användare (gamla)</span>
-        </a>
-      </md-list-item>
-      <md-list-item *ngIf="admin">
-        <a routerLink="users" routerLinkActive="active">
-          <md-icon>people</md-icon>
-          <span class="nav-label">Användare (nya)</span>
-        </a>
-      </md-list-item>
-    </md-list>
-  </md-sidenav>
+<div class="content">
 
-  <!-- primary content -->
+  <div class="retain-contain">
 
-  <router-outlet></router-outlet>
+    <md-sidenav-container class="example-container">
+      <md-sidenav class="example-sidenav" #sidenav mode="side" opened="true">
+        <!-- sidenav content -->
+        <md-list>
+          <md-list-item>
+            <a routerLink="home" routerLinkActive="active">
+              <md-icon>home</md-icon>
+              <span class="nav-label">Hem</span>
+            </a>
+          </md-list-item>
+          <md-list-item>
+            <a routerLink="apk" routerLinkActive="active">
+              <md-icon>list</md-icon>
+              <span class="nav-label">Arbetsplatskoder</span>
+            </a>
+          </md-list-item>
+          <md-list-item *ngIf="admin">
+            <a routerLink="old-users" routerLinkActive="active">
+              <md-icon>people</md-icon>
+              <span class="nav-label">Användare (gamla)</span>
+            </a>
+          </md-list-item>
+          <md-list-item *ngIf="admin">
+            <a routerLink="users" routerLinkActive="active">
+              <md-icon>people</md-icon>
+              <span class="nav-label">Användare (nya)</span>
+            </a>
+          </md-list-item>
+        </md-list>
+      </md-sidenav>
 
-</md-sidenav-container>
+      <!-- primary content -->
 
-<md-toolbar class="footer">
-  <img class="logo" src="/assets/images/vgr-logotyp-neg.png" alt="Logo VGR" />
-</md-toolbar>
+      <router-outlet></router-outlet>
+
+    </md-sidenav-container>
+
+  </div>
+
+</div>
+
+
+<div class="footer">
+  <div class="retain-contain">
+    <md-toolbar>
+      <img class="logo" src="/assets/images/vgr-logotyp-neg.png" alt="Logo VGR" />
+    </md-toolbar>
+  </div>
+</div>

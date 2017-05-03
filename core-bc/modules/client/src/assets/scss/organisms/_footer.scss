@@ -1,8 +1,13 @@
-.footer.mat-toolbar {
+.footer {
   background: $vgr-blue;
   color: #fff;
   padding-top: 20px;
   padding-bottom: 20px;
+
+  .mat-toolbar {
+    background: transparent;
+    color: #fff;
+  }
 
   .logo {
     margin: 0 auto;

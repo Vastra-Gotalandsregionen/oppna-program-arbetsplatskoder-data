@@ -2,11 +2,37 @@
   background: $vgr-blue;
   color: #fff;
 
+  .mat-toolbar {
+    background: transparent;
+    color: #fff;
+    font-size: 1.0em;
+    font-weight: normal;
+  }
+
   .menu-toggle {
     background: transparent;
     color: #fff;
     box-shadow: none;
     border-radius: 0;
+  }
+
+  .header-toolbar-spacer {
+    flex: 1 1 auto;
+  }
+
+  .header-controls {
+
+    .user-avatar {
+      height: 32px;
+      width: 32px;
+    }
+
+    .header-control-item {
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
   }
 
 

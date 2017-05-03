@@ -1,10 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'assets/scss/utilities/_variables';
+@import 'assets/scss/utilities/variables';
+
+@import 'assets/scss/utilities/scaffolding';
 
 @import 'assets/scss/_styles-old';
 
 @import 'assets/scss/atoms/body';
 @import 'assets/scss/atoms/links';
 
+@import 'assets/scss/molecules/user-avatar';
+
 @import 'assets/scss/organisms/footer';
+@import 'assets/scss/organisms/content';
 @import 'assets/scss/organisms/header';
