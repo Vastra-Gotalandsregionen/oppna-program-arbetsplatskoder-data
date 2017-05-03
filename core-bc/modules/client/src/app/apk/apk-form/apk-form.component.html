@@ -229,39 +229,45 @@
       </button> &nbsp;
       <span *ngIf="!apkForm.valid">{{saveMessage}}</span>
 
-      <pre style="
-      position: absolute;
-      top: 0;
-      right: 0;
-      max-width: 500px">
-  {{unitSearchResult | json}}
-  {{data | json}}
-      </pre>
+      <br /><hr /><br />
 
-      <!--<pre>dirty: {{ao3Control.dirty | json}}</pre>
-      <pre>invalid: {{ao3Control.invalid | json}}</pre>
-      <pre>pristine: {{ao3Control.pristine | json}}</pre>
-      <pre>status: {{ao3Control.status | json}}</pre>
-      <pre>touched: {{ao3Control.touched | json}}</pre>
-      <pre>untouched: {{ao3Control.untouched | json}}</pre>
-      <pre>value: {{ao3Control.value | json}}</pre>
-      <pre>errors: {{ao3Control.errors | json}}</pre>
-      <pre>valid: {{ao3Control.valid | json}}</pre>
-  -->
-      <!--<p>&nbsp;</p>-->
-      <!--<apkFormFormapkFormForm.checkValidity | json}}</pre>-->
-      <!--<pre>currentForm: {{currentForm | json}}</pre>-->
-
-      <md-card style="max-width: 500px;">
-        <pre>{{apkForm.value | json}}</pre>
-        <pre>{{apkForm.status}}</pre>
-        <pre>{{apkForm.controls}}</pre>
-        <pre>lankod touched: {{apkForm.controls.lankod.touched}}</pre>
-        <pre>{{apkForm.get('ao3').errors | json}}</pre>
-        <pre>{{apkForm.status}}</pre>
-        <pre>{{apkForm.errors}}</pre>
-        <pre>{{apkForm.pristine}}</pre>
+      <md-card>
+        <md-card-title>Debug - search results</md-card-title>
+        <md-card-content>
+          <pre>
+            {{unitSearchResult | json}}
+            {{data | json}}
+          </pre>
+          <!--<pre>dirty: {{ao3Control.dirty | json}}</pre>
+          <pre>invalid: {{ao3Control.invalid | json}}</pre>
+          <pre>pristine: {{ao3Control.pristine | json}}</pre>
+          <pre>status: {{ao3Control.status | json}}</pre>
+          <pre>touched: {{ao3Control.touched | json}}</pre>
+          <pre>untouched: {{ao3Control.untouched | json}}</pre>
+          <pre>value: {{ao3Control.value | json}}</pre>
+          <pre>errors: {{ao3Control.errors | json}}</pre>
+          <pre>valid: {{ao3Control.valid | json}}</pre>
+          -->
+          <!--<p>&nbsp;</p>-->
+          <!--<apkFormFormapkFormForm.checkValidity | json}}</pre>-->
+          <!--<pre>currentForm: {{currentForm | json}}</pre>-->
+        </md-card-content>
       </md-card>
+
+      <md-card>
+        <md-card-title>Debug info</md-card-title>
+        <md-card-content>
+          <pre>{{apkForm.value | json}}</pre>
+          <pre>{{apkForm.status}}</pre>
+          <pre>{{apkForm.controls}}</pre>
+          <pre>lankod touched: {{apkForm.controls.lankod.touched}}</pre>
+          <pre>{{apkForm.get('ao3').errors | json}}</pre>
+          <pre>{{apkForm.status}}</pre>
+          <pre>{{apkForm.errors}}</pre>
+          <pre>{{apkForm.pristine}}</pre>
+        </md-card-content>
+      </md-card>
+
     </div>
   </form>
 </div>

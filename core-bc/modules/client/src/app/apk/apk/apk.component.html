@@ -1,3 +1,7 @@
+<div class="action-panel action-panel-right">
+  <a routerLink="create" md-fab mdTooltip="Lägg till ny arbetsplatskod"><md-icon>add</md-icon></a>
+</div>
+
 <md-card class="example-card">
   <md-card-content>
 
@@ -5,7 +9,6 @@
       <input mdInput placeholder="Filtrera" [formControl]="stateCtrl" [(ngModel)]="query">
     </md-input-container>
 
-    <a routerLink="create" md-fab mdTooltip="Lägg till ny arbetsplatskod"><md-icon>add</md-icon></a>
   </md-card-content>
 </md-card>
 

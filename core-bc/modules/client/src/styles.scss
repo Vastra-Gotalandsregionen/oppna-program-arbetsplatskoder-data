@@ -6,10 +6,14 @@
 @import 'assets/scss/_styles-old';
 
 @import 'assets/scss/atoms/body';
+@import 'assets/scss/atoms/fieldset';
+@import 'assets/scss/atoms/legend';
 @import 'assets/scss/atoms/links';
 
+@import 'assets/scss/molecules/action-panel';
 @import 'assets/scss/molecules/user-avatar';
 
 @import 'assets/scss/organisms/footer';
 @import 'assets/scss/organisms/content';
 @import 'assets/scss/organisms/header';
+@import 'assets/scss/organisms/mat-sidenav';

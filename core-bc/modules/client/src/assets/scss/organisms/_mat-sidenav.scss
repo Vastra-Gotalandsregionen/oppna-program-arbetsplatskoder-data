@@ -1,0 +1,56 @@
+.mat-sidenav {
+  background: transparent;
+  border: none;
+  padding: 10px;
+
+  .mat-list {
+    padding: 0;
+
+    .mat-list-item {
+      height: auto;
+
+      .mat-list-item-content {
+        height: auto;
+        padding: 0;
+      }
+
+    }
+  }
+
+  a,
+  a:visited {
+    display: block;
+    color: #333;
+    padding: 10px;
+    text-decoration: none;
+    width: 100%;
+
+    .mat-icon {
+      float: left;
+      margin-right: 10px;
+    }
+
+    .nav-label {
+      display: inline-block;
+      line-height: 24px;
+    }
+
+    // Clearfix
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    &.active {
+      background: #eee;
+      color: $vgr-blue;
+    }
+
+    &:hover {
+      background: #eee;
+    }
+
+  }
+
+}
