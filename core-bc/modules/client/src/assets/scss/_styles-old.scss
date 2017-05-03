@@ -1,6 +1,3 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
-
 .search-summary {
   //background: #eee;
   font-size: 0.9em;
@@ -32,25 +29,6 @@ div.mat-autocomplete-panel {
   max-width: none;
 }
 
-.submitted.ng-invalid {
-  .field-label, .mat-select-trigger {
-    color: red;
-  }
-}
-
-.apk-validate .ng-valid.ng-touched .mat-input-underline {
-  border-top-width: 2px;
-}
-
-.apk-validate .ng-valid.ng-touched .mat-select-underline {
-  background-color: green;
-  height: 2px;
-}
-
-.apk-validate .ng-valid.ng-touched .mat-input-underline,
-.apk-validate .ng-valid.ng-touched .mat-radio-outer-circle {
-  border-color: green;
-}
 
 table {
   td, th {
