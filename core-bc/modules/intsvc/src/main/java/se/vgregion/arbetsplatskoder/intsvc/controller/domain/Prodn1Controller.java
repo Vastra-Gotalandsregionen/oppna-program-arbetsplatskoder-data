@@ -1,7 +1,5 @@
 package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +13,12 @@ import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.repository.Prodn1Repository;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
-import se.vgregion.arbetsplatskoder.util.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+
+import static se.vgregion.arbetsplatskoder.intsvc.controller.util.HttpUtil.getUserIdFromRequest;
 
 @Controller
 @RequestMapping("/prodn1")
@@ -37,30 +36,21 @@ public class Prodn1Controller {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Prodn1>> getProdn1s() {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        HttpServletRequest request = this.request;
+
+        String userId = getUserIdFromRequest(request);
+
+        if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String jwtToken = authorizationHeader.substring("Bearer".length()).trim();
+        User user = userRepository.findOne(userId);
 
-        DecodedJWT jwt;
-        try {
-            jwt = JwtUtil.verify(jwtToken);
-
-            String userId = jwt.getSubject();
-
-            User user = userRepository.findOne(userId);
-
-            if (Role.ADMIN.equals(user.getRole())) {
-                return ResponseEntity.ok(prodn1Repository.findAllByOrderByForetagsnamn());
-            }
-
-            return ResponseEntity.ok(new ArrayList<>(user.getProdn1s()));
-
-        } catch (JWTVerificationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (Role.ADMIN.equals(user.getRole())) {
+            return ResponseEntity.ok(prodn1Repository.findAllByOrderByForetagsnamn());
         }
+
+        return ResponseEntity.ok(new ArrayList<>(user.getProdn1s()));
     }
 
     @RequestMapping(value = "/{producentid}", method = RequestMethod.GET)

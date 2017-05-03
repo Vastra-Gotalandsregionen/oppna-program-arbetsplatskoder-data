@@ -12,8 +12,8 @@
         <div class="header-toolbar-spacer"></div>
 
         <div class="header-controls">
-          <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
-            <span class="user-avatar" style="background-image: url(/assets/images/avatar-temp/shiba1.jpg)"></span>
+          <span *ngIf="getLoggedInUserId()" class="header-control-item">
+            <span class="user-avatar" [style.background-image]="userAvatarBackgroundImageStyle()"></span>
           </span>
 
           <!--

@@ -12,7 +12,10 @@ export class JwtHttp extends Http {
   constructor (backend: XHRBackend, options: RequestOptions, authService: AuthService) {
     let token = authService.jwt;
 
-    options.headers.set('Authorization', `Bearer ${token}`);
+    if (token) {
+      options.headers.set('Authorization', `Bearer ${token}`);
+    }
+
     super(backend, options);
 
     this.authService = authService;
@@ -20,16 +23,20 @@ export class JwtHttp extends Http {
 
   request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
     let token = this.authService.jwt;
-    if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
-      if (!options) {
-        // let's make option object
-        options = {headers: new Headers()};
+    debugger;
+    if (token) {
+      if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
+        if (!options) {
+          // let's make option object
+          options = {headers: new Headers()};
+        }
+        options.headers.set('Authorization', `Bearer ${token}`);
+      } else {
+        // we have to add the token to the url object
+        url.headers.set('Authorization', `Bearer ${token}`);
       }
-      options.headers.set('Authorization', `Bearer ${token}`);
-    } else {
-      // we have to add the token to the url object
-      url.headers.set('Authorization', `Bearer ${token}`);
     }
+
     return super.request(url, options);
   }
 }

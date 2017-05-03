@@ -46,4 +46,11 @@ public class UserController {
 
         return ResponseEntity.ok(user);
     }
+
+    @RequestMapping(value = "/{userId}/thumbnailPhoto", method = RequestMethod.GET, produces = "image/jpg")
+    public ResponseEntity<byte[]> getUserThumbnailPhoto(@PathVariable("userId") String userId) {
+        User user = userRepository.findOne(userId);
+
+        return ResponseEntity.ok(user.getThumbnailPhoto());
+    }
 }

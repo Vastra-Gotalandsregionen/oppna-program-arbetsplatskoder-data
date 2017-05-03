@@ -14,13 +14,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import se.vgregion.arbetsplatskoder.domain.jpa.Role;
+import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
+import se.vgregion.arbetsplatskoder.intsvc.controller.util.HttpUtil;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
+import se.vgregion.arbetsplatskoder.repository.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Random;
+import java.util.Set;
 import java.util.TimeZone;
 
 @Controller
@@ -30,12 +37,19 @@ public class DataController {
     @Autowired
     private DataRepository dataRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private HttpServletRequest request;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Page<Data> getDatas(@RequestParam(value = "page", required = false) Integer page,
                                @RequestParam(value = "query", required = false) String query,
                                @RequestParam(value = "sort", required = false) String sort,
-                               @RequestParam(value = "asc", required = false) boolean asc) throws NoSuchFieldException {
+                               @RequestParam(value = "asc", required = false) boolean asc,
+                               @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas) throws NoSuchFieldException {
 
         Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "sorteringskodProd").ignoreCase();
         Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "arbetsplatskod").ignoreCase();
@@ -61,12 +75,34 @@ public class DataController {
 
         Page<Data> result;
         if (query != null && query.length() > 0) {
-            result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
+            if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
+                result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
+            } else {
+                result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
+            }
         } else {
-            result = dataRepository.findAll(pageable);
+            if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
+                Set<Prodn1> prodn1s = getUserProdn1s();
+
+                result = dataRepository.findAllByProdn1In(prodn1s, pageable);
+            } else {
+                result = dataRepository.findAll(pageable);
+            }
         }
 
         return result;
+    }
+
+    private Set<Prodn1> getUserProdn1s() {
+        User user = getUser();
+
+        return user.getProdn1s();
+    }
+
+    private User getUser() {
+        String userIdFromRequest = HttpUtil.getUserIdFromRequest(request);
+
+        return userRepository.findOne(userIdFromRequest);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

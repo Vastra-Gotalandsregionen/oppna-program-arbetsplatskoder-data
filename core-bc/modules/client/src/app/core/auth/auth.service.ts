@@ -13,10 +13,10 @@ export class AuthService {
   constructor(private jwtHelper: JwtHelper,
               private http: Http,
               private router: Router) {
-    let sessionStorageToken = sessionStorage.getItem('apkJwtToken');
+    let localStorageToken = localStorage.getItem('apkJwtToken');
 
-    if (sessionStorageToken) {
-      this.jwt = sessionStorageToken;
+    if (localStorageToken) {
+      this.jwt = localStorageToken;
     }
 
     setInterval(() => {
@@ -40,18 +40,21 @@ export class AuthService {
     if (value) {
       this.jwtToken = this.jwtHelper.decodeToken(value);
 
-      sessionStorage.setItem('apkJwtToken', value);
+      localStorage.setItem('apkJwtToken', value);
     } else if (this.jwtToken) {
       this.router.navigate(['/']);
       this.jwtToken = null;
-      sessionStorage.removeItem('apkJwtToken');
+      localStorage.removeItem('apkJwtToken');
     }
-
 
   }
 
   resetAuth() {
     this.jwt = null;
+  }
+
+  getLoggedInUserId(): string {
+    return this.jwtToken ? this.jwtToken.sub : null;
   }
 
   getLoggedInDisplayName(): string {

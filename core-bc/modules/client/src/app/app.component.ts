@@ -4,6 +4,7 @@ import {MdDialog, MdDialogRef} from "@angular/material";
 import {LoginDialogComponent} from "./shared/login-dialog/login-dialog.component";
 import {AuthService} from "./core/auth/auth.service";
 import {Router} from "@angular/router";
+import {DomSanitizer, SafeStyle} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent {
 
   constructor(public authService: AuthService,
               private stateService: StateService,
+              private sanitizer: DomSanitizer,
               private dialog: MdDialog,
               private router: Router) {}
 
@@ -32,6 +34,14 @@ export class AppComponent {
 
   getLoggedInDisplayName() {
     return this.authService.getLoggedInDisplayName();
+  }
+
+  getLoggedInUserId(): string {
+    return this.authService.getLoggedInUserId();
+  }
+
+  userAvatarBackgroundImageStyle(): SafeStyle {
+    return this.sanitizer.bypassSecurityTrustStyle('url(/api/user/' + this.getLoggedInUserId() + '/thumbnailPhoto)');
   }
 
   get showProgress() {

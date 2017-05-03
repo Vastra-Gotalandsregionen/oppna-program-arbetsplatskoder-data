@@ -1,10 +1,13 @@
 package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "data")
@@ -43,6 +46,11 @@ public class Data extends AbstractEntity {
 
     @Column (name = "sorteringskod_best", nullable = true)
     private java.lang.String sorteringskodBest;
+
+    @JsonIgnore
+    @JoinColumn(name = "prodn1")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Prodn1 prodn1;
 
     @Column (name = "benamning", nullable = true)
     private java.lang.String benamning;
@@ -203,6 +211,14 @@ public class Data extends AbstractEntity {
 
     public void setSorteringskodProd(java.lang.String v){
         this.sorteringskodProd = v;
+    }
+
+    public Prodn1 getProdn1() {
+        return prodn1;
+    }
+
+    public void setProdn1(Prodn1 prodn1) {
+        this.prodn1 = prodn1;
     }
 
     public java.lang.String getSorteringskodBest(){

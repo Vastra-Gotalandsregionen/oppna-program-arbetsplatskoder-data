@@ -44,6 +44,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column
+    private byte[] thumbnailPhoto;
+
     public String getId() {
         return id;
     }
@@ -98,5 +101,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void setThumbnailPhoto(byte[] thumbnailPhoto) {
+        this.thumbnailPhoto = thumbnailPhoto;
+    }
+
+    public byte[] getThumbnailPhoto() {
+        return thumbnailPhoto;
     }
 }

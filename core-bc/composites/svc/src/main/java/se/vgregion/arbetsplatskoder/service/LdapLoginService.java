@@ -13,13 +13,13 @@ import javax.naming.CommunicationException;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import javax.security.auth.login.AccountNotFoundException;
 import javax.security.auth.login.FailedLoginException;
-import java.util.HashSet;
 import java.util.Properties;
 
 /**
@@ -80,6 +80,11 @@ public class LdapLoginService {
                 user.setMail((String) (result).getAttributes().get("mail").get());
                 user.setDisplayName((String) (result).getAttributes().get("displayName").get());
 
+                Attribute thumbnailPhoto = result.getAttributes().get("thumbnailPhoto");
+                if (thumbnailPhoto != null) {
+                    user.setThumbnailPhoto((byte[]) thumbnailPhoto.get());
+                }
+
                 // The first user to register will be admin.
                 if (userRepository.findAll().size() == 0) {
                     user.setRole(Role.ADMIN);
@@ -87,7 +92,7 @@ public class LdapLoginService {
                     user.setRole(Role.USER);
                 }
 
-                user = syncUser(user, result);
+                user = syncUser(user);
 
                 return user;
             } else {
@@ -125,7 +130,7 @@ public class LdapLoginService {
         String identifier = username;
 
         // we don't need all attributes, just let it get the identifying one
-        String[] attributeFilter = {identifyingAttribute, "givenName", "mail", "sn", "displayName"};
+        String[] attributeFilter = {identifyingAttribute, "givenName", "mail", "sn", "displayName", "thumbnailPhoto"};
         SearchControls sc = new SearchControls();
         sc.setReturningAttributes(attributeFilter);
         sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
@@ -145,20 +150,14 @@ public class LdapLoginService {
         return new InitialDirContext(serviceEnv);
     }
 
-    private User syncUser(User user, SearchResult result) throws NamingException {
+    private User syncUser(User user) throws NamingException {
 
         User foundUser = userRepository.findOne(user.getId());
 
         if (foundUser != null) {
-            // Keep role...
+            // Keep these...
             user.setRole(foundUser.getRole());
-
-            // ... but update these.
-            user.setProdn1s(new HashSet<>(foundUser.getProdn1s()));
-            user.setFirstName((String) (result).getAttributes().get("givenName").get());
-            user.setLastName((String) (result).getAttributes().get("sn").get());
-            user.setMail((String) (result).getAttributes().get("mail").get());
-            user.setDisplayName((String) (result).getAttributes().get("displayName").get());
+            user.setProdn1s(foundUser.getProdn1s());
 
             return userRepository.save(user);
         } else {

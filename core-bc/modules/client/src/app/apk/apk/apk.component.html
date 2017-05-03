@@ -11,6 +11,7 @@
       <input mdInput placeholder="Filtrera" [formControl]="stateCtrl" [(ngModel)]="query">
     </md-input-container>
 
+    <md-checkbox [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Visa endast <span class="tooltip-text" mdTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></md-checkbox>
   </md-card-content>
 
   <md-card-content>
