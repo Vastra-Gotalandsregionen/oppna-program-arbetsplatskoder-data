@@ -18,11 +18,13 @@ import {HttpModule, XHRBackend, RequestOptions} from "@angular/http";
     StateService,
     {
       provide: JwtHttp,
-      useFactory: (backend: XHRBackend, options: RequestOptions, authService: AuthService) => {
-        return new JwtHttp(backend, options, authService);
-      },
+      useFactory: JwtHttpFactory,
       deps: [XHRBackend, RequestOptions, AuthService]
     }
   ]
 })
 export class CoreModule { }
+
+export function JwtHttpFactory(backend: XHRBackend, options: RequestOptions, authService: AuthService) {
+  return new JwtHttp(backend, options, authService);
+}
