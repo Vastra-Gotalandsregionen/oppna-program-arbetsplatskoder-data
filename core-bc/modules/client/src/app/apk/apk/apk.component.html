@@ -1,18 +1,18 @@
-<div class="action-panel action-panel-right">
-  <a routerLink="create" md-fab mdTooltip="Lägg till ny arbetsplatskod"><md-icon>add</md-icon></a>
-</div>
 
-<md-card class="example-card">
+<md-card>
+
   <md-card-content>
+
+    <div class="action-panel action-panel-right">
+      <a routerLink="create" md-fab mdTooltip="Lägg till ny arbetsplatskod"><md-icon>add</md-icon></a>
+    </div>
 
     <md-input-container>
       <input mdInput placeholder="Filtrera" [formControl]="stateCtrl" [(ngModel)]="query">
     </md-input-container>
 
   </md-card-content>
-</md-card>
 
-<md-card>
   <md-card-content>
     <table *ngIf="response">
       <thead>
