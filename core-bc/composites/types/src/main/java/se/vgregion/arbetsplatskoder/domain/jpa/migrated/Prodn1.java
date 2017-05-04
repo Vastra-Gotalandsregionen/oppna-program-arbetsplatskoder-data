@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "prodn1")
+@Table(name = "prodn1", uniqueConstraints = {@UniqueConstraint(columnNames = {"producentid"})})
 public class Prodn1 extends AbstractEntity {
 
     @Id

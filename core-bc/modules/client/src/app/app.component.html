@@ -66,6 +66,12 @@
               <span class="nav-label">Användare (nya)</span>
             </a>
           </md-list-item>
+          <md-list-item *ngIf="admin">
+            <a routerLink="prodn1" routerLinkActive="active">
+              <md-icon>list</md-icon>
+              <span class="nav-label">Summeringsnivå 1</span>
+            </a>
+          </md-list-item>
         </md-list>
       </md-sidenav>
 

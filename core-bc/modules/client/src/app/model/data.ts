@@ -36,4 +36,5 @@ export class Data {
   ssmaTimestamp: string;
   vgpv: string;
   hsaid: string;
+  userIdNew: string;
 }

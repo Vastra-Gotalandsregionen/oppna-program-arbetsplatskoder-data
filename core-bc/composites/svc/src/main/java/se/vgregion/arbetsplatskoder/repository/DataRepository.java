@@ -24,5 +24,7 @@ public interface DataRepository extends JpaRepository<Data, Integer> {
 
     Page<Data> findAllByProdn1In(Set<Prodn1> prodn1s, Pageable page);
 
+    List<Data> findAllByProdn1In(Set<Prodn1> prodn1s);
+
     List<Data> findAllByProdn1IsNull();
 }

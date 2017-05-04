@@ -95,7 +95,7 @@ public class Data extends AbstractEntity {
     private java.lang.String ersattav;
 
     @Column (name = "user_id", nullable = true)
-    private java.lang.String userId;
+    private java.lang.Integer userId;
 
     @Column (name = "arbetsplatskodlan", nullable = true)
     private java.lang.String arbetsplatskodlan;
@@ -132,6 +132,9 @@ public class Data extends AbstractEntity {
 
     @Column (name = "hsaid", nullable = true)
     private java.lang.String hsaid;
+
+    @Column
+    private String userIdNew;
 
     public java.lang.Integer getId(){
         return id;
@@ -333,11 +336,11 @@ public class Data extends AbstractEntity {
         this.ersattav = v;
     }
 
-    public java.lang.String getUserId(){
+    public java.lang.Integer getUserId(){
         return userId;
     }
 
-    public void setUserId(java.lang.String v){
+    public void setUserId(java.lang.Integer v){
         this.userId = v;
     }
 
@@ -438,4 +441,11 @@ public class Data extends AbstractEntity {
     }
 
 
+    public void setUserIdNew(String userIdNew) {
+        this.userIdNew = userIdNew;
+    }
+
+    public String getUserIdNew() {
+        return userIdNew;
+    }
 }

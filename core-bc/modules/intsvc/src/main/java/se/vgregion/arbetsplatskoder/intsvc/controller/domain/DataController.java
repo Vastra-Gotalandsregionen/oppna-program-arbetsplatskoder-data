@@ -129,7 +129,7 @@ public class DataController {
             data.setArbetsplatskod(Math.abs(random.nextInt()) + "");
         }
 
-        data.setUserId(user.getId());
+        data.setUserIdNew(user.getId());
 
         data.setSsmaTimestamp(new Byte[]{0x00});
 

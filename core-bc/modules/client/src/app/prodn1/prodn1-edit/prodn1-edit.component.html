@@ -1,0 +1,47 @@
+<div *ngIf="prodn1Form; else loading">
+  <h4>Redigera {{prodn1.foretagsnamn || 'Ny'}}</h4>
+
+  <form #formRef="ngForm" [formGroup]="prodn1Form" (ngSubmit)="save()" novalidate>
+
+    <div>
+      <md-input-container>
+        <input placeholder="ID" type="text" mdInput formControlName="id"/>
+      </md-input-container>
+    </div>
+
+    <div>
+      <md-input-container>
+        <input placeholder="Företagsnamn" type="text" mdInput formControlName="foretagsnamn"/>
+      </md-input-container>
+    </div>
+
+    <div>
+      <md-input-container>
+        <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
+      </md-input-container>
+    </div>
+
+    <div>
+      <md-input-container>
+        <input placeholder="Producent-ID" type="text" mdInput formControlName="producentid"/>
+      </md-input-container>
+    </div>
+
+    <div>
+      <md-checkbox formControlName="raderad">Raderad</md-checkbox>
+    </div>
+
+    <div>
+      <button type="submit"
+              [disabled]="prodn1Form.pristine" md-raised-button class="btn btn-success">Spara
+      </button> &nbsp;
+      <button type="button"
+              [disabled]="prodn1Form.pristine" md-raised-button class="btn" (click)="resetForm()">Återställ
+      </button> &nbsp;
+      {{saveMessage}}
+    </div>
+  </form>
+
+</div>
+
+<ng-template #loading>Läser in...</ng-template>

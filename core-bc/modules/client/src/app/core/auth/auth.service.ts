@@ -22,12 +22,14 @@ export class AuthService {
     setInterval(() => {
       if (this._jwt) {
         this.http.post('/api/login/renew', this._jwt)
+          .retryWhen(errors => errors.delay(10000))
+          .take(10)
           .subscribe(
             response => this.jwt = response.text(),
             error => this.jwt = null
           );
       }
-    }, 10000);
+    }, 20000);
   }
 
   get jwt(): string {
