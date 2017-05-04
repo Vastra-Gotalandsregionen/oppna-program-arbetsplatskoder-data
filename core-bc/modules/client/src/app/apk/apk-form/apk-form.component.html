@@ -8,6 +8,7 @@
       </md-card-header>
 
       <md-card-content>
+
         <md-radio-group formControlName="agarform">
           <md-radio-button value="1">Landsting</md-radio-button>
           <md-radio-button value="2">Kommun</md-radio-button>
@@ -18,7 +19,9 @@
           <md-radio-button value="7">Kommunförbund</md-radio-button>
           <md-radio-button value="8">Övrigt</md-radio-button>
         </md-radio-group>
+
       </md-card-content>
+
     </md-card>
 
     <md-card [@slideIn]="apkForm.value.agarform === '1' || apkForm.value.agarform === '4' || apkForm.value.agarform === '5' || apkForm.value.agarform === '6' ? 'in' :'out'" class="example-card">
@@ -29,7 +32,6 @@
         </md-input-container>
 
         <md-autocomplete class="autocomplete" #unitAutocompleteRef="mdAutocomplete" [displayWith]="displayUnitFn">
-          <!--<md-option class="md-option" *ngFor="let unit of unitSearchResult" [value]="unit" (onSelectionChange)="selectUnit(unit)">-->
           <md-option class="md-option" *ngFor="let unit of unitSearchResult" [value]="unit">
             {{unit.dn}}
           </md-option>
@@ -45,6 +47,7 @@
       </md-card-content>
     </md-card>
 
+
     <div class="apk-validate">
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
@@ -52,18 +55,11 @@
             <input placeholder="Arbetsplatskod" type="text" mdInput formControlName="arbetsplatskod">
           </md-input-container>
 
-          <!--
-          <md-chip-list>
-            <md-chip color="primary">Från KIV</md-chip>
-          </md-chip-list>
-          -->
-
           <md-input-container>
             <input placeholder="Län" type="text" mdInput formControlName="lankod">
           </md-input-container>
 
           <md-input-container>
-            <!--<input placeholder="Ao3" type="text" mdInput [formControl]="ao3Control" [mdAutocomplete]="ao3AutocompleteRef"-->
             <input placeholder="Ao3" type="text" mdInput [mdAutocomplete]="ao3AutocompleteRef"
                    formControlName="ao3">
           </md-input-container>
@@ -110,6 +106,7 @@
 
         </md-card-content>
       </md-card>
+
 
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>

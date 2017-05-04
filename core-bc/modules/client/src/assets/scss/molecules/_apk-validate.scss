@@ -1,0 +1,23 @@
+.apk-validate {
+
+  .submitted.ng-invalid {
+    .field-label, .mat-select-trigger {
+      color: red;
+    }
+  }
+
+  .ng-valid.ng-touched .mat-input-underline {
+    border-top-width: 2px;
+  }
+
+  .ng-valid.ng-touched .mat-select-underline {
+    background-color: green;
+    height: 2px;
+  }
+
+  .ng-valid.ng-touched .mat-input-underline,
+  .ng-valid.ng-touched .mat-radio-outer-circle {
+    border-color: green;
+  }
+
+}

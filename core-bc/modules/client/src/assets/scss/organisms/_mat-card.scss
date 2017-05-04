@@ -1,0 +1,17 @@
+.mat-card {
+
+  .mat-divider {
+
+    &.full-bleed {
+      margin-left: -24px;
+      margin-right: -24px;
+    }
+
+    &.space-vertical {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+  }
+
+}
