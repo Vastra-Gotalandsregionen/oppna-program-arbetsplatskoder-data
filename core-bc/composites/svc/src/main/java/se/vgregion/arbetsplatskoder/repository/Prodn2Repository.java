@@ -1,5 +1,6 @@
 package se.vgregion.arbetsplatskoder.repository;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn2;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface Prodn2Repository extends JpaRepository<Prodn2, Integer> {
 
-    List<Prodn2> findAllByN1Equals(String n1);
+    List<Prodn2> findAllByN1Equals(String n1, Sort sort);
 
     Prodn2 findProdn2ByProducentidEquals(String producentId);
 }

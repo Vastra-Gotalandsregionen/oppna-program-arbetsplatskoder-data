@@ -1,3 +1,71 @@
-<p>
-  prodn2-edit works!
-</p>
+<md-card>
+  <md-card-content>
+
+    <div *ngIf="prodn2Form; else loading">
+      <h4>Redigera {{prodn2.avdelning || 'Ny'}}</h4>
+
+      <form #formRef="ngForm" [formGroup]="prodn2Form" (ngSubmit)="save()" novalidate (autocomplete)="false">
+
+        <div>
+          <md-input-container>
+            <input placeholder="ID" type="text" mdInput formControlName="id"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Avdelning" type="text" mdInput formControlName="avdelning"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Producent-ID" type="text" mdInput formControlName="producentid"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="N1" type="text" mdInput formControlName="n1" [mdAutocomplete]="n1AutocompleteRef"/>
+          </md-input-container>
+
+          <md-autocomplete class="autocomplete" #n1AutocompleteRef="mdAutocomplete" [displayWith]="displayN1Fn">
+            <md-option class="md-option" *ngFor="let n1 of n1SearchResult$ | async" [value]="n1.producentid">
+              {{n1.producentid}} {{n1.foretagsnamn}}
+            </md-option>
+          </md-autocomplete>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Riktvärde (Ska vi ha detta?)" type="text" mdInput formControlName="riktvarde"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-checkbox formControlName="raderad">Raderad</md-checkbox>
+        </div>
+
+        <div>
+          <button type="submit"
+                  [disabled]="prodn2Form.pristine" md-raised-button class="btn btn-success">Spara
+          </button> &nbsp;
+          <button type="button"
+                  [disabled]="prodn2Form.pristine" md-raised-button class="btn" (click)="resetForm()">Återställ
+          </button> &nbsp;
+          {{saveMessage}}
+        </div>
+      </form>
+
+    </div>
+
+    <ng-template #loading>Läser in...</ng-template>
+
+  </md-card-content>
+</md-card>

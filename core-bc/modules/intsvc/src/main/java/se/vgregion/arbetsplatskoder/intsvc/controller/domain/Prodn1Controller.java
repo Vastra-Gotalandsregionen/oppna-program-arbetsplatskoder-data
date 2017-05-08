@@ -65,9 +65,9 @@ public class Prodn1Controller {
         if (Role.ADMIN.equals(user.getRole())) {
 
             if (producentid == null) {
-                result = prodn1Repository.findAllByOrderByForetagsnamn();
+                result = prodn1Repository.findAllByOrderByProducentidAsc();
             } else {
-                result = Arrays.asList(prodn1Repository.findProdn1ByProducentidEquals(producentid));
+                result = Arrays.asList(prodn1Repository.findProdn1ByProducentidEqualsOrderByProducentidAsc(producentid));
             }
 
         } else {
@@ -89,10 +89,16 @@ public class Prodn1Controller {
         return ResponseEntity.ok(result);
     }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Prodn1> searchProdn1s(@RequestParam(value = "query", required = false) String query) {
+        return prodn1Repository.search(query);
+    }
+
     @RequestMapping(value = "/{producentid}", method = RequestMethod.GET)
     @ResponseBody
     public Prodn1 getProdn1(@PathVariable(value = "producentid", required = true) String producentid) {
-        return prodn1Repository.findProdn1ByProducentidEquals(producentid);
+        return prodn1Repository.findProdn1ByProducentidEqualsOrderByProducentidAsc(producentid);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
