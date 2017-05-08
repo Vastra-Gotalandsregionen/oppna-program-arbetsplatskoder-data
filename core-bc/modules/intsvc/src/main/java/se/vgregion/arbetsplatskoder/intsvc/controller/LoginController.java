@@ -38,7 +38,12 @@ public class LoginController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         try {
-            User user = ldapLoginService.login(loginRequest.getUsername(), loginRequest.getPassword());
+            User user = null;
+            if (request.getHeader("iv-user") != null) { // TODO Remove before production.
+                user = ldapLoginService.loginOffline(request.getHeader("iv-user"));
+            } else {
+                user = ldapLoginService.login(loginRequest.getUsername(), loginRequest.getPassword());
+            }
 
             String token = JwtUtil.createToken(user.getId(), user.getDisplayName(), user.getRole().name(),
                     user.getProdn1s());

@@ -22,6 +22,16 @@ export class AuthService {
     setInterval(() => {
       if (this._jwt) {
         this.http.post('/api/login/renew', this._jwt)
+          .subscribe(
+            response => this.jwt = response.text(),
+            error => this.jwt = null
+          );
+      }
+    }, 60000);
+
+    /*setInterval(() => {
+      if (this._jwt) {
+        this.http.post('/api/login/renew', this._jwt)
           .retryWhen(errors => errors.delay(10000))
           .take(10)
           .subscribe(
@@ -29,7 +39,7 @@ export class AuthService {
             error => this.jwt = null
           );
       }
-    }, 20000);
+    }, 20000);*/
   }
 
   get jwt(): string {

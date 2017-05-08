@@ -53,6 +53,10 @@ public class LdapLoginService {
         return login(username, null, false);
     }
 
+    public User loginOffline(String username) throws FailedLoginException {
+        return userRepository.findOne(username);
+    }
+
     private User login(String username, String password, boolean verifyPassword) throws FailedLoginException {
         username = username.trim().toLowerCase();
 

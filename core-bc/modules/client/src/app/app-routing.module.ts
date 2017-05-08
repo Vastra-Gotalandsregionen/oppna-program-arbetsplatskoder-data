@@ -31,6 +31,11 @@ const routes: Routes = [
         loadChildren: './prodn1/prodn1.module#Prodn1Module'
       },
       {
+        path: 'prodn2',
+        canActivate: [AdminGuard],
+        loadChildren: './prodn2/prodn2.module#Prodn2Module'
+      },
+      {
         path: '**',
         redirectTo: 'home'
       }

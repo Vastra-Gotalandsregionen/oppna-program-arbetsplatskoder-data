@@ -21,6 +21,7 @@ import se.vgregion.arbetsplatskoder.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +48,8 @@ public class Prodn1Controller {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Prodn1>> getProdn1s(
-            @RequestParam(value = "orphan", defaultValue = "false") boolean orphan) {
+            @RequestParam(value = "orphan", defaultValue = "false") boolean orphan,
+            @RequestParam(value = "producentid", required = false) String producentid) {
 
         HttpServletRequest request = this.request;
 
@@ -61,7 +63,13 @@ public class Prodn1Controller {
 
         List<Prodn1> result;
         if (Role.ADMIN.equals(user.getRole())) {
-            result = prodn1Repository.findAllByOrderByForetagsnamn();
+
+            if (producentid == null) {
+                result = prodn1Repository.findAllByOrderByForetagsnamn();
+            } else {
+                result = Arrays.asList(prodn1Repository.findProdn1ByProducentidEquals(producentid));
+            }
+
         } else {
             result = new ArrayList<>(user.getProdn1s());
         }
@@ -70,7 +78,7 @@ public class Prodn1Controller {
             Iterator<Prodn1> iterator = result.iterator();
 
             while (iterator.hasNext()) {
-                HashSet<Prodn1> prodn1s = new HashSet<>(Arrays.asList(iterator.next()));
+                HashSet<Prodn1> prodn1s = new HashSet<>(Collections.singletonList(iterator.next()));
                 List<Data> allByProdn1In = dataRepository.findAllByProdn1In(prodn1s);
                 if (allByProdn1In.size() > 0) {
                     iterator.remove();
