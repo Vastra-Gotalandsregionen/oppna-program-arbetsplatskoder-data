@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
-  MdAutocompleteModule, MdButtonModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdDialogModule, MdIconModule,
+  MdAutocompleteModule, MdButtonModule, MdButtonToggleModule,
+  MdCardModule, MdCheckboxModule, MdChipsModule, MdDialogModule, MdIconModule,
   MdInputModule,
   MdListModule, MdProgressBarModule,
   MdRadioModule, MdSelectModule,
@@ -17,6 +18,7 @@ import {
     MdToolbarModule,
     MdListModule,
     MdButtonModule,
+    MdButtonToggleModule,
     MdCardModule,
     MdRadioModule,
     MdTooltipModule,
@@ -36,6 +38,7 @@ import {
     MdToolbarModule,
     MdListModule,
     MdButtonModule,
+    MdButtonToggleModule,
     MdCardModule,
     MdRadioModule,
     MdTooltipModule,

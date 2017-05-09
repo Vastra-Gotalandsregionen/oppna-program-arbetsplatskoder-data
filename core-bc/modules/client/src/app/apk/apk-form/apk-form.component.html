@@ -3,12 +3,14 @@
         novalidate>
 
     <md-card class="example-card">
-      <md-card-header>
-        <md-card-title>Ägarform</md-card-title>
-      </md-card-header>
-
       <md-card-content>
 
+        <!--
+        -->
+        <h3>Välj ägarform</h3>
+
+        <!--
+        -->
         <md-radio-group formControlName="agarform">
           <md-radio-button value="1">Landsting</md-radio-button>
           <md-radio-button value="2">Kommun</md-radio-button>
@@ -20,14 +22,46 @@
           <md-radio-button value="8">Övrigt</md-radio-button>
         </md-radio-group>
 
+
+
+        <!--
+        <md-button-toggle-group formControlName="agarform">
+          <md-button-toggle value="1">Landsting</md-button-toggle>
+          <md-button-toggle value="2">Kommun</md-button-toggle>
+          <md-button-toggle value="3">Statlig</md-button-toggle>
+          <md-button-toggle value="4">Privat, vårdavtal</md-button-toggle>
+          <md-button-toggle value="5">Privat, enl lag om läkarvårdsersättning</md-button-toggle>
+          <md-button-toggle value="6">Privat, utan offentlig finansiering</md-button-toggle>
+          <md-button-toggle value="7">Kommunförbund</md-button-toggle>
+          <md-button-toggle value="8">Övrigt</md-button-toggle>
+        </md-button-toggle-group>
+        -->
+
+        <!--
+
+        <md-select placeholder="Ägarform" formControlName="agarform" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+          <md-option class="md-option" value="1">Landsting</md-option>
+          <md-option class="md-option" value="2">Kommun</md-option>
+          <md-option class="md-option" value="3">Statlig</md-option>
+          <md-option class="md-option" value="4">Privat, vårdavtal</md-option>
+          <md-option class="md-option" value="5">Privat, enl lag om läkarvårdsersättning</md-option>
+          <md-option class="md-option" value="6">Privat, utan offentlig finansiering</md-option>
+          <md-option class="md-option" value="7">Kommunförbund</md-option>
+          <md-option class="md-option" value="8">Övrigt</md-option>
+        </md-select>
+        -->
+
       </md-card-content>
 
     </md-card>
 
     <md-card [@slideIn]="apkForm.value.agarform === '1' || apkForm.value.agarform === '4' || apkForm.value.agarform === '5' || apkForm.value.agarform === '6' ? 'in' :'out'" class="example-card">
+
       <md-card-content>
+        <h3>Sök efter enhet i KIV</h3>
+
         <md-input-container>
-          <input placeholder="Sök enhet" type="text" mdInput [mdAutocomplete]="unitAutocompleteRef"
+          <input placeholder="Skriv in enhetsnamn / verksamhetsnamn etc" type="text" mdInput [mdAutocomplete]="unitAutocompleteRef"
                  formControlName="unitSearch">
         </md-input-container>
 
@@ -45,19 +79,20 @@
         </div>
 
       </md-card-content>
+
+
+      <md-card-content [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+      </md-card-content>
+
     </md-card>
 
 
     <div class="apk-validate">
+
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
-          <md-input-container>
-            <input placeholder="Arbetsplatskod" type="text" mdInput formControlName="arbetsplatskod">
-          </md-input-container>
 
-          <md-input-container>
-            <input placeholder="Län" type="text" mdInput formControlName="lankod">
-          </md-input-container>
+          <h3>Välj verksamhetstyp och koder</h3>
 
           <md-input-container>
             <input placeholder="Ao3" type="text" mdInput [mdAutocomplete]="ao3AutocompleteRef"
@@ -110,6 +145,9 @@
 
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
+
+          <h3>Välj sorteringsnivå</h3>
+
           <div>
             <md-select placeholder="Sorteringsnivå 1" formControlName="sorteringsniva1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1.producentid">
@@ -138,6 +176,13 @@
 
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
+
+          <h3>Ange kontaktuppgifter</h3>
+
+          <md-input-container>
+            <input placeholder="Län" type="text" mdInput formControlName="lankod">
+          </md-input-container>
+
           <md-input-container>
             <input placeholder="Benämning/enhetsnamn - Tas från KIV? +att man måste ha kortnamn för att det ska gå igenom i Concise"
               type="text" mdInput formControlName="benamning" name="banamning">
@@ -153,7 +198,7 @@
           </md-input-container>
 
           <md-input-container>
-            <input placeholder="postort" type="text" mdInput formControlName="postort">
+            <input placeholder="Postort" type="text" mdInput formControlName="postort">
           </md-input-container>
           </div>
         </md-card-content>
@@ -218,6 +263,22 @@
 
       </md-card>
 
+      <md-card class="example-card" [@slideIn]="data.arbetsplatskod ? 'in' : 'out'">
+        <md-card-content>
+
+          <h3>Enhetens arbetsplatskod</h3>
+
+          <p>{{ data.arbetsplatskod }} </p>
+          <!--
+          <md-input-container>
+            <input placeholder="Arbetsplatskod" type="text" mdInput formControlName="arbetsplatskod">
+          </md-input-container>
+          -->
+
+        </md-card-content>
+      </md-card>
+
+
       <button type="submit"
               [disabled]="apkForm.pristine" md-raised-button class="btn btn-success">Spara
       </button> &nbsp;
@@ -226,7 +287,9 @@
       </button> &nbsp;
       <span *ngIf="!apkForm.valid">{{saveMessage}}</span>
 
-      <br /><hr /><br />
+      <br />
+      <hr />
+      <br />
 
       <md-card>
         <md-card-title>Debug - search results</md-card-title>
