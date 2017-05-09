@@ -8,6 +8,7 @@
 
     .mat-list-item {
       height: auto;
+      //padding: 5px 0;
 
       .mat-list-item-content {
         height: auto;
@@ -20,14 +21,21 @@
   a,
   a:visited {
     display: block;
-    color: #333;
-    padding: 10px;
+    color: #222;
+    padding: 12px;
     text-decoration: none;
     width: 100%;
 
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+
     .mat-icon {
+      color: #777;
       float: left;
-      margin-right: 10px;
+      min-width: 40px;
+      width: 40px;
+      margin-right: 20px;
     }
 
     .nav-label {
@@ -42,15 +50,34 @@
       clear: both;
     }
 
-    &.active {
-      background: #eee;
-      color: $vgr-blue;
-    }
-
     &:hover {
       background: #eee;
     }
 
+    &.active,
+    &.active:hover {
+      background: #eee;
+      color: $vgr-blue;
+
+      //background: $vgr-blue;
+      //background: #555;
+      //color: #fff;
+      font-weight: normal;
+
+      .mat-icon {
+        //color: #fff;
+        color: $vgr-blue;
+      }
+    }
+
+
   }
+
+  .mat-divider {
+    border-top-color: #ccc;
+    margin: 5px 0;
+    width: 100%;
+  }
+
 
 }
