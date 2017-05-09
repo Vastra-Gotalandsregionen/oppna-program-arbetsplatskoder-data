@@ -16,29 +16,9 @@ const routes: Routes = [
         loadChildren: './apk/apk.module#ApkModule'
       },
       {
-        path: 'old-users',
+        path: 'admin',
         canActivate: [AdminGuard],
-        loadChildren: './old-users/old-users.module#OldUsersModule'
-      },
-      {
-        path: 'users',
-        canActivate: [AdminGuard],
-        loadChildren: './users/users.module#UsersModule'
-      },
-      {
-        path: 'prodn1',
-        canActivate: [AdminGuard],
-        loadChildren: './prodn1/prodn1.module#Prodn1Module'
-      },
-      {
-        path: 'prodn2',
-        canActivate: [AdminGuard],
-        loadChildren: './prodn2/prodn2.module#Prodn2Module'
-      },
-      {
-        path: 'prodn3',
-        canActivate: [AdminGuard],
-        loadChildren: './prodn3/prodn3.module#Prodn3Module'
+        loadChildren: './admin/admin.module#AdminModule'
       },
       {
         path: '**',
