@@ -1,5 +1,5 @@
 export class Prodn3 {
-  autoradering:any;
+  autoradering: any;
   foretagsnamn: string;
   id: string;
   kortnamn: string;

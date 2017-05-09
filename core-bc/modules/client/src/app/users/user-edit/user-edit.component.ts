@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Http} from "@angular/http";
-import {ActivatedRoute} from "@angular/router";
+import {Http} from '@angular/http';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-user-edit',

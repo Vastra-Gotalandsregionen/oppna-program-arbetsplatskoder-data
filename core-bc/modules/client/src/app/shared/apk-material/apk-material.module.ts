@@ -7,7 +7,7 @@ import {
   MdRadioModule, MdSelectModule,
   MdSidenavModule, MdSnackBarModule,
   MdToolbarModule, MdTooltipModule
-} from "@angular/material";
+} from '@angular/material';
 
 @NgModule({
   imports: [

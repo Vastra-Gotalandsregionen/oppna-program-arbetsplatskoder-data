@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {JwtHttp} from "../../core/jwt-http";
-import {Observable} from "rxjs/Observable";
-import {Prodn1} from "../../model/prodn1";
-import {Response} from "@angular/http";
+import {JwtHttp} from '../../core/jwt-http';
+import {Observable} from 'rxjs/Observable';
+import {Prodn1} from '../../model/prodn1';
+import {Response} from '@angular/http';
 
 @Component({
   selector: 'app-prodn1-list',

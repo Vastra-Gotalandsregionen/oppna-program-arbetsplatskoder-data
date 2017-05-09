@@ -1,5 +1,5 @@
 export class Prodn2 {
-  autoradering:any;
+  autoradering: any;
   avdelning: string;
   id: string;
   kortnamn: string;

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {JwtHelper} from "angular2-jwt/angular2-jwt";
-import {Data} from "../../model/data";
-import {Router} from "@angular/router";
-import {Http} from "@angular/http";
+import {JwtHelper} from 'angular2-jwt/angular2-jwt';
+import {Data} from '../../model/data';
+import {Router} from '@angular/router';
+import {Http} from '@angular/http';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +13,7 @@ export class AuthService {
   constructor(private jwtHelper: JwtHelper,
               private http: Http,
               private router: Router) {
-    let localStorageToken = localStorage.getItem('apkJwtToken');
+    const localStorageToken = localStorage.getItem('apkJwtToken');
 
     if (localStorageToken) {
       this.jwt = localStorageToken;
@@ -84,7 +84,7 @@ export class AuthService {
 
     // todo Is this the best way to check this? No more robust way than using "startsWith()"?
     if (this.jwtToken && this.jwtToken.prodn1s) {
-      let matchArr: string[] = (<string[]>this.jwtToken.prodn1s)
+      const matchArr: string[] = (<string[]>this.jwtToken.prodn1s)
         .filter(prodn1 => {
           return data.sorteringskodProd.startsWith(prodn1);
         });

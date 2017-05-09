@@ -1,22 +1,22 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {Data} from "../../model/data";
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Http, RequestOptions, Headers, Response} from "@angular/http";
-import {Ao3} from "../../model/ao3";
-import {AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators} from "@angular/forms";
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/concatMap";
-import "rxjs/add/observable/from";
-import {Vardform} from "../../model/vardform";
-import {Verksamhet} from "../../model/verksamhet";
-import {MdSnackBar} from "@angular/material";
-import {ErrorHandler} from "../../shared/error-handler";
-import {Prodn1} from "../../model/prodn1";
-import {Prodn2} from "../../model/prodn2";
-import {Prodn3} from "../../model/prodn3";
-import {JwtHttp} from "../../core/jwt-http";
-import {RestResponse} from "../../model/rest-response";
+import {Component, Input, OnInit} from '@angular/core';
+import {Data} from '../../model/data';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Http, RequestOptions, Headers, Response} from '@angular/http';
+import {Ao3} from '../../model/ao3';
+import {AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/observable/from';
+import {Vardform} from '../../model/vardform';
+import {Verksamhet} from '../../model/verksamhet';
+import {MdSnackBar} from '@angular/material';
+import {ErrorHandler} from '../../shared/error-handler';
+import {Prodn1} from '../../model/prodn1';
+import {Prodn2} from '../../model/prodn2';
+import {Prodn3} from '../../model/prodn3';
+import {JwtHttp} from '../../core/jwt-http';
+import {RestResponse} from '../../model/rest-response';
 
 
 @Component({
@@ -78,10 +78,10 @@ export class ApkFormComponent implements OnInit {
       dataObservable = Observable.from([new Data()]);
     }
 
-    let ao3Observable = this.http.get('/api/ao3').map(response => response.json());
-    let vardformObservable = this.http.get('/api/vardform').map(response => response.json());
-    let verksamhetObservable = this.http.get('/api/verksamhet').map(response => response.json());
-    let prodn1 = this.http.get('/api/prodn1').map(response => response.json());
+    const ao3Observable = this.http.get('/api/ao3').map(response => response.json());
+    const vardformObservable = this.http.get('/api/vardform').map(response => response.json());
+    const verksamhetObservable = this.http.get('/api/verksamhet').map(response => response.json());
+    const prodn1 = this.http.get('/api/prodn1').map(response => response.json());
 
     Observable.forkJoin([ao3Observable, vardformObservable, verksamhetObservable, dataObservable, prodn1])
       .subscribe((result: any[]) => {
@@ -104,19 +104,19 @@ export class ApkFormComponent implements OnInit {
         this.isPrivate = this.data.agarform === '4' || this.data.agarform === '5' || this.data.agarform === '6';
 
         let tempMap: Map<string, any> = new Map();
-        for (let ao3 of ao3s) {
+        for (const ao3 of ao3s) {
           tempMap.set(ao3.ao3id, ao3);
         }
         this.ao3IdMap = tempMap;
 
         tempMap = new Map();
-        for (let vardform of vardforms) {
+        for (const vardform of vardforms) {
           tempMap.set(vardform.vardformid, vardform);
         }
         this.vardformIdMap = tempMap;
 
         tempMap = new Map();
-        for (let verksamhet of verksamhets) {
+        for (const verksamhet of verksamhets) {
           tempMap.set(verksamhet.verksamhetid, verksamhet);
         }
         this.verksamhetIdMap = tempMap;
@@ -170,7 +170,7 @@ export class ApkFormComponent implements OnInit {
 
     this.apkForm.get('unitSearch').valueChanges
       .filter(value => {
-        let requiredLength = value && value.length >= 3;
+        const requiredLength = value && value.length >= 3;
 
         if (!requiredLength) {
           this.unitSearchResult = [];
@@ -236,7 +236,7 @@ export class ApkFormComponent implements OnInit {
   }
 
   private initVerksamhetControl() {
-    let verksamhetFormControl = this.apkForm.get('verksamhet');
+    const verksamhetFormControl = this.apkForm.get('verksamhet');
 
     this.filteredVerksamhetOptions = verksamhetFormControl.valueChanges
       .startWith(null)
@@ -244,7 +244,7 @@ export class ApkFormComponent implements OnInit {
   }
 
   private initVardformControl() {
-    let vardformFormControl = this.apkForm.get('vardform');
+    const vardformFormControl = this.apkForm.get('vardform');
 
     this.filteredVardformOptions = vardformFormControl.valueChanges
       .startWith(null)
@@ -252,14 +252,14 @@ export class ApkFormComponent implements OnInit {
   }
 
   private initAo3FormControl(ao3s) {
-    let ao3FormControl = this.apkForm.get('ao3');
+    const ao3FormControl = this.apkForm.get('ao3');
 
     this.filteredAo3Options = ao3FormControl.valueChanges // Side effect
       .startWith(null)
       .map((name: string) => name ? this.filterAo3(name) : this.allAo3s.slice());
 
-    let map: Map<string, Ao3> = new Map();
-    for (let ao3 of ao3s) {
+    const map: Map<string, Ao3> = new Map();
+    for (const ao3 of ao3s) {
       map.set(this.displayAo3Fn(ao3), ao3);
     }
 
@@ -277,7 +277,7 @@ export class ApkFormComponent implements OnInit {
   private initSorteringsnivaControls(prodn3: any /*todo make typed*/) {
     if (prodn3) {
       // We assume the form is already built, so we don't need to fetch the prodn3 again.
-      let prodn2Key = prodn3.n2;
+      const prodn2Key = prodn3.n2;
 
       let prodn2;
       let prodn1;
@@ -290,18 +290,18 @@ export class ApkFormComponent implements OnInit {
           this.apkForm.patchValue({'sorteringsniva2': prodn2.producentid});
 
           // From this prodn2 we can find the chosen prodn1 but also the options for prodn3.
-          let prodn1Observable: Observable<Response> = this.http.get('/api/prodn1/' + prodn2.n1)
+          const prodn1Observable: Observable<Response> = this.http.get('/api/prodn1/' + prodn2.n1)
             .map(response => response.json());
 
-          let prodn3sObservable: Observable<Prodn3[]> = this.http.get('/api/prodn3?prodn2=' + prodn2.producentid)
+          const prodn3sObservable: Observable<Prodn3[]> = this.http.get('/api/prodn3?prodn2=' + prodn2.producentid)
             .map(response => response.json())
             .map((pageable: RestResponse<Prodn3[]>) => <Prodn3[]>pageable.content);
 
           return Observable.forkJoin(prodn1Observable, prodn3sObservable);
         })
         .concatMap((result: any[]) => {
-          let prodn1 = result[0];
-          let prodn3s = result[1];
+          const prodn1 = result[0];
+          const prodn3s = result[1];
 
           this.apkForm.patchValue({'sorteringsniva1': prodn1.producentid});
           this.prodn3Options = prodn3s;
@@ -320,8 +320,8 @@ export class ApkFormComponent implements OnInit {
   }
 
   listenToChangesToProdnx() {
-    let sorteringsniva1Control = this.apkForm.get('sorteringsniva1');
-    let sorteringsniva2Control = this.apkForm.get('sorteringsniva2');
+    const sorteringsniva1Control = this.apkForm.get('sorteringsniva1');
+    const sorteringsniva2Control = this.apkForm.get('sorteringsniva2');
 
     sorteringsniva1Control.valueChanges
       .filter(value => value ? true : false)
@@ -355,8 +355,8 @@ export class ApkFormComponent implements OnInit {
       return;
     }
 
-    let data = this.data;
-    let formModel = this.apkForm.value;
+    const data = this.data;
+    const formModel = this.apkForm.value;
     data.lankod = formModel.lankod;
     data.agarform = formModel.agarform;
     data.ao3 = (<Ao3> formModel.ao3).ao3id;
@@ -376,8 +376,8 @@ export class ApkFormComponent implements OnInit {
     data.fromDatum = formModel.fromDatum;
     data.tillDatum = formModel.tillDatum;
 
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
 
     this.http.put('/api/data', JSON.stringify(data), options)
       .map(response => response.json())
@@ -432,7 +432,7 @@ export class ApkFormComponent implements OnInit {
 
   selectUnit(unit: any): void {
     if (unit.attributes.hsaStreetAddress && unit.attributes.hsaStreetAddress.length > 0) {
-      let parts = unit.attributes.hsaStreetAddress[0].split('$');
+      const parts = unit.attributes.hsaStreetAddress[0].split('$');
 
       if (parts.length >= 3) {
         this.apkForm.patchValue({
@@ -470,10 +470,10 @@ export function ao3Validator(ao3s: Ao3[]): ValidatorFn {
 
 export function datePattern(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
-    let datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 
     if (!control.value || !control.value.match(datePattern)) {
-      return {"datePattern": true};
+      return {'datePattern': true};
     }
 
     return null;

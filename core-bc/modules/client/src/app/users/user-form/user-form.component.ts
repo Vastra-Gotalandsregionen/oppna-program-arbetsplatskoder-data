@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ErrorHandler} from "../../shared/error-handler";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Http, Response} from "@angular/http";
-import {User} from "../../model/user";
-import {Prodn1} from "../../model/prodn1";
-import {Observable} from "rxjs/Observable";
-import {JwtHttp} from "../../core/jwt-http";
-import {Router} from "@angular/router";
+import {ErrorHandler} from '../../shared/error-handler';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Http, Response} from '@angular/http';
+import {User} from '../../model/user';
+import {Prodn1} from '../../model/prodn1';
+import {Observable} from 'rxjs/Observable';
+import {JwtHttp} from '../../core/jwt-http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-form',
@@ -31,11 +31,11 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
 
-    let prodn1s$ = this.http.get('/api/prodn1')
+    const prodn1s$ = this.http.get('/api/prodn1')
       .map<Response, Prodn1[]>(response => response.json());
 
     if (this.userId) {
-      let user$ = this.http.get('/api/user/' + this.userId)
+      const user$ = this.http.get('/api/user/' + this.userId)
         .map<Response, User>(response => response.json());
 
       Observable.forkJoin([prodn1s$, user$])
@@ -71,7 +71,7 @@ export class UserFormComponent implements OnInit {
   }
 
   toggle(prodn1: Prodn1) {
-    let indexOf = this.selectedProdn1Ids.indexOf(prodn1.id);
+    const indexOf = this.selectedProdn1Ids.indexOf(prodn1.id);
     if (indexOf > -1) {
       this.selectedProdn1Ids.splice(indexOf, 1);
     } else {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Anvandare} from "../../model/anvandare";
+import {Anvandare} from '../../model/anvandare';
 
 @Injectable()
 export class StateService {

@@ -1,13 +1,11 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {MdDialogRef} from "@angular/material";
-import {NgForm} from "@angular/forms";
-import {Http} from "@angular/http";
-import {StateService} from "../../core/state/state.service";
-import {Router} from "@angular/router";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MdDialogRef} from '@angular/material';
+import {NgForm} from '@angular/forms';
+import {StateService} from '../../core/state/state.service';
 import 'rxjs/add/operator/timeout';
-import {TimeoutError} from "rxjs/Rx";
-import {AuthService} from "../../core/auth/auth.service";
-import {JwtHttp} from "../../core/jwt-http";
+import {TimeoutError} from 'rxjs/Rx';
+import {AuthService} from '../../core/auth/auth.service';
+import {JwtHttp} from '../../core/jwt-http';
 
 @Component({
   selector: 'app-login-dialog',
@@ -52,11 +50,11 @@ export class LoginDialogComponent implements OnInit {
           this.dialogRef.close(response);
         }, error => {
           if (Object.getPrototypeOf(error) === Object.getPrototypeOf(new TimeoutError())) {
-            this.loginMessage = "Tidsgränsen för anropet gick ut."
+            this.loginMessage = 'Tidsgränsen för anropet gick ut.'
           } else if (error.status && error.status >= 400 && error.status < 500) {
-            this.loginMessage = "Felaktiga inloggningsuppgifter";
+            this.loginMessage = 'Felaktiga inloggningsuppgifter';
           } else {
-            this.loginMessage = "Tekniskt fel";
+            this.loginMessage = 'Tekniskt fel';
           }
 
           console.log(error);

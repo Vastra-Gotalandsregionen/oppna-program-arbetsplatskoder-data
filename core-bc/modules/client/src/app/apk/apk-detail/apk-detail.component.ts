@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Http} from '@angular/http';
 import {Data} from '../../model/data';
-import {AuthService} from "../../core/auth/auth.service";
+import {AuthService} from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-apk-detail',

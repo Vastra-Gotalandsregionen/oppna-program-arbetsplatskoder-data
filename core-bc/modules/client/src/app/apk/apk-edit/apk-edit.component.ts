@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ApkDetailComponent} from "../apk-detail/apk-detail.component";
-import {Http} from "@angular/http";
-import {ActivatedRoute} from "@angular/router";
-import {AuthService} from "../../core/auth/auth.service";
+import {ApkDetailComponent} from '../apk-detail/apk-detail.component';
+import {Http} from '@angular/http';
+import {ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-apk-edit',

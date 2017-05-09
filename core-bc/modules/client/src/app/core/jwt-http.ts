@@ -1,8 +1,8 @@
-import {Http, RequestOptionsArgs, Request, Response, XHRBackend} from "@angular/http";
-import {Observable} from "rxjs/Observable";
-import {Injectable} from "@angular/core";
-import {RequestOptions, Headers} from "@angular/http";
-import {AuthService} from "./auth/auth.service";
+import {Http, RequestOptionsArgs, Request, Response, XHRBackend} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {RequestOptions, Headers} from '@angular/http';
+import {AuthService} from './auth/auth.service';
 
 @Injectable()
 export class JwtHttp extends Http {
@@ -10,7 +10,7 @@ export class JwtHttp extends Http {
   authService: AuthService;
 
   constructor (backend: XHRBackend, options: RequestOptions, authService: AuthService) {
-    let token = authService.jwt;
+    const token = authService.jwt;
 
     if (token) {
       options.headers.set('Authorization', `Bearer ${token}`);
@@ -22,7 +22,7 @@ export class JwtHttp extends Http {
   }
 
   request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
-    let token = this.authService.jwt;
+    const token = this.authService.jwt;
     if (token) {
       if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
         if (!options) {

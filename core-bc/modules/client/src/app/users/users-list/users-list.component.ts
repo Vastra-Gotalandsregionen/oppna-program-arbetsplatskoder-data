@@ -1,11 +1,11 @@
-import {Component, OnInit} from "@angular/core";
-import {Response} from "@angular/http";
-import {ErrorHandler} from "../../shared/error-handler";
-import {User} from "../../model/user";
-import {Prodn1} from "../../model/prodn1";
-import {JwtHttp} from "../../core/jwt-http";
-import {AuthService} from "../../core/auth/auth.service";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Response} from '@angular/http';
+import {ErrorHandler} from '../../shared/error-handler';
+import {User} from '../../model/user';
+import {Prodn1} from '../../model/prodn1';
+import {JwtHttp} from '../../core/jwt-http';
+import {AuthService} from '../../core/auth/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-users-list',

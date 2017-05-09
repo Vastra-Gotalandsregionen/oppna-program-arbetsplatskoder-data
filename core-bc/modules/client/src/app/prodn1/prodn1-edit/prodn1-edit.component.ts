@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {JwtHttp} from "../../core/jwt-http";
-import {Prodn1} from "../../model/prodn1";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MdSnackBar} from "@angular/material";
-import {ErrorHandler} from "../../shared/error-handler";
+import {ActivatedRoute} from '@angular/router';
+import {JwtHttp} from '../../core/jwt-http';
+import {Prodn1} from '../../model/prodn1';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MdSnackBar} from '@angular/material';
+import {ErrorHandler} from '../../shared/error-handler';
 
 @Component({
   selector: 'app-prodn1-edit',
