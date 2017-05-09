@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Prodn2} from "../../model/prodn2";
-import {JwtHttp} from "../../core/jwt-http";
-import {ErrorHandler} from "../../shared/error-handler";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
-import {MdSnackBar} from "@angular/material";
-import {Prodn1} from "../../model/prodn1";
-import {Observable} from "rxjs/Observable";
+import {Prodn2} from '../../model/prodn2';
+import {JwtHttp} from '../../core/jwt-http';
+import {ErrorHandler} from '../../shared/error-handler';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {MdSnackBar} from '@angular/material';
+import {Prodn1} from '../../model/prodn1';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-prodn2-edit',

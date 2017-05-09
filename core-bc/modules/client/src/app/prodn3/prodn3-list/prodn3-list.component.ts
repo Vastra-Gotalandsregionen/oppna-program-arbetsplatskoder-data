@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Prodn3} from "../../model/prodn3";
-import {JwtHttp} from "../../core/jwt-http";
-import {RestResponse} from "../../model/rest-response";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Prodn3} from '../../model/prodn3';
+import {JwtHttp} from '../../core/jwt-http';
+import {RestResponse} from '../../model/rest-response';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Location} from '@angular/common';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-prodn3-list',
@@ -21,7 +21,7 @@ export class Prodn3ListComponent implements OnInit {
               private location: Location,
               route: ActivatedRoute) {
 
-    let page = route.snapshot.queryParams['page'];
+    const page = route.snapshot.queryParams['page'];
     if (page) {
       this.pageSubject.next(Number.parseInt(page));
     }
@@ -36,14 +36,14 @@ export class Prodn3ListComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.pageSubject.value < this.response.totalPages -1) {
+    if (this.pageSubject.value < this.response.totalPages - 1) {
       this.pageSubject.next(this.pageSubject.value + 1);
     }
   }
 
   previousPage() {
     if (this.pageSubject.value > 0) {
-      this.pageSubject.next(this.pageSubject.value -1);
+      this.pageSubject.next(this.pageSubject.value - 1);
     }
   }
 }

@@ -5,11 +5,11 @@ import {Data} from '../../model/data';
 import {RestResponse} from '../../model/rest-response';
 import {Observable} from 'rxjs/Observable';
 import {Location} from '@angular/common';
-import {ActivatedRoute} from "@angular/router";
-import {ErrorHandler} from "../../shared/error-handler";
-import {AuthService} from "../../core/auth/auth.service";
-import {JwtHttp} from "../../core/jwt-http";
-import {Prodn1} from "../../model/prodn1";
+import {ActivatedRoute} from '@angular/router';
+import {ErrorHandler} from '../../shared/error-handler';
+import {AuthService} from '../../core/auth/auth.service';
+import {JwtHttp} from '../../core/jwt-http';
+import {Prodn1} from '../../model/prodn1';
 
 @Component({
   selector: 'app-apk',
@@ -22,7 +22,7 @@ export class ApkComponent implements OnInit {
   onlyMyDatasCtrl: FormControl;
 
   query: string;
-  page: number = 0;
+  page = 0;
   onlyMyDatas: boolean;
 
   datas: Data[];
@@ -86,10 +86,10 @@ export class ApkComponent implements OnInit {
 
   private updateState() {
     if (this.query || this.page > 0 || this.sort || this.onlyMyDatas) {
-      let queryPart = (this.query ? '&query=' + this.query : '');
-      let pagePart = (this.page > 0 ? '&page=' + this.page : '');
-      let sortPart = (this.sort ? '&sort=' + this.sort.field + '&asc=' + this.sort.ascending : '');
-      let onlyMyDatasPart = (this.onlyMyDatas ? `&onlyMyDatas=${this.onlyMyDatas}` : '');
+      const queryPart = (this.query ? '&query=' + this.query : '');
+      const pagePart = (this.page > 0 ? '&page=' + this.page : '');
+      const sortPart = (this.sort ? '&sort=' + this.sort.field + '&asc=' + this.sort.ascending : '');
+      const onlyMyDatasPart = (this.onlyMyDatas ? `&onlyMyDatas=${this.onlyMyDatas}` : '');
 
       let fullQueryPart = queryPart + pagePart + sortPart + onlyMyDatasPart;
 

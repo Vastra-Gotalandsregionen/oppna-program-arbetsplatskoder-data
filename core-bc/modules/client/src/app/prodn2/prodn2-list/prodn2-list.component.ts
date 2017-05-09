@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {JwtHttp} from "../../core/jwt-http";
-import {Observable} from "rxjs/Observable";
-import "rxjs/operator"
-import {Prodn2} from "../../model/prodn2";
-import {Prodn1} from "../../model/prodn1";
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import {JwtHttp} from '../../core/jwt-http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/operator'
+import {Prodn2} from '../../model/prodn2';
+import {Prodn1} from '../../model/prodn1';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-prodn2-list',
@@ -31,7 +31,7 @@ export class Prodn2ListComponent implements OnInit {
 
   orphanProdn2s: string[] = [];
 
-  showFilter: boolean = false;
+  showFilter = false;
 
   constructor(private http: JwtHttp) {
   }
@@ -52,12 +52,12 @@ export class Prodn2ListComponent implements OnInit {
       .map((prodn2: Prodn2) => prodn2.n1) // Make this mapping in order to be able to make distinct after this step.
       .distinct() // Many Prodn2s share the same N1 so we don't need to make a request for all.
       .mergeMap((prodn2N1: string) => { // To forward both the Prodn2, which we will store in our field, and the Prodn1, which we will use to filter.
-        let prodn1$ = this.http.get('/api/prodn1?producentid=' + prodn2N1);
-        let prodn2N1$ = Observable.of(prodn2N1);
+        const prodn1$ = this.http.get('/api/prodn1?producentid=' + prodn2N1);
+        const prodn2N1$ = Observable.of(prodn2N1);
         return Observable.forkJoin(prodn1$, prodn2N1$);
       })
       .filter(response => { // Only forward those where we didn't find any Prodn1
-        let noHit = response[0].json()[0] === null;
+        const noHit = response[0].json()[0] === null;
         return noHit;
       })
       .map(response => response[1]) // Pass prodn2N1 string
@@ -81,7 +81,7 @@ export class Prodn2ListComponent implements OnInit {
   }
 
   toggle(prodn1: Prodn1) {
-    let indexOf = this.selectedProdn1s.indexOf(prodn1.producentid);
+    const indexOf = this.selectedProdn1s.indexOf(prodn1.producentid);
     if (indexOf > -1) {
       this.selectedProdn1s.splice(indexOf, 1);
     } else {

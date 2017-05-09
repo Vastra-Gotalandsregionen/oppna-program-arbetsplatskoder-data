@@ -1,6 +1,6 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
-import {Prodn3ListComponent} from "./prodn3-list/prodn3-list.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {Prodn3ListComponent} from './prodn3-list/prodn3-list.component';
 
 const routes: Routes = [
   {
