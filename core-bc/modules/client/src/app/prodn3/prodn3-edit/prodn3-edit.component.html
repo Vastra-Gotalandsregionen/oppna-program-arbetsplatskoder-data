@@ -1,0 +1,65 @@
+<md-card>
+  <md-card-content>
+
+    <div *ngIf="prodn3Form; else loading">
+      <h4>Redigera {{prodn3.foretagsnamn || 'Ny'}}</h4>
+
+      <form #formRef="ngForm" [formGroup]="prodn3Form" (ngSubmit)="save()" novalidate (autocomplete)="false">
+
+        <div>
+          <md-input-container>
+            <input placeholder="ID" type="text" mdInput formControlName="id"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Företagsnamn" type="text" mdInput formControlName="foretagsnamn"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Producent-ID" type="text" mdInput formControlName="producentid"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="N2" type="text" mdInput formControlName="n2" [mdAutocomplete]="n2AutocompleteRef"/>
+          </md-input-container>
+
+          <md-autocomplete class="autocomplete" #n2AutocompleteRef="mdAutocomplete">
+            <md-option class="md-option" *ngFor="let n2 of n2SearchResult$ | async" [value]="n2.producentid">
+              {{n2.producentid}} {{n2.avdelning}}
+            </md-option>
+          </md-autocomplete>
+        </div>
+
+        <div>
+          <md-checkbox formControlName="raderad">Raderad</md-checkbox>
+        </div>
+
+        <div>
+          <button type="submit"
+                  [disabled]="prodn3Form.pristine" md-raised-button class="btn btn-success">Spara
+          </button> &nbsp;
+          <button type="button"
+                  [disabled]="prodn3Form.pristine" md-raised-button class="btn" (click)="resetForm()">Återställ
+          </button> &nbsp;
+          {{saveMessage}}
+        </div>
+      </form>
+
+    </div>
+
+    <ng-template #loading>Läser in...</ng-template>
+
+  </md-card-content>
+</md-card>

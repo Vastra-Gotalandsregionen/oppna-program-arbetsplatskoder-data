@@ -41,10 +41,17 @@ public class Prodn2Controller {
         return prodn2Repository.findProdn2ByProducentidEquals(producentid);
     }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Prodn2> searchProdn2s(@RequestParam(value = "query", required = false) String query) {
+        return prodn2Repository.search(query);
+    }
+
+
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseBody
     // todo secure
-    public ResponseEntity<Prodn2> saveProdn1(@RequestBody Prodn2 prodn2) {
+    public ResponseEntity<Prodn2> saveProdn2(@RequestBody Prodn2 prodn2) {
 
         if (prodn2.getId() == null) {
             // New entity.
