@@ -13,7 +13,7 @@ import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 })
 export class AppComponent {
 
-  constructor(public authService: AuthService,
+  constructor(private authService: AuthService,
               private stateService: StateService,
               private sanitizer: DomSanitizer,
               private dialog: MdDialog,

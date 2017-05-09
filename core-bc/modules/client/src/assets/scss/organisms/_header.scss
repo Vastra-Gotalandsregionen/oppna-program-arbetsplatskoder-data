@@ -2,6 +2,11 @@
   background: $vgr-blue;
   color: #fff;
 
+  .logo {
+    margin: 0 auto;
+    width: 400px;
+  }
+
   .mat-toolbar {
     background: transparent;
     color: #fff;
@@ -33,6 +38,15 @@
       vertical-align: middle;
     }
 
+  }
+
+  .header-top-bar {
+    background: darken($vgr-blue, 10);
+    padding: 10px 0;
+  }
+
+  .header-menu-bar {
+    background: $vgr-blue;
   }
 
 
