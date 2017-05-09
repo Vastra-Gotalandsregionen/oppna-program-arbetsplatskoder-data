@@ -57,34 +57,34 @@
 
         </md-list>
 
-        <md-divider></md-divider>
+        <md-divider  *ngIf="admin"></md-divider>
 
-        <md-list>
-          <md-list-item *ngIf="admin">
+        <md-list *ngIf="admin">
+          <md-list-item>
             <a routerLink="old-users" routerLinkActive="active">
               <md-icon>people</md-icon>
               <span class="nav-label">Användare (gamla)</span>
             </a>
           </md-list-item>
-          <md-list-item *ngIf="admin">
+          <md-list-item>
             <a routerLink="users" routerLinkActive="active">
               <md-icon>people</md-icon>
               <span class="nav-label">Användare (nya)</span>
             </a>
           </md-list-item>
-          <md-list-item *ngIf="admin">
+          <md-list-item>
             <a routerLink="prodn1" routerLinkActive="active">
               <md-icon>list</md-icon>
               <span class="nav-label">Summeringsnivå 1</span>
             </a>
           </md-list-item>
-          <md-list-item *ngIf="admin">
+          <md-list-item>
             <a routerLink="prodn2" routerLinkActive="active">
               <md-icon>list</md-icon>
               <span class="nav-label">Summeringsnivå 2</span>
             </a>
           </md-list-item>
-          <md-list-item *ngIf="admin">
+          <md-list-item>
             <a routerLink="prodn3" routerLinkActive="active">
               <md-icon>list</md-icon>
               <span class="nav-label">Summeringsnivå 3</span>
