@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ErrorHandler} from '../../shared/error-handler';
+import {ErrorHandler} from '../../../shared/error-handler';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Http, Response} from '@angular/http';
-import {User} from '../../model/user';
-import {Prodn1} from '../../model/prodn1';
+import {User} from '../../../model/user';
+import {Prodn1} from '../../../model/prodn1';
 import {Observable} from 'rxjs/Observable';
-import {JwtHttp} from '../../core/jwt-http';
+import {JwtHttp} from '../../../core/jwt-http';
 import {Router} from '@angular/router';
 
 @Component({

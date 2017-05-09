@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {JwtHttp} from '../../core/jwt-http';
+import {JwtHttp} from '../../../core/jwt-http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/operator'
-import {Prodn2} from '../../model/prodn2';
-import {Prodn1} from '../../model/prodn1';
+import {Prodn2} from '../../../model/prodn2';
+import {Prodn1} from '../../../model/prodn1';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Response} from '@angular/http';
-import {Anvandare} from '../../model/anvandare';
-import {ErrorHandler} from '../../shared/error-handler';
-import {StateService} from '../../core/state/state.service';
-import {JwtHttp} from '../../core/jwt-http';
+import {Anvandare} from '../../../model/anvandare';
+import {ErrorHandler} from '../../../shared/error-handler';
+import {StateService} from '../../../core/state/state.service';
+import {JwtHttp} from '../../../core/jwt-http';
 
 @Component({
   selector: 'app-old-users-list',

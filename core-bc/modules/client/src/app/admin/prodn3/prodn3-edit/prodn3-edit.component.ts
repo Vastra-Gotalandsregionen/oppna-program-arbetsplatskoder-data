@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Prodn3} from '../../model/prodn3';
-import {Prodn2} from '../../model/prodn2';
-import {JwtHttp} from '../../core/jwt-http';
-import {ErrorHandler} from '../../shared/error-handler';
+import {Prodn3} from '../../../model/prodn3';
+import {Prodn2} from '../../../model/prodn2';
+import {JwtHttp} from '../../../core/jwt-http';
+import {ErrorHandler} from '../../../shared/error-handler';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {MdSnackBar} from '@angular/material';

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Prodn3} from '../../model/prodn3';
-import {JwtHttp} from '../../core/jwt-http';
-import {RestResponse} from '../../model/rest-response';
+import {Prodn3} from '../../../model/prodn3';
+import {JwtHttp} from '../../../core/jwt-http';
+import {RestResponse} from '../../../model/rest-response';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
