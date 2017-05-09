@@ -16,6 +16,7 @@ import {Prodn1} from "../../model/prodn1";
 import {Prodn2} from "../../model/prodn2";
 import {Prodn3} from "../../model/prodn3";
 import {JwtHttp} from "../../core/jwt-http";
+import {RestResponse} from "../../model/rest-response";
 
 
 @Component({
@@ -281,7 +282,7 @@ export class ApkFormComponent implements OnInit {
       let prodn2;
       let prodn1;
 
-      // Now we now prodn3. Based on that we want to find prodn2, prodn1 as well as options for prodn2 and prodn3.
+      // Now we know prodn3. Based on that we want to find prodn2, prodn1 as well as options for prodn2 and prodn3.
       // Start by finding the specific prodn2
       this.http.get('/api/prodn2/' + prodn2Key)
         .map(response => response.json())
@@ -292,8 +293,9 @@ export class ApkFormComponent implements OnInit {
           let prodn1Observable: Observable<Response> = this.http.get('/api/prodn1/' + prodn2.n1)
             .map(response => response.json());
 
-          let prodn3sObservable:  Observable<Response> = this.http.get('/api/prodn3?prodn2=' + prodn2.producentid)
-            .map(response => response.json());
+          let prodn3sObservable: Observable<Prodn3[]> = this.http.get('/api/prodn3?prodn2=' + prodn2.producentid)
+            .map(response => response.json())
+            .map((pageable: RestResponse<Prodn3[]>) => <Prodn3[]>pageable.content);
 
           return Observable.forkJoin(prodn1Observable, prodn3sObservable);
         })
@@ -336,8 +338,9 @@ export class ApkFormComponent implements OnInit {
 
     sorteringsniva2Control.valueChanges
       .filter(value => value ? true : false)
-      .flatMap(prodn2Producentid =>
-        this.http.get('/api/prodn3?prodn2=' + prodn2Producentid).map(response => response.json()))
+      .flatMap(prodn2Producentid => this.http.get('/api/prodn3?prodn2=' + prodn2Producentid))
+      .map(response => response.json())
+      .map((pageable: RestResponse<Prodn3[]>) => <Prodn3[]>pageable.content)
       .subscribe(prodn3s => {
         this.prodn3Options = prodn3s;
         this.apkForm.patchValue({

@@ -1,0 +1,82 @@
+<md-card>
+  <md-card-content>
+
+    <div class="clear" >
+      <!--<div class="action-panel action-panel-left action-panel-top" style="display: inline-block;">
+        &lt;!&ndash;<button md-fab (click)="showFilter = !showFilter">
+          <md-icon>filter_list</md-icon>
+        </button>&ndash;&gt;
+      </div>-->
+
+      <!--<div class="action-panel action-panel-right action-panel-top">
+        <button mdTooltip="{{showFilter ? 'Göm' : 'Visa'}} filter" md-fab (click)="showFilter = !showFilter">
+          <md-icon>filter_list</md-icon>
+        </button>
+
+        <a routerLink="create" md-fab mdTooltip="Lägg till ny Summeringsnivå 3">
+          <md-icon>add</md-icon>
+        </a>
+      </div>
+    </div>
+
+    <div [@slideIn]="showFilter ? 'in' : 'out'">
+      <md-chip-list id="prodn1ChipList">
+        <md-chip *ngFor="let prodn1 of prodn1s$ | async" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
+          {{prodn1.foretagsnamn}}
+        </md-chip>
+      </md-chip-list>-->
+    </div>
+
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Företagsnamn</th>
+        <th>Kortnamn</th>
+        <th>Producent-ID</th>
+        <th>N2</th>
+        <th>Autoradering</th>
+        <th>Raderad</th>
+        <th>Används ej</th>
+        <th>Redigera</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let prodn3 of response?.content">
+        <td>{{prodn3.id}}</td>
+        <td>{{prodn3.foretagsnamn}}</td>
+        <td>{{prodn3.kortnamn}}</td>
+        <td>{{prodn3.producentid}}</td>
+        <!--<td *ngIf="orphanProdn2s.indexOf(prodn2.n1) > -1" mdTooltip="Finns ingen summeringsnivå 1 med denna kod"
+            [ngClass]="'circle-alert'">{{prodn2.n1}}
+        </td>-->
+        <!--<td *ngIf="orphanProdn2s.indexOf(prodn2.n1) === -1">{{prodn2.n1}}</td>-->
+        <td>{{prodn3.n2}}</td>
+        <td>{{prodn3.autoradering}}</td>
+        <td>
+          <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn3.raderad">clear</md-icon>
+        </td>
+        <td>
+          <!--
+                    <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">
+                      warning
+                    </md-icon>
+          -->
+        </td>
+        <td><a routerLink="{{prodn3.producentid}}/edit">
+          <md-icon>edit</md-icon>
+        </a></td>
+      </tr>
+      </tbody>
+    </table>
+  </md-card-content>
+
+  <md-card-actions *ngIf="response">
+    <button *ngIf="response.number > 0" (click)="previousPage()" md-button><md-icon>arrow_back</md-icon> Föregående</button>
+    <button (click)="nextPage()" md-button>Nästa <md-icon>arrow_forward</md-icon></button>
+
+    <div *ngIf="response" class="search-summary">
+      Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
+    </div>
+  </md-card-actions>
+</md-card>
