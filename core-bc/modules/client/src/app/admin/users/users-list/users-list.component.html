@@ -1,9 +1,16 @@
 <md-card>
   <md-card-content>
 
-    <div class="action-panel action-panel-right action-panel-top">
-      <a routerLink="create" md-fab mdTooltip="Lägg till ny användare"><md-icon>person_add</md-icon></a>
-    </div>
+    <md-toolbar class="action-toolbar">
+
+      <div class="action-toolbar-spacer"></div>
+
+      <a class="action-toolbar-item" routerLink="create" md-fab mdTooltip="Lägg till ny användare"><md-icon>person_add</md-icon></a>
+
+    </md-toolbar>
+  </md-card-content>
+
+  <md-card-content>
 
     <table>
       <thead>

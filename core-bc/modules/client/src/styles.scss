@@ -14,13 +14,15 @@
 @import 'assets/scss/atoms/body';
 @import 'assets/scss/atoms/container';
 @import 'assets/scss/atoms/fieldset';
-@import 'assets/scss/atoms/mat-divider';
+@import 'assets/scss/atoms/headings';
 @import 'assets/scss/atoms/legend';
 @import 'assets/scss/atoms/links';
+@import 'assets/scss/atoms/table';
 
 @import 'assets/scss/molecules/mat-card';
+@import 'assets/scss/molecules/mat-divider';
 @import 'assets/scss/molecules/mat-fab';
-@import 'assets/scss/molecules/action-panel';
+@import 'assets/scss/molecules/action-toolbar';
 @import 'assets/scss/molecules/apk-validate';
 @import 'assets/scss/molecules/info-card';
 @import 'assets/scss/molecules/menu-bar';
