@@ -5,10 +5,10 @@ import {RestResponse} from '../../../model/rest-response';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
-import {Prodn1} from '../../model/prodn1';
+import {Prodn1} from '../../../model/prodn1';
 import {Observable} from 'rxjs/Observable';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Prodn2} from "../../model/prodn2";
+import {Prodn2} from "../../../model/prodn2";
 
 @Component({
   selector: 'app-prodn3-list',
@@ -35,6 +35,9 @@ export class Prodn3ListComponent implements OnInit {
   selectedProdn2 = new BehaviorSubject<string>(null);
 
   availableProdn2s$: Observable<Prodn2>;
+
+  showFilter = false;
+
   // selectedProdn1: string = null;
 
   constructor(private http: JwtHttp,
@@ -66,7 +69,7 @@ export class Prodn3ListComponent implements OnInit {
       })
       .debounceTime(10)
       .do(query => {
-        this.location.replaceState('/prodn3' + query);
+        this.location.replaceState('/admin/prodn3' + query);
       })
       .mergeMap(query => this.http.get('/api/prodn3' + query))
       .map(response => response.json())

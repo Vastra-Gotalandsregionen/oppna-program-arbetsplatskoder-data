@@ -34,6 +34,8 @@ import java.util.TimeZone;
 @RequestMapping("/data")
 public class DataController {
 
+    private final int pageSize = 20;
+
     @Autowired
     private DataRepository dataRepository;
 
@@ -70,7 +72,7 @@ public class DataController {
             finalSort = new Sort(sorteringskodProd, arbetsplatskod);
         }
 
-        Pageable pageable = new PageRequest(page == null ? 0 : page, 25,
+        Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize,
                 finalSort);
 
         Page<Data> result;

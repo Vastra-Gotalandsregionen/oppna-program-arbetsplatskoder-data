@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/prodn3")
 public class Prodn3Controller {
 
+    private final int pageSize = 20;
+
     @Autowired
     private Prodn3Repository prodn3Repository;
 
@@ -41,7 +43,7 @@ public class Prodn3Controller {
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "producentid").ignoreCase();
 
         if (prodn1 != null && prodn2 == null) {
-            Pageable pageable = new PageRequest(page == null ? 0 : page, 25, new Sort(order));
+            Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(order));
 
             List<String> n2sByN1 = prodn2Repository.findAllByN1Equals(prodn1, null)
                     .stream()
@@ -52,12 +54,12 @@ public class Prodn3Controller {
         }
 
         if (prodn2 != null) {
-            // The MAX_VALUE for page size since we use this in an autocomplete component. Rethink design otherwise...
+            // The MAX_VALUE for page pageSize since we use this in an autocomplete component. Rethink design otherwise...
             Pageable pageable = new PageRequest(page == null ? 0 : page, Integer.MAX_VALUE, new Sort(order));
 
             return prodn3Repository.findAllByN2Equals(prodn2, pageable);
         } else {
-            Pageable pageable = new PageRequest(page == null ? 0 : page, 25, new Sort(order));
+            Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(order));
 
             return prodn3Repository.findAll(pageable);
         }
