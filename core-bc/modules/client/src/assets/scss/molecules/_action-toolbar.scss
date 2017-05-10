@@ -1,0 +1,49 @@
+.action-toolbar.mat-toolbar {
+
+  color: #333;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: normal;
+  min-height: auto;
+  padding: 5px 20px;
+
+  .action-toolbar-item {
+    display: inline-block;
+    margin: 0 15px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+  }
+
+  // a.action-toolbar-item {
+  //   .mat-icon {
+  //     color: $vgr-blue;
+  //     height: 36px;
+  //     font-size: 36px;
+  //     width: 36px;
+  //   }
+  // }
+
+  .mat-fab,
+  .mat-fab:visited {
+    background-color: $vgr-blue;
+    color: #fff;
+  }
+
+
+  .action-toolbar-spacer {
+    flex: 1 1 auto;
+  }
+
+  .mat-input-wrapper {
+    margin: 0;
+  }
+
+
+}

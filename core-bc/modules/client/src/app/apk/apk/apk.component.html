@@ -1,17 +1,24 @@
 
+<h1>Arbetsplatskoder</h1>
+
 <md-card>
 
   <md-card-content>
 
-    <div class="action-panel action-panel-right action-panel-top">
-      <a *ngIf="admin" routerLink="create" md-fab mdTooltip="Lägg till ny arbetsplatskod"><md-icon>add</md-icon></a>
-    </div>
+    <md-toolbar class="action-toolbar">
 
-    <md-input-container>
-      <input mdInput placeholder="Filtrera" [formControl]="stateCtrl" [(ngModel)]="query">
-    </md-input-container>
+      <md-input-container class="action-toolbar-item">
+        <input mdInput placeholder="Filtrera" [formControl]="stateCtrl" [(ngModel)]="query">
+      </md-input-container>
 
-    <md-checkbox [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Visa endast <span class="tooltip-text" mdTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></md-checkbox>
+      <md-checkbox class="action-toolbar-item" [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Visa endast <span class="tooltip-text" mdTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></md-checkbox>
+
+      <div class="action-toolbar-spacer"></div>
+
+      <a class="action-toolbar-item" md-fab routerLink="create" mdTooltip="Lägg till ny arbetsplatskod"><md-icon>add</md-icon></a>
+
+    </md-toolbar>
+
   </md-card-content>
 
   <md-card-content>
