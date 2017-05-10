@@ -1,5 +1,36 @@
+//
+// Grid system uses mincss grid (see vendor/mincss)
+// col-inner has been added to markup examples compared to mincss grid to
+// enable better handling padding between columns
+// Total gutter size for a row should amount to 12
+// Example markup:
+//
+//<div class="row">
+//    <div class="col c12">
+//      <div class="col-inner">12</div>
+//    </div>
+//</div>
+
+//<div class="row">
+//    <div class="col c4">
+//      <div class="col-inner">4</div>
+//    </div>
+//    <div class="col c8">
+//      <div class="col-inner">8</div>
+//    </div>
+//</div>
+
 .retain-contain {
     max-width: $scaffolding-max-width;
     margin: 0 auto;
     position: relative;
+}
+
+.row {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.col-inner {
+  padding: 10px 20px;
 }
