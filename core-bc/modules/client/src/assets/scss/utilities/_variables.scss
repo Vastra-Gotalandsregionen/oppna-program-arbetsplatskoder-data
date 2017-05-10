@@ -1,11 +1,25 @@
 
+// Breakpoints
+// -------------------------
+$bp-xsmall : 600px;
+$bp-small : 800px;
+$bp-medium : 1000px;
+$bp-large : 1199px;
+$bp-xlarge : 1499px;
+
+
 // Colors
+// -------------------------
+
 $vgr-blue: #005c95;
 
-
-
 // Scaffolding
+// -------------------------
+
 $scaffolding-max-width: 1190px;
 //$scaffolding-max-width: 1390px;
+
+// Footer
+// -------------------------
 
 $footer-height: 100px;

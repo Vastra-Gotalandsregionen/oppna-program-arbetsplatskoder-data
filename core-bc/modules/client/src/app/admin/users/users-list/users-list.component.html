@@ -1,5 +1,5 @@
 <md-card>
-  <md-card-content>
+  <md-card-title class="edge2edge">
 
     <md-toolbar class="action-toolbar">
 
@@ -8,7 +8,7 @@
       <a class="action-toolbar-item" routerLink="create" md-fab mdTooltip="Lägg till ny användare"><md-icon>person_add</md-icon></a>
 
     </md-toolbar>
-  </md-card-content>
+  </md-card-title>
 
   <md-card-content>
 
@@ -21,9 +21,12 @@
         <th>E-post</th>
         <th>Behörighet</th>
         <th>Sorteringskod 1</th>
+        <!--
         <th>Redigera</th>
         <th>Radera</th>
         <th>Uppträd som</th>
+        -->
+        <th></th>
       </tr>
       </thead>
 
@@ -35,9 +38,34 @@
         <td>{{user.mail}}</td>
         <td>{{user.role}}</td>
         <td>{{prodn1sToString(user.prodn1s)}}</td>
+        <!--
         <td><a routerLink="{{user.id}}/edit"><md-icon>edit</md-icon></a></td>
         <td><button md-button (click)="confirmDeleteTODO(user)"><md-icon>delete</md-icon></button></td>
         <td><button md-button (click)="impersonate(user)"><md-icon>transfer_within_a_station</md-icon></button></td>
+        -->
+
+
+        <td>
+          <button md-icon-button [mdMenuTriggerFor]="menu">
+            <md-icon>more_vert</md-icon>
+          </button>
+          <md-menu #menu="mdMenu">
+            <button md-menu-item routerLink="{{user.id}}/edit">
+              <md-icon>edit</md-icon>
+              <span>Redigera</span>
+            </button>
+            <button md-menu-item (click)="confirmDeleteTODO(user)">
+              <md-icon>delete</md-icon>
+              <span>Ta bort</span>
+            </button>
+            <button md-menu-item (click)="impersonate(user)">
+              <md-icon>transfer_within_a_station</md-icon>
+              <span>Uppträd som</span>
+            </button>
+          </md-menu>
+
+        </td>
+
       </tr>
       </tbody>
 
