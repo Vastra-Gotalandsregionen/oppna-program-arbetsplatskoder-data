@@ -6,6 +6,7 @@ import {
   MdMenuModule,
   MdListModule, MdProgressBarModule,
   MdRadioModule, MdSelectModule,
+  MdSlideToggleModule,
   MdSidenavModule, MdSnackBarModule,
   MdToolbarModule, MdTooltipModule
 } from '@angular/material';
@@ -26,6 +27,7 @@ import {
     MdTooltipModule,
     MdCheckboxModule,
     MdSelectModule,
+    MdSlideToggleModule,
     MdSnackBarModule,
     MdDialogModule,
     MdProgressBarModule,
@@ -47,6 +49,7 @@ import {
     MdTooltipModule,
     MdCheckboxModule,
     MdSelectModule,
+    MdSlideToggleModule,
     MdSnackBarModule,
     MdDialogModule,
     MdProgressBarModule,

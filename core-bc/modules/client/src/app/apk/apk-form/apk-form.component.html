@@ -217,7 +217,12 @@
           </div>
 
           <div class="checkbox-container">
+            <!--
             <md-checkbox align="end" formControlName="groupCode">Gruppkod</md-checkbox>
+            -->
+
+            <md-slide-toggle formControlName="groupCode">Gruppkod</md-slide-toggle>
+
           </div>
 
           <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
