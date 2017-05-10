@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Headers, RequestOptions, Response} from '@angular/http';
+import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {User} from '../model/user';
 import {Observable} from 'rxjs/Observable';
 import {StateService} from '../core/state/state.service';

@@ -1,0 +1,43 @@
+<md-sidenav-container class="example-container" fxFlex>
+  <md-sidenav class="example-sidenav" #sidenav mode="side" align="start" opened="true">
+
+    <md-list *ngIf="admin">
+      <md-list-item>
+        <a routerLink="old-users" routerLinkActive="active">
+          <md-icon>people</md-icon>
+          <span class="nav-label">Användare (gamla)</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="users" routerLinkActive="active">
+          <md-icon>people</md-icon>
+          <span class="nav-label">Användare (nya)</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="prodn1" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Summeringsnivå 1</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="prodn2" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Summeringsnivå 2</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="prodn3" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Summeringsnivå 3</span>
+        </a>
+      </md-list-item>
+    </md-list>
+
+  </md-sidenav>
+
+  <!-- primary content -->
+
+  <router-outlet></router-outlet>
+
+</md-sidenav-container>

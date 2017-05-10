@@ -1,12 +1,19 @@
 .footer {
   background: $vgr-blue;
   color: #fff;
-  padding-top: 20px;
-  padding-bottom: 20px;
+
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $footer-height;
+
+  //padding-top: 20px;
+  //padding-bottom: 20px;
 
   .mat-toolbar {
     background: transparent;
     color: #fff;
+    padding-top: 20px;
   }
 
   .logo {
