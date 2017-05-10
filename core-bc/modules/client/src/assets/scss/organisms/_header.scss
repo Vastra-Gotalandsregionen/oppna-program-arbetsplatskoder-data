@@ -4,7 +4,7 @@
 
   .logo {
     margin: 0 auto;
-    width: 400px;
+    width: 600px;
   }
 
   .mat-toolbar {
@@ -43,8 +43,33 @@
   .header-top-bar {
     background: darken($vgr-blue, 10);
     background: $vgr-blue;
-    padding: 10px 0;
+    padding: 20px 0;
     //padding-bottom: 20px;
+
+    @include small {
+      background-image: url(assets/images/dekorelement.svg);
+      background-repeat: no-repeat;
+      background-size: 910px;
+      background-position: center 0;
+    }
+
+    @include medium {
+      //background-size: 112%;
+      background-size: 1200px;
+      background-position: center -20px;
+    }
+
+    @include large {
+      background-size: 1400px;
+      background-position: center -50px;
+    }
+
+    @include xlarge {
+      background-size: 1700px;
+      background-position: center -100px;
+    }
+
+
   }
 
   .header-menu-bar {

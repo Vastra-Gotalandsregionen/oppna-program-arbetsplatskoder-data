@@ -1,0 +1,37 @@
+// Mediaqueries
+@mixin xsmall {
+  @media screen and (min-width : $bp-xsmall) {
+    @content;
+  }
+}
+
+@mixin small {
+	@media screen and (min-width : $bp-small) {
+		@content;
+	}
+}
+
+@mixin medium {
+	@media screen and (min-width : $bp-medium) {
+		@content;
+	}
+}
+
+@mixin large {
+	@media screen and (min-width : $bp-large) {
+		@content;
+	}
+}
+
+@mixin xlarge {
+	@media screen and (min-width : $bp-xlarge) {
+		@content;
+	}
+}
+
+
+@mixin max-medium {
+  @media screen and (max-width : $bp-medium) {
+    @content;
+  }
+}
