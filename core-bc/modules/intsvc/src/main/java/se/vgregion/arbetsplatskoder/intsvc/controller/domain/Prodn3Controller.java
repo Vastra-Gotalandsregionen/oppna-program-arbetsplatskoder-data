@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn2;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn3;
+import se.vgregion.arbetsplatskoder.repository.Prodn2Repository;
 import se.vgregion.arbetsplatskoder.repository.Prodn3Repository;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/prodn3")
@@ -25,14 +29,30 @@ public class Prodn3Controller {
     @Autowired
     private Prodn3Repository prodn3Repository;
 
+    @Autowired
+    private Prodn2Repository prodn2Repository;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    public Page<Prodn3> getProdn3s(@RequestParam(value = "prodn2", required = false) String prodn2,
+    public Page<Prodn3> getProdn3s(@RequestParam(value = "prodn1", required = false) String prodn1,
+                                   @RequestParam(value = "prodn2", required = false) String prodn2,
                                    @RequestParam(value = "page", required = false) Integer page) {
 
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "producentid").ignoreCase();
 
+        if (prodn1 != null && prodn2 == null) {
+            Pageable pageable = new PageRequest(page == null ? 0 : page, 25, new Sort(order));
+
+            List<String> n2sByN1 = prodn2Repository.findAllByN1Equals(prodn1, null)
+                    .stream()
+                    .map(Prodn2::getProducentid)
+                    .collect(Collectors.toList());
+
+            return prodn3Repository.findAllByN2In(n2sByN1, pageable);
+        }
+
         if (prodn2 != null) {
+            // The MAX_VALUE for page size since we use this in an autocomplete component. Rethink design otherwise...
             Pageable pageable = new PageRequest(page == null ? 0 : page, Integer.MAX_VALUE, new Sort(order));
 
             return prodn3Repository.findAllByN2Equals(prodn2, pageable);

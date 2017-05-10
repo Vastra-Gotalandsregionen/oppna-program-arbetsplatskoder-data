@@ -2,13 +2,7 @@
   <md-card-content>
 
     <div class="clear" >
-      <!--<div class="action-panel action-panel-left action-panel-top" style="display: inline-block;">
-        &lt;!&ndash;<button md-fab (click)="showFilter = !showFilter">
-          <md-icon>filter_list</md-icon>
-        </button>&ndash;&gt;
-      </div>-->
-
-      <!--<div class="action-panel action-panel-right action-panel-top">
+      <div class="action-panel action-panel-right action-panel-top">
         <button mdTooltip="{{showFilter ? 'Göm' : 'Visa'}} filter" md-fab (click)="showFilter = !showFilter">
           <md-icon>filter_list</md-icon>
         </button>
@@ -20,11 +14,21 @@
     </div>
 
     <div [@slideIn]="showFilter ? 'in' : 'out'">
+      <h4>Summeringsnivå 1</h4>
       <md-chip-list id="prodn1ChipList">
         <md-chip *ngFor="let prodn1 of prodn1s$ | async" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
           {{prodn1.foretagsnamn}}
         </md-chip>
-      </md-chip-list>-->
+      </md-chip-list>
+    </div>
+
+    <div [@slideIn]="showFilter && selectedProdn1.value ? 'in' : 'out'">
+      <h4>Summeringsnivå 2</h4>
+      <md-chip-list id="prodn2ChipList">
+        <md-chip *ngFor="let prodn2 of availableProdn2s$ | async" selected="{{isSelectedProdn2(prodn2)}}" (click)="toggleProdn2(prodn2)">
+          {{prodn2.avdelning}}
+        </md-chip>
+      </md-chip-list>
     </div>
 
     <table>
