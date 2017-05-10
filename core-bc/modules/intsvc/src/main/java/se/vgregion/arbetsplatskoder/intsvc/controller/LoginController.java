@@ -57,6 +57,7 @@ public class LoginController {
     @RequestMapping(value = "/renew", method = RequestMethod.POST)
     public ResponseEntity<String> renewJwt(@RequestBody String jwt) {
 
+        try {
             DecodedJWT decodedJWT = JwtUtil.verify(jwt);
 
             User user = userRepository.findOne(decodedJWT.getSubject());
@@ -65,6 +66,10 @@ public class LoginController {
                     user.getProdn1s());
 
             return ResponseEntity.ok(token);
+        } catch (JWTVerificationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
     }
 
     @RequestMapping(value = "/impersonate", method = RequestMethod.POST)
@@ -86,8 +91,8 @@ public class LoginController {
             if (Role.ADMIN.name().equals(role)) {
                 User impersonated = ldapLoginService.loginWithoutPassword(userToImpersonate.getId());
 
-                String token = JwtUtil.createToken(impersonated.getId(), impersonated.getDisplayName(), impersonated.getRole().name(),
-                        impersonated.getProdn1s());
+                String token = JwtUtil.createToken(impersonated.getId(), impersonated.getDisplayName(),
+                        impersonated.getRole().name(), impersonated.getProdn1s());
 
                 return ResponseEntity.ok(token);
             }

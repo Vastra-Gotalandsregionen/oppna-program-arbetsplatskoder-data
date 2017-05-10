@@ -15,7 +15,7 @@
 
       <div class="action-toolbar-spacer"></div>
 
-      <a class="action-toolbar-item" md-fab routerLink="create" mdTooltip="Lägg till ny arbetsplatskod"><md-icon>add</md-icon></a>
+      <a *ngIf="loggedIn" class="action-toolbar-item" md-fab routerLink="create" mdTooltip="Lägg till ny arbetsplatskod"><md-icon>add</md-icon></a>
 
     </md-toolbar>
 

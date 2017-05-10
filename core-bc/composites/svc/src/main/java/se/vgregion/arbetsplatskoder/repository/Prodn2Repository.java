@@ -1,6 +1,7 @@
 package se.vgregion.arbetsplatskoder.repository;
 
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface Prodn2Repository extends JpaRepository<Prodn2, Integer> {
 
-    List<Prodn2> findAllByN1Equals(String n1, Sort sort);
+    Page<Prodn2> findAllByN1Equals(String n1, Pageable pageable);
 
     Prodn2 findProdn2ByProducentidEquals(String producentId);
 

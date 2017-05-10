@@ -5,6 +5,10 @@ import 'rxjs/operator'
 import {Prodn2} from '../../../model/prodn2';
 import {Prodn1} from '../../../model/prodn1';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {RestResponse} from "../../../model/rest-response";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Location} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-prodn2-list',
@@ -21,33 +25,67 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class Prodn2ListComponent implements OnInit {
 
+  response: RestResponse<Prodn2[]>;
+
+  pageSubject = new BehaviorSubject<number>(0);
+
   prodn1s$: Observable<Prodn1[]>;
-  allProdn2s$: Observable<Prodn2[]>;
-  allProdn2s: Prodn2[] = [];
 
-  prodn2sForDisplay: Prodn2[] = [];
-
-  selectedProdn1s: string[] = [];
+  selectedProdn1 = new BehaviorSubject<string>(null);
 
   orphanProdn2s: string[] = [];
 
   showFilter = false;
 
-  constructor(private http: JwtHttp) {
+  constructor(private http: JwtHttp,
+              private location: Location,
+              route: ActivatedRoute) {
+
+    const page = route.snapshot.queryParams['page'];
+    const prodn1 = route.snapshot.queryParams['prodn1'];
+
+    if (page) {
+      this.pageSubject.next(Number.parseInt(page));
+    }
+
+    if (prodn1) {
+      this.selectedProdn1.next(prodn1);
+      this.showFilter = true;
+    }
   }
 
   ngOnInit() {
 
     this.prodn1s$ = this.http.get('/api/prodn1').map(response => response.json());
-    this.allProdn2s$ = this.http.get('/api/prodn2').map(response => response.json()).share();
 
-    this.allProdn2s$.subscribe(prodn2s => this.allProdn2s = this.prodn2sForDisplay = prodn2s);
+    const response$ = this.pageSubject
+      .combineLatest(this.selectedProdn1, (page, selectedProdn1) => [page, selectedProdn1]) // Return array with page and selectedProdn1
+      .map(pageSelectedProdn1Array => { // Create the URI
+        const pageQuery = pageSelectedProdn1Array[0] > 0 ? '&page=' + pageSelectedProdn1Array[0] : null;
+        const prodn1Query = pageSelectedProdn1Array[1] ? '&prodn1=' + pageSelectedProdn1Array[1] : null;
 
-    this.updateProdn2sForDisplay();
+        let query = [pageQuery, prodn1Query].join('');
+
+        if (query.length > 0) {
+          query = '?' + query.substring(1);
+        }
+
+        return query;
+      })
+      .debounceTime(10) // To avoid multiple requests when both selected prodn1 and page changes concurrently
+      .do(query => {
+        this.location.replaceState('/admin/prodn2' + query);
+      })
+      .mergeMap(query => this.http.get('/api/prodn2' + query))
+      .map(response => response.json())
+      .share();
+
+    response$.subscribe((restResponse: RestResponse<Prodn2[]>) => this.response = restResponse);
 
     // Find Prodn2s where their N1 doesn't exist.
-    this.allProdn2s$
+    response$
       .delay(200) // Prioritize the listing so wait before we start this processing.
+      .map(restResponse => restResponse.content)
       .mergeMap((prodn2s: Prodn2[]) => prodn2s) // To single items
       .map((prodn2: Prodn2) => prodn2.n1) // Make this mapping in order to be able to make distinct after this step.
       .distinct() // Many Prodn2s share the same N1 so we don't need to make a request for all.
@@ -61,33 +99,31 @@ export class Prodn2ListComponent implements OnInit {
         return noHit;
       })
       .map(response => response[1]) // Pass prodn2N1 string
-      .toArray()
-      .subscribe(value => this.orphanProdn2s = value);
+      .subscribe(prodn21 => this.orphanProdn2s.push(prodn21));
   }
 
-  private updateProdn2sForDisplay() {
-    this.prodn2sForDisplay = this.allProdn2s
-      .filter((prodn2: Prodn2) => {
-        if (this.selectedProdn1s.length > 0) {
-          return this.selectedProdn1s.indexOf(prodn2.n1) > -1;
-        } else {
-          return true;
-        }
-      });
+  nextPage() {
+    if (this.pageSubject.value < this.response.totalPages - 1) {
+      this.pageSubject.next(this.pageSubject.value + 1);
+    }
+  }
+
+  previousPage() {
+    if (this.pageSubject.value > 0) {
+      this.pageSubject.next(this.pageSubject.value - 1);
+    }
   }
 
   isSelected(prodn1: Prodn1) {
-    return this.selectedProdn1s.indexOf(prodn1.producentid) > -1;
+    return this.selectedProdn1.value === prodn1.producentid;
   }
 
   toggle(prodn1: Prodn1) {
-    const indexOf = this.selectedProdn1s.indexOf(prodn1.producentid);
-    if (indexOf > -1) {
-      this.selectedProdn1s.splice(indexOf, 1);
+    if (this.selectedProdn1.value === prodn1.producentid) {
+      this.selectedProdn1.next(null);
     } else {
-      this.selectedProdn1s.push(prodn1.producentid);
+      this.selectedProdn1.next(prodn1.producentid);
     }
-
-    this.updateProdn2sForDisplay();
+    this.pageSubject.next(0);
   }
 }

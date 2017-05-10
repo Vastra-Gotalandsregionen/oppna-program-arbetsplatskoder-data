@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Data} from '../../model/data';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Http, RequestOptions, Headers, Response} from '@angular/http';
+import {RequestOptions, Headers, Response} from '@angular/http';
 import {Ao3} from '../../model/ao3';
 import {AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
@@ -274,7 +274,7 @@ export class ApkFormComponent implements OnInit {
     ao3FormControl.setValidators(ao3Validator(ao3s))
   }
 
-  private initSorteringsnivaControls(prodn3: any /*todo make typed*/) {
+  private initSorteringsnivaControls(prodn3: Prodn3) {
     if (prodn3) {
       // We assume the form is already built, so we don't need to fetch the prodn3 again.
       const prodn2Key = prodn3.n2;
@@ -309,7 +309,7 @@ export class ApkFormComponent implements OnInit {
           // Moving on with finding the options for prodn2, based on prodn1
           return this.http.get('/api/prodn2?prodn1=' + prodn1.producentid);
         })
-        .map(response => response.json())
+        .map(response => response.json().content)
         .subscribe(prodn2s => {
           this.prodn2Options = prodn2s;
           this.listenToChangesToProdnx();
@@ -326,7 +326,7 @@ export class ApkFormComponent implements OnInit {
     sorteringsniva1Control.valueChanges
       .filter(value => value ? true : false)
       .flatMap(prodn1Producentid =>
-        this.http.get('/api/prodn2?prodn1=' + prodn1Producentid).map(response => response.json()))
+        this.http.get('/api/prodn2?prodn1=' + prodn1Producentid).map(response => response.json().content))
       .subscribe(prodn2s => {
         this.prodn2Options = prodn2s;
         this.prodn3Options = [];

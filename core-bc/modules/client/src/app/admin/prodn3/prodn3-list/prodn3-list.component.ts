@@ -45,8 +45,23 @@ export class Prodn3ListComponent implements OnInit {
               route: ActivatedRoute) {
 
     const page = route.snapshot.queryParams['page'];
+    const prodn1 = route.snapshot.queryParams['prodn1'];
+    const prodn2 = route.snapshot.queryParams['prodn2'];
+
     if (page) {
       this.pageSubject.next(Number.parseInt(page));
+    }
+
+    if (prodn1) {
+      this.selectedProdn1.next(prodn1);
+    }
+
+    if (prodn2) {
+      this.selectedProdn2.next(prodn2);
+    }
+
+    if (prodn1 ||prodn2) {
+      this.showFilter = true;
     }
   }
 
@@ -80,7 +95,7 @@ export class Prodn3ListComponent implements OnInit {
     this.availableProdn2s$ = this.selectedProdn1
       .filter(prodn1 => prodn1 !== null)
       .mergeMap(prodn1 => this.http.get('/api/prodn2?prodn1=' + prodn1))
-      .map(response => response.json());
+      .map(response => response.json().content);
 
   }
 

@@ -46,6 +46,7 @@ public class Prodn3Controller {
             Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(order));
 
             List<String> n2sByN1 = prodn2Repository.findAllByN1Equals(prodn1, null)
+                    .getContent()
                     .stream()
                     .map(Prodn2::getProducentid)
                     .collect(Collectors.toList());

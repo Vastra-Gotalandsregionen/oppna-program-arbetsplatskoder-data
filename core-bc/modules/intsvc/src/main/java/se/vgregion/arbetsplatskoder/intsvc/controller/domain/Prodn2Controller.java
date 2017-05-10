@@ -1,6 +1,9 @@
 package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,18 +23,26 @@ import java.util.Random;
 @RequestMapping("/prodn2")
 public class Prodn2Controller {
 
+    private final int defaultPageSize = 20;
+
     @Autowired
     private Prodn2Repository prodn2Repository;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    public List<Prodn2> getProdn2s(@RequestParam(value = "prodn1", required = false) String prodn1) {
+    public Page<Prodn2> getProdn2s(@RequestParam(value = "prodn1", required = false) String prodn1,
+                                         @RequestParam(value = "page", required = false) Integer page) {
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "avdelning").ignoreCase();
+
         if (prodn1 != null) {
-            Sort.Order order = new Sort.Order(Sort.Direction.ASC, "producentid").ignoreCase();
-            return prodn2Repository.findAllByN1Equals(prodn1, new Sort(order));
+            // The MAX_VALUE for page defaultPageSize since we use this in an autocomplete component. Rethink design otherwise... TODO let client specify defaultPageSize!
+            Pageable pageable = new PageRequest(page == null ? 0 : page, Integer.MAX_VALUE, new Sort(order));
+
+            return prodn2Repository.findAllByN1Equals(prodn1, pageable);
         } else {
-            Sort.Order order = new Sort.Order(Sort.Direction.ASC, "producentid").ignoreCase();
-            return prodn2Repository.findAll(new Sort(order));
+            Pageable pageable = new PageRequest(page == null ? 0 : page, defaultPageSize, new Sort(order));
+
+            return prodn2Repository.findAll(pageable);
         }
     }
 
