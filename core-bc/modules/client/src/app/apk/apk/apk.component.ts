@@ -183,4 +183,8 @@ export class ApkComponent implements OnInit {
     return this.authService.jwt ? true : false;
   }
 
+  get admin() {
+    return this.authService.getLoggedInRole() === 'ADMIN';
+  }
+
 }

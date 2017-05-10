@@ -95,7 +95,7 @@ export class UserFormComponent implements OnInit {
 
     this.http.put('/api/user', this.user)
       .subscribe(result => {
-        this.router.navigate(['/users']);
+        this.router.navigate(['/admin/users']);
       });
   }
 }

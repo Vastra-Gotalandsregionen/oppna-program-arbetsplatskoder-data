@@ -146,10 +146,10 @@
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
 
-          <h3>Välj sorteringsnivå</h3>
+          <h3>Välj summeringsnivå</h3>
 
           <div>
-            <md-select placeholder="Sorteringsnivå 1" formControlName="sorteringsniva1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <md-select placeholder="Summeringsnivå 1" formControlName="sorteringsniva1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1.producentid">
                 {{prodn1.producentid}} - {{prodn1.foretagsnamn}}
               </md-option>
@@ -157,7 +157,7 @@
           </div>
 
           <div>
-            <md-select placeholder="Sorteringsnivå 2" formControlName="sorteringsniva2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <md-select placeholder="Summeringsnivå 2" formControlName="sorteringsniva2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2.producentid">
                 {{prodn2.producentid}} - {{prodn2.avdelning}}
               </md-option>
@@ -165,7 +165,7 @@
           </div>
 
           <div>
-            <md-select placeholder="Sorteringsnivå 3" formControlName="sorteringsniva3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <md-select placeholder="Summeringsnivå 3" formControlName="sorteringsniva3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3.producentid">
                 {{prodn3.producentid}} - {{prodn3.foretagsnamn}}
               </md-option>

@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Prodn2ListComponent } from './prodn2-list/prodn2-list.component';
 import { Prodn2EditComponent } from './prodn2-edit/prodn2-edit.component';
 import {SharedModule} from '../../shared/shared.module';
-import {CoreModule} from '../../core/core.module';
 import {Prodn2RoutingModule} from './prodn2-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    CoreModule,
     SharedModule,
     Prodn2RoutingModule
   ],

@@ -16,16 +16,7 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log(params);
       this.userId = params.userId;
-
-      /*if (this.userId) {
-        this.http.get('/api/user/' + this.userId)
-          .map(response => response.json())
-          .subscribe((user: User) => {
-            this.data = data;
-          });
-      }*/
     });
   }
 

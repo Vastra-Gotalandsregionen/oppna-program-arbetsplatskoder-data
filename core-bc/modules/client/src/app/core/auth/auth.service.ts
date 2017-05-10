@@ -54,6 +54,8 @@ export class AuthService {
 
       localStorage.setItem('apkJwtToken', value);
     } else if (this.jwtToken) {
+      // Logout
+
       this.router.navigate(['/']);
       this.jwtToken = null;
       localStorage.removeItem('apkJwtToken');
