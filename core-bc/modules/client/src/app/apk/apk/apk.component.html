@@ -53,6 +53,11 @@
                 <md-icon>edit</md-icon>
                 <span>Redigera</span>
               </button>
+              <button md-menu-item *ngIf="userHasEditPermission(data)" [disabled]="!data.deletable" (click)="confirmDelete(data)">
+                <md-icon>delete</md-icon>
+                <span>Radera</span>&nbsp;
+                <md-icon *ngIf="!data.deletable" mdTooltip="Radera ej möjligt efter post skickats till EHM">info</md-icon>
+              </button>
             </md-menu>
           </td>
         </tr>

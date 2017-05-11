@@ -37,4 +37,5 @@ export class Data {
   vgpv: string;
   hsaid: string;
   userIdNew: string;
+  deletable: boolean;
 }

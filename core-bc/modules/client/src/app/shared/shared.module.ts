@@ -7,6 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import {JwtHelper} from 'angular2-jwt/angular2-jwt';
+import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component";
 
 @NgModule({
   imports: [
@@ -18,11 +19,13 @@ import {JwtHelper} from 'angular2-jwt/angular2-jwt';
   ],
   declarations: [
     ErrorDialogComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    ConfirmDialogComponent
   ],
   entryComponents: [
     ErrorDialogComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    ConfirmDialogComponent
   ],
   exports: [
     ApkMaterialModule,

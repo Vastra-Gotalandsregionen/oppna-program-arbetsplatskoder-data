@@ -1,0 +1,10 @@
+<div class="confirm-dialog">
+    <h4 md-dialog-title="">Bekräfta</h4>
+
+    <div md-dialog-content>Är du säker att du vill ta bort vald post?</div>
+
+    <div md-dialog-actions>
+        <button md-button class="btn btn-primary" (click)="dialogRef.close('delete')">Radera</button>
+        <button md-button class="btn btn-default" (click)="dialogRef.close('abort')">Avbryt</button>
+    </div>
+</div>

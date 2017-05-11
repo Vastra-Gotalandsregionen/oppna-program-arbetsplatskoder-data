@@ -10,6 +10,8 @@ import {ErrorHandler} from '../../shared/error-handler';
 import {AuthService} from '../../core/auth/auth.service';
 import {JwtHttp} from '../../core/jwt-http';
 import {Prodn1} from '../../model/prodn1';
+import {MdDialog, MdSnackBar} from "@angular/material";
+import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-apk',
@@ -34,7 +36,9 @@ export class ApkComponent implements OnInit {
               private location: Location,
               private route: ActivatedRoute,
               private authService: AuthService,
-              private errorHandler: ErrorHandler) {
+              private errorHandler: ErrorHandler,
+              private snackBar: MdSnackBar,
+              private dialog: MdDialog) {
     this.stateCtrl = new FormControl();
     this.onlyMyDatasCtrl = new FormControl();
   }
@@ -109,7 +113,7 @@ export class ApkComponent implements OnInit {
     this.observeData()
       .subscribe(response => {
         this.handleResponse(response);
-      }, error => this.errorHandler.notifyError(error));
+      });
   }
 
   private handleResponse(response) {
@@ -185,6 +189,21 @@ export class ApkComponent implements OnInit {
 
   get admin() {
     return this.authService.getLoggedInRole() === 'ADMIN';
+  }
+
+  confirmDelete(data: Data) {
+    let dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'delete') {
+        this.http.delete('/api/data/' + data.id)
+          .subscribe(response => {
+            console.log(response);
+            this.updateState();
+            this.snackBar.open('Lyckades spara!', null, {duration: 3000});
+          });
+      }
+    });
   }
 
 }

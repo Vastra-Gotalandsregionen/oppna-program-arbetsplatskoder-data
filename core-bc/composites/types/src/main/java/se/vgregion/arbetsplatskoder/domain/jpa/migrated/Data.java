@@ -136,6 +136,9 @@ public class Data extends AbstractEntity {
     @Column
     private String userIdNew;
 
+    @Column
+    private Boolean deletable;
+
     public java.lang.Integer getId(){
         return id;
     }
@@ -447,5 +450,13 @@ public class Data extends AbstractEntity {
 
     public String getUserIdNew() {
         return userIdNew;
+    }
+
+    public Boolean getDeletable() {
+        return deletable;
+    }
+
+    public void setDeletable(Boolean deletable) {
+        this.deletable = deletable;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -115,6 +116,14 @@ public class DataController {
         return dataRepository.findOne(id);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity deleteData(@PathVariable("id") Integer id) {
+        dataRepository.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
+
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -125,6 +134,7 @@ public class DataController {
 
         if (data.getId() == null) {
             data.setId(Math.abs(random.nextInt())); // todo Improve this
+            data.setDeletable(true);
         }
 
         if (data.getArbetsplatskod() == null) {

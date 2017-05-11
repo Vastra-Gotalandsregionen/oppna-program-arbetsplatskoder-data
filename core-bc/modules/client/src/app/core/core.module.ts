@@ -5,6 +5,7 @@ import {AdminGuard} from './guard/admin.guard';
 import {AuthService} from './auth/auth.service';
 import {JwtHttp} from './jwt-http';
 import {HttpModule, XHRBackend, RequestOptions} from '@angular/http';
+import {ErrorHandler} from "../shared/error-handler";
 
 @NgModule({
   imports: [
@@ -19,12 +20,12 @@ import {HttpModule, XHRBackend, RequestOptions} from '@angular/http';
     {
       provide: JwtHttp,
       useFactory: JwtHttpFactory,
-      deps: [XHRBackend, RequestOptions, AuthService]
+      deps: [XHRBackend, RequestOptions, AuthService, ErrorHandler, StateService]
     }
   ]
 })
 export class CoreModule { }
 
-export function JwtHttpFactory(backend: XHRBackend, options: RequestOptions, authService: AuthService) {
-  return new JwtHttp(backend, options, authService);
+export function JwtHttpFactory(backend: XHRBackend, options: RequestOptions, authService: AuthService, errorHandler: ErrorHandler, stateService: StateService) {
+  return new JwtHttp(backend, options, authService, errorHandler, stateService);
 }
