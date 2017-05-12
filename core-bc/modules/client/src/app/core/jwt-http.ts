@@ -1,7 +1,7 @@
 import {Http, RequestOptionsArgs, Request, Response, XHRBackend} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
-import {RequestOptions, Headers} from '@angular/http';
+import {RequestOptions, Headers, URLSearchParams} from '@angular/http';
 import {AuthService} from './auth/auth.service';
 import {ErrorHandler} from "../shared/error-handler";
 import {StateService} from "./state/state.service";
@@ -32,7 +32,18 @@ export class JwtHttp extends Http {
     this.stateService = stateService;
   }
 
+  getPage(url: string, page?: number, pageSize?: number) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('page', page ? page.toString() : '0');
+    params.set('pageSize', pageSize ? pageSize.toString() : '20');
+
+    const options = new RequestOptions({search: params});
+
+    return super.get(url, options)
+  }
+
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+
     const token = this.authService.jwt;
     if (token) {
       if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
@@ -47,7 +58,7 @@ export class JwtHttp extends Http {
       }
     }
 
-    let timerSubscription: Subscription = Observable.timer(250)
+    const timerSubscription: Subscription = Observable.timer(250) // Delay when progress indicator is shown.
       .take(1)
       .subscribe(undefined, undefined, () => {
         this.stateService.startShowProgress();

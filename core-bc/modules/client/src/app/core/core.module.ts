@@ -6,6 +6,19 @@ import {AuthService} from './auth/auth.service';
 import {JwtHttp} from './jwt-http';
 import {HttpModule, XHRBackend, RequestOptions} from '@angular/http';
 import {ErrorHandler} from "../shared/error-handler";
+import {ConstantsService} from "./constants.service";
+import 'rxjs/add/operator/timeout';
+import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/toArray';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/distinct';
+import 'rxjs/add/observable/from';
+import 'rxjs/add/observable/timer';
 
 @NgModule({
   imports: [
@@ -17,6 +30,7 @@ import {ErrorHandler} from "../shared/error-handler";
     AdminGuard,
     AuthService,
     StateService,
+    ConstantsService,
     {
       provide: JwtHttp,
       useFactory: JwtHttpFactory,

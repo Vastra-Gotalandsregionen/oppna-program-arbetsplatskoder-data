@@ -38,8 +38,6 @@ export class Prodn3ListComponent implements OnInit {
 
   showFilter = false;
 
-  // selectedProdn1: string = null;
-
   constructor(private http: JwtHttp,
               private location: Location,
               route: ActivatedRoute) {

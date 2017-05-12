@@ -65,6 +65,7 @@ export class ApkComponent implements OnInit {
 
         this.stateCtrl.valueChanges
           .skip(1) // Skip on init
+          .debounceTime(50) // Primarily to avoid many requests if user presses and holds backspace button.
           .subscribe(query => {
             this.query = query;
             this.updateState();

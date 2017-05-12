@@ -3,11 +3,8 @@ import {Data} from '../../model/data';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {RequestOptions, Headers, Response} from '@angular/http';
 import {Ao3} from '../../model/ao3';
-import {AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/add/observable/from';
 import {Vardform} from '../../model/vardform';
 import {Verksamhet} from '../../model/verksamhet';
 import {MdSnackBar} from '@angular/material';
@@ -78,7 +75,7 @@ export class ApkFormComponent implements OnInit {
       dataObservable = Observable.from([new Data()]);
     }
 
-    const ao3Observable = this.http.get('/api/ao3').map(response => response.json());
+    const ao3Observable = this.http.get('/api/ao3').map(response => response.json().content);
     const vardformObservable = this.http.get('/api/vardform').map(response => response.json());
     const verksamhetObservable = this.http.get('/api/verksamhet').map(response => response.json());
     const prodn1 = this.http.get('/api/prodn1').map(response => response.json());

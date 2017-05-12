@@ -3,6 +3,12 @@
 
     <md-list *ngIf="admin">
       <md-list-item>
+        <a routerLink="landing" routerLinkActive="active">
+          <md-icon>home</md-icon>
+          <span class="nav-label">Översikt</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
         <a routerLink="old-users" routerLinkActive="active">
           <md-icon>people</md-icon>
           <span class="nav-label">Användare (gamla)</span>
@@ -30,6 +36,12 @@
         <a routerLink="prodn3" routerLinkActive="active">
           <md-icon>list</md-icon>
           <span class="nav-label">Summeringsnivå 3</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="ao3" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Ao3</span>
         </a>
       </md-list-item>
     </md-list>

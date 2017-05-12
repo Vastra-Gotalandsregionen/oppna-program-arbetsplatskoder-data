@@ -1,11 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
 import {NgForm} from '@angular/forms';
-import {Http} from '@angular/http';
 import {StateService} from '../../core/state/state.service';
-import {Router} from '@angular/router';
-import 'rxjs/add/operator/timeout';
-import {TimeoutError} from 'rxjs/Rx';
+import {TimeoutError} from 'rxjs/util/TimeoutError';
 import {AuthService} from '../../core/auth/auth.service';
 import {JwtHttp} from '../../core/jwt-http';
 

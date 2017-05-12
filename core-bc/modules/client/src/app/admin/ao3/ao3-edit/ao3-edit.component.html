@@ -1,0 +1,74 @@
+<md-card>
+  <md-card-content>
+
+    <div *ngIf="ao3Form; else loading">
+      <h4>Redigera {{ao3.foretagsnamn || 'Ny'}}</h4>
+
+      <form #formRef="ngForm" [formGroup]="ao3Form" (ngSubmit)="save()" novalidate (autocomplete)="false">
+
+        <div>
+          <md-input-container>
+            <input placeholder="ID" type="text" mdInput formControlName="id"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="AO3-ID" type="text" mdInput formControlName="ao3id"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Företagsnamn" type="text" mdInput formControlName="foretagsnamn"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Företagsnummer" type="text" mdInput formControlName="foretagsnr"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Producent" type="text" mdInput formControlName="producent" [mdAutocomplete]="producentAutocompleteRef"/>
+          </md-input-container>
+
+          <md-autocomplete class="autocomplete" #producentAutocompleteRef="mdAutocomplete">
+            <md-option class="md-option" *ngFor="let prodn1 of prodn1SearchResult$ | async" [value]="prodn1.producentid">
+              {{prodn1.producentid}} {{prodn1.foretagsnamn}}
+            </md-option>
+          </md-autocomplete>
+        </div>
+
+        <div>
+          <md-input-container>
+            <input placeholder="Kontaktperson" type="text" mdInput formControlName="kontaktperson"/>
+          </md-input-container>
+        </div>
+
+        <div>
+          <md-checkbox formControlName="raderad">Raderad</md-checkbox>
+        </div>
+
+        <div>
+          <button type="submit"
+                  [disabled]="ao3Form.pristine" md-raised-button class="btn btn-success">Spara
+          </button> &nbsp;
+          <button type="button"
+                  [disabled]="ao3Form.pristine" md-raised-button class="btn" (click)="resetForm()">Återställ
+          </button> &nbsp;
+          <button type="button"
+                  md-raised-button class="btn" (click)="location.back()">{{ao3Form.pristine ? 'Tillbaka' : 'Avbryt'}} <!-- TODO Use same approach everywhere... -->
+          </button> &nbsp;
+          {{saveMessage}}
+        </div>
+      </form>
+
+    </div>
+
+    <ng-template #loading>Läser in...</ng-template>
+
+  </md-card-content>
+</md-card>

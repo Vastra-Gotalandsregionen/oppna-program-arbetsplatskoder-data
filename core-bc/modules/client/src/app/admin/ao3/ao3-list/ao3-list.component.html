@@ -1,0 +1,63 @@
+<md-card>
+
+  <md-card-title class="edge2edge">
+    <md-toolbar class="action-toolbar">
+      <div class="action-toolbar-spacer"></div>
+
+      <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Ao3 2">
+        <md-icon>add</md-icon>
+      </a>
+    </md-toolbar>
+  </md-card-title>
+
+  <md-card-content>
+
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>AO3-ID</th>
+        <th>Företagsnamn</th>
+        <th>Producent (Ska denna vara här???)</th>
+        <th>Kontaktperson</th>
+        <th>Företagsnummer</th>
+        <th>Raderad</th>
+        <th>Används ej?</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ao3 of response?.content">
+        <td>{{ao3.id}}</td>
+        <td>{{ao3.ao3id}}</td>
+        <td>{{ao3.foretagsnamn}}</td>
+        <td>{{ao3.producent}}</td>
+        <td>{{ao3.kontaktperson}}</td>
+        <td>{{ao3.foretagsnr}}</td>
+        <td>
+          <md-icon mdTooltip="Markerad som raderad" *ngIf="ao3.raderad">clear</md-icon>
+        </td>
+        <td>
+          <!--
+                    <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">
+                      warning
+                    </md-icon>
+          -->
+        </td>
+        <td><a routerLink="{{ao3.id}}/edit">
+          <md-icon>edit</md-icon>
+        </a></td>
+      </tr>
+      </tbody>
+    </table>
+  </md-card-content>
+
+  <md-card-actions *ngIf="response">
+    <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
+    <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
+
+    <div *ngIf="response" class="search-summary">
+      Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
+    </div>
+  </md-card-actions>
+</md-card>

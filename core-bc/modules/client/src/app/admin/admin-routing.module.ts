@@ -9,7 +9,7 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       {
-        path: '',
+        path: 'landing',
         component: AdminLandingComponent,
       },
       {
@@ -33,8 +33,12 @@ const routes: Routes = [
         loadChildren: './prodn3/prodn3.module#Prodn3Module'
       },
       {
+        path: 'ao3',
+        loadChildren: './ao3/ao3.module#Ao3Module'
+      },
+      {
         path: '**',
-        component: AdminLandingComponent
+        redirectTo: 'landing'
       },
 
     ]
