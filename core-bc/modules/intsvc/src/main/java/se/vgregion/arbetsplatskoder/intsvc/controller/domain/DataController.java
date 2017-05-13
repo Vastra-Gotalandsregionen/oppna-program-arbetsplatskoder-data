@@ -139,6 +139,7 @@ public class DataController {
 
         if (data.getArbetsplatskod() == null) {
             data.setArbetsplatskod(Math.abs(random.nextInt()) + "");
+            data.setArbetsplatskodlan(data.getLankod() + data.getArbetsplatskod());
         }
 
         data.setUserIdNew(user.getId());

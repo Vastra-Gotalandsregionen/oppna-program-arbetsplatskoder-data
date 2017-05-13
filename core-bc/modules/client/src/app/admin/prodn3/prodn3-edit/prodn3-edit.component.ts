@@ -90,7 +90,7 @@ export class Prodn3EditComponent implements OnInit {
           this.prodn3 = prodn3;
           this.snackBar.open('Lyckades spara!', null, {duration: 3000});
           this.buildForm();
-        }, error => this.errorHandler.notifyError(error)
+        }
       );
   }
 

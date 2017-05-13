@@ -20,8 +20,7 @@ export class OldUsersListComponent implements OnInit {
   ngOnInit() {
     this.http.get('/api/anvandare').map<Response, Anvandare[]>(response => response.json())
       .subscribe(
-        anvandares => this.anvandares = anvandares,
-        error => this.errorHandler.notifyError(error)
+        anvandares => this.anvandares = anvandares
       );
   }
 

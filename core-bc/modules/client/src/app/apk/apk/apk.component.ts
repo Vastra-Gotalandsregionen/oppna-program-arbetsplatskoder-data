@@ -12,6 +12,7 @@ import {JwtHttp} from '../../core/jwt-http';
 import {Prodn1} from '../../model/prodn1';
 import {MdDialog, MdSnackBar} from "@angular/material";
 import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
+import {Util} from "../../core/util/util";
 
 @Component({
   selector: 'app-apk',
@@ -27,7 +28,6 @@ export class ApkComponent implements OnInit {
   page = 0;
   onlyMyDatas: boolean;
 
-  datas: Data[];
   response: RestResponse<Data>;
   sort: { field: string, ascending: boolean };
   usersProdn1sString$: Observable<string>;
@@ -36,7 +36,6 @@ export class ApkComponent implements OnInit {
               private location: Location,
               private route: ActivatedRoute,
               private authService: AuthService,
-              private errorHandler: ErrorHandler,
               private snackBar: MdSnackBar,
               private dialog: MdDialog) {
     this.stateCtrl = new FormControl();
@@ -190,6 +189,25 @@ export class ApkComponent implements OnInit {
 
   get admin() {
     return this.authService.getLoggedInRole() === 'ADMIN';
+  }
+
+  getStataus(data: Data) {
+
+    const tillDatum = data.tillDatum;
+
+    if (!tillDatum) {
+      // No value means "until further notice".
+      return 'valid';
+    }
+
+    if (Util.isOlderThanXYears(tillDatum, 1)) {
+      return 'fullyClosed';
+    } else if (Util.isOlderThanXYears(tillDatum, 0)) {
+      return 'closed'
+    } else {
+      return 'valid';
+    }
+
   }
 
   confirmDelete(data: Data) {

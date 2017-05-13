@@ -55,7 +55,7 @@
 
     </md-card>
 
-    <md-card [@slideIn]="apkForm.value.agarform === '1' || apkForm.value.agarform === '4' || apkForm.value.agarform === '5' || apkForm.value.agarform === '6' ? 'in' :'out'" class="example-card">
+    <md-card [@slideIn]="apkForm.value.agarform === '1' || apkForm.value.agarform === '4' ? 'in' :'out'" class="example-card">
 
       <md-card-content>
         <h3>Sök efter enhet i KIV</h3>
@@ -114,6 +114,15 @@
             <textarea mdInput placeholder="Frivillig uppgift" formControlName="frivilligUppgift" rows="3"></textarea>
             <md-icon mdTooltip="Förklaring...">help</md-icon>
           </md-input-container>
+
+          <div formGroupName="externfakturaGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <label class="field-label">Faktureras externt</label>
+            <md-radio-group formControlName="externfakturamodell">
+              <md-radio-button value="nej">Nej</md-radio-button>
+              <md-radio-button value="ovr">Ja
+              </md-radio-button>
+            </md-radio-group>
+          </div>
 
           <md-input-container>
             <input placeholder="Vårdform" type="text" mdInput
@@ -180,10 +189,6 @@
           <h3>Ange kontaktuppgifter</h3>
 
           <md-input-container>
-            <input placeholder="Län" type="text" mdInput formControlName="lankod">
-          </md-input-container>
-
-          <md-input-container>
             <input placeholder="Benämning/enhetsnamn - Tas från KIV? +att man måste ha kortnamn för att det ska gå igenom i Concise"
               type="text" mdInput formControlName="benamning" name="banamning">
           </md-input-container>
@@ -206,15 +211,6 @@
 
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
-
-          <div formGroupName="externfakturaGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-            <label class="field-label">Faktureras externt</label>
-            <md-radio-group formControlName="externfakturamodell">
-              <md-radio-button value="nej">Nej</md-radio-button>
-              <md-radio-button value="gothenburg">Göteborg (aldrig valt, tas bort?)</md-radio-button>
-              <md-radio-button value="ovr">Övriga</md-radio-button>
-            </md-radio-group>
-          </div>
 
           <div class="checkbox-container">
             <!--
@@ -268,17 +264,12 @@
 
       </md-card>
 
-      <md-card class="example-card" [@slideIn]="data.arbetsplatskod ? 'in' : 'out'">
+      <md-card class="example-card" [@slideIn]="data.arbetsplatskodlan ? 'in' : 'out'">
         <md-card-content>
 
           <h3>Enhetens arbetsplatskod</h3>
 
-          <p>{{ data.arbetsplatskod }} </p>
-          <!--
-          <md-input-container>
-            <input placeholder="Arbetsplatskod" type="text" mdInput formControlName="arbetsplatskod">
-          </md-input-container>
-          -->
+          <p>{{ data.arbetsplatskodlan }} </p>
 
         </md-card-content>
       </md-card>
@@ -325,7 +316,6 @@
           <pre>{{apkForm.value | json}}</pre>
           <pre>{{apkForm.status}}</pre>
           <pre>{{apkForm.controls}}</pre>
-          <pre>lankod touched: {{apkForm.controls.lankod.touched}}</pre>
           <pre>{{apkForm.get('ao3').errors | json}}</pre>
           <pre>{{apkForm.status}}</pre>
           <pre>{{apkForm.errors}}</pre>

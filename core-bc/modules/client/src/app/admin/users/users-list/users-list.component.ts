@@ -28,8 +28,7 @@ export class UsersListComponent implements OnInit {
   private updateUsers() {
     this.http.get('/api/user').map<Response, User[]>(response => response.json())
       .subscribe(
-        users => this.users = users,
-        error => this.errorHandler.notifyError(error)
+        users => this.users = users
       );
   }
 

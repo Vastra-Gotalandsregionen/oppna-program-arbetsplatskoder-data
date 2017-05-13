@@ -66,13 +66,16 @@ export class ApkFormComponent implements OnInit {
 
   ngOnInit() {
 
-    this.data = new Data();
+    const defaultData = new Data();
+
+    // Default values:
+    defaultData.externfakturamodell = 'nej';
 
     let dataObservable: Observable<Data>;
     if (this.dataId) {
       dataObservable = this.http.get('/api/data/' + this.dataId).map(response => response.json());
     } else {
-      dataObservable = Observable.from([new Data()]);
+      dataObservable = Observable.from([defaultData]);
     }
 
     const ao3Observable = this.http.get('/api/ao3').map(response => response.json().content);
@@ -127,11 +130,9 @@ export class ApkFormComponent implements OnInit {
   }
 
   private buildForm() {
-
     this.apkForm = this.formBuilder.group({
       'unitSearch': [],
       'arbetsplatskod': [{value: this.data.arbetsplatskod, disabled: true}, []],
-      'lankod': [this.data.lankod, Validators.required],
       'agarform': [this.data.agarform],
       'ao3': [this.ao3IdMap.get(this.data.ao3), Validators.required],
       'frivilligUppgift': [{value: this.data.frivilligUppgift, disabled: !this.isPrivate}],
@@ -180,8 +181,7 @@ export class ApkFormComponent implements OnInit {
       })
       .map(result => result.json())
       .subscribe(
-        result => this.unitSearchResult = result,
-        error => this.errorHandler.notifyError(error)
+        result => this.unitSearchResult = result
       );
 
     this.apkForm.statusChanges.subscribe(value => {
@@ -226,7 +226,7 @@ export class ApkFormComponent implements OnInit {
           this.apkForm.patchValue({'sorteringsniva3': prodn3.producentid});
 
           this.initSorteringsnivaControls(prodn3);
-        }, error => this.errorHandler.notifyError(error));
+        });
     } else {
       this.initSorteringsnivaControls(null);
     }
@@ -310,7 +310,7 @@ export class ApkFormComponent implements OnInit {
         .subscribe(prodn2s => {
           this.prodn2Options = prodn2s;
           this.listenToChangesToProdnx();
-        }, error => this.errorHandler.notifyError(error));
+        });
     } else {
       this.listenToChangesToProdnx();
     }
@@ -331,7 +331,7 @@ export class ApkFormComponent implements OnInit {
           'sorteringsniva2': null,
           'sorteringsniva3': null
         });
-      }, error => this.errorHandler.notifyError(error));
+      });
 
     sorteringsniva2Control.valueChanges
       .filter(value => value ? true : false)
@@ -343,7 +343,7 @@ export class ApkFormComponent implements OnInit {
         this.apkForm.patchValue({
           'sorteringsniva3': null
         });
-      }, error => this.errorHandler.notifyError(error));
+      });
   }
 
   save() {
@@ -354,7 +354,7 @@ export class ApkFormComponent implements OnInit {
 
     const data = this.data;
     const formModel = this.apkForm.value;
-    data.lankod = formModel.lankod;
+    data.lankod = data.lankod || '14'; // Hard-coded
     data.agarform = formModel.agarform;
     data.ao3 = (<Ao3> formModel.ao3).ao3id;
     data.anmarkning = formModel.anmarkning;
@@ -382,7 +382,7 @@ export class ApkFormComponent implements OnInit {
         this.data = data;
         this.buildForm();
         this.snackBar.open('Lyckades spara!', null, {duration: 3000});
-      }, error => this.errorHandler.notifyError(error));
+      });
   }
 
   resetForm() {
@@ -443,14 +443,12 @@ export class ApkFormComponent implements OnInit {
     }
 
     this.apkForm.patchValue({
-      'lankod': unit.attributes.hsaCountyCode,
       'ao3': unit.attributes.vgrAo3kod ? this.ao3IdMap.get(unit.attributes.vgrAo3kod[0]) : null,
       'hsaid': unit.attributes.hsaIdentity ? unit.attributes.hsaIdentity[0] : null,
       'benamning': unit.attributes.ou ? unit.attributes.ou[0] : null,
       'ansvar': unit.attributes.vgrAnsvarsnummer ? unit.attributes.vgrAnsvarsnummer[0] : null,
     });
 
-    this.apkForm.get('lankod').markAsTouched();
     this.apkForm.get('ao3').markAsTouched();
     this.apkForm.get('hsaid').markAsTouched();
     this.apkForm.get('benamning').markAsTouched();

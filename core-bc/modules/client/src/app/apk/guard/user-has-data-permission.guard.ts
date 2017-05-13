@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import {AuthService} from '../../core/auth/auth.service';
 import {JwtHttp} from '../../core/jwt-http';
 import {Data} from '../../model/data';
+import {Util} from "../../core/util/util";
 
 @Injectable()
 export class UserHasDataPermissionGuard implements CanActivate {
@@ -17,10 +18,7 @@ export class UserHasDataPermissionGuard implements CanActivate {
 
     return this.http.get('/api/data/' + next.params.id)
       .map(response => response.json())
-      .map((data: Data) => this.userHasEditPermission(data));
+      .map((data: Data) => this.authService.userHasDataEditPermission(data) && (!data.tillDatum || !Util.isOlderThanXYears(data.tillDatum, 0)));
   }
 
-  userHasEditPermission(data: Data): boolean {
-    return this.authService.userHasDataEditPermission(data);
-  }
 }
