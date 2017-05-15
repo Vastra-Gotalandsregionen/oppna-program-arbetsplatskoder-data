@@ -6,6 +6,12 @@ md-input-container, .autocomplete {
   width: 100%;
 }
 
+md-input-container {
+&.date {
+   width: 242px;
+ }
+}
+
 md-input-container md-icon {
   position: absolute;
   right: 0;

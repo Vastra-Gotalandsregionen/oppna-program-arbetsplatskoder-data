@@ -237,19 +237,25 @@
             <input placeholder="HSA-ID" mdInput formControlName="hsaid" type="text"/>
           </md-input-container>
 
-          <md-input-container>
-            <input placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD) (TODO mer sofistikerad validering)" type="text" mdInput
-                   formControlName="fromDatum"/>
+          <md-input-container class="date">
+            <input placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD)" mdInput [mdDatepicker]="fromDatepicker"
+                   formControlName="fromDatum">
+            <button mdSuffix [mdDatepickerToggle]="fromDatepicker" type="button"></button>
           </md-input-container>
+
+          <md-datepicker #fromDatepicker></md-datepicker>
 
           <div class="checkbox-container">
-            <md-checkbox align="end" formControlName="noTillDatum">Giltig tills vidare</md-checkbox>
+            <md-checkbox align="end" formControlName="noTillDatum" #noTillDatumCheckbox>Giltig tills vidare</md-checkbox>
           </div>
 
-          <md-input-container>
-            <input placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD) (TODO mer sofistikerad validering)" type="text" mdInput
+          <md-input-container class="date">
+            <input placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD)" mdInput [mdDatepicker]="toDatepicker"
                    formControlName="tillDatum"/>
+            <button mdSuffix [mdDatepickerToggle]="toDatepicker" type="button" [disabled]="noTillDatumCheckbox.checked"></button>
           </md-input-container>
+
+          <md-datepicker startView="year" #toDatepicker></md-datepicker>
 
           <div>
             <span>Registrerad:</span> <span>{{data.regDatum}}</span>

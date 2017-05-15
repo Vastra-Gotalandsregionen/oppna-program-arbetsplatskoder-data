@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import {MyDateAdapter} from "./my-date-adapter";
 import {
   MdAutocompleteModule, MdButtonModule, MdButtonToggleModule,
   MdCardModule, MdCheckboxModule, MdChipsModule, MdDialogModule, MdIconModule,
@@ -8,7 +9,10 @@ import {
   MdRadioModule, MdSelectModule,
   MdSlideToggleModule,
   MdSidenavModule, MdSnackBarModule,
-  MdToolbarModule, MdTooltipModule
+  MdToolbarModule, MdTooltipModule,
+  MdDatepickerModule,
+  MdNativeDateModule,
+  DateAdapter
 } from '@angular/material';
 
 @NgModule({
@@ -31,7 +35,9 @@ import {
     MdSnackBarModule,
     MdDialogModule,
     MdProgressBarModule,
-    MdChipsModule
+    MdChipsModule,
+    MdDatepickerModule,
+    MdNativeDateModule
   ],
   declarations: [],
   exports: [
@@ -53,7 +59,13 @@ import {
     MdSnackBarModule,
     MdDialogModule,
     MdProgressBarModule,
-    MdChipsModule
+    MdChipsModule,
+    MdDatepickerModule,
+    MdNativeDateModule
+  ],
+    providers: [
+    {provide: DateAdapter, useClass: MyDateAdapter},
+
   ]
 })
 export class ApkMaterialModule { }

@@ -19,7 +19,7 @@ import {RestResponse} from '../../model/rest-response';
 @Component({
   selector: 'apk-form',
   templateUrl: './apk-form.component.html',
-  styleUrls: ['./apk-form.component.css'],
+  styleUrls: ['./apk-form.component.scss'],
   animations: [
     trigger('slideIn', [
       state('*', style({opacity: 0})),
@@ -370,8 +370,8 @@ export class ApkFormComponent implements OnInit {
     data.externfakturamodell = formModel.externfakturaGroup.externfakturamodell;
     data.sorteringskodProd = formModel.sorteringsniva3;
     data.vgpv = formModel.vgpvGroup.vgpv;
-    data.fromDatum = formModel.fromDatum;
-    data.tillDatum = formModel.tillDatum;
+    data.fromDatum = formModel.fromDatum && typeof formModel.fromDatum === 'object' ? formModel.fromDatum.toLocaleDateString() : formModel.fromDatum;
+    data.tillDatum = formModel.tillDatum && typeof formModel.tillDatum === 'object' ? formModel.tillDatum.toLocaleDateString() : formModel.tillDatum;
 
     const headers = new Headers({'Content-Type': 'application/json'});
     const options = new RequestOptions({headers: headers});
@@ -467,7 +467,13 @@ export function datePattern(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 
-    if (!control.value || !control.value.match(datePattern)) {
+    let value = control.value;
+
+    if (value && typeof value === 'object') {
+      value = value.toLocaleDateString();
+    }
+
+    if (!value || !value.match(datePattern)) {
       return {'datePattern': true};
     }
 
