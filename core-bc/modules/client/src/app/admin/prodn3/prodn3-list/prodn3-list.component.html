@@ -14,6 +14,11 @@
     </md-toolbar>
   </md-card-title>
 
+  <md-card-content>
+    <md-checkbox (click)="toggleOnlyOrphan()" [(ngModel)]="onlyOrphan">Endast föräldralösa</md-checkbox>
+    <md-checkbox (click)="toggleOnlyUnused()" [(ngModel)]="onlyUnused">Endast oanvända</md-checkbox>
+  </md-card-content>
+
   <md-card-content [@slideIn]="showFilter ? 'in' : 'out'">
     <h4>Summeringsnivå 1</h4>
     <md-chip-list id="prodn1ChipList">
@@ -45,7 +50,6 @@
         <th>N2</th>
         <th>Autoradering</th>
         <th>Raderad</th>
-        <th>Används ej</th>
         <th>Redigera</th>
       </tr>
       </thead>
@@ -55,21 +59,10 @@
         <td>{{prodn3.foretagsnamn}}</td>
         <td>{{prodn3.kortnamn}}</td>
         <td>{{prodn3.producentid}}</td>
-        <!--<td *ngIf="orphanProdn2s.indexOf(prodn2.n1) > -1" mdTooltip="Finns ingen summeringsnivå 1 med denna kod"
-            [ngClass]="'circle-alert'">{{prodn2.n1}}
-        </td>-->
-        <!--<td *ngIf="orphanProdn2s.indexOf(prodn2.n1) === -1">{{prodn2.n1}}</td>-->
         <td>{{prodn3.n2}}</td>
         <td>{{prodn3.autoradering}}</td>
         <td>
           <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn3.raderad">clear</md-icon>
-        </td>
-        <td>
-          <!--
-                    <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">
-                      warning
-                    </md-icon>
-          -->
         </td>
         <td><a routerLink="{{prodn3.producentid}}/edit">
           <md-icon>edit</md-icon>

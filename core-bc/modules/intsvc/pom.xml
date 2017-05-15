@@ -99,6 +99,7 @@
         <configuration>
           <uriEncoding>UTF-8</uriEncoding>
           <path>/api</path>
+          <port>8080</port>
         </configuration>
       </plugin>
     </plugins>

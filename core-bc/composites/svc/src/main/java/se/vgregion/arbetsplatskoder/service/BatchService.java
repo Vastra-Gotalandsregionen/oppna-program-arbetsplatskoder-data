@@ -69,9 +69,17 @@ public class BatchService {
             Prodn3 prodn3 = prodn3Map.get(sorteringskodProd);
 
             if (prodn3 == null) {
-                LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist.");
+                prodn3 = prodn3Map.get(sorteringskodProd.toLowerCase().trim());
 
-                continue;
+                if (prodn3 != null) {
+                    // We just needed to lowercase... Fix...
+                    data.setSorteringskodProd(sorteringskodProd.toLowerCase().trim());
+                    dataRepository.save(data);
+                } else {
+                    LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist.");
+
+                    continue;
+                }
             }
 
             String n2 = prodn3.getN2();
@@ -79,9 +87,18 @@ public class BatchService {
             Prodn2 prodn2 = prodn2Map.get(n2);
 
             if (prodn2 == null) {
-                LOGGER.warn("Prodn2 " + n2 + " doesn't exist.");
 
-                continue;
+                prodn2 = prodn2Map.get(n2.toLowerCase().trim());
+
+                if (prodn2 != null) {
+                    prodn3.setN2(n2.toLowerCase().trim());
+
+                    prodn3Repository.save(prodn3);
+                } else {
+                    LOGGER.warn("Prodn2 " + n2 + " doesn't exist.");
+
+                    continue;
+                }
             }
 
             String n1 = prodn2.getN1();
@@ -89,9 +106,18 @@ public class BatchService {
             Prodn1 prodn1 = prodn1Map.get(n1);
 
             if (prodn1 == null) {
-                LOGGER.warn("Prodn1 " + n1 + " doesn't exist.");
 
-                continue;
+                prodn1 = prodn1Map.get(n1.toLowerCase().trim());
+
+                if (prodn1 != null) {
+                    prodn2.setN1(n1.toLowerCase().trim());
+
+                    prodn2Repository.save(prodn2);
+                } else {
+                    LOGGER.warn("Prodn1 " + n1 + " doesn't exist.");
+
+                    continue;
+                }
             }
 
 
