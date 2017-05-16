@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Location} from "@angular/common";
 import {Data} from '../../model/data';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {RequestOptions, Headers, Response} from '@angular/http';
@@ -8,13 +9,14 @@ import {Observable} from 'rxjs/Observable';
 import {Vardform} from '../../model/vardform';
 import {Verksamhet} from '../../model/verksamhet';
 import {MdSnackBar} from '@angular/material';
+import {StateService} from '../../core/state/state.service';
 import {ErrorHandler} from '../../shared/error-handler';
 import {Prodn1} from '../../model/prodn1';
 import {Prodn2} from '../../model/prodn2';
 import {Prodn3} from '../../model/prodn3';
 import {JwtHttp} from '../../core/jwt-http';
 import {RestResponse} from '../../model/rest-response';
-
+import {ApkBase} from "../apk-base/apk-base";
 
 @Component({
   selector: 'apk-form',
@@ -29,9 +31,12 @@ import {RestResponse} from '../../model/rest-response';
     ])
   ]
 })
-export class ApkFormComponent implements OnInit {
+export class ApkFormComponent extends ApkBase implements OnInit {
 
   @Input('dataId') dataId: string;
+
+  location: Location;
+  stateService: StateService;
 
   apkForm: FormGroup;
 
@@ -61,7 +66,13 @@ export class ApkFormComponent implements OnInit {
   constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
               private snackBar: MdSnackBar,
+              location: Location,
+              stateService: StateService,
               private errorHandler: ErrorHandler) {
+
+      super(location, stateService);
+      this.location = location;
+      this.stateService = stateService;
   }
 
   ngOnInit() {

@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {Location} from "@angular/common";
 
+import {StateService} from '../../core/state/state.service';
+
 import {ApkBase} from "../apk-base/apk-base";
 
 @Component({
@@ -11,10 +13,13 @@ import {ApkBase} from "../apk-base/apk-base";
 export class ApkCreateComponent extends ApkBase {
 
   location: Location;
+  stateService : StateService;
 
-  constructor(location: Location) {
-    super(location);
+  constructor(location: Location,
+            stateService : StateService) {
+    super(location, stateService);
     this.location = location;
+    this.stateService = stateService;
   }
 
 

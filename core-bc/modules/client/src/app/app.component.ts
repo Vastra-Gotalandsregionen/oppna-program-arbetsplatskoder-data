@@ -32,6 +32,14 @@ export class AppComponent {
     this.router.navigate(['/']);
   }
 
+  getShowDebug(): boolean {
+    return this.stateService.showDebug;
+  }
+
+  setShowDebug(value : boolean) {
+    this.stateService.showDebug = value;
+  }
+
   getLoggedInDisplayName() {
     return this.authService.getLoggedInDisplayName();
   }

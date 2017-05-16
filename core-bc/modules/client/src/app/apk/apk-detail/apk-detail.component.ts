@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Http} from '@angular/http';
 import {Data} from '../../model/data';
 import {AuthService} from '../../core/auth/auth.service';
+import {StateService} from '../../core/state/state.service';
 import {ApkBase} from "../apk-base/apk-base";
 
 @Component({
@@ -16,13 +17,16 @@ export class ApkDetailComponent extends ApkBase implements OnInit {
   id: string;
   data: Data;
   location: Location;
+  stateService : StateService;
 
   constructor(protected route: ActivatedRoute,
               protected http: Http,
               location: Location,
+              stateService: StateService,
               protected authService: AuthService) {
-    super(location);
+    super(location, stateService);
     this.location = location;
+    this.stateService = stateService;
   }
 
   ngOnInit() {

@@ -5,6 +5,7 @@ import {Anvandare} from '../../model/anvandare';
 export class StateService {
 
   private _loggedInUser: Anvandare;
+  private _showDebug: boolean;
   showProgress: boolean;
 
   constructor() {}
@@ -15,6 +16,14 @@ export class StateService {
 
   set loggedInUser(value: Anvandare) {
     this._loggedInUser = value;
+  }
+
+  get showDebug(): boolean {
+    return this._showDebug;
+  }
+
+  set showDebug(value : boolean) {
+    this._showDebug = value;
   }
 
   startShowProgress() {
