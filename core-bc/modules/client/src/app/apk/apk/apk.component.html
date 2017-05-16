@@ -54,8 +54,8 @@
             {{data.tillDatum ? data.tillDatum : 'Tills vidare'}}
           </td>
           <td>
-            <md-icon *ngIf="getStataus(data) === 'closed'" style="color: #ebb62f;">warning</md-icon>
-            <md-icon *ngIf="getStataus(data) === 'fullyClosed'" style="color: #d33;">error</md-icon>
+            <md-icon *ngIf="getStataus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">warning</md-icon>
+            <md-icon *ngIf="getStataus(data) === 'fullyClosed'" style="color: #d33;" mdTooltip="Giltighetsdatum passerat för över ett år sedan.">error</md-icon>
           </td>
           <td>
             <button md-icon-button [mdMenuTriggerFor]="menu">
