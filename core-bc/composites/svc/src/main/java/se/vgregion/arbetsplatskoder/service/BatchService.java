@@ -53,7 +53,13 @@ public class BatchService {
         Map<String, Prodn2> prodn2Map = new HashMap<>();
         Map<String, Prodn1> prodn1Map = new HashMap<>();
 
-        allProdn3s.forEach(prodn3 -> prodn3Map.put(prodn3.getProducentid(), prodn3));
+        allProdn3s.forEach(prodn3 -> {
+            if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
+                prodn3.setProducentid(prodn3.getProducentid().trim());
+                prodn3Repository.save(prodn3);
+            }
+            prodn3Map.put(prodn3.getProducentid(), prodn3);
+        });
         allProdn2s.forEach(prodn2 -> prodn2Map.put(prodn2.getProducentid(), prodn2));
         allProdn1s.forEach(prodn1 -> prodn1Map.put(prodn1.getProducentid(), prodn1));
 
@@ -63,6 +69,11 @@ public class BatchService {
             }
 
             String sorteringskodProd = data.getSorteringskodProd();
+
+            if (!sorteringskodProd.equals(sorteringskodProd.trim())) {
+                data.setSorteringskodProd(sorteringskodProd.trim());
+                dataRepository.save(data);
+            }
 
             LOGGER.info("Processing data " + data.getId() + " with sorteringskodProd=" + sorteringskodProd);
 
@@ -76,7 +87,17 @@ public class BatchService {
                     data.setSorteringskodProd(sorteringskodProd.toLowerCase().trim());
                     dataRepository.save(data);
                 } else {
-                    LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist.");
+                    // Try finding a prodn1 with the sorteringskodProd...
+                    Prodn1 prodn1 = prodn1Map.get(sorteringskodProd);
+
+                    if (prodn1 != null) {
+                        // At least we got a match for prodn1.
+                        data.setProdn1(prodn1);
+                        dataRepository.save(data);
+                        LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist, but at least we got a match for prodn1.");
+                    } else {
+                        LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist.");
+                    }
 
                     continue;
                 }
@@ -119,7 +140,6 @@ public class BatchService {
                     continue;
                 }
             }
-
 
             data.setProdn1(prodn1);
 
