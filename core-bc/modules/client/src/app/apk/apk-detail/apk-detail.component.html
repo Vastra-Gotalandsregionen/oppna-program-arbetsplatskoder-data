@@ -3,7 +3,7 @@
 </p>
 
 <div *ngIf="data">
-  <div *ngIf="userHasEditPermission(data)">
+  <div *ngIf="userHasEditPermission(data) && getStatus(data) !== 'closed' && getStatus(data) !== 'fullyClosed'">
     <a routerLink="edit"><md-icon>edit</md-icon></a>
   </div>
   <div>

@@ -12,6 +12,7 @@ import {JwtHttp} from '../../core/jwt-http';
 import {Prodn1} from '../../model/prodn1';
 import {MdDialog, MdSnackBar} from "@angular/material";
 import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
+import {ApkBase} from "../apk-base/apk-base";
 import {Util} from "../../core/util/util";
 
 @Component({
@@ -19,7 +20,7 @@ import {Util} from "../../core/util/util";
   templateUrl: './apk.component.html',
   styleUrls: ['./apk.component.css']
 })
-export class ApkComponent implements OnInit {
+export class ApkComponent extends ApkBase implements OnInit {
 
   stateCtrl: FormControl;
   onlyMyDatasCtrl: FormControl;
@@ -38,6 +39,7 @@ export class ApkComponent implements OnInit {
               private authService: AuthService,
               private snackBar: MdSnackBar,
               private dialog: MdDialog) {
+    super();
     this.stateCtrl = new FormControl();
     this.onlyMyDatasCtrl = new FormControl();
   }
@@ -191,24 +193,24 @@ export class ApkComponent implements OnInit {
     return this.authService.getLoggedInRole() === 'ADMIN';
   }
 
-  getStataus(data: Data) {
-
-    const tillDatum = data.tillDatum;
-
-    if (!tillDatum) {
-      // No value means "until further notice".
-      return 'valid';
-    }
-
-    if (Util.isOlderThanXYears(tillDatum, 1)) {
-      return 'fullyClosed';
-    } else if (Util.isOlderThanXYears(tillDatum, 0)) {
-      return 'closed'
-    } else {
-      return 'valid';
-    }
-
-  }
+  // getStatus(data: Data) {
+  //
+  //   const tillDatum = data.tillDatum;
+  //
+  //   if (!tillDatum) {
+  //     // No value means "until further notice".
+  //     return 'valid';
+  //   }
+  //
+  //   if (Util.isOlderThanXYears(tillDatum, 1)) {
+  //     return 'fullyClosed';
+  //   } else if (Util.isOlderThanXYears(tillDatum, 0)) {
+  //     return 'closed'
+  //   } else {
+  //     return 'valid';
+  //   }
+  //
+  // }
 
   confirmDelete(data: Data) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent);

@@ -3,20 +3,23 @@ import {ActivatedRoute} from '@angular/router';
 import {Http} from '@angular/http';
 import {Data} from '../../model/data';
 import {AuthService} from '../../core/auth/auth.service';
+import {ApkBase} from "../apk-base/apk-base";
 
 @Component({
   selector: 'app-apk-detail',
   templateUrl: './apk-detail.component.html',
   styleUrls: ['./apk-detail.component.css']
 })
-export class ApkDetailComponent implements OnInit {
+export class ApkDetailComponent extends ApkBase implements OnInit {
 
   id: string;
   data: Data;
 
   constructor(protected route: ActivatedRoute,
               protected http: Http,
-              protected authService: AuthService) { }
+              protected authService: AuthService) {
+    super();
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

@@ -54,8 +54,8 @@
             {{data.tillDatum ? data.tillDatum : 'Tills vidare'}}
           </td>
           <td>
-            <md-icon *ngIf="getStataus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">warning</md-icon>
-            <md-icon *ngIf="getStataus(data) === 'fullyClosed'" style="color: #d33;" mdTooltip="Giltighetsdatum passerat för över ett år sedan.">error</md-icon>
+            <md-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">warning</md-icon>
+            <md-icon *ngIf="getStatus(data) === 'fullyClosed'" style="color: #d33;" mdTooltip="Giltighetsdatum passerat för över ett år sedan.">error</md-icon>
           </td>
           <td>
             <button md-icon-button [mdMenuTriggerFor]="menu">
@@ -66,10 +66,10 @@
                 <md-icon>folder_open</md-icon>
                 <span>Visa detaljer</span>
               </button>
-              <button md-menu-item routerLink="{{data.id}}/edit" *ngIf="userHasEditPermission(data)" [disabled]="getStataus(data) === 'closed' || getStataus(data) === 'fullyClosed'">
+              <button md-menu-item routerLink="{{data.id}}/edit" *ngIf="userHasEditPermission(data)" [disabled]="getStatus(data) === 'closed' || getStatus(data) === 'fullyClosed'">
                 <md-icon>edit</md-icon>
                 <span>Redigera</span>
-                <md-icon *ngIf="getStataus(data) === 'closed' || getStataus(data) === 'fullyClosed'" mdTooltip="Redigera ej möjligt när giltighetsdatum passerat">info</md-icon>
+                <md-icon *ngIf="getStatus(data) === 'closed' || getStatus(data) === 'fullyClosed'" mdTooltip="Redigera ej möjligt när giltighetsdatum passerat">info</md-icon>
               </button>
               <button md-menu-item *ngIf="userHasEditPermission(data)" [disabled]="!data.deletable" (click)="confirmDelete(data)">
                 <md-icon>delete</md-icon>
