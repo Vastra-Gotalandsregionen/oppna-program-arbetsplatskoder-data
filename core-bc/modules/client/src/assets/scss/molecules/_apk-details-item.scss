@@ -1,0 +1,25 @@
+.apk-details-item {
+
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  margin: 20px 0;
+  padding: 0 0 20px 0;
+
+  &:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .apk-details-item-label {
+    color: #999;
+  }
+
+  .apk-details-item-data {}
+
+}

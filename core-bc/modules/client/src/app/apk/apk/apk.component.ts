@@ -28,18 +28,20 @@ export class ApkComponent extends ApkBase implements OnInit {
   query: string;
   page = 0;
   onlyMyDatas: boolean;
+  location: Location;
 
   response: RestResponse<Data>;
   sort: { field: string, ascending: boolean };
   usersProdn1sString$: Observable<string>;
 
   constructor(private http: JwtHttp,
-              private location: Location,
+              location: Location,
               private route: ActivatedRoute,
               private authService: AuthService,
               private snackBar: MdSnackBar,
               private dialog: MdDialog) {
-    super();
+    super(location);
+    this.location = location;
     this.stateCtrl = new FormControl();
     this.onlyMyDatasCtrl = new FormControl();
   }

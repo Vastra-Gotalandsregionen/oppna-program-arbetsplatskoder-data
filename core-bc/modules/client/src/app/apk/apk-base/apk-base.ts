@@ -1,7 +1,19 @@
+import {Location} from "@angular/common";
+
 import {Util} from "../../core/util/util";
 import {Data} from '../../model/data';
 
 export class ApkBase {
+
+  location : Location;
+
+  constructor(location: Location) {
+    this.location = location;
+  }
+
+  backClicked() {
+  	this.location.back();
+  }
 
   getStatus(data: Data) {
 
