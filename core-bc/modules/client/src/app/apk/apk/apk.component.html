@@ -22,7 +22,7 @@
   </md-card-title>
 
   <md-card-content>
-    <table *ngIf="response">
+    <table *ngIf="response" class="apk-table">
       <thead>
         <tr>
           <th>Benämning <button md-icon-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
@@ -36,11 +36,23 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of response.content">
-          <td>{{data.benamning}}</td>
-          <td>{{data.arbetsplatskodlan}}</td>
-          <td>{{data.regDatum}}</td>
-          <td>{{data.id}}</td>
-          <td>{{data.tillDatum ? data.tillDatum : 'Tills vidare'}}</td>
+          <td>
+              {{data.benamning}}
+          </td>
+          <td>
+            <a routerLink="{{data.id}}" routerLinkActive="active">
+              {{data.arbetsplatskodlan}}
+            </a>
+          </td>
+          <td>
+            {{data.regDatum}}
+          </td>
+          <td>
+            {{data.id}}
+          </td>
+          <td>
+            {{data.tillDatum ? data.tillDatum : 'Tills vidare'}}
+          </td>
           <td>
             <md-icon *ngIf="getStataus(data) === 'closed'" style="color: #ebb62f;">warning</md-icon>
             <md-icon *ngIf="getStataus(data) === 'fullyClosed'" style="color: #d33;">error</md-icon>
@@ -70,13 +82,18 @@
       </tbody>
     </table>
   </md-card-content>
-  <md-card-actions *ngIf="response">
-    <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
-    <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
 
-    <div *ngIf="response" class="search-summary">
-      Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
-    </div>
+  <md-card-actions *ngIf="response">
+
+    <md-toolbar class="paging-toolbar">
+      <div *ngIf="response" class="search-summary">
+        Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
+      </div>
+      <div class="paging-toolbar-spacer"></div>
+      <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
+      <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
+    </md-toolbar>
+
   </md-card-actions>
 
 </md-card>

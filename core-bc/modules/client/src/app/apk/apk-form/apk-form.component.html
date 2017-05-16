@@ -2,15 +2,32 @@
   <form #theForm="ngForm" [formGroup]="apkForm" (ngSubmit)="save()"
         novalidate>
 
+      <md-toolbar class="meta-toolbar" *ngIf="data.arbetsplatskodlan">
+
+        <div class="meta-toolbar-item">
+          <span>Registrerad:</span> <span>{{data.regDatum}}</span>
+        </div>
+
+        <div class="meta-toolbar-item">
+          <span>Registrerad av:</span> <span>{{data.userIdNew || data.userId}}</span>
+        </div>
+
+        <div class="meta-toolbar-item">
+          <span>Ändrad:</span> <span>{{data.andringsdatum}}</span>
+        </div>
+
+        <div class="meta-toolbar-spacer"></div>
+
+        <div class="meta-toolbar-item"></div>
+
+      </md-toolbar>
+
+
     <md-card class="example-card">
       <md-card-content>
 
-        <!--
-        -->
         <h3>Välj ägarform</h3>
 
-        <!--
-        -->
         <md-radio-group formControlName="agarform">
           <md-radio-button value="1">Landsting</md-radio-button>
           <md-radio-button value="2">Kommun</md-radio-button>
@@ -51,6 +68,16 @@
         </md-select>
         -->
 
+        <md-divider class="space-vertical"></md-divider>
+
+        <div class="checkbox-container" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+          <!--
+          <md-checkbox align="end" formControlName="groupCode">Gruppkod</md-checkbox>
+          -->
+          <md-slide-toggle formControlName="groupCode">Gruppkod</md-slide-toggle>
+        </div>
+
+
       </md-card-content>
 
     </md-card>
@@ -78,10 +105,6 @@
           <span><md-icon mdTooltip="Fyll i egenskaper från enheten i fälten nedan">help</md-icon></span>
         </div>
 
-      </md-card-content>
-
-
-      <md-card-content [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
       </md-card-content>
 
     </md-card>
@@ -148,6 +171,17 @@
             </md-option>
           </md-autocomplete>
 
+          <md-slide-toggle formControlName="vgpv">VGPV</md-slide-toggle>
+          <!--
+          <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <label class="field-label">VGPV</label>
+            <md-radio-group formControlName="vgpv">
+              <md-radio-button value="true">Ja</md-radio-button>
+              <md-radio-button value="false">Nej</md-radio-button>
+            </md-radio-group>
+          </div>
+          -->
+
         </md-card-content>
       </md-card>
 
@@ -189,6 +223,10 @@
           <h3>Ange kontaktuppgifter</h3>
 
           <md-input-container>
+            <input placeholder="HSA-ID" mdInput formControlName="hsaid" type="text"/>
+          </md-input-container>
+
+          <md-input-container>
             <input placeholder="Benämning/enhetsnamn - Tas från KIV? +att man måste ha kortnamn för att det ska gå igenom i Concise"
               type="text" mdInput formControlName="benamning" name="banamning">
           </md-input-container>
@@ -212,30 +250,7 @@
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
 
-          <div class="checkbox-container">
-            <!--
-            <md-checkbox align="end" formControlName="groupCode">Gruppkod</md-checkbox>
-            -->
-
-            <md-slide-toggle formControlName="groupCode">Gruppkod</md-slide-toggle>
-
-          </div>
-
-          <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-            <label class="field-label">VGPV</label>
-            <md-radio-group formControlName="vgpv">
-              <md-radio-button value="true">Ja</md-radio-button>
-              <md-radio-button value="false">Nej</md-radio-button>
-            </md-radio-group>
-          </div>
-
-          <md-input-container>
-            <textarea placeholder="Anmärkning" mdInput formControlName="anmarkning" rows="6"></textarea>
-          </md-input-container>
-
-          <md-input-container>
-            <input placeholder="HSA-ID" mdInput formControlName="hsaid" type="text"/>
-          </md-input-container>
+          <h3>Ange giltighetstid</h3>
 
           <md-input-container class="date">
             <input placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD)" mdInput [mdDatepicker]="fromDatepicker"
@@ -257,15 +272,19 @@
 
           <md-datepicker startView="year" #toDatepicker></md-datepicker>
 
-          <div>
-            <span>Registrerad:</span> <span>{{data.regDatum}}</span>
-          </div>
-          <div>
-            <span>Registrerad av:</span> <span>{{data.userIdNew || data.userId}}</span>
-          </div>
-          <div>
-            <span>Ändrad:</span> <span>{{data.andringsdatum}}</span>
-          </div>
+        </md-card-content>
+      </md-card>
+
+
+      <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+        <md-card-content>
+
+          <h3>Ange övrig info</h3>
+
+          <md-input-container>
+            <textarea placeholder="Anmärkning" mdInput formControlName="anmarkning" rows="6"></textarea>
+          </md-input-container>
+
         </md-card-content>
 
       </md-card>

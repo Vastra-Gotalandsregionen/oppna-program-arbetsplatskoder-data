@@ -1,4 +1,10 @@
 a,
 a:visited {
   color: $vgr-blue;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+
 }

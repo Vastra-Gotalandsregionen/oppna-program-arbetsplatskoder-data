@@ -1,0 +1,17 @@
+.paging-toolbar.mat-toolbar {
+
+  background: transparent;
+  color: #333;
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: normal;
+  min-height: auto;
+  padding: 5px 20px;
+
+  .paging-toolbar-spacer {
+    flex: 1 1 auto;
+  }
+
+
+
+}

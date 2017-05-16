@@ -1,0 +1,35 @@
+.meta-toolbar.mat-toolbar {
+
+  background: transparent;
+
+  color: #777;
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: normal;
+  margin: 0 0 20px 0;
+  min-height: auto;
+  padding: 0;
+
+  .mat-toolbar-row {
+    height: auto;
+  }
+
+  .meta-toolbar-item {
+    display: inline-block;
+    margin: 0 15px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+  }
+
+  .meta-toolbar-spacer {
+    flex: 1 1 auto;
+  }
+
+}

@@ -35,7 +35,7 @@
 
   <md-card-content>
 
-    <table>
+    <table class="apk-table">
       <thead>
       <tr>
         <th>ID</th>
@@ -80,11 +80,13 @@
   </md-card-content>
 
   <md-card-actions *ngIf="response">
-    <button *ngIf="response.number > 0" (click)="previousPage()" md-button><md-icon>arrow_back</md-icon> Föregående</button>
-    <button (click)="nextPage()" md-button>Nästa <md-icon>arrow_forward</md-icon></button>
-
-    <div *ngIf="response" class="search-summary">
-      Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
-    </div>
+    <md-toolbar class="paging-toolbar">
+      <div *ngIf="response" class="search-summary">
+        Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
+      </div>
+      <div class="paging-toolbar-spacer"></div>
+      <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
+      <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
+    </md-toolbar>
   </md-card-actions>
 </md-card>
