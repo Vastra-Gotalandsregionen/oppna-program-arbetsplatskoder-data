@@ -2,6 +2,11 @@
 
   <md-card-title class="edge2edge">
     <md-toolbar class="action-toolbar">
+
+      <md-checkbox class="action-toolbar-item" (click)="toggleOnlyOrphan()" [(ngModel)]="onlyOrphan">Endast föräldralösa</md-checkbox>
+
+      <md-checkbox class="action-toolbar-item" (click)="toggleOnlyUnused()" [(ngModel)]="onlyUnused">Endast oanvända</md-checkbox>
+
       <div class="action-toolbar-spacer"></div>
 
         <button class="action-toolbar-item" mdTooltip="{{showFilter ? 'Göm' : 'Visa'}} filter" md-fab (click)="showFilter = !showFilter">
@@ -13,11 +18,6 @@
         </a>
     </md-toolbar>
   </md-card-title>
-
-  <md-card-content>
-    <md-checkbox (click)="toggleOnlyOrphan()" [(ngModel)]="onlyOrphan">Endast föräldralösa</md-checkbox>
-    <md-checkbox (click)="toggleOnlyUnused()" [(ngModel)]="onlyUnused">Endast oanvända</md-checkbox>
-  </md-card-content>
 
   <md-card-content [@slideIn]="showFilter ? 'in' : 'out'">
     <h4>Summeringsnivå 1</h4>
