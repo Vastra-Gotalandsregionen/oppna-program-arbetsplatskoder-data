@@ -8,6 +8,7 @@ import {RouterModule} from '@angular/router';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import {JwtHelper} from 'angular2-jwt/angular2-jwt';
 import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component";
+import { BackButtonComponent } from './back-button/back-button.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component"
   declarations: [
     ErrorDialogComponent,
     LoginDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    BackButtonComponent
   ],
   entryComponents: [
     ErrorDialogComponent,
@@ -32,6 +34,7 @@ import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component"
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
+    BackButtonComponent
   ],
   providers: [
     ErrorHandler,

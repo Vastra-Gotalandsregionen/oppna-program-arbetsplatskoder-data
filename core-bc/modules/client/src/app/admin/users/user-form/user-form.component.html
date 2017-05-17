@@ -4,11 +4,9 @@
     <md-card>
       <md-card-content>
 
-        <div>
-          <md-input-container>
-            <input placeholder="VGR-ID" type="text" mdInput formControlName="userId">
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="VGR-ID" type="text" mdInput formControlName="userId">
+        </md-input-container>
 
         <div formGroupName="roleGroup" ngClass="{{formRef.submitted ? 'submitted' : ''}}">
           <label class="field-label">Behörighet</label>
@@ -24,9 +22,10 @@
           </md-chip>
         </md-chip-list>
 
-        <div class="btn-group">
-          <button md-button type="submit">Spara</button>
+        <div class="btn-container">
+          <button md-raised-button type="submit">Spara</button>
         </div>
+
       </md-card-content>
     </md-card>
 

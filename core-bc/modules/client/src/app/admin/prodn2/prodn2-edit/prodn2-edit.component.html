@@ -1,34 +1,33 @@
+<md-toolbar class="action-toolbar">
+  <h2>
+     {{prodn2.avdelning === undefined ? 'Lägg till ny Summeringsnivå 2' : 'Redigera ' + prodn2.avdelning}}
+  </h2>
+  <div class="action-toolbar-spacer"></div>
+  <app-back-button></app-back-button>
+</md-toolbar>
+
 <md-card>
   <md-card-content>
 
     <div *ngIf="prodn2Form; else loading">
-      <h4>Redigera {{prodn2.avdelning || 'Ny'}}</h4>
 
       <form #formRef="ngForm" [formGroup]="prodn2Form" (ngSubmit)="save()" novalidate (autocomplete)="false">
 
-        <div>
-          <md-input-container>
-            <input placeholder="ID" type="text" mdInput formControlName="id"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="ID" type="text" mdInput formControlName="id"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Avdelning" type="text" mdInput formControlName="avdelning"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Avdelning" type="text" mdInput formControlName="avdelning"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Producent-ID" type="text" mdInput formControlName="producentid"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Producent-ID" type="text" mdInput formControlName="producentid"/>
+        </md-input-container>
 
         <div>
           <md-select placeholder="Summeringsnivå 1" formControlName="prodn1" ngClass="{{prodn2Form.submitted ? 'submitted' : ''}}">
@@ -38,17 +37,15 @@
           </md-select>
         </div>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Riktvärde (Ska vi ha detta?)" type="text" mdInput formControlName="riktvarde"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Riktvärde (Ska vi ha detta?)" type="text" mdInput formControlName="riktvarde"/>
+        </md-input-container>
 
-        <div>
+        <div class="checkbox-contaienr">
           <md-checkbox formControlName="raderad">Raderad</md-checkbox>
         </div>
 
-        <div>
+        <div class="btn-container">
           <button type="submit"
                   [disabled]="prodn2Form.pristine" md-raised-button class="btn btn-success">Spara
           </button> &nbsp;

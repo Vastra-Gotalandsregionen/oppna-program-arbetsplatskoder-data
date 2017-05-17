@@ -1,14 +1,13 @@
 import {FormControl} from '@angular/forms';
+import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {RequestOptions, URLSearchParams, Headers} from '@angular/http';
 import {Data} from '../../model/data';
 import {RestResponse} from '../../model/rest-response';
 import {Observable} from 'rxjs/Observable';
-import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {ErrorHandler} from '../../shared/error-handler';
 import {AuthService} from '../../core/auth/auth.service';
-import {StateService} from '../../core/state/state.service';
 import {JwtHttp} from '../../core/jwt-http';
 import {Prodn1} from '../../model/prodn1';
 import {MdDialog, MdSnackBar} from "@angular/material";
@@ -30,7 +29,6 @@ export class ApkComponent extends ApkBase implements OnInit {
   page = 0;
   onlyMyDatas: boolean;
   location: Location;
-  stateService : StateService;
 
   response: RestResponse<Data>;
   sort: { field: string, ascending: boolean };
@@ -38,14 +36,12 @@ export class ApkComponent extends ApkBase implements OnInit {
 
   constructor(private http: JwtHttp,
               location: Location,
-              stateService : StateService,
               private route: ActivatedRoute,
               private authService: AuthService,
               private snackBar: MdSnackBar,
               private dialog: MdDialog) {
-    super(location, stateService);
+    super();
     this.location = location;
-    this.stateService = stateService;
     this.stateCtrl = new FormControl();
     this.onlyMyDatasCtrl = new FormControl();
   }
