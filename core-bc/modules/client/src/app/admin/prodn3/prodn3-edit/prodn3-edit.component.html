@@ -1,8 +1,15 @@
+<md-toolbar class="action-toolbar">
+  <h2>
+     {{prodn3.foretagsnamn === undefined ? 'Skapa ny' : 'Redigera ' + prodn3.foretagsnamn}}
+  </h2>
+  <div class="action-toolbar-spacer"></div>
+  <app-back-button></app-back-button>
+</md-toolbar>
+
 <md-card>
   <md-card-content>
 
     <div *ngIf="prodn3Form; else loading">
-      <h4>Redigera {{prodn3.foretagsnamn || 'Ny'}}</h4>
 
       <form #formRef="ngForm" [formGroup]="prodn3Form" (ngSubmit)="save()" novalidate (autocomplete)="false">
 

@@ -1,4 +1,10 @@
-<h3>Redigera användare</h3>
+<md-toolbar class="action-toolbar">
+  <h2>
+     Redigera användare
+  </h2>
+  <div class="action-toolbar-spacer"></div>
+  <app-back-button></app-back-button>
+</md-toolbar>
 
 <app-user-form [userId]="userId" *ngIf="userId; else loading"></app-user-form>
 

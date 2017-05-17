@@ -1,27 +1,13 @@
 .action-toolbar.mat-toolbar {
 
   background: transparent;
-  //background: mat-color($apk-accent);
-  //background: #555;
-  //background: #003d62;
-
-  //background: mat-color($apk-primary, default-contrast);
-  //background: mat-color($apk-primary, 900);
-
-  border-bottom: 5px solid #ccc;
-  border-bottom-color: $vgr-blue;
-  //border-bottom-color: mat-color($apk-accent);
-
-  border-bottom: 3px solid #ccc;
-  border-bottom-color: $vgr-blue;
-  border-bottom: 0px;
 
   color: #333;
   font-size: 16px;
   font-family: inherit;
   font-weight: normal;
   min-height: auto;
-  padding: 5px 20px;
+  padding: 5px 0;
 
   .action-toolbar-item {
     display: inline-block;
@@ -52,10 +38,11 @@
     margin: 0;
   }
 
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+  }
 
 
-}
-
-.mat-card-title.edge2edge {
-    .action-toolbar.mat-toolbar {}
 }

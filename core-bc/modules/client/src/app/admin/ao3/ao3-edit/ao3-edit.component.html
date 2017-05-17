@@ -1,8 +1,15 @@
+<md-toolbar class="action-toolbar">
+  <h2>
+     {{ao3.foretagsnamn === undefined ? 'Skapa ny' : 'Redigera ' + ao3.foretagsnamn}}
+  </h2>
+  <div class="action-toolbar-spacer"></div>
+  <app-back-button></app-back-button>
+</md-toolbar>
+
 <md-card>
   <md-card-content>
 
     <div *ngIf="ao3Form; else loading">
-      <h4>Redigera {{ao3.foretagsnamn || 'Ny'}}</h4>
 
       <form #formRef="ngForm" [formGroup]="ao3Form" (ngSubmit)="save()" novalidate (autocomplete)="false">
 
