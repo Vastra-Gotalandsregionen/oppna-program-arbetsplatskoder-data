@@ -1,0 +1,19 @@
+.mat-input-container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+
+  &.date {
+     width: 242px;
+   }
+
+   .mat-icon {
+     position: absolute;
+     right: 0;
+     bottom: 0px;
+   }
+
+
+}

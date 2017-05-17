@@ -13,29 +13,21 @@
 
       <form #formRef="ngForm" [formGroup]="prodn3Form" (ngSubmit)="save()" novalidate (autocomplete)="false">
 
-        <div>
-          <md-input-container>
-            <input placeholder="ID" type="text" mdInput formControlName="id"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="ID" type="text" mdInput formControlName="id"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Företagsnamn" type="text" mdInput formControlName="foretagsnamn"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Företagsnamn" type="text" mdInput formControlName="foretagsnamn"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Producent-ID" type="text" mdInput formControlName="producentid"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Producent-ID" type="text" mdInput formControlName="producentid"/>
+        </md-input-container>
 
         <div>
           <md-input-container>
@@ -49,11 +41,11 @@
           </md-autocomplete>
         </div>
 
-        <div>
+        <div class="checkbox-container">
           <md-checkbox formControlName="raderad">Raderad</md-checkbox>
         </div>
 
-        <div>
+        <div class="btn-container">
           <button type="submit"
                   [disabled]="prodn3Form.pristine" md-raised-button class="btn btn-success">Spara
           </button> &nbsp;
