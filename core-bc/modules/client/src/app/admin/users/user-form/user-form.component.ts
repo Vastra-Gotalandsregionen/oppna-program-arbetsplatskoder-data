@@ -21,8 +21,8 @@ export class UserFormComponent implements OnInit {
 
   user: User;
   allProdn1s: Prodn1[];
-  prodn1sMap: Map<string, Prodn1>;
-  selectedProdn1Ids: string[];
+  prodn1sMap: Map<number, Prodn1>;
+  selectedProdn1Ids: number[];
 
   constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,

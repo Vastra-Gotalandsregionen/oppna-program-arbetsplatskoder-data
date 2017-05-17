@@ -12,7 +12,7 @@ import {Response} from '@angular/http';
 export class Prodn1ListComponent implements OnInit {
 
   prodn1s$: Observable<Prodn1[]>;
-  orphanProdn1s: string[] = [];
+  orphanProdn1s: number[] = [];
 
   constructor(private http: JwtHttp) {
   }

@@ -157,17 +157,21 @@ public class BatchService {
 
             Prodn1 prodn1 = prodn1Map.get(n1);
 
-            if (prodn1 == null) {
+            if (prodn1 == null ) {
 
-                prodn1 = prodn1Map.get(n1.toLowerCase().trim());
+                if (n1 != null) {
+                    prodn1 = prodn1Map.get(n1.toLowerCase().trim());
 
-                if (prodn1 != null) {
-                    prodn2.setN1(n1.toLowerCase().trim());
+                    if (prodn1 != null) {
+                        prodn2.setN1(n1.toLowerCase().trim());
 
-                    prodn2Repository.save(prodn2);
+                        prodn2Repository.save(prodn2);
+                    } else {
+                        LOGGER.warn("Prodn1 " + n1 + " doesn't exist.");
+
+                        continue;
+                    }
                 } else {
-                    LOGGER.warn("Prodn1 " + n1 + " doesn't exist.");
-
                     continue;
                 }
             }
