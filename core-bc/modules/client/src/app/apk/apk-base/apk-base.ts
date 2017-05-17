@@ -1,18 +1,9 @@
-import {StateService} from '../../core/state/state.service';
 import {Util} from "../../core/util/util";
 import {Data} from '../../model/data';
 
 export class ApkBase {
 
-  stateService : StateService
-
-  constructor(stateService : StateService) {
-    this.stateService = stateService;
-  }
-
-  getShowDebug(): boolean {
-    return this.stateService.showDebug;
-  }
+  constructor() {}
 
   getStatus(data: Data) {
 

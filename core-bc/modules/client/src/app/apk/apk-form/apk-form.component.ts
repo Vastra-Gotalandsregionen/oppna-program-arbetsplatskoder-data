@@ -67,7 +67,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
               stateService: StateService,
               private errorHandler: ErrorHandler) {
 
-      super(stateService);
+      super();
       this.stateService = stateService;
   }
 
@@ -134,6 +134,14 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         this.initVardformControl();
         this.initVerksamhetControl();
       });
+  }
+
+  getShowDebug(): boolean {
+    return this.stateService.showDebug;
+  }
+
+  setShowDebug(value : boolean) {
+    this.stateService.showDebug = value;
   }
 
   private buildForm() {

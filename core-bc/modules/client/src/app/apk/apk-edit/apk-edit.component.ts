@@ -3,7 +3,6 @@ import {ApkDetailComponent} from '../apk-detail/apk-detail.component';
 import {Http} from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../core/auth/auth.service';
-import {StateService} from '../../core/state/state.service';
 
 @Component({
   selector: 'app-apk-edit',
@@ -12,14 +11,10 @@ import {StateService} from '../../core/state/state.service';
 })
 export class ApkEditComponent extends ApkDetailComponent implements OnInit {
 
-  stateService: StateService;
-
   constructor(route: ActivatedRoute,
               http: Http,
-              stateService: StateService,
               authService: AuthService) {
-    super(route, http, stateService, authService);
-    this.stateService = stateService;
+    super(route, http, authService);
   }
 
   ngOnInit() {
