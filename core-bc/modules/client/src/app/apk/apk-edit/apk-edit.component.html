@@ -3,7 +3,7 @@
      Redigera arbetsplatskod: {{data ? data.arbetsplatskod : 'N/A'}}
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a class="" md-fab (click)="backClicked()" mdTooltip="Gå tillbaka"><md-icon>arrow_back</md-icon></a>
+  <app-back-button></app-back-button>
 </md-toolbar>
 
 <apk-form [dataId]="dataId"></apk-form>

@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Location} from "@angular/common";
 import {Data} from '../../model/data';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {RequestOptions, Headers, Response} from '@angular/http';
@@ -35,7 +34,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
   @Input('dataId') dataId: string;
 
-  location: Location;
   stateService: StateService;
 
   apkForm: FormGroup;
@@ -66,12 +64,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
               private snackBar: MdSnackBar,
-              location: Location,
               stateService: StateService,
               private errorHandler: ErrorHandler) {
 
-      super(location, stateService);
-      this.location = location;
+      super(stateService);
       this.stateService = stateService;
   }
 

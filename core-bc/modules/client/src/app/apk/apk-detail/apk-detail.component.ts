@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Location} from "@angular/common";
 import {ActivatedRoute} from '@angular/router';
 import {Http} from '@angular/http';
 import {Data} from '../../model/data';
@@ -16,16 +15,13 @@ export class ApkDetailComponent extends ApkBase implements OnInit {
 
   id: string;
   data: Data;
-  location: Location;
   stateService : StateService;
 
   constructor(protected route: ActivatedRoute,
               protected http: Http,
-              location: Location,
               stateService: StateService,
               protected authService: AuthService) {
-    super(location, stateService);
-    this.location = location;
+    super(stateService);
     this.stateService = stateService;
   }
 

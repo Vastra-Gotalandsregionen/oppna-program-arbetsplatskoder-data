@@ -1,10 +1,10 @@
 import {FormControl} from '@angular/forms';
+import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {RequestOptions, URLSearchParams, Headers} from '@angular/http';
 import {Data} from '../../model/data';
 import {RestResponse} from '../../model/rest-response';
 import {Observable} from 'rxjs/Observable';
-import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {ErrorHandler} from '../../shared/error-handler';
 import {AuthService} from '../../core/auth/auth.service';
@@ -43,7 +43,7 @@ export class ApkComponent extends ApkBase implements OnInit {
               private authService: AuthService,
               private snackBar: MdSnackBar,
               private dialog: MdDialog) {
-    super(location, stateService);
+    super(stateService);
     this.location = location;
     this.stateService = stateService;
     this.stateCtrl = new FormControl();
