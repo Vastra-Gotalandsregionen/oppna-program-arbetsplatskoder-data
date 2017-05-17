@@ -1,5 +1,48 @@
+<md-toolbar class="action-toolbar">
+  <h1>
+     Administration
+  </h1>
+</md-toolbar>
+
 <md-card>
   <md-card-content>
-    This is the admin landing view.
+    <p>I administrationsvyn för Arbetsplatskoder kan du hantera data som användare, summeringsnivåer, A03 etc.</p>
+    <p>Exakt vilka val som finns tillgängliga beror av vilka rättigheter du har som användare.</p>
+
+
+    <md-list class="block-navigation">
+      <md-list-item>
+        <a routerLink="../users" routerLinkActive="active">
+          <md-icon>people</md-icon>
+          <span class="nav-label">Användare (nya)</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="../prodn1" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Summeringsnivå 1</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="../prodn2" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Summeringsnivå 2</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="../prodn3" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Summeringsnivå 3</span>
+        </a>
+      </md-list-item>
+      <md-list-item>
+        <a routerLink="../ao3" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Ao3</span>
+        </a>
+      </md-list-item>
+    </md-list>
+
+
   </md-card-content>
 </md-card>
