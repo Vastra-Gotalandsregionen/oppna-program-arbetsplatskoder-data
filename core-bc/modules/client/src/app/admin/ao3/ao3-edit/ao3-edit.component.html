@@ -13,29 +13,21 @@
 
       <form #formRef="ngForm" [formGroup]="ao3Form" (ngSubmit)="save()" novalidate (autocomplete)="false">
 
-        <div>
-          <md-input-container>
-            <input placeholder="ID" type="text" mdInput formControlName="id"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="ID" type="text" mdInput formControlName="id"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="AO3-ID" type="text" mdInput formControlName="ao3id"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="AO3-ID" type="text" mdInput formControlName="ao3id"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Företagsnamn" type="text" mdInput formControlName="foretagsnamn"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Företagsnamn" type="text" mdInput formControlName="foretagsnamn"/>
+        </md-input-container>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Företagsnummer" type="text" mdInput formControlName="foretagsnr"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Företagsnummer" type="text" mdInput formControlName="foretagsnr"/>
+        </md-input-container>
 
         <div>
           <md-input-container>
@@ -49,17 +41,15 @@
           </md-autocomplete>
         </div>
 
-        <div>
-          <md-input-container>
-            <input placeholder="Kontaktperson" type="text" mdInput formControlName="kontaktperson"/>
-          </md-input-container>
-        </div>
+        <md-input-container>
+          <input placeholder="Kontaktperson" type="text" mdInput formControlName="kontaktperson"/>
+        </md-input-container>
 
-        <div>
+        <div class="checkbox-container">
           <md-checkbox formControlName="raderad">Raderad</md-checkbox>
         </div>
 
-        <div>
+        <div class="btn-container">
           <button type="submit"
                   [disabled]="ao3Form.pristine" md-raised-button class="btn btn-success">Spara
           </button> &nbsp;
