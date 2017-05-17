@@ -31,11 +31,11 @@
         <th>Avdelning</th>
         <th>Kortnamn</th>
         <th>Producent-ID</th>
-        <th>N1</th>
+        <th>Summeringsnivå 1</th>
         <th>Riktvärde</th>
         <th>Autoradering</th>
         <th>Raderad</th>
-        <th>Används ej</th>
+        <!--<th>Används ej</th>-->
         <th>Redigera</th>
       </tr>
       </thead>
@@ -45,23 +45,23 @@
         <td>{{prodn2.avdelning}}</td>
         <td>{{prodn2.kortnamn}}</td>
         <td>{{prodn2.producentid}}</td>
-        <td *ngIf="orphanProdn2s.indexOf(prodn2.n1) > -1" mdTooltip="Finns ingen summeringsnivå 1 med denna kod"
+        <td *ngIf="!prodn2.prodn1" mdTooltip="Finns ingen summeringsnivå 1 med denna kod"
             [ngClass]="'circle-alert'">{{prodn2.n1}}
         </td>
-        <td *ngIf="orphanProdn2s.indexOf(prodn2.n1) === -1">{{prodn2.n1}}</td>
+        <td *ngIf="prodn2.prodn1">{{prodn2.prodn1.foretagsnamn}}</td>
         <td>{{prodn2.riktvarde}}</td>
         <td>{{prodn2.autoradering}}</td>
         <td>
           <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn2.raderad">clear</md-icon>
         </td>
-        <td>
-          <!--
+        <!--<td>
+
                     <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">
                       warning
                     </md-icon>
-          -->
-        </td>
-        <td><a routerLink="{{prodn2.producentid}}/edit">
+
+        </td>-->
+        <td><a routerLink="{{prodn2.id}}/edit">
           <md-icon>edit</md-icon>
         </a></td>
       </tr>

@@ -19,7 +19,7 @@ export class Prodn2EditComponent implements OnInit {
 
   prodn2Form: FormGroup;
 
-  n1SearchResult$: Observable<Prodn1[]>;
+  prodn1Options: Prodn1[];
 
   saveMessage: string;
 
@@ -30,7 +30,7 @@ export class Prodn2EditComponent implements OnInit {
               private errorHandler: ErrorHandler) {
     route.params
       .filter(params => {
-        if (params.producentid) {
+        if (params.id) {
           return true;
         } else {
           // No producentid means we're creating a new Prodn2. Just build the form.
@@ -38,7 +38,7 @@ export class Prodn2EditComponent implements OnInit {
           return false;
         }
       }) // Check we have a producentid, otherwise it's a new Prodn2 to be created.
-      .mergeMap(params => http.get(`/api/prodn2/${params.producentid}`))
+      .mergeMap(params => http.get(`/api/prodn2/${params.id}`))
       .map(response => response.json())
       .subscribe(prodn2 => {
         this.prodn2 = prodn2;
@@ -55,16 +55,20 @@ export class Prodn2EditComponent implements OnInit {
       'avdelning': [this.prodn2.avdelning, Validators.required],
       'kortnamn': [this.prodn2.kortnamn, Validators.required],
       'producentid': [{value: this.prodn2.producentid, disabled: this.prodn2.producentid}, Validators.required],
-      'n1': [this.prodn2.n1, Validators.required],
+      // 'n1': [this.prodn2.n1, Validators.required],
+      'prodn1': [this.prodn2.prodn1 ? this.prodn2.prodn1.id : null, Validators.required],
       'riktvarde': [this.prodn2.riktvarde, []],
       'raderad': [this.prodn2.raderad, []]
     });
 
-    this.n1SearchResult$ = this.prodn2Form.get('n1')
+    this.http.get('/api/prodn1').map(response => response.json())
+      .subscribe(prodn1Options => this.prodn1Options = prodn1Options);
+
+   /* this.n1SearchResult$ = this.prodn2Form.get('n1')
       .valueChanges
       .startWith('')
       .mergeMap(value => this.http.get('/api/prodn1/search?query=' + value))
-      .map(response => response.json());
+      .map(response => response.json());*/
   }
 
   save() {
@@ -81,7 +85,8 @@ export class Prodn2EditComponent implements OnInit {
       avdelning: formModel.avdelning,
       kortnamn: formModel.kortnamn,
       producentid: formModel.producentid || this.prodn2.producentid, // Either formModel, if new entity, or the old value.
-      n1: formModel.n1,
+      // n1: formModel.n1,
+      prodn1: this.getProdn1ById(formModel.prodn1),
       riktvarde: formModel.riktvarde,
       raderad: formModel.raderad ? 'true' : 'false'
     };
@@ -94,6 +99,12 @@ export class Prodn2EditComponent implements OnInit {
           this.buildForm();
         }
       );
+  }
+
+  private getProdn1ById(id) {
+    let filtered = this.prodn1Options.filter(prodn1 => prodn1.id === id);
+
+    return filtered[0];
   }
 
   resetForm() {

@@ -31,15 +31,11 @@
         </div>
 
         <div>
-          <md-input-container>
-            <input placeholder="N1" type="text" mdInput formControlName="n1" [mdAutocomplete]="n1AutocompleteRef"/>
-          </md-input-container>
-
-          <md-autocomplete class="autocomplete" #n1AutocompleteRef="mdAutocomplete" [displayWith]="displayN1Fn">
-            <md-option class="md-option" *ngFor="let n1 of n1SearchResult$ | async" [value]="n1.producentid">
-              {{n1.producentid}} {{n1.foretagsnamn}}
+          <md-select placeholder="Summeringsnivå 1" formControlName="prodn1" ngClass="{{prodn2Form.submitted ? 'submitted' : ''}}">
+            <md-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">
+              {{prodn1.foretagsnamn}}
             </md-option>
-          </md-autocomplete>
+          </md-select>
         </div>
 
         <div>

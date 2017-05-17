@@ -27,4 +27,7 @@ public interface DataRepository extends JpaRepository<Data, Integer> {
     List<Data> findAllByProdn1In(Set<Prodn1> prodn1s);
 
     List<Data> findAllByProdn1IsNull();
+
+    @Query("select d from Data d left join fetch d.prodn3 p")
+    List<Data> findAllJoinProdn3();
 }

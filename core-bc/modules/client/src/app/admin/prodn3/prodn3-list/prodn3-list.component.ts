@@ -31,8 +31,8 @@ export class Prodn3ListComponent implements OnInit {
 
   prodn1s$: Observable<Prodn1[]>;
 
-  selectedProdn1 = new BehaviorSubject<string>(null);
-  selectedProdn2 = new BehaviorSubject<string>(null);
+  selectedProdn1 = new BehaviorSubject<number>(null);
+  selectedProdn2 = new BehaviorSubject<number>(null);
 
   onlyOrphan = false;
   onlyOrphan$ = new BehaviorSubject<boolean>(false);
@@ -59,11 +59,11 @@ export class Prodn3ListComponent implements OnInit {
     }
 
     if (prodn1) {
-      this.selectedProdn1.next(prodn1);
+      this.selectedProdn1.next(Number.parseInt(prodn1));
     }
 
     if (prodn2) {
-      this.selectedProdn2.next(prodn2);
+      this.selectedProdn2.next(Number.parseInt(prodn2));
     }
 
     if (prodn1 ||prodn2) {
@@ -132,25 +132,25 @@ export class Prodn3ListComponent implements OnInit {
   }
 
   isSelected(prodn1: Prodn1) {
-    return this.selectedProdn1.value === prodn1.producentid;
+    return this.selectedProdn1.value === prodn1.id;
   }
 
   toggle(prodn1: Prodn1) {
-    if (this.selectedProdn1.value === prodn1.producentid) {
+    if (this.selectedProdn1.value === prodn1.id) {
       this.selectedProdn1.next(null);
       this.selectedProdn2.next(null);
     } else {
-      this.selectedProdn1.next(prodn1.producentid);
+      this.selectedProdn1.next(prodn1.id);
       this.selectedProdn2.next(null);
     }
     this.pageSubject.next(0);
   }
 
   toggleProdn2(prodn2: Prodn2) {
-    if (this.selectedProdn2.value === prodn2.producentid) {
+    if (this.selectedProdn2.value === prodn2.id) {
       this.selectedProdn2.next(null);
     } else {
-      this.selectedProdn2.next(prodn2.producentid);
+      this.selectedProdn2.next(prodn2.id);
     }
     this.pageSubject.next(0);
   }
@@ -182,6 +182,6 @@ export class Prodn3ListComponent implements OnInit {
   }
 
   isSelectedProdn2(prodn2: Prodn2) {
-    return this.selectedProdn2.value === prodn2.producentid;
+    return this.selectedProdn2.value === prodn2.id;
   }
 }

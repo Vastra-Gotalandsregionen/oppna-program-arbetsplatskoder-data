@@ -1,3 +1,5 @@
+import {Prodn1} from "./prodn1";
+import {Prodn3} from "./prodn3";
 export class Data {
   id: string;
   lankod: string;
@@ -8,8 +10,10 @@ export class Data {
   agarform: string;
   vardform: string;
   verksamhet: string;
-  sorteringskodProd: string;
+  // sorteringskodProd: string;
   sorteringskodBest: string;
+  prodn1: Prodn1;
+  prodn3: Prodn3;
   benamning: string;
   postnr: string;
   postort: string;
@@ -38,4 +42,5 @@ export class Data {
   hsaid: string;
   userIdNew: string;
   deletable: boolean;
+  groupCode: boolean;
 }

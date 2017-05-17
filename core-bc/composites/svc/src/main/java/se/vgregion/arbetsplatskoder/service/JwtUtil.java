@@ -40,9 +40,9 @@ public class JwtUtil {
             Date timeAhead = Date.from(Instant.now().plus(MINUTES_AGE, ChronoUnit.MINUTES));
             Date now = Date.from(Instant.now());
 
-            String[] prodn1sStrings = prodn1s.stream()
-                    .map(Prodn1::getProducentid)
-                    .collect(Collectors.toList()).toArray(new String[]{});
+            Integer[] prodn1sStrings = prodn1s.stream()
+                    .map(Prodn1::getId)
+                    .collect(Collectors.toList()).toArray(new Integer[]{});
 
             return JWT.create()
                     .withSubject(userId != null ? String.valueOf(userId) : null)

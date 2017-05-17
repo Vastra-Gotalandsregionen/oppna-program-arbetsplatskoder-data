@@ -82,7 +82,7 @@ public abstract class AbstractJob {
     public void dropTablesAlreadyInMain() {
         ConnectionExt local = getMainConnectionExt();
         for (TableInf table : getTablesOnDisc()) {
-            local.execute("drop table if exists " + table.getTableName());
+            local.execute("drop table if exists " + table.getTableName() + " cascade");
             local.commit();
             System.out.println("Droped " + table.getTableName());
         }

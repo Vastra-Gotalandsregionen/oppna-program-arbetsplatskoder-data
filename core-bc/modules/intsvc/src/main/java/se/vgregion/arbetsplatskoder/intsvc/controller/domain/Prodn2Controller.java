@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn2;
+import se.vgregion.arbetsplatskoder.repository.Prodn1Repository;
 import se.vgregion.arbetsplatskoder.repository.Prodn2Repository;
 
 import java.util.List;
@@ -28,17 +30,22 @@ public class Prodn2Controller {
     @Autowired
     private Prodn2Repository prodn2Repository;
 
+    @Autowired
+    private Prodn1Repository prodn1Repository;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    public Page<Prodn2> getProdn2s(@RequestParam(value = "prodn1", required = false) String prodn1,
+    public Page<Prodn2> getProdn2s(@RequestParam(value = "prodn1", required = false) Integer prodn1Id,
                                          @RequestParam(value = "page", required = false) Integer page) {
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "avdelning").ignoreCase();
 
-        if (prodn1 != null) {
+        if (prodn1Id != null) {
             // The MAX_VALUE for page defaultPageSize since we use this in an autocomplete component. Rethink design otherwise... TODO let client specify defaultPageSize!
             Pageable pageable = new PageRequest(page == null ? 0 : page, Integer.MAX_VALUE, new Sort(order));
 
-            return prodn2Repository.findAllByN1Equals(prodn1, pageable);
+            Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
+
+            return prodn2Repository.findAllByProdn1Equals(prodn1Reference, pageable);
         } else {
             Pageable pageable = new PageRequest(page == null ? 0 : page, defaultPageSize, new Sort(order));
 
@@ -46,10 +53,10 @@ public class Prodn2Controller {
         }
     }
 
-    @RequestMapping(value = "/{producentid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Prodn2 getProdn2(@PathVariable(value = "producentid", required = true) String producentid) {
-        return prodn2Repository.findProdn2ByProducentidEquals(producentid);
+    public Prodn2 getProdn2(@PathVariable(value = "id", required = true) Integer id) {
+        return prodn2Repository.findProdn2ByIdEquals(id);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)

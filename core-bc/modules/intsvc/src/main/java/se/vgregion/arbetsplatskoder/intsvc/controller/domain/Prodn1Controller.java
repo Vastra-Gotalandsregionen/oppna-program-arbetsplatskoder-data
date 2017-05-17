@@ -49,7 +49,7 @@ public class Prodn1Controller {
     @ResponseBody
     public ResponseEntity<List<Prodn1>> getProdn1s(
             @RequestParam(value = "orphan", defaultValue = "false") boolean orphan,
-            @RequestParam(value = "producentid", required = false) String producentid) {
+            @RequestParam(value = "id", required = false) Integer id) {
 
         HttpServletRequest request = this.request;
 
@@ -64,10 +64,10 @@ public class Prodn1Controller {
         List<Prodn1> result;
         if (Role.ADMIN.equals(user.getRole())) {
 
-            if (producentid == null) {
-                result = prodn1Repository.findAllByOrderByProducentidAsc();
+            if (id == null) {
+                result = prodn1Repository.findAllByOrderByForetagsnamnAsc();
             } else {
-                result = Arrays.asList(prodn1Repository.findProdn1ByProducentidEqualsOrderByProducentidAsc(producentid));
+                result = Arrays.asList(prodn1Repository.findOne(id));
             }
 
         } else {
@@ -89,16 +89,10 @@ public class Prodn1Controller {
         return ResponseEntity.ok(result);
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Prodn1> searchProdn1s(@RequestParam(value = "query", required = false) String query) {
-        return prodn1Repository.search(query);
-    }
-
-    @RequestMapping(value = "/{producentid}", method = RequestMethod.GET)
-    @ResponseBody
-    public Prodn1 getProdn1(@PathVariable(value = "producentid", required = true) String producentid) {
-        return prodn1Repository.findProdn1ByProducentidEqualsOrderByProducentidAsc(producentid);
+    public Prodn1 getProdn1(@PathVariable(value = "id", required = true) Integer id) {
+        return prodn1Repository.findOne(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)

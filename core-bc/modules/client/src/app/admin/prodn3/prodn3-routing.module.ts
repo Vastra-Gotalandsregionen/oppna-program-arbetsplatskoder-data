@@ -9,7 +9,7 @@ const routes: Routes = [
     component: Prodn3ListComponent
   },
   {
-    path: ':producentid/edit',
+    path: ':id/edit',
     component: Prodn3EditComponent
   },
   {

@@ -47,7 +47,8 @@
         <th>Företagsnamn</th>
         <th>Kortnamn</th>
         <th>Producent-ID</th>
-        <th>N2</th>
+        <th>Nivå 1</th>
+        <th>Nivå 2</th>
         <th>Autoradering</th>
         <th>Raderad</th>
         <th>Redigera</th>
@@ -59,12 +60,13 @@
         <td>{{prodn3.foretagsnamn}}</td>
         <td>{{prodn3.kortnamn}}</td>
         <td>{{prodn3.producentid}}</td>
-        <td>{{prodn3.n2}}</td>
+        <td>{{prodn3.prodn2?.prodn1?.kortnamn}}</td>
+        <td>{{prodn3.prodn2?.kortnamn}}</td>
         <td>{{prodn3.autoradering}}</td>
         <td>
           <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn3.raderad">clear</md-icon>
         </td>
-        <td><a routerLink="{{prodn3.producentid}}/edit">
+        <td><a routerLink="{{prodn3.id}}/edit">
           <md-icon>edit</md-icon>
         </a></td>
       </tr>

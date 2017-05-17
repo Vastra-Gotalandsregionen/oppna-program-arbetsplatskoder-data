@@ -26,6 +26,7 @@
       <thead>
         <tr>
           <th>Benämning <button md-icon-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
+          <th>Nivå 1</th>
           <th>Arbetsplatskod</th>
           <th>Reg-datum <button md-icon-button (click)="toggleSort('regDatum')" [ngClass]="{'sort-field': sort?.field === 'regDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
           <th>ID</th>
@@ -38,6 +39,9 @@
         <tr *ngFor="let data of response.content">
           <td>
               {{data.benamning}}
+          </td>
+          <td>
+            {{data.prodn1.kortnamn}}
           </td>
           <td>
             <a routerLink="{{data.id}}" routerLinkActive="active">

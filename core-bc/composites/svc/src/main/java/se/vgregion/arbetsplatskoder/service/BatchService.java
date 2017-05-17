@@ -40,10 +40,11 @@ public class BatchService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchService.class);
 
-    @PostConstruct
+    @Transactional
     public void init() {
 
-        List<Data> allDatas = dataRepository.findAllByProdn1IsNull();
+        List<Data> allDatas = dataRepository.findAll();
+//        List<Data> allDatas = dataRepository.findAllByProdn1IsNull();
 
         List<Prodn3> allProdn3s = prodn3Repository.findAll();
         List<Prodn2> allProdn2s = prodn2Repository.findAll();
@@ -53,29 +54,48 @@ public class BatchService {
         Map<String, Prodn2> prodn2Map = new HashMap<>();
         Map<String, Prodn1> prodn1Map = new HashMap<>();
 
-        allProdn3s.forEach(prodn3 -> {
-            if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
-                prodn3.setProducentid(prodn3.getProducentid().trim());
-                prodn3Repository.save(prodn3);
-            }
-            prodn3Map.put(prodn3.getProducentid(), prodn3);
-        });
+        trimProdn3sProducentid(allProdn3s);
+
+        allProdn3s.forEach(prodn3 -> prodn3Map.put(prodn3.getProducentid(), prodn3));
         allProdn2s.forEach(prodn2 -> prodn2Map.put(prodn2.getProducentid(), prodn2));
         allProdn1s.forEach(prodn1 -> prodn1Map.put(prodn1.getProducentid(), prodn1));
 
-        for (Data data : allDatas) {
-            if (data.getProdn1() != null) {
-                continue;
+        // Set prodn2 for all prodn3s
+        for (Prodn3 prodn3 : allProdn3s) {
+            Prodn2 prodn2 = prodn2Map.get(prodn3.getN2());
+
+            if (prodn2 != null && (prodn3.getProdn2() == null || !prodn3.getProdn2().getId().equals(prodn2.getId()))) {
+                prodn3.setProdn2(prodn2);
+                prodn3Repository.save(prodn3);
             }
+        }
+
+        // Set prodn1 for all prodn2s
+        for (Prodn2 prodn2 : allProdn2s) {
+            Prodn1 prodn1 = prodn1Map.get(prodn2.getN1());
+
+            if (prodn1 != null && (prodn2.getProdn1() == null || !prodn2.getProdn1().getId().equals(prodn2.getId()))) {
+                prodn2.setProdn1(prodn1);
+                prodn2Repository.save(prodn2);
+            }
+        }
+
+        for (Data data : allDatas) {
+//            if (data.getProdn1() != null) {
+//                continue;
+//            }
 
             String sorteringskodProd = data.getSorteringskodProd();
 
-            if (!sorteringskodProd.equals(sorteringskodProd.trim())) {
+            if (sorteringskodProd == null) {
+                LOGGER.info("No sorteringskodprod data: " + data.getId());
+                continue;
+            } else if (!sorteringskodProd.equals(sorteringskodProd.trim())) {
                 data.setSorteringskodProd(sorteringskodProd.trim());
                 dataRepository.save(data);
             }
 
-            LOGGER.info("Processing data " + data.getId() + " with sorteringskodProd=" + sorteringskodProd);
+//            LOGGER.info("Processing data " + data.getId() + " with sorteringskodProd=" + sorteringskodProd);
 
             Prodn3 prodn3 = prodn3Map.get(sorteringskodProd);
 
@@ -85,6 +105,10 @@ public class BatchService {
                 if (prodn3 != null) {
                     // We just needed to lowercase... Fix...
                     data.setSorteringskodProd(sorteringskodProd.toLowerCase().trim());
+
+                    // Set this too.
+                    data.setProdn3(prodn3);
+
                     dataRepository.save(data);
                 } else {
                     // Try finding a prodn1 with the sorteringskodProd...
@@ -92,14 +116,21 @@ public class BatchService {
 
                     if (prodn1 != null) {
                         // At least we got a match for prodn1.
-                        data.setProdn1(prodn1);
-                        dataRepository.save(data);
-                        LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist, but at least we got a match for prodn1.");
+                        if (data.getProdn1() == null || !data.getProdn1().getProducentid().equals(prodn1.getProducentid())) {
+                            data.setProdn1(prodn1);
+                            dataRepository.save(data);
+                            LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist, but at least we got a match for prodn1.");
+                        }
                     } else {
                         LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist.");
                     }
 
                     continue;
+                }
+            } else {
+                if (data.getProdn3() == null || !data.getProdn3().getProducentid().equals(prodn3.getProducentid())) {
+                    data.setProdn3(prodn3);
+                    dataRepository.save(data);
                 }
             }
 
@@ -141,10 +172,20 @@ public class BatchService {
                 }
             }
 
-            data.setProdn1(prodn1);
-
-            dataRepository.save(data);
+            if (data.getProdn1() == null || !data.getProdn1().getProducentid().equals(prodn1.getProducentid())) {
+                data.setProdn1(prodn1);
+                dataRepository.save(data);
+            }
         }
+    }
+
+    private void trimProdn3sProducentid(List<Prodn3> allProdn3s) {
+        allProdn3s.forEach(prodn3 -> {
+            if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
+                prodn3.setProducentid(prodn3.getProducentid().trim());
+                prodn3Repository.save(prodn3);
+            }
+        });
     }
 
 }

@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {Prodn3} from '../../../model/prodn3';
 import {Prodn2} from '../../../model/prodn2';
 import {JwtHttp} from '../../../core/jwt-http';
-import {ErrorHandler} from '../../../shared/error-handler';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {MdSnackBar} from '@angular/material';
-import {Observable} from 'rxjs/Observable';
+import {Prodn1} from "../../../model/prodn1";
 
 @Component({
   selector: 'app-prodn3-edit',
@@ -19,18 +18,18 @@ export class Prodn3EditComponent implements OnInit {
 
   prodn3Form: FormGroup;
 
-  n2SearchResult$: Observable<Prodn2[]>;
+  prodn1Options: Prodn1[] = [];
+  prodn2Options: Prodn2[] = [];
 
   saveMessage: string;
 
   constructor(route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private snackBar: MdSnackBar,
-              private http: JwtHttp,
-              private errorHandler: ErrorHandler) {
+              private http: JwtHttp) {
     route.params
       .filter(params => {
-        if (params.producentid) {
+        if (params.id) {
           return true;
         } else {
           // No producentid means we're creating a new Prodn3. Just build the form.
@@ -38,7 +37,7 @@ export class Prodn3EditComponent implements OnInit {
           return false;
         }
       }) // Check we have a producentid, otherwise it's a new Prodn3 to be created.
-      .mergeMap(params => http.get(`/api/prodn3/${params.producentid}`))
+      .mergeMap(params => http.get(`/api/prodn3/${params.id}`))
       .map(response => response.json())
       .subscribe(prodn3 => {
         this.prodn3 = prodn3;
@@ -47,6 +46,10 @@ export class Prodn3EditComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.http.get('/api/prodn1').map(response => response.json())
+      .subscribe(prodn1Options => this.prodn1Options = prodn1Options);
+
   }
 
   buildForm() {
@@ -54,16 +57,17 @@ export class Prodn3EditComponent implements OnInit {
       'id': [{value: this.prodn3.id, disabled: true}],
       'foretagsnamn': [this.prodn3.foretagsnamn, Validators.required],
       'kortnamn': [this.prodn3.kortnamn, Validators.required],
+      'prodn1': [this.prodn3.prodn2 && this.prodn3.prodn2.prodn1 ? this.prodn3.prodn2.prodn1.id : null, Validators.required],
+      'prodn2': [this.prodn3.prodn2 ? this.prodn3.prodn2.id : null, Validators.required],
       'producentid': [{value: this.prodn3.producentid, disabled: this.prodn3.producentid}, Validators.required],
-      'n2': [this.prodn3.n2, Validators.required],
       'raderad': [this.prodn3.raderad, []]
     });
 
-    this.n2SearchResult$ = this.prodn3Form.get('n2')
-      .valueChanges
-      .startWith('')
-      .mergeMap(value => this.http.get('/api/prodn2/search?query=' + value))
-      .map(response => response.json());
+    this.prodn3Form.get('prodn1').valueChanges
+      .startWith(this.prodn3.prodn2.prodn1.id)
+      .mergeMap(prodn1Id => this.http.get('/api/prodn2?prodn1=' + prodn1Id))
+      .map(response => response.json().content)
+      .subscribe(prodn2s => this.prodn2Options = prodn2s);
   }
 
   save() {
@@ -79,8 +83,8 @@ export class Prodn3EditComponent implements OnInit {
       id: this.prodn3.id,
       foretagsnamn: formModel.foretagsnamn,
       kortnamn: formModel.kortnamn,
+      prodn2: this.getProdn2ById(formModel.prodn2),
       producentid: formModel.producentid || this.prodn3.producentid, // Either formModel, if new entity, or the old value.
-      n2: formModel.n2,
       raderad: formModel.raderad ? 'true' : 'false'
     };
 
@@ -92,6 +96,12 @@ export class Prodn3EditComponent implements OnInit {
           this.buildForm();
         }
       );
+  }
+
+  private getProdn2ById(id) {
+    let filtered = this.prodn2Options.filter(prodn2 => prodn2.id === id);
+
+    return filtered[0];
   }
 
   resetForm() {

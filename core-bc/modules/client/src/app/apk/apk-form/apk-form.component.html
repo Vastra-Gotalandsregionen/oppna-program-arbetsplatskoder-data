@@ -71,10 +71,7 @@
         <md-divider class="space-vertical" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'"></md-divider>
 
         <div class="checkbox-container" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
-          <!--
           <md-checkbox align="end" formControlName="groupCode">Gruppkod</md-checkbox>
-          -->
-          <md-slide-toggle formControlName="groupCode">Gruppkod</md-slide-toggle>
           <md-icon mdTooltip="Förklaring...">help</md-icon>
         </div>
 
@@ -194,25 +191,25 @@
           <h3>Välj summeringsnivå</h3>
 
           <div>
-            <md-select placeholder="Summeringsnivå 1" formControlName="sorteringsniva1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <md-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1.producentid">
-                {{prodn1.producentid}} - {{prodn1.foretagsnamn}}
+            <md-select placeholder="Summeringsnivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+              <md-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
+                {{prodn1.foretagsnamn}}
               </md-option>
             </md-select>
           </div>
 
           <div>
-            <md-select placeholder="Summeringsnivå 2" formControlName="sorteringsniva2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <md-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2.producentid">
-                {{prodn2.producentid}} - {{prodn2.avdelning}}
+            <md-select placeholder="Summeringsnivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+              <md-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
+                {{prodn2.avdelning}}
               </md-option>
             </md-select>
           </div>
 
           <div>
-            <md-select placeholder="Summeringsnivå 3" formControlName="sorteringsniva3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <md-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3.producentid">
-                {{prodn3.producentid}} - {{prodn3.foretagsnamn}}
+            <md-select placeholder="Summeringsnivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+              <md-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
+                {{prodn3.foretagsnamn}}
               </md-option>
             </md-select>
           </div>

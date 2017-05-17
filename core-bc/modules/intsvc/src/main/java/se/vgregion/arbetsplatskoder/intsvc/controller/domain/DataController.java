@@ -54,8 +54,8 @@ public class DataController {
                                @RequestParam(value = "asc", required = false) boolean asc,
                                @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas) throws NoSuchFieldException {
 
-        Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "sorteringskodProd").ignoreCase();
-        Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "arbetsplatskod").ignoreCase();
+        Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
+        Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "benamning").ignoreCase();
 
         Sort finalSort;
         if (sort != null && sort.length() > 0) {

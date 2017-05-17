@@ -150,20 +150,19 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'ansvar': [this.data.ansvar, Validators.required],
       'vardform': [this.vardformIdMap.get(this.data.vardform), Validators.required],
       'verksamhet': [this.verksamhetIdMap.get(this.data.verksamhet), Validators.required],
-      'sorteringsniva1': [null, Validators.required], // Set further down
-      'sorteringsniva2': [null, Validators.required], // Set further down
-      'sorteringsniva3': [null, Validators.required], // Set further down
+      'prodn1': [null, Validators.required], // Set further down
+      'prodn2': [null, Validators.required], // Set further down
+      'prodn3': [null, Validators.required], // Set further down
       'benamning': [this.data.benamning, Validators.required],
       'addressGroup': this.formBuilder.group({
         'postadress': [this.data.postadress],
         'postnr': [this.data.postnr],
         'postort': [this.data.postort],
       }),
-
       'externfakturaGroup': this.formBuilder.group({
         'externfakturamodell': [this.data.externfakturamodell, Validators.required]
       }),
-      'groupCode': [false, Validators.required],
+      'groupCode': [this.data.groupCode],
       'vgpvGroup': this.formBuilder.group({
         'vgpv': [this.data.vgpv ? 'true' : 'false', Validators.required]
       }),
@@ -230,16 +229,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         }
       });
 
-    if (this.data.sorteringskodProd) {
-      this.http.get('/api/prodn3/' + this.data.sorteringskodProd)
-        .map(response => response.json())
-        .subscribe(prodn3 => {
-          this.apkForm.patchValue({'sorteringsniva3': prodn3.producentid});
-
-          this.initSorteringsnivaControls(prodn3);
-        });
+    if (this.data.prodn3) {
+      this.initProdnControls(this.data.prodn3);
     } else {
-      this.initSorteringsnivaControls(null);
+      this.initProdnControls(null);
     }
   }
 
@@ -282,26 +275,23 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     ao3FormControl.setValidators(ao3Validator(ao3s))
   }
 
-  private initSorteringsnivaControls(prodn3: Prodn3) {
+  private initProdnControls(prodn3: Prodn3) {
     if (prodn3) {
       // We assume the form is already built, so we don't need to fetch the prodn3 again.
-      const prodn2Key = prodn3.n2;
-
       let prodn2;
       let prodn1;
 
       // Now we know prodn3. Based on that we want to find prodn2, prodn1 as well as options for prodn2 and prodn3.
       // Start by finding the specific prodn2
-      this.http.get('/api/prodn2/' + prodn2Key)
-        .map(response => response.json())
+      // todo Clean up a bit here. Decrease use of Observable.
+      Observable.of(prodn3.prodn2)
         .concatMap(prodn2 => {
-          this.apkForm.patchValue({'sorteringsniva2': prodn2.producentid});
+          // this.apkForm.patchValue({'prodn2': this.getItemInstanceInArray(prodn2, this.prodn2Options)});
 
           // From this prodn2 we can find the chosen prodn1 but also the options for prodn3.
-          const prodn1Observable: Observable<Response> = this.http.get('/api/prodn1/' + prodn2.n1)
-            .map(response => response.json());
+          const prodn1Observable: Observable<Prodn1> = Observable.of(prodn2.prodn1);
 
-          const prodn3sObservable: Observable<Prodn3[]> = this.http.get('/api/prodn3?prodn2=' + prodn2.producentid)
+          const prodn3sObservable: Observable<Prodn3[]> = this.http.get('/api/prodn3?prodn2=' + prodn2.id)
             .map(response => response.json())
             .map((pageable: RestResponse<Prodn3[]>) => <Prodn3[]>pageable.content);
 
@@ -311,15 +301,20 @@ export class ApkFormComponent extends ApkBase implements OnInit {
           const prodn1 = result[0];
           const prodn3s = result[1];
 
-          this.apkForm.patchValue({'sorteringsniva1': prodn1.producentid});
           this.prodn3Options = prodn3s;
 
           // Moving on with finding the options for prodn2, based on prodn1
-          return this.http.get('/api/prodn2?prodn1=' + prodn1.producentid);
+          return this.http.get('/api/prodn2?prodn1=' + prodn1.id);
         })
         .map(response => response.json().content)
         .subscribe(prodn2s => {
           this.prodn2Options = prodn2s;
+
+          // Need to get the exact instance to make the component find a match and be able to display an option from the option list.
+          this.apkForm.patchValue({'prodn2': this.getItemInstanceInArray(prodn3.prodn2, this.prodn2Options)});
+          this.apkForm.patchValue({'prodn1': this.getItemInstanceInArray(prodn3.prodn2.prodn1, this.allProdn1s)});
+          this.apkForm.patchValue({'prodn3': this.getItemInstanceInArray(prodn3, this.prodn3Options)});
+
           this.listenToChangesToProdnx();
         });
     } else {
@@ -327,32 +322,42 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     }
   }
 
-  listenToChangesToProdnx() {
-    const sorteringsniva1Control = this.apkForm.get('sorteringsniva1');
-    const sorteringsniva2Control = this.apkForm.get('sorteringsniva2');
+  private getItemInstanceInArray(item: any, array: any[]) {
+    let filtered = array.filter(arrayItem => arrayItem.id === item.id);
 
-    sorteringsniva1Control.valueChanges
+    if (filtered.length > 0) {
+      return filtered[0];
+    } else {
+      throw new Error('Entity not found.');
+    }
+  }
+
+  listenToChangesToProdnx() {
+    const prodn1Control = this.apkForm.get('prodn1');
+    const prodn2Control = this.apkForm.get('prodn2');
+
+    prodn1Control.valueChanges
       .filter(value => value ? true : false)
-      .flatMap(prodn1Producentid =>
-        this.http.get('/api/prodn2?prodn1=' + prodn1Producentid).map(response => response.json().content))
+      .flatMap(prodn1 =>
+        this.http.get('/api/prodn2?prodn1=' + prodn1.id).map(response => response.json().content))
       .subscribe(prodn2s => {
         this.prodn2Options = prodn2s;
         this.prodn3Options = [];
         this.apkForm.patchValue({
-          'sorteringsniva2': null,
-          'sorteringsniva3': null
+          'prodn2': null,
+          'prodn3': null
         });
       });
 
-    sorteringsniva2Control.valueChanges
+    prodn2Control.valueChanges
       .filter(value => value ? true : false)
-      .flatMap(prodn2Producentid => this.http.get('/api/prodn3?prodn2=' + prodn2Producentid))
+      .flatMap(prodn2 => this.http.get('/api/prodn3?prodn2=' + prodn2.id))
       .map(response => response.json())
       .map((pageable: RestResponse<Prodn3[]>) => <Prodn3[]>pageable.content)
       .subscribe(prodn3s => {
         this.prodn3Options = prodn3s;
         this.apkForm.patchValue({
-          'sorteringsniva3': null
+          'prodn3': null
         });
       });
   }
@@ -367,6 +372,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     const formModel = this.apkForm.value;
     data.lankod = data.lankod || '14'; // Hard-coded
     data.agarform = formModel.agarform;
+    data.groupCode = formModel.groupCode;
     data.ao3 = (<Ao3> formModel.ao3).ao3id;
     data.anmarkning = formModel.anmarkning;
     data.ansvar = formModel.ansvar;
@@ -375,11 +381,14 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     data.vardform = (<Vardform> formModel.vardform).vardformid;
     data.verksamhet = (<Verksamhet> formModel.verksamhet).verksamhetid;
     data.benamning = formModel.benamning;
-    data.postadress = formModel.addressGroup.postadress;
-    data.postnr = formModel.addressGroup.postnr;
-    data.postort = formModel.addressGroup.postort;
+    if (!formModel.groupCode) {
+      data.postadress = formModel.addressGroup.postadress;
+      data.postnr = formModel.addressGroup.postnr;
+      data.postort = formModel.addressGroup.postort;
+    }
     data.externfakturamodell = formModel.externfakturaGroup.externfakturamodell;
-    data.sorteringskodProd = formModel.sorteringsniva3;
+    data.prodn1 = formModel.prodn1;
+    data.prodn3 = formModel.prodn3;
     data.vgpv = formModel.vgpvGroup.vgpv;
     data.fromDatum = formModel.fromDatum && typeof formModel.fromDatum === 'object' ? formModel.fromDatum.toLocaleDateString() : formModel.fromDatum;
     data.tillDatum = formModel.tillDatum && typeof formModel.tillDatum === 'object' ? formModel.tillDatum.toLocaleDateString() : formModel.tillDatum;

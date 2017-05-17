@@ -64,7 +64,7 @@ export class Ao3EditComponent implements OnInit {
 
     this.prodn1SearchResult$ = this.http.get('/api/prodn1').map(response => response.json())
       .combineLatest(prodn1Input$, (prodn1s: Prodn1[], query) => {
-        const filtered = prodn1s.filter(prodn1 => prodn1.foretagsnamn.indexOf(query) > -1 || prodn1.producentid.indexOf(query) > -1);
+        const filtered = prodn1s.filter(prodn1 => prodn1.foretagsnamn.indexOf(query) > -1);
         return filtered;
       });
   }

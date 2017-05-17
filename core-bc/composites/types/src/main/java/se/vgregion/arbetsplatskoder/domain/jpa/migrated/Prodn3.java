@@ -12,7 +12,7 @@ public class Prodn3 extends AbstractEntity {
     @Column (name = "id", nullable = false)
     private java.lang.Integer id;
 
-    @Column (name = "producentid", nullable = false)
+    @Column (name = "producentid", nullable = true)
     private java.lang.String producentid;
 
     @Column (name = "foretagsnamn", nullable = true)
@@ -26,6 +26,10 @@ public class Prodn3 extends AbstractEntity {
 
     @Column (name = "n2", nullable = true)
     private java.lang.String n2;
+
+    @JoinColumn(name = "prodn2")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Prodn2 prodn2;
 
     @Column (name = "autoradering", nullable = true)
     private java.lang.Boolean autoradering;
@@ -79,6 +83,14 @@ public class Prodn3 extends AbstractEntity {
 
     public void setN2(java.lang.String v){
         this.n2 = v;
+    }
+
+    public Prodn2 getProdn2() {
+        return prodn2;
+    }
+
+    public void setProdn2(Prodn2 prodn2) {
+        this.prodn2 = prodn2;
     }
 
     public java.lang.Boolean getAutoradering(){

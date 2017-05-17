@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn2;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn3;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
+import se.vgregion.arbetsplatskoder.repository.Prodn1Repository;
 import se.vgregion.arbetsplatskoder.repository.Prodn2Repository;
 import se.vgregion.arbetsplatskoder.repository.Prodn3Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -38,49 +41,56 @@ public class Prodn3Controller {
     private Prodn2Repository prodn2Repository;
 
     @Autowired
+    private Prodn1Repository prodn1Repository;
+
+    @Autowired
     private DataRepository dataRepository;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Page<Prodn3> getProdn3s(@RequestParam(value = "unused", required = false, defaultValue = "false") boolean unused,
                                    @RequestParam(value = "orphan", required = false, defaultValue = "false") boolean orphan,
-                                   @RequestParam(value = "prodn1", required = false) String prodn1,
-                                   @RequestParam(value = "prodn2", required = false) String prodn2,
+                                   @RequestParam(value = "prodn1", required = false) Integer prodn1Id,
+                                   @RequestParam(value = "prodn2", required = false) Integer prodn2Id,
                                    @RequestParam(value = "page", required = false) Integer page) {
 
-        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "producentid").ignoreCase();
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "id").ignoreCase();
 
         if (unused) {
             Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(order));
 
-            Set<String> allDatasSorteringskodProds = dataRepository.findAll().stream().map(Data::getSorteringskodProd).collect(Collectors.toSet());
+            Set<Integer> allProdn3sIdReferencedFromDatas = dataRepository.findAllJoinProdn3().stream()
+                    .filter(data -> data.getProdn3() != null)
+                    .map(Data::getProdn3)
+                    .map(Prodn3::getId)
+                    .collect(Collectors.toSet());
 
-            return prodn3Repository.findAllByProducentidNotIn(allDatasSorteringskodProds, pageable);
+            return prodn3Repository.findAllByIdNotIn(allProdn3sIdReferencedFromDatas, pageable);
         }
 
         if (orphan) {
-            Set<String> allProdn2s = prodn2Repository.findAll().stream().map(Prodn2::getProducentid).collect(Collectors.toSet());
-
-            return prodn3Repository.findAllByN2NotIn(allProdn2s, null);
+            return prodn3Repository.findAllByProdn2IsNull(null);
         }
 
-        if (prodn1 != null && prodn2 == null) {
+        if (prodn1Id != null && prodn2Id == null) {
+            // Find by all prodn2s which have the given prodn1.
             Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(order));
 
-            List<String> n2sByN1 = prodn2Repository.findAllByN1Equals(prodn1, null)
-                    .getContent()
-                    .stream()
-                    .map(Prodn2::getProducentid)
-                    .collect(Collectors.toList());
+            Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
 
-            return prodn3Repository.findAllByN2In(n2sByN1, pageable);
+            List<Prodn2> n2sByProdn1 = new ArrayList<>(prodn2Repository.findAllByProdn1Equals(prodn1Reference, null)
+                    .getContent());
+
+            return prodn3Repository.findAllByProdn2In(n2sByProdn1, pageable);
         }
 
-        if (prodn2 != null) {
+        if (prodn2Id != null) {
             // The MAX_VALUE for page pageSize since we use this in an autocomplete component. Rethink design otherwise...
             Pageable pageable = new PageRequest(page == null ? 0 : page, Integer.MAX_VALUE, new Sort(order));
 
-            return prodn3Repository.findAllByN2Equals(prodn2, pageable);
+            Prodn2 prodn2Reference = prodn2Repository.getOne(prodn2Id);
+
+            return prodn3Repository.findAllByProdn2Equals(prodn2Reference, pageable);
         } else {
             Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(order));
 
@@ -88,10 +98,10 @@ public class Prodn3Controller {
         }
     }
 
-    @RequestMapping(value = "/{producentid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Prodn3 getProdn3(@PathVariable(value = "producentid", required = true) String producentid) {
-        return prodn3Repository.findProdn3ByProducentidEquals(producentid);
+    public Prodn3 getProdn3(@PathVariable(value = "id", required = true) Integer id) {
+        return prodn3Repository.findProdn3ByIdEquals(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)

@@ -40,7 +40,7 @@ export class UsersListComponent implements OnInit {
   }
 
   prodn1sToString(prodn1: Prodn1[]) {
-    return prodn1.map(prodn1 => prodn1.producentid).join(', ')
+    return prodn1.map(prodn1 => prodn1.id).join(', ')
   }
 
   impersonate(user: User) {

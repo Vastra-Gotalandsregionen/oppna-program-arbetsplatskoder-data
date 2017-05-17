@@ -36,8 +36,8 @@
           </md-input-container>
 
           <md-autocomplete class="autocomplete" #producentAutocompleteRef="mdAutocomplete">
-            <md-option class="md-option" *ngFor="let prodn1 of prodn1SearchResult$ | async" [value]="prodn1.producentid">
-              {{prodn1.producentid}} {{prodn1.foretagsnamn}}
+            <md-option class="md-option" *ngFor="let prodn1 of prodn1SearchResult$ | async" [value]="prodn1.id">
+              {{prodn1.foretagsnamn}}
             </md-option>
           </md-autocomplete>
         </div>

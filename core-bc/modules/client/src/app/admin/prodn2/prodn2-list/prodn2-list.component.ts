@@ -30,9 +30,7 @@ export class Prodn2ListComponent implements OnInit {
 
   prodn1s$: Observable<Prodn1[]>;
 
-  selectedProdn1 = new BehaviorSubject<string>(null);
-
-  orphanProdn2s: string[] = [];
+  selectedProdn1 = new BehaviorSubject<number>(null);
 
   showFilter = false;
 
@@ -48,7 +46,7 @@ export class Prodn2ListComponent implements OnInit {
     }
 
     if (prodn1) {
-      this.selectedProdn1.next(prodn1);
+      this.selectedProdn1.next(Number.parseInt(prodn1));
       this.showFilter = true;
     }
   }
@@ -80,25 +78,6 @@ export class Prodn2ListComponent implements OnInit {
       .share();
 
     response$.subscribe((restResponse: RestResponse<Prodn2[]>) => this.response = restResponse);
-
-    // Find Prodn2s where their N1 doesn't exist.
-    response$
-      .delay(200) // Prioritize the listing so wait before we start this processing.
-      .map(restResponse => restResponse.content)
-      .mergeMap((prodn2s: Prodn2[]) => prodn2s) // To single items
-      .map((prodn2: Prodn2) => prodn2.n1) // Make this mapping in order to be able to make distinct after this step.
-      .distinct() // Many Prodn2s share the same N1 so we don't need to make a request for all.
-      .mergeMap((prodn2N1: string) => { // To forward both the Prodn2, which we will store in our field, and the Prodn1, which we will use to filter.
-        const prodn1$ = this.http.get('/api/prodn1?producentid=' + prodn2N1);
-        const prodn2N1$ = Observable.of(prodn2N1);
-        return Observable.forkJoin(prodn1$, prodn2N1$);
-      })
-      .filter(response => { // Only forward those where we didn't find any Prodn1
-        const noHit = response[0].json()[0] === null;
-        return noHit;
-      })
-      .map(response => response[1]) // Pass prodn2N1 string
-      .subscribe(prodn21 => this.orphanProdn2s.push(prodn21));
   }
 
   nextPage() {
@@ -114,14 +93,14 @@ export class Prodn2ListComponent implements OnInit {
   }
 
   isSelected(prodn1: Prodn1) {
-    return this.selectedProdn1.value === prodn1.producentid;
+    return this.selectedProdn1.value === prodn1.id;
   }
 
   toggle(prodn1: Prodn1) {
-    if (this.selectedProdn1.value === prodn1.producentid) {
+    if (this.selectedProdn1.value === prodn1.id) {
       this.selectedProdn1.next(null);
     } else {
-      this.selectedProdn1.next(prodn1.producentid);
+      this.selectedProdn1.next(prodn1.id);
     }
     this.pageSubject.next(0);
   }

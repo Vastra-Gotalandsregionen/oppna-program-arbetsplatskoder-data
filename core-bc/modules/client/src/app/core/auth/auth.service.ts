@@ -84,16 +84,8 @@ export class AuthService {
       return true;
     }
 
-    // todo Is this the best way to check this? No more robust way than using "startsWith()"?
     if (this.jwtToken && this.jwtToken.prodn1s) {
-      const matchArr: string[] = (<string[]>this.jwtToken.prodn1s)
-        .filter(prodn1 => {
-          return data.sorteringskodProd.startsWith(prodn1);
-        });
-
-      if (matchArr.length > 0) {
-        return true;
-      }
+      return this.jwtToken.prodn1s.indexOf(data.prodn1.id) > -1;
     }
     return false;
   }

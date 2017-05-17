@@ -26,7 +26,7 @@ export class Prodn1EditComponent implements OnInit {
               private errorHandler: ErrorHandler) {
     route.params
       .filter(params => {
-        if (params.producentid) {
+        if (params.id) {
           return true;
         } else {
           // No producentid means we're creating a new Prodn1. Just build the form.
@@ -34,7 +34,7 @@ export class Prodn1EditComponent implements OnInit {
           return false;
         }
       }) // Check we have a producentid, otherwise it's a new Prodn1 to be created.
-      .mergeMap(params => http.get(`/api/prodn1/${params.producentid}`))
+      .mergeMap(params => http.get(`/api/prodn1/${params.id}`))
       .map(response => response.json())
       .subscribe(prodn1 => {
         this.prodn1 = prodn1;
