@@ -1,5 +1,10 @@
-
-<h1>Arbetsplatskoder</h1>
+<md-toolbar class="action-toolbar">
+  <h1>
+     Arbetsplatskoder
+  </h1>
+  <div class="action-toolbar-spacer"></div>
+  <a class="action-toolbar-item" md-fab routerLink="create" mdTooltip="Lägg till ny arbetsplatskod" *ngIf="loggedIn"><md-icon>add</md-icon></a>
+</md-toolbar>
 
 <md-card>
 
@@ -14,8 +19,6 @@
       <md-checkbox class="action-toolbar-item" [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Visa endast <span class="tooltip-text" mdTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></md-checkbox>
 
       <div class="action-toolbar-spacer"></div>
-
-      <a class="action-toolbar-item" md-fab routerLink="create" mdTooltip="Lägg till ny arbetsplatskod" *ngIf="loggedIn"><md-icon>add</md-icon></a>
 
     </md-toolbar>
 

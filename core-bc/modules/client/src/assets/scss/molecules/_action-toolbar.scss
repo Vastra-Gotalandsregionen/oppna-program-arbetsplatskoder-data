@@ -23,6 +23,12 @@
 
   }
 
+  button {
+    background: transparent;
+    border: none;
+    color: #333;
+  }
+
   .mat-fab,
   .mat-fab:visited {
     background-color: $vgr-blue;
