@@ -56,13 +56,13 @@ public class BatchService {
 
         trimProdn3sProducentid(allProdn3s);
 
-        allProdn3s.forEach(prodn3 -> prodn3Map.put(prodn3.getProducentid(), prodn3));
-        allProdn2s.forEach(prodn2 -> prodn2Map.put(prodn2.getProducentid(), prodn2));
-        allProdn1s.forEach(prodn1 -> prodn1Map.put(prodn1.getProducentid(), prodn1));
+        allProdn3s.forEach(prodn3 -> prodn3Map.put(prodn3.getProducentid().toLowerCase(), prodn3));
+        allProdn2s.forEach(prodn2 -> prodn2Map.put(prodn2.getProducentid().toLowerCase(), prodn2));
+        allProdn1s.forEach(prodn1 -> prodn1Map.put(prodn1.getProducentid().toLowerCase(), prodn1));
 
         // Set prodn2 for all prodn3s
         for (Prodn3 prodn3 : allProdn3s) {
-            Prodn2 prodn2 = prodn2Map.get(prodn3.getN2());
+            Prodn2 prodn2 = prodn2Map.get(prodn3.getN2().toLowerCase());
 
             if (prodn2 != null && (prodn3.getProdn2() == null || !prodn3.getProdn2().getId().equals(prodn2.getId()))) {
                 prodn3.setProdn2(prodn2);
@@ -72,7 +72,7 @@ public class BatchService {
 
         // Set prodn1 for all prodn2s
         for (Prodn2 prodn2 : allProdn2s) {
-            Prodn1 prodn1 = prodn1Map.get(prodn2.getN1());
+            Prodn1 prodn1 = prodn1Map.get(prodn2.getN1().toLowerCase());
 
             if (prodn1 != null && (prodn2.getProdn1() == null || !prodn2.getProdn1().getId().equals(prodn2.getId()))) {
                 prodn2.setProdn1(prodn1);
