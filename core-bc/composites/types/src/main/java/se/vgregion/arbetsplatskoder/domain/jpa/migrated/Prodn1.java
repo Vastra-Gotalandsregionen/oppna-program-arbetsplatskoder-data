@@ -75,5 +75,20 @@ public class Prodn1 extends AbstractEntity {
         this.ssmaTimestamp = v;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Prodn1 prodn1 = (Prodn1) o;
+
+        return id != null ? id.equals(prodn1.id) : prodn1.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        return result;
+    }
 }

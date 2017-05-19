@@ -3,6 +3,7 @@ import {JwtHttp} from '../../../core/jwt-http';
 import {Observable} from 'rxjs/Observable';
 import {Prodn1} from '../../../model/prodn1';
 import {Response} from '@angular/http';
+import {AuthService} from "../../../core/auth/auth.service";
 
 @Component({
   selector: 'app-prodn1-list',
@@ -14,7 +15,8 @@ export class Prodn1ListComponent implements OnInit {
   prodn1s$: Observable<Prodn1[]>;
   orphanProdn1s: number[] = [];
 
-  constructor(private http: JwtHttp) {
+  constructor(private http: JwtHttp,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -26,6 +28,10 @@ export class Prodn1ListComponent implements OnInit {
       .mergeMap((prodn1: Prodn1[]) => prodn1) // To single items
       .map((prodn1: Prodn1) => prodn1.id).toArray()
         .subscribe(value => this.orphanProdn1s = value);
+  }
+
+  get admin() {
+    return this.authService.getLoggedInRole() === 'ADMIN';
   }
 
 }

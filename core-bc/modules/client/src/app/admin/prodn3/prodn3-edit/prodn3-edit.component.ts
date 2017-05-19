@@ -59,12 +59,13 @@ export class Prodn3EditComponent implements OnInit {
       'kortnamn': [this.prodn3.kortnamn, Validators.required],
       'prodn1': [this.prodn3.prodn2 && this.prodn3.prodn2.prodn1 ? this.prodn3.prodn2.prodn1.id : null, Validators.required],
       'prodn2': [this.prodn3.prodn2 ? this.prodn3.prodn2.id : null, Validators.required],
-      'producentid': [{value: this.prodn3.producentid, disabled: this.prodn3.producentid}, Validators.required],
+      'producentid': [{value: this.prodn3.producentid, disabled: true}, Validators.required], // We only have this field for historical reasons.
       'raderad': [this.prodn3.raderad, []]
     });
 
     this.prodn3Form.get('prodn1').valueChanges
-      .startWith(this.prodn3.prodn2.prodn1.id)
+      .startWith(this.prodn3.prodn2 ? this.prodn3.prodn2.prodn1.id : null)
+      .filter(value => value) // This solution with startWith + filter makes so we make a query when we have a value as well as not query for prodn2s when we don't have a prodn1.
       .mergeMap(prodn1Id => this.http.get('/api/prodn2?prodn1=' + prodn1Id))
       .map(response => response.json().content)
       .subscribe(prodn2s => this.prodn2Options = prodn2s);

@@ -11,7 +11,7 @@
 
 
     <md-list class="block-navigation">
-      <md-list-item>
+      <md-list-item *ngIf="admin">
         <a routerLink="../users" routerLinkActive="active">
           <md-icon>people</md-icon>
           <span class="nav-label">Användare (nya)</span>
@@ -35,7 +35,7 @@
           <span class="nav-label">Summeringsnivå 3</span>
         </a>
       </md-list-item>
-      <md-list-item>
+      <md-list-item *ngIf="admin">
         <a routerLink="../ao3" routerLinkActive="active">
           <md-icon>list</md-icon>
           <span class="nav-label">Ao3</span>

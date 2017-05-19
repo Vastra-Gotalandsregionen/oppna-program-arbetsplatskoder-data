@@ -3,12 +3,16 @@ import {JwtHelper} from 'angular2-jwt/angular2-jwt';
 import {Data} from '../../model/data';
 import {Router} from '@angular/router';
 import {Http} from '@angular/http';
+import {Observable} from "rxjs/Observable";
+import {Subscription} from "rxjs/Subscription";
 
 @Injectable()
 export class AuthService {
 
   private _jwt: string;
   private jwtToken: any;
+
+  renewSubscription: Subscription;
 
   constructor(private jwtHelper: JwtHelper,
               private http: Http,
@@ -19,27 +23,20 @@ export class AuthService {
       this.jwt = localStorageToken;
     }
 
-    setInterval(() => {
-      if (this._jwt) {
-        this.http.post('/api/login/renew', this._jwt)
-          .subscribe(
-            response => this.jwt = response.text(),
-            error => this.jwt = null
-          );
-      }
-    }, 60000);
+  }
 
-    /*setInterval(() => {
-      if (this._jwt) {
-        this.http.post('/api/login/renew', this._jwt)
-          .retryWhen(errors => errors.delay(10000))
-          .take(10)
-          .subscribe(
-            response => this.jwt = response.text(),
-            error => this.jwt = null
-          );
-      }
-    }, 20000);*/
+  private startRenew() {
+    if (this.renewSubscription) {
+      this.renewSubscription.unsubscribe();
+    }
+
+    this.renewSubscription = Observable.interval(60000)
+      .switchMap(() => this.http.post('/api/login/renew', this._jwt))
+      .retry(4)
+      .subscribe(
+        response => this.jwt = response.text(),
+        error => this.jwt = null
+      );
   }
 
   get jwt(): string {
@@ -53,6 +50,8 @@ export class AuthService {
       this.jwtToken = this.jwtHelper.decodeToken(value);
 
       localStorage.setItem('apkJwtToken', value);
+
+      this.startRenew();
     } else if (this.jwtToken) {
       // Logout
 

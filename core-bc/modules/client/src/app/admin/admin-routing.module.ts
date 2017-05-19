@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {AdminComponent} from './admin.component'
 import {AdminLandingComponent} from './admin-landing/admin-landing.component'
 import {RouterModule, Routes} from '@angular/router';
+import {AdminGuard} from "../core/guard/admin.guard";
 
 const routes: Routes = [
   {
@@ -14,10 +15,12 @@ const routes: Routes = [
       },
       {
         path: 'old-users',
+        canActivate: [AdminGuard],
         loadChildren: './old-users/old-users.module#OldUsersModule'
       },
       {
         path: 'users',
+        canActivate: [AdminGuard],
         loadChildren: './users/users.module#UsersModule'
       },
       {
@@ -34,6 +37,7 @@ const routes: Routes = [
       },
       {
         path: 'ao3',
+        canActivate: [AdminGuard],
         loadChildren: './ao3/ao3.module#Ao3Module'
       },
       {

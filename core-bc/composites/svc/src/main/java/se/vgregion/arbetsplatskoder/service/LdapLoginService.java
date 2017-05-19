@@ -50,7 +50,11 @@ public class LdapLoginService {
     }
 
     public User loginWithoutPassword(String username) throws FailedLoginException {
-        return login(username, null, false);
+        try {
+            return login(username, null, false);
+        } catch (Exception e) {
+            return userRepository.findOne(username);
+        }
     }
 
     public User loginOffline(String username) throws FailedLoginException {
@@ -151,6 +155,8 @@ public class LdapLoginService {
         serviceEnv.put(Context.SECURITY_AUTHENTICATION, "simple");
         serviceEnv.put(Context.SECURITY_PRINCIPAL, serviceUserDN);
         serviceEnv.put(Context.SECURITY_CREDENTIALS, serviceUserPassword);
+        serviceEnv.put("com.sun.jndi.ldap.connect.timeout", "5000");
+
         return new InitialDirContext(serviceEnv);
     }
 

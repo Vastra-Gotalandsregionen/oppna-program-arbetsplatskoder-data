@@ -55,29 +55,24 @@
         <md-toolbar class="menu-bar">
 
           <md-list>
+
             <md-list-item>
               <a routerLink="home" routerLinkActive="active">
                 <span class="nav-label">Hem</span>
               </a>
             </md-list-item>
+
             <md-list-item>
               <a routerLink="apk" routerLinkActive="active">
                 <span class="nav-label">Arbetsplatskoder</span>
               </a>
             </md-list-item>
 
-            <md-list-item *ngIf="admin">
-
+            <md-list-item>
               <a routerLink="admin" routerLinkActive="active">
                 <span class="nav-label">Administration</span>
               </a>
-              <!--
-              <a href="">
-                <span class="nav-label">Administration</span>
-              </a>
-              -->
             </md-list-item>
-
 
           </md-list>
 

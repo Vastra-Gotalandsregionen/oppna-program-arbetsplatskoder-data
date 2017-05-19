@@ -56,12 +56,15 @@ public class BatchService {
 
         trimProdn3sProducentid(allProdn3s);
 
-        allProdn3s.forEach(prodn3 -> prodn3Map.put(prodn3.getProducentid().toLowerCase(), prodn3));
-        allProdn2s.forEach(prodn2 -> prodn2Map.put(prodn2.getProducentid().toLowerCase(), prodn2));
-        allProdn1s.forEach(prodn1 -> prodn1Map.put(prodn1.getProducentid().toLowerCase(), prodn1));
+        allProdn3s.stream().filter(prodn3 -> prodn3.getProducentid() != null).forEach(prodn3 -> prodn3Map.put(prodn3.getProducentid().toLowerCase(), prodn3));
+        allProdn2s.stream().filter(prodn2 -> prodn2.getProducentid() != null).forEach(prodn2 -> prodn2Map.put(prodn2.getProducentid().toLowerCase(), prodn2));
+        allProdn1s.stream().filter(prodn1 -> prodn1.getProducentid() != null).forEach(prodn1 -> prodn1Map.put(prodn1.getProducentid().toLowerCase(), prodn1));
 
         // Set prodn2 for all prodn3s
         for (Prodn3 prodn3 : allProdn3s) {
+            if (prodn3.getN2() == null) {
+                continue;
+            }
             Prodn2 prodn2 = prodn2Map.get(prodn3.getN2().toLowerCase());
 
             if (prodn2 != null && (prodn3.getProdn2() == null || !prodn3.getProdn2().getId().equals(prodn2.getId()))) {
@@ -72,6 +75,10 @@ public class BatchService {
 
         // Set prodn1 for all prodn2s
         for (Prodn2 prodn2 : allProdn2s) {
+            if (prodn2.getN1() == null) {
+                LOGGER.warn("prodn2: " + prodn2.getId() + " doesn't have any N1.");
+                continue;
+            }
             Prodn1 prodn1 = prodn1Map.get(prodn2.getN1().toLowerCase());
 
             if (prodn1 != null && (prodn2.getProdn1() == null || !prodn2.getProdn1().getId().equals(prodn2.getId()))) {
@@ -157,7 +164,7 @@ public class BatchService {
 
             Prodn1 prodn1 = prodn1Map.get(n1);
 
-            if (prodn1 == null ) {
+            if (prodn1 == null) {
 
                 if (n1 != null) {
                     prodn1 = prodn1Map.get(n1.toLowerCase().trim());
@@ -184,12 +191,14 @@ public class BatchService {
     }
 
     private void trimProdn3sProducentid(List<Prodn3> allProdn3s) {
-        allProdn3s.forEach(prodn3 -> {
-            if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
-                prodn3.setProducentid(prodn3.getProducentid().trim());
-                prodn3Repository.save(prodn3);
-            }
-        });
+        allProdn3s.stream()
+                .filter(prodn3 -> prodn3.getProducentid() != null)
+                .forEach(prodn3 -> {
+                    if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
+                        prodn3.setProducentid(prodn3.getProducentid().trim());
+                        prodn3Repository.save(prodn3);
+                    }
+                });
     }
 
 }

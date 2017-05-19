@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn2;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,5 +22,7 @@ public interface Prodn2Repository extends JpaRepository<Prodn2, Integer> {
 
     @Query("select p from Prodn2 p where ((lower(p.avdelning) like concat('%', :field1, '%')) or lower(p.id) like concat('%', :field1, '%'))")
     List<Prodn2> search(@Param("field1") String field1);
+
+    Page<Prodn2> findAllByProdn1In(Collection<Prodn1> prodn1s, Pageable pageable);
 
 }

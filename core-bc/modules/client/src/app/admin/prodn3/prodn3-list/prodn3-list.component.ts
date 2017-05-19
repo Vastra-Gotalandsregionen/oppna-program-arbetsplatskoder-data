@@ -34,9 +34,6 @@ export class Prodn3ListComponent implements OnInit {
   selectedProdn1 = new BehaviorSubject<number>(null);
   selectedProdn2 = new BehaviorSubject<number>(null);
 
-  onlyOrphan = false;
-  onlyOrphan$ = new BehaviorSubject<boolean>(false);
-
   onlyUnused = false;
   onlyUnused$ = new BehaviorSubject<boolean>(false);
 
@@ -51,7 +48,6 @@ export class Prodn3ListComponent implements OnInit {
     const page = route.snapshot.queryParams['page'];
     const prodn1 = route.snapshot.queryParams['prodn1'];
     const prodn2 = route.snapshot.queryParams['prodn2'];
-    const orphan = route.snapshot.queryParams['orphan'];
     const unused = route.snapshot.queryParams['unused'];
 
     if (page) {
@@ -70,11 +66,6 @@ export class Prodn3ListComponent implements OnInit {
       this.showFilter = true;
     }
 
-    if (orphan) {
-      this.onlyOrphan$.next(true);
-      this.onlyOrphan = true;
-    }
-
     if (unused) {
       this.onlyUnused$.next(true);
       this.onlyUnused = true;
@@ -85,16 +76,14 @@ export class Prodn3ListComponent implements OnInit {
     this.pageSubject
       .combineLatest(this.selectedProdn1, (page, selectedProdn1) => [page, selectedProdn1]) // Return array with page and selectedProdn1
       .combineLatest(this.selectedProdn2, (pageSelectedProdn1Array, selectedProdn2) => [...pageSelectedProdn1Array, selectedProdn2]) // Pass on array with page, selectedProdn1 and selectedProdn2
-      .combineLatest(this.onlyOrphan$, (pageSelectedProdn1Array, onlyOrphan) => [...pageSelectedProdn1Array, onlyOrphan]) // Pass on array with page, selectedProdn1 and selectedProdn2
       .combineLatest(this.onlyUnused$, (pageSelectedProdn1Array, onlyUnused) => [...pageSelectedProdn1Array, onlyUnused]) // Pass on array with page, selectedProdn1 and selectedProdn2
       .map(pageSelectedProdn1Array => { // Create the URI
         const pageQuery = pageSelectedProdn1Array[0] > 0 ? '&page=' + pageSelectedProdn1Array[0] : null;
         const prodn1Query = pageSelectedProdn1Array[1] ? '&prodn1=' + pageSelectedProdn1Array[1] : null;
         const prodn2Query = pageSelectedProdn1Array[2] ? '&prodn2=' + pageSelectedProdn1Array[2] : null;
-        const onlyOrphanQuery = pageSelectedProdn1Array[3] ? '&orphan=' + pageSelectedProdn1Array[3] : null;
-        const onlyUnusedQuery = pageSelectedProdn1Array[4] ? '&unused=' + pageSelectedProdn1Array[4] : null;
+        const onlyUnusedQuery = pageSelectedProdn1Array[3] ? '&unused=' + pageSelectedProdn1Array[3] : null;
 
-        let query = [pageQuery, prodn1Query, prodn2Query, onlyOrphanQuery, onlyUnusedQuery].join('');
+        let query = [pageQuery, prodn1Query, prodn2Query, /*onlyOrphanQuery, */onlyUnusedQuery].join('');
 
         if (query.length > 0) {
           query = '?' + query.substring(1);
@@ -155,28 +144,11 @@ export class Prodn3ListComponent implements OnInit {
     this.pageSubject.next(0);
   }
 
-  toggleOnlyOrphan() {
-    if (this.onlyOrphan$.value) {
-      this.onlyOrphan$.next(false);
-    } else {
-      this.onlyOrphan$.next(true);
-      this.onlyUnused$.next(false);
-      this.onlyUnused = false;
-      this.selectedProdn1.next(null);
-      this.selectedProdn2.next(null);
-      this.pageSubject.next(0);
-    }
-  }
-
   toggleOnlyUnused() {
     if (this.onlyUnused$.value) {
       this.onlyUnused$.next(false);
     } else {
       this.onlyUnused$.next(true);
-      this.onlyOrphan$.next(false);
-      this.onlyOrphan = false;
-      this.selectedProdn1.next(null);
-      this.selectedProdn2.next(null);
       this.pageSubject.next(0);
     }
   }

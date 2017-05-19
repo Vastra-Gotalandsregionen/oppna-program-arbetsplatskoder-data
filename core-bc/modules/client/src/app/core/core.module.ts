@@ -19,6 +19,10 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/distinct';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/observable/interval';
+
 
 @NgModule({
   imports: [

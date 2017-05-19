@@ -67,7 +67,7 @@ public class Prodn1Controller {
             if (id == null) {
                 result = prodn1Repository.findAllByOrderByForetagsnamnAsc();
             } else {
-                result = Arrays.asList(prodn1Repository.findOne(id));
+                throw new RuntimeException("Use /api/prodn1/{id} instead."); // todo Remove this
             }
 
         } else {
