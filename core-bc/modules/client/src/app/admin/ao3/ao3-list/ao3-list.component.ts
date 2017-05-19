@@ -5,13 +5,14 @@ import {Ao3} from "../../../model/ao3";
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
+import {BasePaginatorComponent} from "../../../shared/base-paginator.component";
 
 @Component({
   selector: 'app-ao3-list',
   templateUrl: './ao3-list.component.html',
   styleUrls: ['./ao3-list.component.scss']
 })
-export class Ao3ListComponent implements OnInit {
+export class Ao3ListComponent extends BasePaginatorComponent implements OnInit {
 
   response: RestResponse<Ao3[]>;
 
@@ -20,6 +21,8 @@ export class Ao3ListComponent implements OnInit {
   constructor(private http: JwtHttp,
               private location: Location,
               route: ActivatedRoute) {
+
+    super();
 
     const page = route.snapshot.queryParams['page'];
 

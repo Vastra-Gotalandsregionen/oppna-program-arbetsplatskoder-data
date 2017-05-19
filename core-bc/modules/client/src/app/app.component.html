@@ -69,7 +69,7 @@
             </md-list-item>
 
             <md-list-item>
-              <a routerLink="admin" routerLinkActive="active">
+              <a routerLink="admin" routerLinkActive="active" *ngIf="getLoggedInUserId()">
                 <span class="nav-label">Administration</span>
               </a>
             </md-list-item>

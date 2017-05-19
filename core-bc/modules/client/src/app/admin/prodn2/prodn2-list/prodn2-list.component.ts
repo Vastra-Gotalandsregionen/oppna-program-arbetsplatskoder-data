@@ -8,6 +8,7 @@ import {RestResponse} from "../../../model/rest-response";
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
+import {BasePaginatorComponent} from "../../../shared/base-paginator.component";
 
 @Component({
   selector: 'app-prodn2-list',
@@ -22,7 +23,7 @@ import {ActivatedRoute} from '@angular/router';
     ])
   ]
 })
-export class Prodn2ListComponent implements OnInit {
+export class Prodn2ListComponent extends BasePaginatorComponent implements OnInit {
 
   response: RestResponse<Prodn2[]>;
 
@@ -37,6 +38,7 @@ export class Prodn2ListComponent implements OnInit {
   constructor(private http: JwtHttp,
               private location: Location,
               route: ActivatedRoute) {
+    super();
 
     const page = route.snapshot.queryParams['page'];
     const prodn1 = route.snapshot.queryParams['prodn1'];

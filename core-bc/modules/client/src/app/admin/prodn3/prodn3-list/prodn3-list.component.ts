@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, HostListener} from '@angular/core';
 import {Prodn3} from '../../../model/prodn3';
 import {JwtHttp} from '../../../core/jwt-http';
 import {RestResponse} from '../../../model/rest-response';
@@ -9,6 +9,7 @@ import {Prodn1} from '../../../model/prodn1';
 import {Observable} from 'rxjs/Observable';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Prodn2} from "../../../model/prodn2";
+import {BasePaginatorComponent} from "../../../shared/base-paginator.component";
 
 @Component({
   selector: 'app-prodn3-list',
@@ -23,7 +24,7 @@ import {Prodn2} from "../../../model/prodn2";
     ])
   ]
 })
-export class Prodn3ListComponent implements OnInit {
+export class Prodn3ListComponent extends BasePaginatorComponent implements OnInit {
 
   response: RestResponse<Prodn3[]>;
 
@@ -45,6 +46,8 @@ export class Prodn3ListComponent implements OnInit {
               private location: Location,
               route: ActivatedRoute) {
 
+    super();
+    
     const page = route.snapshot.queryParams['page'];
     const prodn1 = route.snapshot.queryParams['prodn1'];
     const prodn2 = route.snapshot.queryParams['prodn2'];

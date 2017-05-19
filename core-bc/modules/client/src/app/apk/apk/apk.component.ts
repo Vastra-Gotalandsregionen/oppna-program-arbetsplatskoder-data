@@ -6,14 +6,13 @@ import {Data} from '../../model/data';
 import {RestResponse} from '../../model/rest-response';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
-import {ErrorHandler} from '../../shared/error-handler';
 import {AuthService} from '../../core/auth/auth.service';
 import {JwtHttp} from '../../core/jwt-http';
 import {Prodn1} from '../../model/prodn1';
 import {MdDialog, MdSnackBar} from "@angular/material";
 import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
 import {ApkBase} from "../apk-base/apk-base";
-import {Util} from "../../core/util/util";
+import {HostListener} from "@angular/core";
 
 @Component({
   selector: 'app-apk',
@@ -157,6 +156,17 @@ export class ApkComponent extends ApkBase implements OnInit {
 
     return this.http.get('/api/data', requestOptions).map(response => response.json());
   }
+
+  @HostListener('window:keydown', ['$event'])
+  paginateByArrowKey($event) {
+    console.log($event);
+    if ($event.key === 'ArrowRight') {
+      this.nextPage();
+    } else if ($event.key === 'ArrowLeft') {
+      this.previousPage()
+    }
+  }
+
 
   nextPage(): void {
     if (this.page + 1 < this.response.totalPages) {

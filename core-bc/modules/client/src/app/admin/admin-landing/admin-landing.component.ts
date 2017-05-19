@@ -17,4 +17,7 @@ export class AdminLandingComponent implements OnInit {
     return this.authService.getLoggedInRole() === 'ADMIN';
   }
 
+  get loggedIn() {
+    return this.authService.getLoggedInUserId() ? true : false;
+  }
 }
