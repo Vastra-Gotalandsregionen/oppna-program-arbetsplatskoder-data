@@ -1,0 +1,40 @@
+<md-toolbar class="action-toolbar">
+  <h1>
+    Vårdform
+  </h1>
+  <div class="action-toolbar-spacer"></div>
+  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny vårdform"><md-icon>add</md-icon></a>
+</md-toolbar>
+
+<md-card>
+
+  <md-card-content>
+
+    <table class="apk-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Vårdform-ID</th>
+        <th>Vårdformtext</th>
+        <th>Raderad</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let vardform of vardforms$ | async">
+        <td>{{vardform.id}}</td>
+        <td>{{vardform.vardformid}}</td>
+        <td>{{vardform.vardformtext}}</td>
+        <td>
+          <md-icon mdTooltip="Markerad som raderad" *ngIf="vardform.raderad">clear</md-icon>
+        </td>
+
+        <td><a routerLink="{{vardform.id}}/edit">
+          <md-icon>edit</md-icon>
+        </a></td>
+      </tr>
+      </tbody>
+    </table>
+  </md-card-content>
+
+</md-card>

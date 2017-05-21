@@ -41,6 +41,11 @@ const routes: Routes = [
         loadChildren: './ao3/ao3.module#Ao3Module'
       },
       {
+        path: 'vardform',
+        canActivate: [AdminGuard],
+        loadChildren: './vardform/vardform.module#VardformModule'
+      },
+      {
         path: '**',
         redirectTo: 'landing'
       },

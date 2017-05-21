@@ -1,0 +1,48 @@
+<md-toolbar class="action-toolbar">
+  <h1>
+    {{vardform.vardformtext === undefined ? 'Skapa ny Vårdform' : 'Redigera ' + vardform.vardformtext}}
+  </h1>
+  <div class="action-toolbar-spacer"></div>
+  <app-back-button></app-back-button>
+</md-toolbar>
+
+<md-card>
+  <md-card-content>
+
+    <div *ngIf="vardformForm; else loading">
+
+      <form #formRef="ngForm" [formGroup]="vardformForm" (ngSubmit)="save()" novalidate (autocomplete)="false">
+
+        <md-input-container>
+          <input placeholder="ID" type="text" mdInput formControlName="id"/>
+        </md-input-container>
+
+        <md-input-container>
+          <input placeholder="Vårdform-ID" type="text" mdInput formControlName="vardformid"/>
+        </md-input-container>
+
+        <md-input-container>
+          <input placeholder="Vårdformtext" type="text" mdInput formControlName="vardformtext"/>
+        </md-input-container>
+
+        <div class="checkbox-container">
+          <md-checkbox formControlName="raderad">Raderad</md-checkbox>
+        </div>
+
+        <div class="btn-container">
+          <button type="submit"
+                  [disabled]="vardformForm.pristine" md-raised-button class="btn btn-success">Spara
+          </button> &nbsp;
+          <button type="button"
+                  [disabled]="vardformForm.pristine" md-raised-button class="btn" (click)="resetForm()">Återställ
+          </button> &nbsp;
+          {{saveMessage}}
+        </div>
+      </form>
+
+    </div>
+
+    <ng-template #loading>Läser in...</ng-template>
+
+  </md-card-content>
+</md-card>

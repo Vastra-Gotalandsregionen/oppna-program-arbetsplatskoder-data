@@ -1,7 +1,7 @@
 import {FormControl} from '@angular/forms';
 import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {RequestOptions, URLSearchParams, Headers} from '@angular/http';
+import {RequestOptions, URLSearchParams, Headers, Response} from '@angular/http';
 import {Data} from '../../model/data';
 import {RestResponse} from '../../model/rest-response';
 import {Observable} from 'rxjs/Observable';
@@ -159,7 +159,6 @@ export class ApkComponent extends ApkBase implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   paginateByArrowKey($event) {
-    console.log($event);
     if ($event.key === 'ArrowRight') {
       this.nextPage();
     } else if ($event.key === 'ArrowLeft') {

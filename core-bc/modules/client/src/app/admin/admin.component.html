@@ -49,6 +49,12 @@
           <span class="nav-label">Ao3</span>
         </a>
       </md-list-item>
+      <md-list-item *ngIf="admin">
+        <a routerLink="vardform" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Vårdform</span>
+        </a>
+      </md-list-item>
     </md-list>
 
   </md-sidenav>
