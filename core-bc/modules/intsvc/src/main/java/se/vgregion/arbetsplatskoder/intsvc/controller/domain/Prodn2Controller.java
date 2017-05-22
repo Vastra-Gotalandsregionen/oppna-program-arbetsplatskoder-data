@@ -84,8 +84,12 @@ public class Prodn2Controller {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
-            // The MAX_VALUE for page defaultPageSize since we use this in an autocomplete component. Rethink design otherwise... TODO let client specify defaultPageSize!
-            Pageable pageable = new PageRequest(page == null ? 0 : page, Integer.MAX_VALUE, new Sort(orders));
+            Pageable pageable;
+            if (page != null) {
+                pageable = new PageRequest(page, defaultPageSize, new Sort(orders));
+            } else {
+                pageable = null;
+            }
 
             Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
 
@@ -101,8 +105,12 @@ public class Prodn2Controller {
     private ResponseEntity<Page<Prodn2>> getProdn2sForAdmin(@RequestParam(value = "prodn1", required = false) Integer prodn1Id, @RequestParam(value = "page", required = false) Integer page, Sort.Order[] orders) {
         if (prodn1Id != null) {
             // Admin + prodn1 condition
-            // The MAX_VALUE for page defaultPageSize since we use this in an autocomplete component. Rethink design otherwise... TODO let client specify defaultPageSize!
-            Pageable pageable = new PageRequest(page == null ? 0 : page, Integer.MAX_VALUE, new Sort(orders));
+            Pageable pageable;
+            if (page != null) {
+                pageable = new PageRequest(page, defaultPageSize, new Sort(orders));
+            } else {
+                pageable = null;
+            }
 
             Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
 

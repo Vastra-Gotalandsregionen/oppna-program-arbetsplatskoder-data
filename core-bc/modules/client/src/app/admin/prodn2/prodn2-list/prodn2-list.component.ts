@@ -75,7 +75,7 @@ export class Prodn2ListComponent extends BasePaginatorComponent implements OnIni
       .do(query => {
         this.location.replaceState('/admin/prodn2' + query);
       })
-      .mergeMap(query => this.http.get('/api/prodn2' + query))
+      .mergeMap(query => this.http.getPage('/api/prodn2' + query))
       .map(response => response.json())
       .share();
 

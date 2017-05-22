@@ -57,9 +57,13 @@ public class Prodn3RepositoryImpl implements Prodn3ExtendedRepository {
 
         TypedQuery<Prodn3> typedQuery = entityManager.createQuery(criteriaQuery);
 
-        List<Prodn3> resultList = typedQuery.setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize()).getResultList();
+        if (pageable != null) {
+            typedQuery.setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize());
+        }
 
-        // Do the same but for count
+        List<Prodn3> resultList = typedQuery.getResultList();
+
+                // Do the same but for count
         CriteriaQuery<Long> countCriteriaQuery = cb.createQuery(Long.class)
                 .select(cb.count(root))
                 .where(whereContent);

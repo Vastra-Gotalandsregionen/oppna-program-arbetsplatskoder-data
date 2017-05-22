@@ -47,7 +47,7 @@ export class Prodn3ListComponent extends BasePaginatorComponent implements OnIni
               route: ActivatedRoute) {
 
     super();
-    
+
     const page = route.snapshot.queryParams['page'];
     const prodn1 = route.snapshot.queryParams['prodn1'];
     const prodn2 = route.snapshot.queryParams['prodn2'];
@@ -98,7 +98,7 @@ export class Prodn3ListComponent extends BasePaginatorComponent implements OnIni
       .do(query => {
         this.location.replaceState('/admin/prodn3' + query);
       })
-      .mergeMap(query => this.http.get('/api/prodn3' + query))
+      .mergeMap(query => this.http.getPage('/api/prodn3' + query))
       .map(response => response.json())
       .subscribe((restResponse: RestResponse<Prodn3[]>) => this.response = restResponse);
 

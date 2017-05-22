@@ -84,7 +84,12 @@ public class Prodn3Controller {
 
         Sort.Order[] orders = new Sort.Order[]{order1, order2};
 
-        Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(orders));
+        Pageable pageable;
+        if (page != null) {
+            pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(orders));
+        } else {
+            pageable = null;
+        }
 
         if (Role.ADMIN.equals(user.getRole())) {
             return getProdn3sForAdmin(unused, prodn1Id, prodn2Id, pageable);
@@ -114,7 +119,7 @@ public class Prodn3Controller {
             }
         }
 
-        // Constrain result by previous constrain and possibly
+        // Constrain result by previous constraint and possibly by prodn2
         List<Prodn2> prodn2Filter = prodn2Repository.findAllByProdn1In(prodn1Filter, null).getContent();
         if (prodn2Id != null) {
             Prodn2 prodn2 = prodn2Repository.findOne(prodn2Id);
@@ -134,10 +139,14 @@ public class Prodn3Controller {
                     .collect(Collectors.toSet());
         }
 
-        return ResponseEntity.ok(prodn3Repository.findProdn3s( prodn3sNotIn, prodn2Filter, pageable));
+        return ResponseEntity.ok(prodn3Repository.findProdn3s(prodn3sNotIn, prodn2Filter, pageable));
     }
 
-    private ResponseEntity<Page<Prodn3>> getProdn3sForAdmin(@RequestParam(value = "unused", required = false, defaultValue = "false") boolean unused, @RequestParam(value = "prodn1", required = false) Integer prodn1Id, @RequestParam(value = "prodn2", required = false) Integer prodn2Id, Pageable pageable) {
+    private ResponseEntity<Page<Prodn3>> getProdn3sForAdmin(
+            @RequestParam(value = "unused", required = false, defaultValue = "false") boolean unused,
+            @RequestParam(value = "prodn1", required = false) Integer prodn1Id,
+            @RequestParam(value = "prodn2", required = false) Integer prodn2Id,
+            Pageable pageable) {
 
         // First possibly filter on prodn3 ids to exclude.
         Set<Integer> prodn3sNotIn = null;
@@ -154,27 +163,25 @@ public class Prodn3Controller {
             prodn3sNotIn = allProdn3sIdReferencedFromDatas;
         }
 
-        // Then possibly filter on the prodn1 level.
+        // Then possibly filter on the prodn2 level.
         List<Prodn2> prodn2Filter = null;
-        if (prodn1Id != null /*&& prodn2Id == null*/) {
-            // Find by all prodn2s which have the given prodn1.
-            Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
+        if (prodn2Id != null) {
+            Prodn2 prodn2 = prodn2Repository.findOne(prodn2Id);
 
-            prodn2Filter = new ArrayList<>(prodn2Repository.findAllByProdn1Equals(prodn1Reference, null)
-                    .getContent());
+            prodn2Filter = Collections.singletonList(prodn2);
+        } else {
 
-            // Then possibly filter even more on hte prodn2 level.
-            if (prodn2Id != null) {
-                Prodn2 prodn2 = prodn2Repository.findOne(prodn2Id);
+            // Then possibly filter on the prodn1 level.
+            if (prodn1Id != null /*&& prodn2Id == null*/) {
+                // Find by all prodn2s which have the given prodn1.
+                Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
 
-                if (prodn2Filter.contains(prodn2)) {
-                    prodn2Filter = Collections.singletonList(prodn2);
-                }
-                // This response includes all content in one page.
+                prodn2Filter = new ArrayList<>(prodn2Repository.findAllByProdn1Equals(prodn1Reference, null)
+                        .getContent());
             }
         }
 
-        return ResponseEntity.ok(prodn3Repository.findProdn3s( prodn3sNotIn, prodn2Filter, pageable));
+        return ResponseEntity.ok(prodn3Repository.findProdn3s(prodn3sNotIn, prodn2Filter, pageable));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
