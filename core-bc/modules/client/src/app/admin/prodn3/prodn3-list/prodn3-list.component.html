@@ -24,23 +24,25 @@
   </md-card-title>
 
   <md-card-content [@slideIn]="showFilter ? 'in' : 'out'">
-    <h4>Summeringsnivå 1</h4>
-    <md-chip-list id="prodn1ChipList">
-      <md-chip *ngFor="let prodn1 of prodn1s$ | async" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
-        {{prodn1.foretagsnamn}}
-      </md-chip>
-    </md-chip-list>
-  </md-card-content>
+    <div>
+      <md-select placeholder="Visa bara för summeringsnivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
+        <md-option value="">Visa alla</md-option>
+        <md-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
+          {{prodn1.foretagsnamn}}
+        </md-option>
+      </md-select>
+    </div>
 
-  <md-card-content [@slideIn]="showFilter && selectedProdn1.value ? 'in' : 'out'">
-    <h4>Summeringsnivå 2</h4>
-    <md-chip-list id="prodn2ChipList">
-      <md-chip *ngFor="let prodn2 of availableProdn2s$ | async" selected="{{isSelectedProdn2(prodn2)}}" (click)="toggleProdn2(prodn2)">
-        {{prodn2.avdelning}}
-      </md-chip>
-    </md-chip-list>
-  </md-card-content>
+    <div [@slideIn]="showFilter && selectedProdn1.value ? 'in' : 'out'">
+      <md-select placeholder="Visa bara för summeringsnivå 2" [formControl]="filterProdn2" (change)="onFilterProdn2Change()">
+        <md-option value="">Visa alla</md-option>
+        <md-option *ngFor="let prodn2 of availableProdn2s$ | async" [value]="prodn2.id">
+          {{prodn2.avdelning}}
+        </md-option>
+      </md-select>
+    </div>
 
+  </md-card-content>
 
   <md-card-content>
 

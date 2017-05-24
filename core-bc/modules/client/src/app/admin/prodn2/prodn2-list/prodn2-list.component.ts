@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Location} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
 import {JwtHttp} from '../../../core/jwt-http';
 import {Observable} from 'rxjs/Observable';
 import {Prodn2} from '../../../model/prodn2';
@@ -6,8 +9,6 @@ import {Prodn1} from '../../../model/prodn1';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {RestResponse} from "../../../model/rest-response";
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Location} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
 import {BasePaginatorComponent} from "../../../shared/base-paginator.component";
 
 @Component({
@@ -33,6 +34,8 @@ export class Prodn2ListComponent extends BasePaginatorComponent implements OnIni
 
   selectedProdn1 = new BehaviorSubject<number>(null);
 
+  filterProdn1: FormControl;
+
   showFilter = false;
 
   constructor(private http: JwtHttp,
@@ -42,6 +45,8 @@ export class Prodn2ListComponent extends BasePaginatorComponent implements OnIni
 
     const page = route.snapshot.queryParams['page'];
     const prodn1 = route.snapshot.queryParams['prodn1'];
+
+    this.filterProdn1 = new FormControl();
 
     if (page) {
       this.pageSubject.next(Number.parseInt(page));
@@ -80,6 +85,11 @@ export class Prodn2ListComponent extends BasePaginatorComponent implements OnIni
       .share();
 
     response$.subscribe((restResponse: RestResponse<Prodn2[]>) => this.response = restResponse);
+
+    this.prodn1s$.subscribe(c=>{
+        this.filterProdn1.patchValue(this.selectedProdn1.value);
+    });
+
   }
 
   nextPage() {
@@ -94,16 +104,13 @@ export class Prodn2ListComponent extends BasePaginatorComponent implements OnIni
     }
   }
 
-  isSelected(prodn1: Prodn1) {
-    return this.selectedProdn1.value === prodn1.id;
-  }
-
-  toggle(prodn1: Prodn1) {
-    if (this.selectedProdn1.value === prodn1.id) {
+  onFilterProdn1Change() {
+    if (this.filterProdn1.value === '') {
       this.selectedProdn1.next(null);
     } else {
-      this.selectedProdn1.next(prodn1.id);
+      this.selectedProdn1.next(this.filterProdn1.value);
     }
     this.pageSubject.next(0);
   }
+
 }
