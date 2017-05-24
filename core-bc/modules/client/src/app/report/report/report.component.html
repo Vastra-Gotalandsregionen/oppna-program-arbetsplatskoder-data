@@ -1,0 +1,25 @@
+<md-toolbar class="action-toolbar">
+  <h1>
+    Rapporter
+  </h1>
+  <div class="action-toolbar-spacer"></div>
+</md-toolbar>
+
+<md-card>
+  <md-card-content>
+    <md-list>
+      <md-list-item>
+        <a href="/api/report/allValidDatas">Alla arbetsplatskoder som gäller tillsvidare</a>
+      </md-list-item>
+      <md-list-item>
+        <a>Alla arbetsplatskoder med ett slutdatum</a>
+      </md-list-item>
+      <md-list-item>
+        <a href="/api/report/updatedSince?fromDate={{fromDate.value}}">Uppdaterade arbetsplatskoder sedan </a>&nbsp;
+        <md-input-container class="date">
+          <input mdInput placeholder="Datum" [formControl]="fromDate" />
+        </md-input-container>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>

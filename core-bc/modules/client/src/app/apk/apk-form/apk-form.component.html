@@ -92,14 +92,24 @@
 
         <md-autocomplete class="autocomplete" #unitAutocompleteRef="mdAutocomplete" [displayWith]="displayUnitFn">
           <md-option class="md-option" *ngFor="let unit of unitSearchResult" [value]="unit">
-            {{unit.dn}}
+            {{dnToFriendly(unit.dn)}}
           </md-option>
         </md-autocomplete>
 
         <div [@slideIn]="apkForm.value.unitSearch?.dn ? 'in': 'out'">
-          <div class="label">Enhetens sökväg</div>
-          <div style="word-break: break-all">{{apkForm.value.unitSearch?.dn}}</div>
-          <button type="button" md-raised-button (click)="selectUnit(apkForm.value.unitSearch)">Använd</button>
+          <div><span class="label">Enhetens sökväg: </span><span style="word-break: break-all">{{dnToFriendly(apkForm.value.unitSearch?.dn)}}</span></div>
+
+          <h3>Uppgifter som kan fyllas i:</h3>
+          <p>
+            <span class="label">Postadress: </span><span>{{getAddressObject(apkForm.value.unitSearch).postadress}}</span><br/>
+            <span class="label">Postnummer: </span><span>{{getAddressObject(apkForm.value.unitSearch).postnr}}</span><br/>
+            <span class="label">Postort: </span><span>{{getAddressObject(apkForm.value.unitSearch).postort}}</span><br/>
+            <span class="label">Motkod: </span><span>{{displayAo3Fn(ao3IdMap.get(firstValue(apkForm.value?.unitSearch?.attributes?.vgrAo3kod)))}}</span><br/>
+            <span class="label">HSA-ID: </span><span>{{apkForm.value?.unitSearch?.attributes?.hsaIdentity}}</span><br/>
+            <span class="label">Benämning: </span><span>{{apkForm.value?.unitSearch?.attributes?.ou}}</span><br/>
+          </p>
+
+          <button type="button" md-raised-button (click)="selectUnit(apkForm.value.unitSearch)">Fyll i uppgifter</button>
           <span><md-icon mdTooltip="Fyll i egenskaper från enheten i fälten nedan">help</md-icon></span>
         </div>
 
@@ -113,7 +123,7 @@
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
 
-          <h3>Välj verksamhetstyp och koder</h3>
+          <h3>Ange ekonomiska koder</h3>
 
           <md-input-container>
             <input placeholder="Ao3" type="text" mdInput [mdAutocomplete]="ao3AutocompleteRef"
@@ -145,6 +155,23 @@
             </md-radio-group>
           </div>
 
+          <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <label class="field-label">VGPV</label>
+            <md-radio-group formControlName="vgpv">
+              <md-radio-button value="true">Ja</md-radio-button>
+              <md-radio-button value="false">Nej</md-radio-button>
+            </md-radio-group>
+          </div>
+
+
+        </md-card-content>
+      </md-card>
+
+      <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+        <md-card-content>
+
+          <h3>Ange vårdadministrativa koder</h3>
+
           <md-input-container>
             <input placeholder="Vårdform" type="text" mdInput
                    [mdAutocomplete]="vardformAutocompleteRef" formControlName="vardform">
@@ -169,21 +196,8 @@
             </md-option>
           </md-autocomplete>
 
-          <!--
-          <md-slide-toggle formControlName="vgpv">VGPV</md-slide-toggle>
-          -->
-          <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-            <label class="field-label">VGPV</label>
-            <md-radio-group formControlName="vgpv">
-              <md-radio-button value="true">Ja</md-radio-button>
-              <md-radio-button value="false">Nej</md-radio-button>
-            </md-radio-group>
-          </div>
-
-
         </md-card-content>
       </md-card>
-
 
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>

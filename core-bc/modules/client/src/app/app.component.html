@@ -74,6 +74,12 @@
               </a>
             </md-list-item>
 
+            <md-list-item>
+              <a routerLink="report" routerLinkActive="active" *ngIf="getLoggedInUserId()">
+                <span class="nav-label">Rapporter</span>
+              </a>
+            </md-list-item>
+
           </md-list>
 
         </md-toolbar>

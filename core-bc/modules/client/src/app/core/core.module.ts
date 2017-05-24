@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import {StateService} from './state/state.service';
 import {AdminGuard} from './guard/admin.guard';
 import {AuthService} from './auth/auth.service';
@@ -38,12 +38,17 @@ import 'rxjs/add/observable/interval';
     {
       provide: JwtHttp,
       useFactory: JwtHttpFactory,
-      deps: [XHRBackend, RequestOptions, AuthService, ErrorHandler, StateService]
+      deps: [XHRBackend, RequestOptions, AuthService, ErrorHandler, StateService, Location]
     }
   ]
 })
 export class CoreModule { }
 
-export function JwtHttpFactory(backend: XHRBackend, options: RequestOptions, authService: AuthService, errorHandler: ErrorHandler, stateService: StateService) {
-  return new JwtHttp(backend, options, authService, errorHandler, stateService);
+export function JwtHttpFactory(backend: XHRBackend,
+                               options: RequestOptions,
+                               authService: AuthService,
+                               errorHandler: ErrorHandler,
+                               stateService: StateService,
+                               location: Location) {
+  return new JwtHttp(backend, options, authService, errorHandler, stateService, location);
 }

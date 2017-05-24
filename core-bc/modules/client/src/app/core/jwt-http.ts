@@ -1,6 +1,7 @@
 import {Http, RequestOptionsArgs, Request, Response, XHRBackend} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
+import {Location} from '@angular/common';
 import {RequestOptions, Headers, URLSearchParams} from '@angular/http';
 import {AuthService} from './auth/auth.service';
 import {ErrorHandler} from "../shared/error-handler";
@@ -13,12 +14,14 @@ export class JwtHttp extends Http {
   authService: AuthService;
   errorHandler: ErrorHandler;
   stateService: StateService;
+  location: Location;
 
   constructor(backend: XHRBackend,
               options: RequestOptions,
               authService: AuthService,
               errorHandler: ErrorHandler,
-              stateService: StateService) {
+              stateService: StateService,
+              location: Location) {
     const token = authService.jwt;
 
     if (token) {
@@ -30,6 +33,7 @@ export class JwtHttp extends Http {
     this.authService = authService;
     this.errorHandler = errorHandler;
     this.stateService = stateService;
+    this.location = location;
   }
 
   getPage(url: string, page?: number, pageSize?: number) {
@@ -45,6 +49,14 @@ export class JwtHttp extends Http {
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
 
     const token = this.authService.jwt;
+
+    if (token && this.authService.isExpired(token)) {
+      this.location.go('/');
+      this.authService.resetAuth();
+      // todo Show info dialog informing user's been logged out
+      return Observable.of();
+    }
+
     if (token) {
       if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
         if (!options) {

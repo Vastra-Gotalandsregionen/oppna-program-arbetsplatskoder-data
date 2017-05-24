@@ -67,8 +67,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
               stateService: StateService,
               private errorHandler: ErrorHandler) {
 
-      super();
-      this.stateService = stateService;
+    super();
+    this.stateService = stateService;
   }
 
   ngOnInit() {
@@ -140,7 +140,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     return this.stateService.showDebug;
   }
 
-  setShowDebug(value : boolean) {
+  setShowDebug(value: boolean) {
     this.stateService.showDebug = value;
   }
 
@@ -451,33 +451,66 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     return unit && unit.attributes && unit.attributes.ou && unit.attributes.ou.length > 0 ? unit.attributes.ou[0] : '';
   }
 
-  selectUnit(unit: any): void {
-    if (unit.attributes.hsaStreetAddress && unit.attributes.hsaStreetAddress.length > 0) {
-      const parts = unit.attributes.hsaStreetAddress[0].split('$');
-
-      if (parts.length >= 3) {
-        this.apkForm.patchValue({
-          'addressGroup': {
-            'postadress': parts[0],
-            'postnr': parts[1],
-            'postort': parts[2]
-          }
-        })
-      }
+  getAddressObject(unit: any) {
+    if (!(unit && unit.attributes)) {
+      return {};
     }
+
+    let parts;
+    if (unit.attributes.hsaStreetAddress && unit.attributes.hsaStreetAddress.length > 0) {
+      parts = unit.attributes.hsaStreetAddress[0].split('$');
+    } else {
+      parts = ['', '', ''];
+    }
+
+    return {
+      'postadress': parts[0],
+      'postnr': parts[1],
+      'postort': parts[2]
+    }
+  }
+
+  firstValue(array: any[]) {
+    if (array && array.length > 0) {
+      return array[0];
+    }
+
+    return null;
+  }
+
+  selectUnit(unit: any): void {
+
+    this.apkForm.patchValue({
+      'addressGroup': this.getAddressObject(unit)
+    });
 
     this.apkForm.patchValue({
       'ao3': unit.attributes.vgrAo3kod ? this.ao3IdMap.get(unit.attributes.vgrAo3kod[0]) : null,
       'hsaid': unit.attributes.hsaIdentity ? unit.attributes.hsaIdentity[0] : null,
       'benamning': unit.attributes.ou ? unit.attributes.ou[0] : null,
-      'ansvar': unit.attributes.vgrAnsvarsnummer ? unit.attributes.vgrAnsvarsnummer[0] : null,
     });
 
     this.apkForm.get('ao3').markAsTouched();
     this.apkForm.get('hsaid').markAsTouched();
     this.apkForm.get('benamning').markAsTouched();
-    this.apkForm.get('ansvar').markAsTouched();
     this.apkForm.get('addressGroup').markAsTouched();
+  }
+
+  dnToFriendly(dnString: string) {
+    if (!dnString || dnString.length === 0) {
+      return '';
+    }
+    // E.g. ou=Verksamhet Neonatologi,ou=Område 1,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=VGR
+
+    const parts = dnString.split(',');
+
+    const allPartsExceptLastTwo = parts.slice(0, parts.length - 2);
+
+    const readFriendlyParts = allPartsExceptLastTwo.map(part => part.split('=')[1]);
+
+    const inOppositeOrder = readFriendlyParts.reverse();
+
+    return inOppositeOrder.join(' > ');
   }
 }
 

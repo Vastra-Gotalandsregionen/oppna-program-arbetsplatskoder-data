@@ -35,8 +35,15 @@ export class AuthService {
       .retry(4)
       .subscribe(
         response => this.jwt = response.text(),
-        error => this.jwt = null
+        error => {
+          this.jwt = null;
+          this.renewSubscription.unsubscribe();
+        }
       );
+  }
+
+  isExpired(decodeToken: any) {
+    return decodeToken.exp - new Date().getTime() / 1000 < 0;
   }
 
   get jwt(): string {
