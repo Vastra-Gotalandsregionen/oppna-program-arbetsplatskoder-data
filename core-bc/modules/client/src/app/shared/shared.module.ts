@@ -9,6 +9,7 @@ import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import {JwtHelper} from 'angular2-jwt/angular2-jwt';
 import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component";
 import { BackButtonComponent } from './back-button/back-button.component';
+import { SidenavToggleButtonComponent } from './sidenav-toggle-button/sidenav-toggle-button.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { BackButtonComponent } from './back-button/back-button.component';
     ErrorDialogComponent,
     LoginDialogComponent,
     ConfirmDialogComponent,
-    BackButtonComponent
+    BackButtonComponent,
+    SidenavToggleButtonComponent
   ],
   entryComponents: [
     ErrorDialogComponent,
@@ -34,7 +36,8 @@ import { BackButtonComponent } from './back-button/back-button.component';
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    BackButtonComponent
+    BackButtonComponent,
+    SidenavToggleButtonComponent
   ],
   providers: [
     ErrorHandler,
