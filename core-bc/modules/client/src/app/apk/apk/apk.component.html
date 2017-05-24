@@ -28,11 +28,10 @@
     <table *ngIf="response" class="apk-table">
       <thead>
         <tr>
+          <th>Arbetsplatskod</th>
           <th>Benämning <button md-icon-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
           <th>Nivå 1</th>
-          <th>Arbetsplatskod</th>
           <th>Reg-datum <button md-icon-button (click)="toggleSort('regDatum')" [ngClass]="{'sort-field': sort?.field === 'regDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
-          <th>ID</th>
           <th>Giltig till <button md-icon-button (click)="toggleSort('tillDatum')" [ngClass]="{'sort-field': sort?.field === 'tillDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
           <th>Status</th>
           <th></th>
@@ -41,21 +40,18 @@
       <tbody>
         <tr *ngFor="let data of response.content">
           <td>
+            <a routerLink="{{data.id}}" routerLinkActive="active">
+              {{data.arbetsplatskodlan}}
+            </a>
+          </td>
+          <td>
               {{data.benamning}}
           </td>
           <td>
             {{data.prodn1.kortnamn}}
           </td>
           <td>
-            <a routerLink="{{data.id}}" routerLinkActive="active">
-              {{data.arbetsplatskodlan}}
-            </a>
-          </td>
-          <td>
-            {{data.regDatum}}
-          </td>
-          <td>
-            {{data.id}}
+            {{data.regDatum | date: 'yyyy-MM-dd'}}
           </td>
           <td>
             {{data.tillDatum ? data.tillDatum : 'Tills vidare'}}
