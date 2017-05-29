@@ -1,4 +1,4 @@
-# Location [user.home]/.hotell/arbetsplatskoder
+# Location [user.home]/.app/arbetsplatskoder
 url=jdbc:jtds:sqlserver://machine:62212/db;instance=instanceId;databaseName=db;integratedSecurity=true;authenticationScheme=JavaKerberos;domain=domainName
 driver=net.sourceforge.jtds.jdbc.Driver
 user=userName

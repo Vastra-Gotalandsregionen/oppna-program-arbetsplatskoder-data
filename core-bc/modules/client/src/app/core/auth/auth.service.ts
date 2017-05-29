@@ -42,8 +42,8 @@ export class AuthService {
       );
   }
 
-  isExpired(decodeToken: any) {
-    return decodeToken.exp - new Date().getTime() / 1000 < 0;
+  isTokenExpired() {
+    return this.jwtToken && (this.jwtToken.exp - new Date().getTime() / 1000 < 0);
   }
 
   get jwt(): string {

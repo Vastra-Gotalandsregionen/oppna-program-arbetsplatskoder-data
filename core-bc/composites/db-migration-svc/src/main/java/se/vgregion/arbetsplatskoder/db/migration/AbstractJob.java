@@ -22,12 +22,12 @@ public abstract class AbstractJob {
     protected ConnectionExt mainCon;
 
     private Properties getLegacyProperties() {
-        Path path = (Paths.get(System.getProperty("user.home"), ".hotell", "arbetsplatskoder", "legacy.jdbc.properties"));
+        Path path = (Paths.get(System.getProperty("user.home"), ".app", "arbetsplatskoder", "legacy.jdbc.properties"));
         return getProperties(path);
     }
 
     private Properties getMainJdbcProperties() {
-        Path path = (Paths.get(System.getProperty("user.home"), ".hotell", "arbetsplatskoder", "main.jdbc.properties"));
+        Path path = (Paths.get(System.getProperty("user.home"), ".app", "arbetsplatskoder", "main.jdbc.properties"));
         return getProperties(path);
     }
 
@@ -154,7 +154,7 @@ public abstract class AbstractJob {
     }
 
     public void findTableAndColumnNamesInsideFiles() {
-        Path path = (Paths.get(System.getProperty("user.home"), ".hotell", "arbetsplatskoder", "legacy.jdbc.properties"));
+        Path path = (Paths.get(System.getProperty("user.home"), ".app", "arbetsplatskoder", "legacy.jdbc.properties"));
         Properties properties = getProperties(path);
         if (properties.containsKey("old.code")) {
             findTableAndColumnNamesInsideFiles(Paths.get(properties.getProperty("old.code")));

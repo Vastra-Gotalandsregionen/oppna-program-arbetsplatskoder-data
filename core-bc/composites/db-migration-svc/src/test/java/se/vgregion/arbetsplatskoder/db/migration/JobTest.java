@@ -20,7 +20,7 @@ public class JobTest {
     @Test
     public void main() throws IOException {
         Properties properties = new Properties();
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(System.getProperty("user.home"), ".hotell", "arbetsplatskoder", "legacy.jdbc.properties"));) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(System.getProperty("user.home"), ".app", "arbetsplatskoder", "legacy.jdbc.properties"));) {
             properties.load(reader);
         }
         System.out.println(properties);
@@ -28,7 +28,7 @@ public class JobTest {
 
     private Properties getLegacyProperties() {
         Properties properties = new Properties();
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(System.getProperty("user.home"), ".hotell", "arbetsplatskoder", "legacy.jdbc.properties"));) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(System.getProperty("user.home"), ".app", "arbetsplatskoder", "legacy.jdbc.properties"));) {
             properties.load(reader);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);

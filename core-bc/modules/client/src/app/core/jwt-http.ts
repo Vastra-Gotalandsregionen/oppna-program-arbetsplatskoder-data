@@ -50,7 +50,7 @@ export class JwtHttp extends Http {
 
     const token = this.authService.jwt;
 
-    if (token && this.authService.isExpired(token)) {
+    if (this.authService.isTokenExpired()) {
       this.location.go('/');
       this.authService.resetAuth();
       // todo Show info dialog informing user's been logged out
