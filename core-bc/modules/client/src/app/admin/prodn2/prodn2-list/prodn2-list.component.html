@@ -4,6 +4,7 @@
   </h1>
   <div class="action-toolbar-spacer"></div>
   <a  class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Summeringsnivå 2"><md-icon>add</md-icon></a>
+  <app-sidenav-toggle-button></app-sidenav-toggle-button>
 </md-toolbar>
 
 <md-card>
@@ -20,11 +21,16 @@
   </md-card-title>
 
   <md-card-content [@slideIn]="showFilter ? 'in' : 'out'">
-    <md-chip-list id="prodn1ChipList">
-      <md-chip *ngFor="let prodn1 of prodn1s$ | async" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
-        {{prodn1.foretagsnamn}}
-      </md-chip>
-    </md-chip-list>
+
+    <div>
+      <md-select placeholder="Visa bara för summeringsnivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
+        <md-option value="">Visa alla</md-option>
+        <md-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
+          {{prodn1.foretagsnamn}}
+        </md-option>
+      </md-select>
+    </div>
+
   </md-card-content>
 
   <md-card-content>

@@ -6,6 +6,7 @@ export class StateService {
 
   private _loggedInUser: Anvandare;
   private _showDebug: boolean;
+  private _showSidenav: boolean;
   showProgress: boolean;
 
   constructor() {}
@@ -24,6 +25,18 @@ export class StateService {
 
   set showDebug(value : boolean) {
     this._showDebug = value;
+  }
+
+  get showSidenav(): boolean {
+    return this._showSidenav;
+  }
+
+  set showSidenav(value : boolean) {
+    this._showSidenav = value;
+  }
+
+  toggleSidenav() {
+    this._showSidenav = !this._showSidenav;
   }
 
   startShowProgress() {

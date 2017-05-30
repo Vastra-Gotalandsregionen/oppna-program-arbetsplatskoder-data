@@ -1,10 +1,6 @@
 <md-sidenav-container class="example-container" fxFlex>
 
-  <button md-mini-fab class="example-fab" (click)="sidenav.toggle()">
-    <md-icon>dehaze</md-icon>
-  </button>
-
-  <md-sidenav class="example-sidenav" #sidenav mode="side" align="start" opened="false">
+  <md-sidenav class="example-sidenav" #sidenav mode="side" align="start" [opened]="sidebarOpen">
 
     <md-list>
       <md-list-item>

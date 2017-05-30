@@ -23,4 +23,8 @@ export class AdminComponent implements OnInit {
     return this.authService.getLoggedInUserId() ? true : false;
   }
 
+  get sidebarOpen():boolean {
+    return this.stateService.showSidenav;
+  }
+
 }

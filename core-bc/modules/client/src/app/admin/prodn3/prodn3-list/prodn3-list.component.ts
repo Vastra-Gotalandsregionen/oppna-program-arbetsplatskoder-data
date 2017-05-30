@@ -1,10 +1,11 @@
 import {Component, OnInit, HostListener} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Location} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
 import {Prodn3} from '../../../model/prodn3';
 import {JwtHttp} from '../../../core/jwt-http';
 import {RestResponse} from '../../../model/rest-response';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Location} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
 import {Prodn1} from '../../../model/prodn1';
 import {Observable} from 'rxjs/Observable';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -35,6 +36,9 @@ export class Prodn3ListComponent extends BasePaginatorComponent implements OnIni
   selectedProdn1 = new BehaviorSubject<number>(null);
   selectedProdn2 = new BehaviorSubject<number>(null);
 
+  filterProdn1: FormControl;
+  filterProdn2: FormControl;
+
   onlyUnused = false;
   onlyUnused$ = new BehaviorSubject<boolean>(false);
 
@@ -53,6 +57,9 @@ export class Prodn3ListComponent extends BasePaginatorComponent implements OnIni
     const prodn2 = route.snapshot.queryParams['prodn2'];
     const unused = route.snapshot.queryParams['unused'];
 
+    this.filterProdn1 = new FormControl();
+    this.filterProdn2 = new FormControl();
+
     if (page) {
       this.pageSubject.next(Number.parseInt(page));
     }
@@ -65,7 +72,7 @@ export class Prodn3ListComponent extends BasePaginatorComponent implements OnIni
       this.selectedProdn2.next(Number.parseInt(prodn2));
     }
 
-    if (prodn1 ||prodn2) {
+    if (prodn1 || prodn2) {
       this.showFilter = true;
     }
 
@@ -108,6 +115,15 @@ export class Prodn3ListComponent extends BasePaginatorComponent implements OnIni
       .filter(prodn1 => prodn1 !== null)
       .mergeMap(prodn1 => this.http.get('/api/prodn2?prodn1=' + prodn1))
       .map(response => response.json().content);
+
+      this.prodn1s$.subscribe(c=>{
+          this.filterProdn1.patchValue(this.selectedProdn1.value);
+      });
+
+      this.availableProdn2s$.subscribe(c=>{
+          this.filterProdn2.patchValue(this.selectedProdn2.value);
+      });
+
 
   }
 
@@ -159,4 +175,25 @@ export class Prodn3ListComponent extends BasePaginatorComponent implements OnIni
   isSelectedProdn2(prodn2: Prodn2) {
     return this.selectedProdn2.value === prodn2.id;
   }
+
+  onFilterProdn1Change() {
+    if (this.filterProdn1.value === '') {
+      this.selectedProdn1.next(null);
+      this.selectedProdn2.next(null);
+    } else {
+      this.selectedProdn1.next(this.filterProdn1.value);
+      this.selectedProdn2.next(null);
+    }
+    this.pageSubject.next(0);
+  }
+
+  onFilterProdn2Change() {
+    if (this.filterProdn2.value === '') {
+      this.selectedProdn2.next(null);
+    } else {
+      this.selectedProdn2.next(this.filterProdn2.value);
+    }
+    this.pageSubject.next(0);
+  }
+
 }

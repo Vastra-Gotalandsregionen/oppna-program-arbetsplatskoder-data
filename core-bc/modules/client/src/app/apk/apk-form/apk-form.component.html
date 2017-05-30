@@ -39,42 +39,12 @@
           <md-radio-button value="8">Övrigt</md-radio-button>
         </md-radio-group>
 
-
-
-        <!--
-        <md-button-toggle-group formControlName="agarform">
-          <md-button-toggle value="1">Landsting</md-button-toggle>
-          <md-button-toggle value="2">Kommun</md-button-toggle>
-          <md-button-toggle value="3">Statlig</md-button-toggle>
-          <md-button-toggle value="4">Privat, vårdavtal</md-button-toggle>
-          <md-button-toggle value="5">Privat, enl lag om läkarvårdsersättning</md-button-toggle>
-          <md-button-toggle value="6">Privat, utan offentlig finansiering</md-button-toggle>
-          <md-button-toggle value="7">Kommunförbund</md-button-toggle>
-          <md-button-toggle value="8">Övrigt</md-button-toggle>
-        </md-button-toggle-group>
-        -->
-
-        <!--
-
-        <md-select placeholder="Ägarform" formControlName="agarform" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-          <md-option class="md-option" value="1">Landsting</md-option>
-          <md-option class="md-option" value="2">Kommun</md-option>
-          <md-option class="md-option" value="3">Statlig</md-option>
-          <md-option class="md-option" value="4">Privat, vårdavtal</md-option>
-          <md-option class="md-option" value="5">Privat, enl lag om läkarvårdsersättning</md-option>
-          <md-option class="md-option" value="6">Privat, utan offentlig finansiering</md-option>
-          <md-option class="md-option" value="7">Kommunförbund</md-option>
-          <md-option class="md-option" value="8">Övrigt</md-option>
-        </md-select>
-        -->
-
         <md-divider class="space-vertical" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'"></md-divider>
 
         <div class="checkbox-container" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
           <md-checkbox align="end" formControlName="groupCode">Gruppkod</md-checkbox>
           <md-icon mdTooltip="Förklaring...">help</md-icon>
         </div>
-
 
       </md-card-content>
 
