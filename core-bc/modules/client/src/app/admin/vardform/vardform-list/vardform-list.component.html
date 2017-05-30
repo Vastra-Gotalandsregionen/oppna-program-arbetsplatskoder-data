@@ -17,7 +17,7 @@
         <th>ID</th>
         <th>Vårdform-ID</th>
         <th>Vårdformtext</th>
-        <th>Raderad</th>
+        <th>Status</th>
         <th></th>
       </tr>
       </thead>
@@ -30,9 +30,17 @@
           <md-icon mdTooltip="Markerad som raderad" *ngIf="vardform.raderad">clear</md-icon>
         </td>
 
-        <td><a routerLink="{{vardform.id}}/edit">
-          <md-icon>edit</md-icon>
-        </a></td>
+        <td>
+          <button md-icon-button [mdMenuTriggerFor]="menu">
+            <md-icon>more_vert</md-icon>
+          </button>
+          <md-menu #menu="mdMenu">
+            <button md-menu-item routerLink="{{vardform.id}}/edit">
+              <md-icon>edit</md-icon>
+              <span>Redigera</span>
+            </button>
+          </md-menu>
+        </td>
       </tr>
       </tbody>
     </table>
