@@ -35,4 +35,88 @@
     color: #333;
   }
 
+  // Used for listing apks (= "arbetsplatskoder")
+  &.apks-table {
+
+    table-layout: fixed;
+
+    .row-apk { width: 15%; }
+
+    .row-name { width: 30%; }
+
+    .row-prod1 { width: 10%; }
+
+    .row-prod2 { width: 10%; }
+
+    .row-reg-date { width: 10%; }
+
+    .row-to-date { width: 10%; }
+
+    .row-status { width: 10%; }
+
+    .row-menu { width: 5%; }
+  }
+
+  // Used for listing users
+  &.users-table {
+
+    table-layout: fixed;
+
+    .row-id { width: 10%; }
+
+    .row-first-name { width: 15%; }
+
+    .row-last-name { width: 25%; }
+
+    .row-email { width: 25%; }
+
+    .row-permissions { width: 15%; }
+
+    .row-prod1 { width: 15%; }
+
+    .row-menu { width: 5%; }
+  }
+
+  // Used for listing prod1
+  &.prod1-table {
+
+    table-layout: fixed;
+
+    .row-id { width: 10%; }
+
+    .row-name { width: 35%; }
+
+    .row-short-name { width: 20%; }
+
+    .row-prod-id { width: 15%; }
+
+    .row-status { width: 15%; }
+
+    .row-menu { width: 5%; }
+  }
+
+  // Used for listing prod2
+  &.prod2-table {
+
+    table-layout: fixed;
+
+    .row-id { width: 5%; }
+
+    .row-department { width: 20%; }
+
+    .row-short-name { width: 20%; }
+
+    .row-prod-id { width: 10%; }
+
+    .row-prod1 { width: 10%; }
+
+    .row-benchmark { width: 10%; }
+
+    .row-status { width: 10%; }
+
+    .row-menu { width: 5%; }
+
+  }
+
+
 }

@@ -25,37 +25,37 @@
   </md-card-title>
 
   <md-card-content>
-    <table *ngIf="response" class="apk-table">
+    <table *ngIf="response" class="apk-table apks-table">
       <thead>
         <tr>
-          <th>
+          <th class="row-apk">
             Arbetsplatskod
           </th>
-          <th>
+          <th class="row-name">
             <button class="sort-button" md-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
               Benämning <md-icon>arrow_drop_up</md-icon>
             </button>
           </th>
-          <th>
+          <th class="row-prod1">
             Nivå 1
           </th>
-          <th>
+          <th class="row-prod2">
             Nivå 2
           </th>
-          <th>
+          <th class="row-reg-date">
             <button class="sort-button" md-button (click)="toggleSort('regDatum')" [ngClass]="{'sort-field': sort?.field === 'regDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
               Reg-datum <md-icon>arrow_drop_up</md-icon>
             </button>
           </th>
-          <th>
+          <th class="row-to-date">
             <button class="sort-button" md-button (click)="toggleSort('tillDatum')" [ngClass]="{'sort-field': sort?.field === 'tillDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
               Giltig till <md-icon>arrow_drop_up</md-icon>
             </button>
           </th>
-          <th>
+          <th class="row-status">
             Status
           </th>
-          <th></th>
+          <th class="row-menu"></th>
         </tr>
       </thead>
       <tbody>
@@ -66,7 +66,7 @@
             </a>
           </td>
           <td>
-              <span mdTooltip="{{data.benamning}}">{{data.benamning | ellipsis:30}}</span>
+              <span mdTooltip="{{data.benamning}}">{{data.benamning | ellipsis:40}}</span>
           </td>
           <td>
             <span mdTooltip="{{data.prodn1.kortnamn}}">{{data.prodn1.kortnamn | ellipsis:10}}</span>
