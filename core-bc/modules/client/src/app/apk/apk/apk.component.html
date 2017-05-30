@@ -28,13 +28,33 @@
     <table *ngIf="response" class="apk-table">
       <thead>
         <tr>
-          <th>Arbetsplatskod</th>
-          <th>Benämning <button md-icon-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
-          <th>Nivå 1</th>
-          <th>Nivå 2</th>
-          <th>Reg-datum <button md-icon-button (click)="toggleSort('regDatum')" [ngClass]="{'sort-field': sort?.field === 'regDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
-          <th>Giltig till <button md-icon-button (click)="toggleSort('tillDatum')" [ngClass]="{'sort-field': sort?.field === 'tillDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}"><md-icon>arrow_drop_up</md-icon></button></th>
-          <th>Status</th>
+          <th>
+            Arbetsplatskod
+          </th>
+          <th>
+            <button class="sort-button" md-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
+              Benämning <md-icon>arrow_drop_up</md-icon>
+            </button>
+          </th>
+          <th>
+            Nivå 1
+          </th>
+          <th>
+            Nivå 2
+          </th>
+          <th>
+            <button class="sort-button" md-button (click)="toggleSort('regDatum')" [ngClass]="{'sort-field': sort?.field === 'regDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
+              Reg-datum <md-icon>arrow_drop_up</md-icon>
+            </button>
+          </th>
+          <th>
+            <button class="sort-button" md-button (click)="toggleSort('tillDatum')" [ngClass]="{'sort-field': sort?.field === 'tillDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
+              Giltig till <md-icon>arrow_drop_up</md-icon>
+            </button>
+          </th>
+          <th>
+            Status
+          </th>
           <th></th>
         </tr>
       </thead>
