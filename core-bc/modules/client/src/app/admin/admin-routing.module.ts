@@ -46,6 +46,11 @@ const routes: Routes = [
         loadChildren: './vardform/vardform.module#VardformModule'
       },
       {
+        path: 'verksamhet',
+        canActivate: [AdminGuard],
+        loadChildren: './verksamhet/verksamhet.module#VerksamhetModule'
+      },
+      {
         path: '**',
         redirectTo: 'landing'
       },

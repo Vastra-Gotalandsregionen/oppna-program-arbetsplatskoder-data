@@ -5,6 +5,9 @@ import {VardformRoutingModule} from "./vardform-routing.module";
 import {SharedModule} from "../../shared/shared.module";
 import { VardformEditComponent } from './vardform-edit/vardform-edit.component';
 
+//import { VerksamhetEditComponent } from './verksamhet-edit/verksamhet-edit.component';
+//import { VerksamhetListComponent } from './verksamhet-list/verksamhet-list.component';
+
 @NgModule({
   imports: [
     CommonModule,

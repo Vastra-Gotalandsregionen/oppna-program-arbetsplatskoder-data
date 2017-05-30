@@ -55,6 +55,12 @@
           <span class="nav-label">Vårdform</span>
         </a>
       </md-list-item>
+      <md-list-item *ngIf="admin">
+        <a routerLink="verksamhet" routerLinkActive="active">
+          <md-icon>list</md-icon>
+          <span class="nav-label">Verksamhet</span>
+        </a>
+      </md-list-item>
     </md-list>
 
   </md-sidenav>
