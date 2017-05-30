@@ -15,6 +15,7 @@ export class Data {
   prodn1: Prodn1;
   prodn3: Prodn3;
   benamning: string;
+  benamningKort: string;
   postnr: string;
   postort: string;
   postadress: string;

@@ -60,6 +60,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   isPrivate: boolean;
 
   saveMessage: string;
+  benamningKortActivelyEdited: boolean;
 
   constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
@@ -158,6 +159,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'prodn2': [null, Validators.required], // Set further down
       'prodn3': [null, Validators.required], // Set further down
       'benamning': [this.data.benamning, Validators.required],
+      'benamningKort': [this.data.benamningKort, Validators.required],
       'addressGroup': this.formBuilder.group({
         'postadress': [this.data.postadress],
         'postnr': [this.data.postnr],
@@ -230,6 +232,26 @@ export class ApkFormComponent extends ApkBase implements OnInit {
           this.apkForm.get('frivilligUppgift').enable();
         } else {
           this.apkForm.get('frivilligUppgift').disable();
+        }
+      });
+
+    const benamning = this.apkForm.get('benamning');
+    const benamningKort = this.apkForm.get('benamningKort');
+
+    benamningKort.valueChanges.subscribe(value => {
+      if (value.length === 0) {
+        this.benamningKortActivelyEdited = false;
+      }
+    });
+
+    benamning.valueChanges
+      .subscribe((value: string) => {
+        if (!this.benamningKortActivelyEdited || benamningKort.value.length === 0) {
+          if (value.length <= 35) {
+            benamningKort.setValue(value);
+          } else {
+            benamningKort.setValue('');
+          }
         }
       });
 
@@ -385,6 +407,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     data.vardform = (<Vardform> formModel.vardform).vardformid;
     data.verksamhet = (<Verksamhet> formModel.verksamhet).verksamhetid;
     data.benamning = formModel.benamning;
+    data.benamningKort = formModel.benamningKort;
     if (!formModel.groupCode) {
       data.postadress = formModel.addressGroup.postadress;
       data.postnr = formModel.addressGroup.postnr;
@@ -511,6 +534,13 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     const inOppositeOrder = readFriendlyParts.reverse();
 
     return inOppositeOrder.join(' > ');
+  }
+
+  benamningKortKeyDown($event: any) {
+    if ($event.key.length === 1) {
+      // Otherwise it's not a key which writes anything.
+      this.benamningKortActivelyEdited = true;
+    }
   }
 }
 

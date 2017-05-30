@@ -59,6 +59,9 @@ public class Data extends AbstractEntity {
     @Column (name = "benamning", nullable = true)
     private java.lang.String benamning;
 
+    @Column (name = "benamning_kort", nullable = true, length = 35)
+    private java.lang.String benamningKort;
+
     @Column (name = "postnr", nullable = true)
     private java.lang.String postnr;
 
@@ -256,6 +259,14 @@ public class Data extends AbstractEntity {
 
     public void setBenamning(java.lang.String v){
         this.benamning = v;
+    }
+
+    public String getBenamningKort() {
+        return benamningKort;
+    }
+
+    public void setBenamningKort(String benamningKort) {
+        this.benamningKort = benamningKort;
     }
 
     public java.lang.String getPostnr(){

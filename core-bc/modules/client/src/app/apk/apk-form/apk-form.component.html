@@ -87,7 +87,6 @@
 
     </md-card>
 
-
     <div class="apk-validate">
 
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
@@ -132,7 +131,6 @@
               <md-radio-button value="false">Nej</md-radio-button>
             </md-radio-group>
           </div>
-
 
         </md-card-content>
       </md-card>
@@ -212,6 +210,12 @@
           <md-input-container>
             <input placeholder="Benämning/enhetsnamn - Tas från KIV? +att man måste ha kortnamn för att det ska gå igenom i Concise"
               type="text" mdInput formControlName="benamning" name="banamning">
+          </md-input-container>
+
+          <md-input-container>
+            <input placeholder="Benämning/enhetsnamn kort version (max 35 tecken)"
+              type="text" mdInput formControlName="benamningKort" name="benamningKort" (keydown)="benamningKortKeyDown($event)" maxlength="35">
+            <md-icon mdTooltip="Om Benämning/enhetsnamn är längre än 35 tecken behöver ett kortare namn anges">help</md-icon>
           </md-input-container>
 
           <div formGroupName="addressGroup">
