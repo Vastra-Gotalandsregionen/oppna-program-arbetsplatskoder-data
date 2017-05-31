@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {StateService} from './core/state/state.service';
-import {MdDialog, MdDialogRef} from '@angular/material';
+import {MdDialog, MdDialogRef, MdDialogConfig} from '@angular/material';
 import {LoginDialogComponent} from './shared/login-dialog/login-dialog.component';
 import {AuthService} from './core/auth/auth.service';
 import {Router} from '@angular/router';
@@ -20,7 +20,14 @@ export class AppComponent {
               private router: Router) {}
 
   openLogin() {
-    const dialogRef: MdDialogRef<LoginDialogComponent> = this.dialog.open(LoginDialogComponent);
+
+    const dialogConfig:MdDialogConfig = {
+      disableClose: false,
+      hasBackdrop: true
+      //,panelClass: ''
+    };
+
+    const dialogRef: MdDialogRef<LoginDialogComponent> = this.dialog.open(LoginDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);

@@ -7,15 +7,7 @@
     <div class="header-top-bar">
       <div class="retain-contain">
 
-
-
         <md-toolbar class="">
-            <!--
-            <button md-mini-fab class="menu-toggle" (click)="sidenav.toggle()">
-              <md-icon>menu</md-icon>
-            </button>
-            -->
-
             <img class="logo" src="/assets/images/apk-logo3.png" alt="Logo APK" />
 
             <div class="header-toolbar-spacer"></div>
@@ -27,22 +19,18 @@
                 <button *ngIf="!getShowDebug()" md-button (click)="setShowDebug(true)" mdTooltip="Visa debug-läge"><md-icon>visibility_off</md-icon></button>
               </span>
 
-
               <span *ngIf="getLoggedInUserId()" class="header-control-item">
                 <span class="user-avatar" [style.background-image]="userAvatarBackgroundImageStyle()"></span>
               </span>
 
-              <!--
-              <span *ngIf="getLoggedInDisplayName()" class="header-control-item">Inloggad som: {{getLoggedInDisplayName()}}</span>
-              -->
               <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
                 {{getLoggedInDisplayName()}}
               </span>
               <span *ngIf="!getLoggedInDisplayName()" class="header-control-item">
-                <button md-button (click)="openLogin()"><!--<md-icon>lock</md-icon> -->Logga in</button>
+                <button md-button (click)="openLogin()">Logga in</button>
               </span>
               <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
-                <button md-button (click)="logout()"><!--<md-icon>lock_open</md-icon> -->Logga ut</button>
+                <button md-button (click)="logout()">Logga ut</button>
               </span>
 
             </div>
