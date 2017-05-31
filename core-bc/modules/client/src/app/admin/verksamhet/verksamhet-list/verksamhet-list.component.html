@@ -3,7 +3,8 @@
     Verksamhet
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny vårdform"><md-icon>add</md-icon></a>
+  <app-sidenav-toggle-button></app-sidenav-toggle-button>
+  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny verksamhet"><md-icon>add</md-icon></a>
 </md-toolbar>
 
 <md-card>
@@ -14,9 +15,9 @@
       <thead>
       <tr>
         <th>ID</th>
-        <th>Verksamhet-ID</th>
-        <th>Verksamhettext</th>
-        <th>Raderad</th>
+        <th>Verksamhets-ID</th>
+        <th>Verksamhetstext</th>
+        <th>Status</th>
         <th></th>
       </tr>
       </thead>
@@ -26,12 +27,19 @@
         <td>{{verksamhet.verksamhetid}}</td>
         <td>{{verksamhet.verksamhettext}}</td>
         <td>
-          <md-icon mdTooltip="Markerad som raderad" *ngIf="verksamhet.raderad">clear</md-icon>
+          <md-icon mdTooltip="Markerad som inaktiverad" *ngIf="verksamhet.raderad">clear</md-icon>
         </td>
-
-        <td><a routerLink="{{verksamhet.id}}/edit">
-          <md-icon>edit</md-icon>
-        </a></td>
+        <td>
+          <button md-icon-button [mdMenuTriggerFor]="menu">
+            <md-icon>more_vert</md-icon>
+          </button>
+          <md-menu #menu="mdMenu">
+            <button md-menu-item routerLink="{{verksamhet.id}}/edit">
+              <md-icon>edit</md-icon>
+              <span>Redigera</span>
+            </button>
+          </md-menu>
+        </td>
       </tr>
       </tbody>
     </table>

@@ -12,4 +12,6 @@ public interface VerksamhetRepository extends JpaRepository<Verksamhet, Integer>
 
     List<Verksamhet> findVerksamhetsByRaderadIsFalse();
 
+    List<Verksamhet> findAllByOrderByVerksamhettext();
+
 }

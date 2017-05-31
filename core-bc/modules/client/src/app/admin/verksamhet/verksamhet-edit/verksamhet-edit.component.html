@@ -3,8 +3,12 @@
     {{verksamhet.verksamhettext === undefined ? 'Skapa ny Verksamhet' : 'Redigera ' + verksamhet.verksamhettext}}
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <app-back-button class="action-toolbar-item"></app-back-button>
+  <app-back-button></app-back-button>
 </md-toolbar>
+
+<div class="alert alert-danger">
+  VARNING! Ändra inte kodens ID utan att Apoteksbolaget har bekräftat att motsvarande kod finns inlagd i deras system.
+</div>
 
 <md-card>
   <md-card-content>
@@ -26,7 +30,7 @@
         </md-input-container>
 
         <div class="checkbox-container">
-          <md-checkbox formControlName="raderad">Raderad</md-checkbox>
+          <md-checkbox formControlName="raderad">Inaktiverad</md-checkbox>
         </div>
 
         <div class="btn-container">

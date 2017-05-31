@@ -25,8 +25,8 @@ public class VerksamhetController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    public List<Verksamhet> getAgarforms() {
-        return verksamhetRepository.findVerksamhetsByRaderadIsFalse();
+    public List<Verksamhet> getVerksamhets() {
+        return verksamhetRepository.findAllByOrderByVerksamhettext();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
