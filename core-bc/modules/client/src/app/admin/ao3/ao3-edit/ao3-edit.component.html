@@ -3,8 +3,8 @@
     {{ao3.foretagsnamn === undefined ? 'Skapa ny Ao3' : 'Redigera ' + ao3.foretagsnamn}}
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <app-back-button></app-back-button>
-  <app-sidenav-toggle-button></app-sidenav-toggle-button>
+  <app-back-button class="action-toolbar-item"></app-back-button>
+  <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
 </md-toolbar>
 
 <md-card>
@@ -32,7 +32,7 @@
 
         <div>
           <md-input-container>
-            <input placeholder="Producent" type="text" mdInput formControlName="producent" [mdAutocomplete]="producentAutocompleteRef"/>
+            <input placeholder="Summeringsnivå 1" type="text" mdInput formControlName="producent" [mdAutocomplete]="producentAutocompleteRef"/>
           </md-input-container>
 
           <md-autocomplete class="autocomplete" #producentAutocompleteRef="mdAutocomplete">

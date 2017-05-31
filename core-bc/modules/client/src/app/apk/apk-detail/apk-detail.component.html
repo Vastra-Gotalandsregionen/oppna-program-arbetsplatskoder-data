@@ -11,7 +11,7 @@
        Arbetsplatskod: {{data.arbetsplatskod}}
     </h1>
     <div class="action-toolbar-spacer"></div>
-    <app-back-button></app-back-button>
+    <app-back-button class="action-toolbar-item"></app-back-button>
     <a class="action-toolbar-item" md-fab routerLink="edit" mdTooltip="Redigera arbetsplatskod" *ngIf="userHasEditPermission(data) && getStatus(data) !== 'closed' && getStatus(data) !== 'fullyClosed'">
       <md-icon>edit</md-icon>
     </a>

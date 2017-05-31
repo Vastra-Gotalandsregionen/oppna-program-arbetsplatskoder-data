@@ -4,7 +4,7 @@
   </h1>
   <div class="action-toolbar-spacer"></div>
   <a  class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Summeringsnivå 2"><md-icon>add</md-icon></a>
-  <app-sidenav-toggle-button></app-sidenav-toggle-button>
+  <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
 </md-toolbar>
 
 <md-card>
@@ -35,46 +35,58 @@
 
   <md-card-content>
 
-    <table class="apk-table">
+    <table class="apk-table prod2-table">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Avdelning</th>
-        <th>Kortnamn</th>
-        <th>Producent-ID</th>
-        <th>Summeringsnivå 1</th>
-        <th>Riktvärde</th>
-        <th>Autoradering</th>
-        <th>Raderad</th>
-        <!--<th>Används ej</th>-->
-        <th>Redigera</th>
+        <th class="row-id">ID</th>
+        <th class="row-department">Avdelning</th>
+        <th class="row-short-name">Kortnamn</th>
+        <th class="row-prod-id" mdTooltip="Producent-ID">Prod-ID</th>
+        <th class="row-prod1" mdTooltip="Summeringsnivå 1">Sum.nivå 1</th>
+        <th class="row-benchmark">Riktvärde</th>
+        <th class="row-status">Status</th>
+        <th class="row-menu"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let prodn2 of response?.content">
         <td>{{prodn2.id}}</td>
-        <td>{{prodn2.avdelning}}</td>
-        <td>{{prodn2.kortnamn}}</td>
-        <td>{{prodn2.producentid}}</td>
-        <td *ngIf="!prodn2.prodn1" mdTooltip="Finns ingen summeringsnivå 1 med denna kod"
-            [ngClass]="'circle-alert'">{{prodn2.n1}}
+        <td>
+          <span mdTooltip="{{prodn2.avdelning}}">{{prodn2.avdelning | ellipsis:40}}</span>
         </td>
-        <td *ngIf="prodn2.prodn1">{{prodn2.prodn1.foretagsnamn}}</td>
-        <td>{{prodn2.riktvarde}}</td>
-        <td>{{prodn2.autoradering}}</td>
+        <td>
+          <span mdTooltip="{{prodn2.kortnamn}}">{{prodn2.kortnamn | ellipsis:40}}</span>
+        </td>
+        <td>{{prodn2.producentid}}</td>
+        <td>
+          <span *ngIf="!prodn2.prodn1" mdTooltip="Finns ingen summeringsnivå 1 med denna kod"
+              [ngClass]="'circle-alert'">{{prodn2.n1}}
+          </span>
+          <span *ngIf="prodn2.prodn1" mdTooltip="{{prodn2.prodn1.foretagsnamn}}">{{prodn2.prodn1.foretagsnamn | ellipsis:30}}</span>
+        </td>
+        <td><!-- Riktvärde om detta skall användas står här --></td>
         <td>
           <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn2.raderad">clear</md-icon>
+          {{prodn2.autoradering}}
         </td>
-        <!--<td>
-
-                    <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">
-                      warning
-                    </md-icon>
-
-        </td>-->
-        <td><a routerLink="{{prodn2.id}}/edit">
-          <md-icon>edit</md-icon>
-        </a></td>
+        <!--
+        <td>
+            <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">
+              warning
+            </md-icon>
+        </td>
+        -->
+        <td>
+          <button md-icon-button [mdMenuTriggerFor]="menu">
+            <md-icon>more_vert</md-icon>
+          </button>
+          <md-menu #menu="mdMenu">
+            <button md-menu-item routerLink="{{prodn2.id}}/edit">
+              <md-icon>edit</md-icon>
+              <span>Redigera</span>
+            </button>
+          </md-menu>
+        </td>
       </tr>
       </tbody>
     </table>

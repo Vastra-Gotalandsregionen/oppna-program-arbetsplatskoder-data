@@ -4,28 +4,23 @@
   </h1>
   <div class="action-toolbar-spacer"></div>
   <a class="action-toolbar-item" routerLink="create" md-fab mdTooltip="Lägg till ny användare"><md-icon>person_add</md-icon></a>
-  <app-sidenav-toggle-button></app-sidenav-toggle-button>
+  <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
 </md-toolbar>
 
 <md-card>
 
   <md-card-content>
 
-    <table class="apk-table">
+    <table class="apk-table users-table">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Förnamn</th>
-        <th>Efernamn</th>
-        <th>E-post</th>
-        <th>Behörighet</th>
-        <th>Sorteringskod 1</th>
-        <!--
-        <th>Redigera</th>
-        <th>Radera</th>
-        <th>Uppträd som</th>
-        -->
-        <th></th>
+        <th class="row-id">ID</th>
+        <th class="row-first-name">Förnamn</th>
+        <th class="row-last-name">Efternamn</th>
+        <th class="row-email">E-post</th>
+        <th class="row-permissions">Behörighet</th>
+        <th class="row-prod1">Sorteringskod 1</th>
+        <th class="row-menu"></th>
       </tr>
       </thead>
 
@@ -37,12 +32,6 @@
         <td>{{user.mail}}</td>
         <td>{{user.role}}</td>
         <td>{{prodn1sToString(user.prodn1s)}}</td>
-        <!--
-        <td><a routerLink="{{user.id}}/edit"><md-icon>edit</md-icon></a></td>
-        <td><button md-button (click)="confirmDeleteTODO(user)"><md-icon>delete</md-icon></button></td>
-        <td><button md-button (click)="impersonate(user)"><md-icon>transfer_within_a_station</md-icon></button></td>
-        -->
-
 
         <td>
           <button md-icon-button [mdMenuTriggerFor]="menu">

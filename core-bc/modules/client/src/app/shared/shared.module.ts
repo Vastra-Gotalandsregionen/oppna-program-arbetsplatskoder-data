@@ -10,6 +10,7 @@ import {JwtHelper} from 'angular2-jwt/angular2-jwt';
 import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component";
 import { BackButtonComponent } from './back-button/back-button.component';
 import { SidenavToggleButtonComponent } from './sidenav-toggle-button/sidenav-toggle-button.component';
+import { EllipsisPipe } from './ellipsis/ellipsis.pipe';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { SidenavToggleButtonComponent } from './sidenav-toggle-button/sidenav-to
     LoginDialogComponent,
     ConfirmDialogComponent,
     BackButtonComponent,
-    SidenavToggleButtonComponent
+    SidenavToggleButtonComponent,
+    EllipsisPipe
   ],
   entryComponents: [
     ErrorDialogComponent,
@@ -37,7 +39,8 @@ import { SidenavToggleButtonComponent } from './sidenav-toggle-button/sidenav-to
     ReactiveFormsModule,
     RouterModule,
     BackButtonComponent,
-    SidenavToggleButtonComponent
+    SidenavToggleButtonComponent,
+    EllipsisPipe
   ],
   providers: [
     ErrorHandler,

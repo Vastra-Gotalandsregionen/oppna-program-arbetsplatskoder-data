@@ -6,40 +6,49 @@
   <a class="action-toolbar-item" routerLink="create" md-fab mdTooltip="Lägg till ny Summeringsnivå 1" *ngIf="admin">
     <md-icon>add</md-icon>
   </a>
-  <app-sidenav-toggle-button></app-sidenav-toggle-button>
+  <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
 </md-toolbar>
 
 <md-card>
 
   <md-card-content>
 
-    <table class="apk-table">
+    <table class="apk-table prod1-table">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Företagsnamn</th>
-        <th>Kortnamn</th>
-        <th>Producent-ID</th>
-        <th>Raderad</th>
-        <th>Används ej</th>
-        <th>Redigera</th>
+        <th class="row-id">ID</th>
+        <th class="row-name">Företagsnamn</th>
+        <th class="row-short-name">Kortnamn</th>
+        <th class="row-prod-id">Producent-ID</th>
+        <th class="row-status">Status</th>
+        <th class="row-menu"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let prodn1 of prodn1s$ | async">
         <td>{{prodn1.id}}</td>
-        <td>{{prodn1.foretagsnamn}}</td>
-        <td>{{prodn1.kortnamn}}</td>
-        <td>{{prodn1.producentid}}</td>
-        <td><md-icon mdTooltip="Markerad som raderad" *ngIf="prodn1.raderad">clear</md-icon></td>
         <td>
-          <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">
-            warning
-          </md-icon>
+          <span mdTooltip="{{prodn1.foretagsnamn}}">{{prodn1.foretagsnamn | ellipsis:30}}</span>
         </td>
-        <td><a routerLink="{{prodn1.id}}/edit">
-          <md-icon>edit</md-icon>
-        </a></td>
+        <td>
+          <span mdTooltip="{{prodn1.kortnamn}}">{{prodn1.kortnamn | ellipsis:30}}</span>
+        </td>
+        <td>{{prodn1.producentid}}</td>
+        <td>
+          <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn1.raderad">clear</md-icon>
+          <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">warning</md-icon>
+        </td>
+        <td>
+          <button md-icon-button [mdMenuTriggerFor]="menu">
+            <md-icon>more_vert</md-icon>
+          </button>
+          <md-menu #menu="mdMenu">
+            <button md-menu-item routerLink="{{prodn1.id}}/edit">
+              <md-icon>edit</md-icon>
+              <span>Redigera</span>
+            </button>
+          </md-menu>
+        </td>
       </tr>
       </tbody>
     </table>

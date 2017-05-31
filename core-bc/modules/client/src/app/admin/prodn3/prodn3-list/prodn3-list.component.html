@@ -4,7 +4,7 @@
   </h1>
   <div class="action-toolbar-spacer"></div>
   <a  class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Summeringsnivå 3"><md-icon>add</md-icon></a>
-  <app-sidenav-toggle-button></app-sidenav-toggle-button>
+  <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
 </md-toolbar>
 
 <md-card>
@@ -55,9 +55,8 @@
         <th>Producent-ID</th>
         <th>Nivå 1</th>
         <th>Nivå 2</th>
-        <th>Autoradering</th>
-        <th>Raderad</th>
-        <th>Redigera</th>
+        <th>Status</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -68,13 +67,21 @@
         <td>{{prodn3.producentid}}</td>
         <td>{{prodn3.prodn2?.prodn1?.kortnamn}}</td>
         <td>{{prodn3.prodn2?.kortnamn}}</td>
-        <td>{{prodn3.autoradering}}</td>
         <td>
+          <md-icon mdTooltip="Autoradering" *ngIf="prodn3.autoradering">delete_forever</md-icon>
           <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn3.raderad">clear</md-icon>
         </td>
-        <td><a routerLink="{{prodn3.id}}/edit">
-          <md-icon>edit</md-icon>
-        </a></td>
+        <td>
+          <button md-icon-button [mdMenuTriggerFor]="menu">
+            <md-icon>more_vert</md-icon>
+          </button>
+          <md-menu #menu="mdMenu">
+            <button md-menu-item routerLink="{{prodn3.id}}/edit">
+              <md-icon>edit</md-icon>
+              <span>Redigera</span>
+            </button>
+          </md-menu>
+        </td>
       </tr>
       </tbody>
     </table>
