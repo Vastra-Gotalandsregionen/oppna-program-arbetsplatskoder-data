@@ -46,17 +46,17 @@
 
   <md-card-content>
 
-    <table class="apk-table">
+    <table class="apk-table prod3-table">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Företagsnamn</th>
-        <th>Kortnamn</th>
-        <th>Producent-ID</th>
-        <th>Nivå 1</th>
-        <th>Nivå 2</th>
-        <th>Status</th>
-        <th></th>
+        <th class="row-id">ID</th>
+        <th class="row-name">Företagsnamn</th>
+        <th class="row-short-name">Kortnamn</th>
+        <th class="row-prod-id">Prod-ID</th>
+        <th class="row-prodn1">Nivå 1</th>
+        <th class="row-prodn2">Nivå 2</th>
+        <th class="row-status">Status</th>
+        <th class="row-menu"></th>
       </tr>
       </thead>
       <tbody>
@@ -72,15 +72,9 @@
           <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn3.raderad">clear</md-icon>
         </td>
         <td>
-          <button md-icon-button [mdMenuTriggerFor]="menu">
-            <md-icon>more_vert</md-icon>
-          </button>
-          <md-menu #menu="mdMenu">
-            <button md-menu-item routerLink="{{prodn3.id}}/edit">
-              <md-icon>edit</md-icon>
-              <span>Redigera</span>
-            </button>
-          </md-menu>
+          <a routerLink="{{prodn3.id}}/edit" mdTooltip="Redigera">
+            <md-icon>edit</md-icon>
+          </a>
         </td>
       </tr>
       </tbody>

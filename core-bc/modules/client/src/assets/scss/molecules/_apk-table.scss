@@ -37,7 +37,6 @@
 
   // Used for listing apks (= "arbetsplatskoder")
   &.apks-table {
-
     table-layout: fixed;
 
     .row-apk { width: 15%; }
@@ -59,7 +58,6 @@
 
   // Used for listing users
   &.users-table {
-
     table-layout: fixed;
 
     .row-id { width: 10%; }
@@ -79,7 +77,6 @@
 
   // Used for listing prod1
   &.prod1-table {
-
     table-layout: fixed;
 
     .row-id { width: 10%; }
@@ -97,7 +94,6 @@
 
   // Used for listing prod2
   &.prod2-table {
-
     table-layout: fixed;
 
     .row-id { width: 5%; }
@@ -118,5 +114,25 @@
 
   }
 
+  &.prod3-table {
+    table-layout: fixed;
+
+    .row-id { width: 5%; }
+
+    .row-name { width: 20%; }
+
+    .row-short-name { width: 20%; }
+
+    .row-prod-id { width: 10%; }
+
+    .row-prodn1 { width: 15%; }
+
+    .row-prodn2 { width: 15%; }
+
+    .row-status { width: 10%; }
+
+    .row-menu { width: 5%; }
+
+  }
 
 }
