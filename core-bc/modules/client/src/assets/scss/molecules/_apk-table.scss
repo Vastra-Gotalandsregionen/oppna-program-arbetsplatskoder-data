@@ -60,17 +60,15 @@
   &.users-table {
     table-layout: fixed;
 
-    .row-id { width: 10%; }
-
     .row-first-name { width: 15%; }
 
     .row-last-name { width: 25%; }
 
-    .row-email { width: 25%; }
+    .row-email { width: 30%; }
 
     .row-permissions { width: 15%; }
 
-    .row-prod1 { width: 15%; }
+    .row-prod1 { width: 20%; }
 
     .row-menu { width: 5%; }
   }
@@ -79,11 +77,9 @@
   &.prod1-table {
     table-layout: fixed;
 
-    .row-id { width: 10%; }
+    .row-name { width: 40%; }
 
-    .row-name { width: 35%; }
-
-    .row-short-name { width: 20%; }
+    .row-short-name { width: 25%; }
 
     .row-prod-id { width: 15%; }
 
@@ -96,17 +92,15 @@
   &.prod2-table {
     table-layout: fixed;
 
-    .row-id { width: 5%; }
-
-    .row-department { width: 20%; }
+    .row-department { width: 30%; }
 
     .row-short-name { width: 20%; }
 
     .row-prod-id { width: 10%; }
 
-    .row-prod1 { width: 10%; }
+    .row-prod1 { width: 15%; }
 
-    .row-benchmark { width: 10%; }
+    //.row-benchmark { width: 10%; }
 
     .row-status { width: 10%; }
 
@@ -117,9 +111,7 @@
   &.prod3-table {
     table-layout: fixed;
 
-    .row-id { width: 5%; }
-
-    .row-name { width: 20%; }
+    .row-name { width: 25%; }
 
     .row-short-name { width: 20%; }
 
@@ -127,12 +119,41 @@
 
     .row-prodn1 { width: 15%; }
 
-    .row-prodn2 { width: 15%; }
+    .row-prodn2 { width: 20%; }
 
     .row-status { width: 10%; }
 
     .row-menu { width: 5%; }
 
   }
+
+  &.ao3-table {
+    table-layout: fixed;
+
+    .row-name { width: 30%; }
+
+    .row-short-name { width: 20%; }
+
+    .row-contact-person { width: 25%; }
+
+    .row-company-number { width: 10%; }
+
+    .row-status { width: 10%; }
+
+    .row-menu { width: 5%; }
+  }
+
+  &.vardform-table {
+    table-layout: fixed;
+
+    .row-vardform-id { width: 15%; }
+
+    .row-vardform-text { width: 60%; }
+
+    .row-status { width: 20%; }
+
+    .row-menu { width: 5%; }
+  }
+
 
 }

@@ -11,19 +11,17 @@
 
   <md-card-content>
 
-    <table class="apk-table">
+    <table class="apk-table vardform-table">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Vårdform-ID</th>
-        <th>Vårdformtext</th>
-        <th>Status</th>
-        <th></th>
+        <th class="row-vardform-id">Vårdform-ID</th>
+        <th class="row-vardform-text">Vårdformtext</th>
+        <th class="row-status">Status</th>
+        <th class="row-menu"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let vardform of vardforms$ | async">
-        <td>{{vardform.id}}</td>
         <td>{{vardform.vardformid}}</td>
         <td>{{vardform.vardformtext}}</td>
         <td>

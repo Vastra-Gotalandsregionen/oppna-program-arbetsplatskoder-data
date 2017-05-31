@@ -16,22 +16,20 @@
     <table class="apk-table prod1-table">
       <thead>
       <tr>
-        <th class="row-id">ID</th>
         <th class="row-name">Företagsnamn</th>
         <th class="row-short-name">Kortnamn</th>
-        <th class="row-prod-id">Producent-ID</th>
+        <th class="row-prod-id">Prod-ID</th>
         <th class="row-status">Status</th>
         <th class="row-menu"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let prodn1 of prodn1s$ | async">
-        <td>{{prodn1.id}}</td>
         <td>
-          <span mdTooltip="{{prodn1.foretagsnamn}}">{{prodn1.foretagsnamn | ellipsis:30}}</span>
+          <span mdTooltip="{{prodn1.foretagsnamn?.length > 50 ? prodn1.foretagsnamn : null}}">{{prodn1.foretagsnamn | ellipsis:50}}</span>
         </td>
         <td>
-          <span mdTooltip="{{prodn1.kortnamn}}">{{prodn1.kortnamn | ellipsis:30}}</span>
+          <span mdTooltip="{{prodn1.kortnamn?.length > 35 ? prodn1.kortnamn : null}}">{{prodn1.kortnamn | ellipsis:35}}</span>
         </td>
         <td>{{prodn1.producentid}}</td>
         <td>
