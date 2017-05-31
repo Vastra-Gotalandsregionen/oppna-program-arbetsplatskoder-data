@@ -14,31 +14,23 @@
     <table class="apk-table">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Verksamhets-ID</th>
-        <th>Verksamhetstext</th>
-        <th>Status</th>
-        <th></th>
+        <th class="row-verksamhets-id">Verksamhets-ID</th>
+        <th class="row-verksamhets-text">Verksamhetstext</th>
+        <th class="row-status">Status</th>
+        <th class="row-menu"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let verksamhet of verksamhets$ | async">
-        <td>{{verksamhet.id}}</td>
         <td>{{verksamhet.verksamhetid}}</td>
         <td>{{verksamhet.verksamhettext}}</td>
         <td>
           <md-icon mdTooltip="Markerad som inaktiverad" *ngIf="verksamhet.raderad">clear</md-icon>
         </td>
         <td>
-          <button md-icon-button [mdMenuTriggerFor]="menu">
-            <md-icon>more_vert</md-icon>
-          </button>
-          <md-menu #menu="mdMenu">
-            <button md-menu-item routerLink="{{verksamhet.id}}/edit">
-              <md-icon>edit</md-icon>
-              <span>Redigera</span>
-            </button>
-          </md-menu>
+          <a routerLink="{{verksamhet.id}}/edit" mdTooltip="Redigera">
+            <md-icon>edit</md-icon>
+          </a>
         </td>
       </tr>
       </tbody>

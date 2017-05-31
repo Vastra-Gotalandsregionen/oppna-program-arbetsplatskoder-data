@@ -155,5 +155,17 @@
     .row-menu { width: 5%; }
   }
 
+  &.verksamhet-table {
+    table-layout: fixed;
+
+    .row-verksamhets-id { width: 15%; }
+
+    .row-verksamhets-text { width: 60%; }
+
+    .row-status { width: 20%; }
+
+    .row-menu { width: 5%; }
+  }
+
 
 }
