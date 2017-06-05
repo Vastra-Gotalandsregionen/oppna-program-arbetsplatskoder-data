@@ -30,4 +30,8 @@ public interface DataRepository extends JpaRepository<Data, Integer> {
 
     @Query("select d from Data d left join fetch d.prodn3 p")
     List<Data> findAllJoinProdn3();
+
+    @Query("select distinct(d.userIdNew) from Data d")
+    List<String> findAllUserIdsWithData();
+
 }

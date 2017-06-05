@@ -47,6 +47,9 @@ public class User {
     @Column
     private byte[] thumbnailPhoto;
 
+    @Column
+    private Boolean inactivated = false;
+
     public String getId() {
         return id;
     }
@@ -109,5 +112,13 @@ public class User {
 
     public byte[] getThumbnailPhoto() {
         return thumbnailPhoto;
+    }
+
+    public Boolean getInactivated() {
+        return inactivated;
+    }
+
+    public void setInactivated(Boolean inactivated) {
+        this.inactivated = inactivated;
     }
 }

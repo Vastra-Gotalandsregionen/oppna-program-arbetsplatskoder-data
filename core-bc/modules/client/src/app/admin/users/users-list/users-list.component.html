@@ -40,7 +40,7 @@
               <md-icon>edit</md-icon>
               <span>Redigera</span>
             </button>
-            <button md-menu-item (click)="confirmDeleteTODO(user)">
+            <button *ngIf="usersWithoutData.indexOf(user.id) === -1" md-menu-item (click)="confirmDelete(user)">
               <md-icon>delete</md-icon>
               <span>Ta bort</span>
             </button>

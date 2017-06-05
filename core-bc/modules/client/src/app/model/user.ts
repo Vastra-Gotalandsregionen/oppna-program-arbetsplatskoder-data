@@ -3,4 +3,5 @@ export class User {
   id: string;
   prodn1s: Prodn1[];
   role: string;
+  inactivated: boolean;
 }

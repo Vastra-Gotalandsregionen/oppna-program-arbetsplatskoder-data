@@ -65,7 +65,8 @@ export class UserFormComponent implements OnInit {
       'userId': [{value: this.user.id, disabled: false}, [Validators.required]],
       'roleGroup': this.formBuilder.group({
         'role': [{value: this.user.role, disabled: false}, [Validators.required]]
-      })
+      }),
+      'inactivated': [this.user.inactivated, []]
     });
 
   }
@@ -92,6 +93,7 @@ export class UserFormComponent implements OnInit {
     this.user.id = this.userForm.get('userId').value;
     this.user.prodn1s = this.selectedProdn1Ids.map(id => this.prodn1sMap.get(id));
     this.user.role = this.userForm.get('roleGroup').get('role').value;
+    this.user.inactivated = this.userForm.get('inactivated').value;
 
     this.http.put('/api/user', this.user)
       .subscribe(result => {

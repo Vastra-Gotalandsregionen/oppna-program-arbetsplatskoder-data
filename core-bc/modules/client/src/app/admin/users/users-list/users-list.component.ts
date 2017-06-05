@@ -8,6 +8,9 @@ import {Prodn1} from '../../../model/prodn1';
 import {JwtHttp} from '../../../core/jwt-http';
 import {AuthService} from '../../../core/auth/auth.service';
 
+import {MdDialog, MdSnackBar} from "@angular/material";
+import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
+
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
@@ -17,13 +20,18 @@ export class UsersListComponent implements OnInit {
 
   users: User[];
 
+  usersWithoutData: string[] = [];
+
   constructor(private http: JwtHttp,
               private errorHandler: ErrorHandler,
               private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MdDialog) { }
 
   ngOnInit() {
     this.updateUsers();
+    this.http.get('/api/data/users').map<Response, string[]>(response => response.json())
+    .subscribe(value => this.usersWithoutData = value);
   }
 
   private updateUsers() {
@@ -33,7 +41,16 @@ export class UsersListComponent implements OnInit {
       );
   }
 
+/*
   confirmDeleteTODO(user: User) {
+    this.http.delete('/api/user/' + user.id)
+      .subscribe(response => {
+        this.updateUsers();
+      });
+  }
+*/
+  confirmInactivateTODO(user: User) {
+    user.inactivated = true;
     this.http.delete('/api/user/' + user.id)
       .subscribe(response => {
         this.updateUsers();
@@ -48,6 +65,21 @@ export class UsersListComponent implements OnInit {
     this.http.post('/api/login/impersonate', user).subscribe(response => {
       this.authService.jwt = response.text();
       this.router.navigate(['/']);
+    });
+  }
+
+  confirmDelete(user: User) {
+    let dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'delete') {
+        this.http.delete('/api/user/' + user.id)
+          .subscribe(response => {        
+            console.log(response);
+            this.updateUsers();
+            //this.snackBar.open('Lyckades radera!', null, {duration: 3000});
+          });
+      }
     });
   }
 

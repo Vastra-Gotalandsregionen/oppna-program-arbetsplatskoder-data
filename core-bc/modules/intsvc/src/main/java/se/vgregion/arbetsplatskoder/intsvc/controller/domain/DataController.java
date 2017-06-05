@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
@@ -116,6 +117,12 @@ public class DataController {
         return dataRepository.findOne(id);
     }
 
+    @RequestMapping(value = "users", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> findAllUserIdsWithData() {
+        return dataRepository.findAllUserIdsWithData();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity deleteData(@PathVariable("id") Integer id) {
@@ -159,5 +166,7 @@ public class DataController {
 
         return dataRepository.save(data);
     }
+
+
 
 }

@@ -168,6 +168,7 @@ public class LdapLoginService {
             // Keep these...
             user.setRole(foundUser.getRole());
             user.setProdn1s(foundUser.getProdn1s());
+            user.setInactivated(foundUser.getInactivated());
 
             return userRepository.save(user);
         } else {
