@@ -49,3 +49,7 @@
 @import 'assets/scss/organisms/header';
 @import 'assets/scss/organisms/mat-card';
 @import 'assets/scss/organisms/mat-sidenav';
+
+.material-icons {
+  font-feature-settings: "liga";
+}

@@ -11,6 +11,7 @@ import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component"
 import { BackButtonComponent } from './back-button/back-button.component';
 import { SidenavToggleButtonComponent } from './sidenav-toggle-button/sidenav-toggle-button.component';
 import { EllipsisPipe } from './ellipsis/ellipsis.pipe';
+import { DateXPipe } from './date-x-pipe/date-x.pipe';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { EllipsisPipe } from './ellipsis/ellipsis.pipe';
     ConfirmDialogComponent,
     BackButtonComponent,
     SidenavToggleButtonComponent,
-    EllipsisPipe
+    EllipsisPipe,
+    DateXPipe
   ],
   entryComponents: [
     ErrorDialogComponent,
@@ -40,7 +42,8 @@ import { EllipsisPipe } from './ellipsis/ellipsis.pipe';
     RouterModule,
     BackButtonComponent,
     SidenavToggleButtonComponent,
-    EllipsisPipe
+    EllipsisPipe,
+    DateXPipe
   ],
   providers: [
     ErrorHandler,
