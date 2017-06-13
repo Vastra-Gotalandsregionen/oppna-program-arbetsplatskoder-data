@@ -11,6 +11,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -30,6 +31,8 @@ public class DataRepositoryImpl implements DataExtendedRepository {
 
   private <T> List<T> query(Class<T> clazz, String jpql, Pageable pageable, List words) {
     TypedQuery<T> typedQuery = entityManager.createQuery(jpql, (Class) clazz);
+    // System.out.println("Params are " + words);
+    // System.out.println("Jpql are " + jpql);
     int i = 1;
     for (Object w : words) {
       typedQuery.setParameter(i++, w);
@@ -55,14 +58,27 @@ public class DataRepositoryImpl implements DataExtendedRepository {
   public Page<Data> advancedSearch(String withTextFilter, Pageable pageable, Set<Prodn1> prodn1s) {
     StringBuilder sb = new StringBuilder();
     List wordsToLookFor = toLikableWords(withTextFilter);
+    List arguments = new ArrayList();
 
     if (wordsToLookFor.size() > 0) {
       sb.append(" where ");
       List<String> conditions = new ArrayList<>();
       int i = 1;
+      List<String> allFields = Arrays.asList(
+          "lower(d.arbetsplatskodlan)",
+          "lower(d.benamning)",
+          "function('to_char', d.regDatum, 'YYYY-MM-DD')",
+          "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
+          "lower(d.prodn3.prodn2.kortnamn)",
+          "lower(d.prodn3.prodn2.prodn1.kortnamn)"
+      );
       for (Object s : wordsToLookFor) {
-        conditions.add("(concat(' ', lower(d.benamning), ' ', d.arbetsplatskod, ' ', " +
-            "function('to_char', d.tillDatum, 'YYYY-MM-DD'), ' ', d.prodn3.prodn2.kortnamn, ' ', d.prodn3.prodn2.prodn1.kortnamn, ' ') like ?" + (i++) + ")");
+        List<String> allFieldsLikeCondtion = new ArrayList<>();
+        for (String field : allFields) {
+          allFieldsLikeCondtion.add(field + " like ?" + (i++));
+          arguments.add(s);
+        }
+        conditions.add("(" + String.join(" or ", allFieldsLikeCondtion) + ")");
       }
       if (prodn1s != null) {
         conditions.add("d.prodn3.prodn2.prodn1 in ?" + (i++));
@@ -74,7 +90,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
           Long.class,
           "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
           null,
-          wordsToLookFor).get(0);
+          arguments).get(0);
 
       if (pageable.getSort() != null) {
         Sort sort = pageable.getSort();
@@ -93,7 +109,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
           + " d "
           + sb.toString();
 
-      List<Data> results = query(Data.class, jpql, pageable, wordsToLookFor);
+      List<Data> results = query(Data.class, jpql, pageable, arguments);
 
       return new PageImpl<>(results, pageable, count);
     }
