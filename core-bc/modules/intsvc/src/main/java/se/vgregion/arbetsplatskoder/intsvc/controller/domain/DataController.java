@@ -22,6 +22,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.intsvc.controller.util.HttpUtil;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
+import se.vgregion.arbetsplatskoder.repository.extension.DataExtendedRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
@@ -42,6 +43,9 @@ public class DataController {
     private DataRepository dataRepository;
 
     @Autowired
+    private DataExtendedRepository dataExtendedRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -50,10 +54,10 @@ public class DataController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Page<Data> getDatas(@RequestParam(value = "page", required = false) Integer page,
-                               @RequestParam(value = "query", required = false) String query,
-                               @RequestParam(value = "sort", required = false) String sort,
-                               @RequestParam(value = "asc", required = false) boolean asc,
-                               @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas) throws NoSuchFieldException {
+                                @RequestParam(value = "query", required = false) String query,
+                                @RequestParam(value = "sort", required = false) String sort,
+                                @RequestParam(value = "asc", required = false) boolean asc,
+                                @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas) throws NoSuchFieldException {
 
         Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
         Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "benamning").ignoreCase();
@@ -75,16 +79,16 @@ public class DataController {
         }
 
         Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize,
-                finalSort);
+            finalSort);
 
         Page<Data> result;
         if (query != null && query.length() > 0) {
             if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
                 Set<Prodn1> prodn1s = getUserProdn1s();
-
-                result = dataRepository.advancedSearchByProdn1In("%" + query.toLowerCase() + "%", prodn1s, pageable);
+                result = dataExtendedRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable, prodn1s);
+                //result = dataRepository.advancedSearchByProdn1In("%" + query.toLowerCase() + "%", prodn1s, pageable);
             } else {
-                result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
+                result = dataExtendedRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
             }
         } else {
             if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
@@ -98,6 +102,7 @@ public class DataController {
 
         return result;
     }
+
 
     private Set<Prodn1> getUserProdn1s() {
         User user = getUser();
@@ -121,6 +126,12 @@ public class DataController {
     @ResponseBody
     public List<String> findAllUserIdsWithData() {
         return dataRepository.findAllUserIdsWithData();
+    }
+
+    @RequestMapping(value = "foo", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Data> foo() {
+        return dataRepository.foo();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -166,7 +177,6 @@ public class DataController {
 
         return dataRepository.save(data);
     }
-
 
 
 }

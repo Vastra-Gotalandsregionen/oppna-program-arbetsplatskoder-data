@@ -34,4 +34,6 @@ public interface DataRepository extends JpaRepository<Data, Integer> {
     @Query("select distinct(d.userIdNew) from Data d")
     List<String> findAllUserIdsWithData();
 
+    @Query("select e from Data e where (concat(lower(e.benamning), e.arbetsplatskod, e.andringsdatum, e.tillDatum) like '%sa%')")
+    List<Data> foo();
 }
