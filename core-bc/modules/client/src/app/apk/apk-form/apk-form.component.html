@@ -5,7 +5,7 @@
       <md-toolbar class="meta-toolbar" *ngIf="data.arbetsplatskodlan">
 
         <div class="meta-toolbar-item">
-          <span>Registrerad:</span> <span>{{data.regDatum}}</span>
+          <span>Registrerad:</span> <span>{{data.regDatum | dateX: 'YYYY-MM-DD HH:mm'}}</span>
         </div>
 
         <div class="meta-toolbar-item">
