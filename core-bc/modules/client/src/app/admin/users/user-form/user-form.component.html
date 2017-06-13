@@ -8,7 +8,7 @@
           <input placeholder="VGR-ID" type="text" mdInput formControlName="userId">
         </md-input-container>
 
-        <div formGroupName="roleGroup" ngClass="{{formRef.submitted ? 'submitted' : ''}}">
+        <div formGroupName="roleGroup" ngClass="{{formRef.submitted ? 'submitted' : ''}}" class="form-element">
           <label class="field-label">Behörighet</label>
           <md-radio-group formControlName="role">
             <md-radio-button value="ADMIN">ADMIN</md-radio-button>

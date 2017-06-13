@@ -115,7 +115,7 @@
             <md-icon mdTooltip="Förklaring...">help</md-icon>
           </md-input-container>
 
-          <div formGroupName="externfakturaGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+          <div formGroupName="externfakturaGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}" class="form-element">
             <label class="field-label">Faktureras externt</label>
             <md-radio-group formControlName="externfakturamodell">
               <md-radio-button value="nej">Nej</md-radio-button>
@@ -124,7 +124,7 @@
             </md-radio-group>
           </div>
 
-          <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+          <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}" class="form-element">
             <label class="field-label">VGPV</label>
             <md-radio-group formControlName="vgpv">
               <md-radio-button value="true">Ja</md-radio-button>
