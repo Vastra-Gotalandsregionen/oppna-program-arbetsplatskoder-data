@@ -32,24 +32,10 @@
         <div class="apk-details-item">
           <div class="apk-details-item-label">Adress</div>
           <div class="apk-details-item-data">
-            {{data.postadress}}
+            {{data.postadress}} <br />
+            {{data.postnr}} {{data.postort}}
           </div>
         </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Postnummer</div>
-          <div class="apk-details-item-data">
-            {{data.postnr}}
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Postort</div>
-          <div class="apk-details-item-data">
-            {{data.postort}}
-          </div>
-        </div>
-
 
         <div class="apk-details-item">
           <div class="apk-details-item-label">ID</div>
@@ -57,6 +43,56 @@
             {{data.id}}
           </div>
         </div>
+
+        <h3>Ekonomiska koder</h3>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Ao3</div>
+          <div class="apk-details-item-data">
+            {{data.ao3}}
+          </div>
+        </div>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Ansvar</div>
+          <div class="apk-details-item-data">
+            {{data.ansvar}}
+          </div>
+        </div>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Faktureras externt</div>
+          <div class="apk-details-item-data">
+            {{data.externfakturamodell}}
+          </div>
+        </div>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">VGPV</div>
+          <div class="apk-details-item-data">
+            {{data.vgpv}}
+          </div>
+        </div>
+
+        <h3>Vårdadministrativa koder</h3>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Vårdform</div>
+          <div class="apk-details-item-data">
+            {{data.vardform}}
+          </div>
+        </div>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Medicinsk verksamhetskod</div>
+          <div class="apk-details-item-data">
+            {{data.verksamhet}}
+          </div>
+        </div>
+
+
+
+
 
         <!--
         <div class="apk-details-item">
