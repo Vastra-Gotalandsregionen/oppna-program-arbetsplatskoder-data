@@ -6,8 +6,21 @@
 </md-toolbar>
 
 <md-card>
+
   <md-card-content>
+
+    <div>
+      <h3>Alla arbetsplatskoder som gäller tillsvidare</h3>
+      <button *ngIf="!allValidReport.fileName || allValidReport.fileName == ''" [ladda]="allValidReport.isLoading" (click)="generateAllValidReport()" data-size="s" data-color="blue" data-style="expand-right">Skapa rapport</button>
+      <a *ngIf="allValidReport.fileName" href="/api/report/file/all_valid/{{allValidReport.fileName}}" >Ladda ner rapport</a>
+    </div>
+
+
+    <br />
+    <md-divider></md-divider>
+
     <md-list>
+
       <md-list-item>
         <a href="/api/report/allValidDatas">Alla arbetsplatskoder som gäller tillsvidare</a>
       </md-list-item>

@@ -13,11 +13,15 @@ import { SidenavToggleButtonComponent } from './sidenav-toggle-button/sidenav-to
 import { EllipsisPipe } from './ellipsis/ellipsis.pipe';
 import { DateXPipe } from './date-x-pipe/date-x.pipe';
 
+
+import { LaddaModule } from 'angular2-ladda';
+
 @NgModule({
   imports: [
     CommonModule,
     ApkMaterialModule,
     FormsModule,
+    LaddaModule,
     ReactiveFormsModule,
     RouterModule
   ],
@@ -38,6 +42,7 @@ import { DateXPipe } from './date-x-pipe/date-x.pipe';
   exports: [
     ApkMaterialModule,
     CommonModule,
+    LaddaModule,
     ReactiveFormsModule,
     RouterModule,
     BackButtonComponent,

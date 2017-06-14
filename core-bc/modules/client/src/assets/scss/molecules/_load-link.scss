@@ -1,0 +1,16 @@
+.load-link {
+
+  background: #eee;
+  border: none;
+  color: #333;
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.5em 1em;
+
+  &.load-link-loading {
+    background: #333;
+    color: #fff;
+  }
+
+
+}

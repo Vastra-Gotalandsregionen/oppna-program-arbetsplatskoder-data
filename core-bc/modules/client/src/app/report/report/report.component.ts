@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {Http} from '@angular/http';
+
+import {Report} from '../../model/report';
 
 @Component({
   selector: 'app-report',
@@ -8,9 +11,16 @@ import {FormControl} from '@angular/forms';
 })
 export class ReportComponent implements OnInit {
 
+  allValidReport: Report;
+
   fromDate = new FormControl();
 
-  constructor() { }
+
+
+  constructor(protected http: Http) {
+    this.allValidReport = new Report();
+    this.allValidReport.isLoading = false;
+  }
 
   ngOnInit() {
     let now = new Date();
@@ -21,6 +31,19 @@ export class ReportComponent implements OnInit {
     now.setDate(1);
 
     this.fromDate.setValue(now.toLocaleDateString());
+  }
+
+  generateAllValidReport(): void {
+
+    console.log('generateAllValidReport');
+    this.allValidReport.isLoading = true;
+
+    this.http.get('/api/report/generate/all_valid')
+      .map(response => response.json())
+      .subscribe((allValidReport: Report) => {
+        this.allValidReport = allValidReport;
+        this.allValidReport.isLoading = false;
+      });
   }
 
 }
