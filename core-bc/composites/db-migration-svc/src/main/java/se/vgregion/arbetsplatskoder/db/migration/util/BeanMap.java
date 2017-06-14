@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class BeanMap implements Map<String, Object> {
 
@@ -76,8 +77,18 @@ public class BeanMap implements Map<String, Object> {
 
     @Override
     public Set<Entry<String, Object>> entrySet() {
-        // TODO Auto-generated method stub
-        return null;
+        return properties.entrySet().stream().map(stringPropertyDescriptorEntry -> {
+            Entry<String, Object> stringObjectEntry;
+            try {
+                String key = stringPropertyDescriptorEntry.getKey();
+                Object value = stringPropertyDescriptorEntry.getValue().getReadMethod().invoke(bean);
+
+                stringObjectEntry = new AbstractMap.SimpleEntry<>(key, value);
+                return stringObjectEntry;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }).collect(Collectors.toSet());
     }
 
     @Override

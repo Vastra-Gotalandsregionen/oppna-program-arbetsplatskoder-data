@@ -11,7 +11,10 @@ import java.util.Set;
  * Created by clalu4 on 2017-06-05.
  */
 public interface DataExtendedRepository {
-  Page<Data> advancedSearch(String withTextFilter, Pageable pageable);
+    Page<Data> advancedSearch(String withTextFilter, Pageable pageable);
 
-  Page<Data> advancedSearch(String withTextFilter, Pageable pageable, Set<Prodn1> prodn1s);
+    Page<Data> advancedSearch(String withTextFilter, Pageable pageable, Set<Prodn1> prodn1s);
+
+    Data saveAndArchive(Data data);
+
 }

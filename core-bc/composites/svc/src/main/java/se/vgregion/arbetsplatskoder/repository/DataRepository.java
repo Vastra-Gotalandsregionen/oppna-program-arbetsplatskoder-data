@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
+import se.vgregion.arbetsplatskoder.repository.extension.DataExtendedRepository;
 
 import java.util.List;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.Set;
 /**
  * @author Patrik Björk
  */
-public interface DataRepository extends JpaRepository<Data, Integer> {
+public interface DataRepository extends JpaRepository<Data, Integer>, DataExtendedRepository {
 
     @Query("select e from Data e where (lower(e.benamning) like :field1) or lower(e.arbetsplatskod) like :field1")
     Page<Data> advancedSearch(@Param("field1") String field1, Pageable page);

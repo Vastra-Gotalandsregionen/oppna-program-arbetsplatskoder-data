@@ -1,48 +1,60 @@
-package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
+package se.vgregion.arbetsplatskoder.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.AbstractEntity;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn3;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "data", indexes = {@Index(columnList = "benamning"), @Index(columnList = "prodn1")})
-public class Data extends AbstractEntity {
+@Table(name = "archived_data", indexes = {@Index(columnList = "benamning"), @Index(columnList = "prodn1"), @Index(columnList = "replacer")})
+public class ArchivedData extends AbstractEntity {
 
     @Id
-    @Column (name = "id", nullable = false)
-    private java.lang.Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column (name = "lankod", nullable = true)
-    private java.lang.Integer lankod;
+    private Integer lankod;
 
     @Column (name = "arbetsplatskod", nullable = true)
-    private java.lang.String arbetsplatskod;
+    private String arbetsplatskod;
 
     @Column (name = "ao3", nullable = true)
-    private java.lang.String ao3;
+    private String ao3;
 
     @Column (name = "ansvar", nullable = true)
-    private java.lang.String ansvar;
+    private String ansvar;
 
     @Column (name = "frivillig_uppgift", nullable = true)
-    private java.lang.String frivilligUppgift;
+    private String frivilligUppgift;
 
     @Column (name = "agarform", nullable = true)
-    private java.lang.String agarform;
+    private String agarform;
 
     @Column (name = "vardform", nullable = true)
-    private java.lang.String vardform;
+    private String vardform;
 
     @Column (name = "verksamhet", nullable = true)
-    private java.lang.String verksamhet;
+    private String verksamhet;
 
     @Column (name = "sorteringskod_prod", nullable = true)
-    private java.lang.String sorteringskodProd;
+    private String sorteringskodProd;
 
     @Column (name = "sorteringskod_best", nullable = true)
-    private java.lang.String sorteringskodBest;
+    private String sorteringskodBest;
 
-    // This property is used for lookup. It's denormalized to have it since it actually is given by prodn3.
     @JoinColumn(name = "prodn1")
     @ManyToOne(fetch = FetchType.EAGER)
     private Prodn1 prodn1;
@@ -52,34 +64,34 @@ public class Data extends AbstractEntity {
     private Prodn3 prodn3;
 
     @Column (name = "benamning", nullable = true)
-    private java.lang.String benamning;
+    private String benamning;
 
     @Column (name = "benamning_kort", nullable = true, length = 35)
-    private java.lang.String benamningKort;
+    private String benamningKort;
 
     @Column (name = "postnr", nullable = true)
-    private java.lang.String postnr;
+    private String postnr;
 
     @Column (name = "postort", nullable = true)
-    private java.lang.String postort;
+    private String postort;
 
     @Column (name = "postadress", nullable = true)
-    private java.lang.String postadress;
+    private String postadress;
 
     @Column (name = "lakemedkomm", nullable = true)
-    private java.lang.String lakemedkomm;
+    private String lakemedkomm;
 
     @Column (name = "kontakt_akod", nullable = true)
-    private java.lang.String kontaktAkod;
+    private String kontaktAkod;
 
     @Column (name = "leverans", nullable = true)
-    private java.lang.Integer leverans;
+    private Integer leverans;
 
     @Column (name = "fakturering", nullable = true)
-    private java.lang.Integer fakturering;
+    private Integer fakturering;
 
     @Column (name = "anmarkning", nullable = true)
-    private java.lang.String anmarkning;
+    private String anmarkning;
 
     @JsonFormat(pattern="yyyy-MM-dd", timezone = "Europe/Stockholm")
     @Column (name = "from_datum", nullable = true)
@@ -94,46 +106,46 @@ public class Data extends AbstractEntity {
     private java.sql.Timestamp regDatum;
 
     @Column (name = "ersattav", nullable = true)
-    private java.lang.String ersattav;
+    private String ersattav;
 
     @Column (name = "user_id", nullable = true)
-    private java.lang.Integer userId;
+    private Integer userId;
 
     @Column (name = "arbetsplatskodlan", nullable = true)
-    private java.lang.String arbetsplatskodlan;
+    private String arbetsplatskodlan;
 
     @Column (name = "namn", nullable = true)
-    private java.lang.String namn;
+    private String namn;
 
     @Column (name = "andringsdatum", nullable = true)
-    private java.lang.String andringsdatum;
+    private String andringsdatum;
 
     @Column (name = "kommun", nullable = true)
-    private java.lang.String kommun;
+    private String kommun;
 
     @Column (name = "slask", nullable = true)
-    private java.lang.String slask;
+    private String slask;
 
     @Column (name = "apodos", nullable = true)
-    private java.lang.Boolean apodos;
+    private Boolean apodos;
 
     @Column (name = "externfaktura", nullable = true)
-    private java.lang.String externfaktura;
+    private String externfaktura;
 
     @Column (name = "kommunkod", nullable = true)
-    private java.lang.String kommunkod;
+    private String kommunkod;
 
     @Column (name = "externfakturamodell", nullable = true)
-    private java.lang.String externfakturamodell;
+    private String externfakturamodell;
 
     @Column (name = "ssma_timestamp", nullable = false)
     private Byte[] ssmaTimestamp;
 
     @Column (name = "vgpv", nullable = true)
-    private java.lang.Boolean vgpv;
+    private Boolean vgpv;
 
     @Column (name = "hsaid", nullable = true)
-    private java.lang.String hsaid;
+    private String hsaid;
 
     @Column
     private String userIdNew;
@@ -144,83 +156,86 @@ public class Data extends AbstractEntity {
     @Column
     private Boolean groupCode;
 
-    public java.lang.Integer getId(){
+    @Column
+    private Data replacer;
+
+    public Integer getId(){
         return id;
     }
 
-    public void setId(java.lang.Integer v){
+    public void setId(Integer v){
         this.id = v;
     }
 
-    public java.lang.Integer getLankod(){
+    public Integer getLankod(){
         return lankod;
     }
 
-    public void setLankod(java.lang.Integer v){
+    public void setLankod(Integer v){
         this.lankod = v;
     }
 
-    public java.lang.String getArbetsplatskod(){
+    public String getArbetsplatskod(){
         return arbetsplatskod;
     }
 
-    public void setArbetsplatskod(java.lang.String v){
+    public void setArbetsplatskod(String v){
         this.arbetsplatskod = v;
     }
 
-    public java.lang.String getAo3(){
+    public String getAo3(){
         return ao3;
     }
 
-    public void setAo3(java.lang.String v){
+    public void setAo3(String v){
         this.ao3 = v;
     }
 
-    public java.lang.String getAnsvar(){
+    public String getAnsvar(){
         return ansvar;
     }
 
-    public void setAnsvar(java.lang.String v){
+    public void setAnsvar(String v){
         this.ansvar = v;
     }
 
-    public java.lang.String getFrivilligUppgift(){
+    public String getFrivilligUppgift(){
         return frivilligUppgift;
     }
 
-    public void setFrivilligUppgift(java.lang.String v){
+    public void setFrivilligUppgift(String v){
         this.frivilligUppgift = v;
     }
 
-    public java.lang.String getAgarform(){
+    public String getAgarform(){
         return agarform;
     }
 
-    public void setAgarform(java.lang.String v){
+    public void setAgarform(String v){
         this.agarform = v;
     }
 
-    public java.lang.String getVardform(){
+    public String getVardform(){
         return vardform;
     }
 
-    public void setVardform(java.lang.String v){
+    public void setVardform(String v){
         this.vardform = v;
     }
 
-    public java.lang.String getVerksamhet(){
+    public String getVerksamhet(){
         return verksamhet;
     }
 
-    public void setVerksamhet(java.lang.String v){
+    public void setVerksamhet(String v){
         this.verksamhet = v;
     }
 
-    public java.lang.String getSorteringskodProd(){
+    public String getSorteringskodProd(){
         return sorteringskodProd;
     }
 
-    public void setSorteringskodProd(java.lang.String v){
+    public void setSorteringskodProd(String v){
         this.sorteringskodProd = v;
     }
 
@@ -240,19 +255,19 @@ public class Data extends AbstractEntity {
         this.prodn3 = prodn3;
     }
 
-    public java.lang.String getSorteringskodBest(){
+    public String getSorteringskodBest(){
         return sorteringskodBest;
     }
 
-    public void setSorteringskodBest(java.lang.String v){
+    public void setSorteringskodBest(String v){
         this.sorteringskodBest = v;
     }
 
-    public java.lang.String getBenamning(){
+    public String getBenamning(){
         return benamning;
     }
 
-    public void setBenamning(java.lang.String v){
+    public void setBenamning(String v){
         this.benamning = v;
     }
 
@@ -264,67 +279,67 @@ public class Data extends AbstractEntity {
         this.benamningKort = benamningKort;
     }
 
-    public java.lang.String getPostnr(){
+    public String getPostnr(){
         return postnr;
     }
 
-    public void setPostnr(java.lang.String v){
+    public void setPostnr(String v){
         this.postnr = v;
     }
 
-    public java.lang.String getPostort(){
+    public String getPostort(){
         return postort;
     }
 
-    public void setPostort(java.lang.String v){
+    public void setPostort(String v){
         this.postort = v;
     }
 
-    public java.lang.String getPostadress(){
+    public String getPostadress(){
         return postadress;
     }
 
-    public void setPostadress(java.lang.String v){
+    public void setPostadress(String v){
         this.postadress = v;
     }
 
-    public java.lang.String getLakemedkomm(){
+    public String getLakemedkomm(){
         return lakemedkomm;
     }
 
-    public void setLakemedkomm(java.lang.String v){
+    public void setLakemedkomm(String v){
         this.lakemedkomm = v;
     }
 
-    public java.lang.String getKontaktAkod(){
+    public String getKontaktAkod(){
         return kontaktAkod;
     }
 
-    public void setKontaktAkod(java.lang.String v){
+    public void setKontaktAkod(String v){
         this.kontaktAkod = v;
     }
 
-    public java.lang.Integer getLeverans(){
+    public Integer getLeverans(){
         return leverans;
     }
 
-    public void setLeverans(java.lang.Integer v){
+    public void setLeverans(Integer v){
         this.leverans = v;
     }
 
-    public java.lang.Integer getFakturering(){
+    public Integer getFakturering(){
         return fakturering;
     }
 
-    public void setFakturering(java.lang.Integer v){
+    public void setFakturering(Integer v){
         this.fakturering = v;
     }
 
-    public java.lang.String getAnmarkning(){
+    public String getAnmarkning(){
         return anmarkning;
     }
 
-    public void setAnmarkning(java.lang.String v){
+    public void setAnmarkning(String v){
         this.anmarkning = v;
     }
 
@@ -352,91 +367,91 @@ public class Data extends AbstractEntity {
         this.regDatum = v;
     }
 
-    public java.lang.String getErsattav(){
+    public String getErsattav(){
         return ersattav;
     }
 
-    public void setErsattav(java.lang.String v){
+    public void setErsattav(String v){
         this.ersattav = v;
     }
 
-    public java.lang.Integer getUserId(){
+    public Integer getUserId(){
         return userId;
     }
 
-    public void setUserId(java.lang.Integer v){
+    public void setUserId(Integer v){
         this.userId = v;
     }
 
-    public java.lang.String getArbetsplatskodlan(){
+    public String getArbetsplatskodlan(){
         return arbetsplatskodlan;
     }
 
-    public void setArbetsplatskodlan(java.lang.String v){
+    public void setArbetsplatskodlan(String v){
         this.arbetsplatskodlan = v;
     }
 
-    public java.lang.String getNamn(){
+    public String getNamn(){
         return namn;
     }
 
-    public void setNamn(java.lang.String v){
+    public void setNamn(String v){
         this.namn = v;
     }
 
-    public java.lang.String getAndringsdatum(){
+    public String getAndringsdatum(){
         return andringsdatum;
     }
 
-    public void setAndringsdatum(java.lang.String v){
+    public void setAndringsdatum(String v){
         this.andringsdatum = v;
     }
 
-    public java.lang.String getKommun(){
+    public String getKommun(){
         return kommun;
     }
 
-    public void setKommun(java.lang.String v){
+    public void setKommun(String v){
         this.kommun = v;
     }
 
-    public java.lang.String getSlask(){
+    public String getSlask(){
         return slask;
     }
 
-    public void setSlask(java.lang.String v){
+    public void setSlask(String v){
         this.slask = v;
     }
 
-    public java.lang.Boolean getApodos(){
+    public Boolean getApodos(){
         return apodos;
     }
 
-    public void setApodos(java.lang.Boolean v){
+    public void setApodos(Boolean v){
         this.apodos = v;
     }
 
-    public java.lang.String getExternfaktura(){
+    public String getExternfaktura(){
         return externfaktura;
     }
 
-    public void setExternfaktura(java.lang.String v){
+    public void setExternfaktura(String v){
         this.externfaktura = v;
     }
 
-    public java.lang.String getKommunkod(){
+    public String getKommunkod(){
         return kommunkod;
     }
 
-    public void setKommunkod(java.lang.String v){
+    public void setKommunkod(String v){
         this.kommunkod = v;
     }
 
-    public java.lang.String getExternfakturamodell(){
+    public String getExternfakturamodell(){
         return externfakturamodell;
     }
 
-    public void setExternfakturamodell(java.lang.String v){
+    public void setExternfakturamodell(String v){
         this.externfakturamodell = v;
     }
 
@@ -448,19 +463,19 @@ public class Data extends AbstractEntity {
         this.ssmaTimestamp = v;
     }
 
-    public java.lang.Boolean getVgpv(){
+    public Boolean getVgpv(){
         return vgpv;
     }
 
-    public void setVgpv(java.lang.Boolean v){
+    public void setVgpv(Boolean v){
         this.vgpv = v;
     }
 
-    public java.lang.String getHsaid(){
+    public String getHsaid(){
         return hsaid;
     }
 
-    public void setHsaid(java.lang.String v){
+    public void setHsaid(String v){
         this.hsaid = v;
     }
 
@@ -487,5 +502,13 @@ public class Data extends AbstractEntity {
 
     public void setGroupCode(Boolean groupCode) {
         this.groupCode = groupCode;
+    }
+
+    public Data getReplacer() {
+        return replacer;
+    }
+
+    public void setReplacer(Data replacer) {
+        this.replacer = replacer;
     }
 }

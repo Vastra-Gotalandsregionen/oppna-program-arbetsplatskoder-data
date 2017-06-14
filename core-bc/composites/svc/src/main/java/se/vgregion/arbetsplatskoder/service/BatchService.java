@@ -118,8 +118,17 @@ public class BatchService {
 
                     dataRepository.save(data);
                 } else {
-                    // Try finding a prodn1 with the sorteringskodProd...
-                    Prodn1 prodn1 = prodn1Map.get(sorteringskodProd);
+
+                    Prodn2 prodn2 = prodn2Map.get(sorteringskodProd);
+
+                    // Try finding a prodn1 with the sorteringskodProd or via a prodn2...
+                    Prodn1 prodn1;
+
+                    if (prodn2 != null) {
+                        prodn1 = prodn2.getProdn1();
+                    } else {
+                        prodn1 = prodn1Map.get(sorteringskodProd);
+                    }
 
                     if (prodn1 != null) {
                         // At least we got a match for prodn1.
@@ -129,7 +138,7 @@ public class BatchService {
                             LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist, but at least we got a match for prodn1.");
                         }
                     } else {
-                        LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist.");
+                        LOGGER.warn("Prodn3 " + sorteringskodProd + " doesn't exist, nor did prodn2 or prodn1.");
                     }
 
                     continue;

@@ -9,20 +9,15 @@ import {Subscription} from "rxjs/Subscription";
 @Injectable()
 export class AuthService {
 
-  private _jwt: string;
-  private jwtToken: any;
-
   renewSubscription: Subscription;
 
   constructor(private jwtHelper: JwtHelper,
               private http: Http,
               private router: Router) {
-    const localStorageToken = localStorage.getItem('apkJwtToken');
 
-    if (localStorageToken) {
-      this.jwt = localStorageToken;
+    if (this.isTokenExpired()) {
+      this.resetAuth();
     }
-
   }
 
   private startRenew() {
@@ -31,7 +26,7 @@ export class AuthService {
     }
 
     this.renewSubscription = Observable.interval(60000)
-      .switchMap(() => this.http.post('/api/login/renew', this._jwt))
+      .switchMap(() => this.http.post('/api/login/renew', this.jwt))
       .retry(4)
       .subscribe(
         response => this.jwt = response.text(),
@@ -43,27 +38,30 @@ export class AuthService {
   }
 
   isTokenExpired() {
-    return this.jwtToken && (this.jwtToken.exp - new Date().getTime() / 1000 < 0);
+    const token = this.getToken();
+    return token && (token.exp - new Date().getTime() / 1000 < 0);
+  }
+
+  getToken(): any {
+    const jwtTokenString = this.jwt;
+    return jwtTokenString ? this.jwtHelper.decodeToken(jwtTokenString) : null;
   }
 
   get jwt(): string {
-    return this._jwt;
+    return localStorage.getItem('apkJwtToken');
   }
 
   set jwt(value: string) {
-    this._jwt = value;
 
     if (value) {
-      this.jwtToken = this.jwtHelper.decodeToken(value);
 
       localStorage.setItem('apkJwtToken', value);
 
       this.startRenew();
-    } else if (this.jwtToken) {
+    } else if (this.getToken()) {
       // Logout
 
       this.router.navigate(['/']);
-      this.jwtToken = null;
       localStorage.removeItem('apkJwtToken');
     }
 
@@ -74,15 +72,18 @@ export class AuthService {
   }
 
   getLoggedInUserId(): string {
-    return this.jwtToken ? this.jwtToken.sub : null;
+    const token = this.getToken();
+    return token ? token.sub : null;
   }
 
   getLoggedInDisplayName(): string {
-    return this.jwtToken ? this.jwtToken.displayName : null;
+    const token = this.getToken();
+    return token ? token.displayName : null;
   }
 
   getLoggedInRole() {
-    return this.jwtToken ? this.jwtToken.roles : null;
+    const token = this.getToken();
+    return token ? token.roles : null;
   }
 
   userHasDataEditPermission(data: Data) {
@@ -90,8 +91,9 @@ export class AuthService {
       return true;
     }
 
-    if (this.jwtToken && this.jwtToken.prodn1s) {
-      return this.jwtToken.prodn1s.indexOf(data.prodn1.id) > -1;
+    const token = this.getToken();
+    if (token && token.prodn1s) {
+      return token.prodn1s.indexOf(data.prodn1.id) > -1;
     }
     return false;
   }

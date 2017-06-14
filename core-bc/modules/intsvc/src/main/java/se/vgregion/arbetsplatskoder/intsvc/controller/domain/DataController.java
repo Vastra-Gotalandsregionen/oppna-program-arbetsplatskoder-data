@@ -22,7 +22,6 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.intsvc.controller.util.HttpUtil;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
-import se.vgregion.arbetsplatskoder.repository.extension.DataExtendedRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
@@ -41,9 +40,6 @@ public class DataController {
 
     @Autowired
     private DataRepository dataRepository;
-
-    @Autowired
-    private DataExtendedRepository dataExtendedRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -85,10 +81,10 @@ public class DataController {
         if (query != null && query.length() > 0) {
             if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
                 Set<Prodn1> prodn1s = getUserProdn1s();
-                result = dataExtendedRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable, prodn1s);
+                result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable, prodn1s);
                 //result = dataRepository.advancedSearchByProdn1In("%" + query.toLowerCase() + "%", prodn1s, pageable);
             } else {
-                result = dataExtendedRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
+                result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
             }
         } else {
             if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
@@ -175,7 +171,7 @@ public class DataController {
 
         data.setAndringsdatum(sdf.format(now));
 
-        return dataRepository.save(data);
+        return dataRepository.saveAndArchive(data);
     }
 
 
