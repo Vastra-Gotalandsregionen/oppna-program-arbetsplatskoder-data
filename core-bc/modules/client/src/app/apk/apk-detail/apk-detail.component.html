@@ -23,6 +23,14 @@
         </div>
 
         <div class="apk-details-item">
+          <div class="apk-details-item-label">Kortnamn</div>
+          <div class="apk-details-item-data">
+            {{data.benamningKort}}
+          </div>
+        </div>
+
+
+        <div class="apk-details-item">
           <div class="apk-details-item-label">HSA-ID</div>
           <div class="apk-details-item-data">
             {{data.hsaid}}
@@ -34,13 +42,6 @@
           <div class="apk-details-item-data">
             {{data.postadress}} <br />
             {{data.postnr}} {{data.postort}}
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">ID</div>
-          <div class="apk-details-item-data">
-            {{data.id}}
           </div>
         </div>
 
@@ -90,20 +91,78 @@
           </div>
         </div>
 
+        <h3>Summeringsnivå</h3>
 
-
-
-
-        <!--
         <div class="apk-details-item">
-          <div class="apk-details-item-label"></div>
-          <div class="apk-details-item-data"></div>
+          <div class="apk-details-item-label">Summeringsnivå 1</div>
+          <div class="apk-details-item-data">
+            {{data.prodn1.foretagsnamn}} ({{data.prodn1.kortnamn}})
+          </div>
         </div>
-        -->
 
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Summeringsnivå 2</div>
+          <div class="apk-details-item-data">
+            {{data.prodn3.prodn2.avdelning}} ({{data.prodn3.prodn2.kortnamn}})
+          </div>
+        </div>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Summeringsnivå 3</div>
+          <div class="apk-details-item-data">
+            {{data.prodn3.foretagsnamn}} ({{data.prodn3.kortnamn}})
+          </div>
+        </div>
+
+        <h3>Giltighetstid</h3>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Giltig fr.o.m.</div>
+          <div class="apk-details-item-data">
+            {{data.fromDatum | dateX: 'YYYY-MM-DD'}}
+          </div>
+        </div>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Giltig t.o.m.</div>
+          <div class="apk-details-item-data">
+            {{(!data.tillDatum || data.tillDatum.length == 0) ? "Tills vidare" : (data.tillDatum | dateX: 'YYYY-MM-DD')}}
+          </div>
+        </div>
+
+
+        <h3>Övrig info</h3>
+
+        <div class="apk-details-item">
+          <div class="apk-details-item-label">Anmärkning</div>
+          <div class="apk-details-item-data">
+            {{data.anmarkning || '-'}}
+          </div>
+        </div>
 
       </md-card-content>
     </md-card>
 
+    <md-toolbar class="meta-toolbar">
+
+      <div class="meta-toolbar-item">
+        <span>Skapad:</span> <span>{{data.regDatum | dateX: 'YYYY-MM-DD HH:mm'}}</span>
+      </div>
+
+      <div class="meta-toolbar-item">
+        <span>Ändrad:</span> <span>{{data.andringsdatum}}</span>
+      </div>
+
+      <div class="meta-toolbar-item">
+        <span>Senast ändrad av:</span> <span>{{data.userIdNew || data.userId}}</span>
+      </div>
+
+      <div class="meta-toolbar-spacer"></div>
+
+      <div class="meta-toolbar-item">
+        <span>ID:</span> <span>{{data.id}}</span>
+      </div>
+
+    </md-toolbar>
 
 </div>

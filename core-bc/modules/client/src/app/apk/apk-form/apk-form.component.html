@@ -5,20 +5,22 @@
       <md-toolbar class="meta-toolbar" *ngIf="data.arbetsplatskodlan">
 
         <div class="meta-toolbar-item">
-          <span>Registrerad:</span> <span>{{data.regDatum | dateX: 'YYYY-MM-DD HH:mm'}}</span>
-        </div>
-
-        <div class="meta-toolbar-item">
-          <span>Registrerad av:</span> <span>{{data.userIdNew || data.userId}}</span>
+          <span>Skapad:</span> <span>{{data.regDatum | dateX: 'YYYY-MM-DD HH:mm'}}</span>
         </div>
 
         <div class="meta-toolbar-item">
           <span>Ändrad:</span> <span>{{data.andringsdatum}}</span>
         </div>
 
+        <div class="meta-toolbar-item">
+          <span>Senast ändrad av:</span> <span>{{data.userIdNew || data.userId}}</span>
+        </div>
+
         <div class="meta-toolbar-spacer"></div>
 
-        <div class="meta-toolbar-item"></div>
+        <div class="meta-toolbar-item">
+          <span>ID:</span> <span>{{data.id}}</span>
+        </div>
 
       </md-toolbar>
 
