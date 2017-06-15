@@ -24,8 +24,8 @@ import {ApkBase} from "../apk-base/apk-base";
   animations: [
     trigger('slideIn', [
       state('*', style({opacity: 0})),
-      state('in', style({opacity: 1, transform: 'translateX(0)', height: 'auto'})),
-      state('out', style({opacity: 0, height: '0', 'margin-bottom': 0, padding: 0})),
+      state('in', style({opacity: 1, height: 'auto'})),
+      state('out', style({opacity: 0, height: '0', margin: 0, padding: 0})),
       transition('* => *', animate('.2s ease'))
     ])
   ]
@@ -40,6 +40,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
   data: Data;
   unitSearchResult: any; // todo Make typed
+
+  hasArchivedDatas: boolean = false;
 
   allAo3s: Ao3[];
   allVardforms: Vardform[];
@@ -238,6 +240,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     const benamning = this.apkForm.get('benamning');
     const benamningKort = this.apkForm.get('benamningKort');
 
+    this.benamningKortActivelyEdited = benamningKort.value && benamningKort.value.length > 0;
+
     benamningKort.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.benamningKortActivelyEdited = false;
@@ -259,6 +263,14 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       this.initProdnControls(this.data.prodn3);
     } else {
       this.initProdnControls(null);
+    }
+
+    if (this.data.id) {
+      this.http.getPage('/api/archivedData/' + this.data.id)
+        .map(response => response.json())
+        .subscribe((archivedDatas: Data[]) => {
+          this.hasArchivedDatas = archivedDatas.length > 0;
+        });
     }
   }
 

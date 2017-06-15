@@ -1,0 +1,137 @@
+<div>
+
+  <md-toolbar class="action-toolbar">
+    <h1>
+      Arbetsplatskod: {{data?.arbetsplatskodlan}}
+    </h1>
+    <div class="action-toolbar-spacer"></div>
+    <app-back-button class="action-toolbar-item"></app-back-button>
+  </md-toolbar>
+
+  <md-card>
+    <md-card-content>
+      <table class="apk-table apks-table">
+        <tr>
+          <th>Ändringsdatum</th>
+          <th *ngFor="let data of currentPlusArchivedDatas">
+            {{data.andringsdatum | dateX: 'YYYY-MM-DD HH:mm'}}
+          </th>
+        </tr>
+        <tr>
+          <th>Skapad</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.regDatum | dateX: 'YYYY-MM-DD HH:mm'}}
+          </td>
+        </tr>
+        <tr>
+          <th>Ändrad av</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.userIdNew}}
+          </td>
+        </tr>
+        <tr>
+          <th>Benämning</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.benamning}}
+          </td>
+        </tr>
+        <tr>
+          <th>Kortnamn</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.benamningKort}}
+          </td>
+        </tr>
+        <tr>
+          <th>HSA-ID</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.hsaid}}
+          </td>
+        </tr>
+        <tr>
+          <th>Adress</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.postadress}}
+          </td>
+        </tr>
+        <tr>
+          <th>Postnummer</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.postnr}}
+          </td>
+        </tr>
+        <tr>
+          <th>Postort</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.postort}}
+          </td>
+        </tr>
+        <tr>
+          <th>Motpart</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.ao3}}
+          </td>
+        </tr>
+        <tr>
+          <th>Ansvar</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.ansvar}}
+          </td>
+        </tr>
+        <tr>
+          <th>Fakturering</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.fakturering}}
+          </td>
+        </tr>
+        <tr>
+          <th>Faktureras externt</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.externfaktura}}
+          </td>
+        </tr>
+        <tr>
+          <th>Vårdform</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.vardform}}
+          </td>
+        </tr>
+        <tr>
+          <th>Summeringsnivå 1</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.prodn3?.prodn2?.prodn1?.foretagsnamn}} ({{data.prodn3?.prodn2?.prodn1?.kortnamn}})
+          </td>
+        </tr>
+        <tr>
+          <th>Summeringsnivå 2</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.prodn3?.prodn2?.avdelning}} ({{data.prodn3?.prodn2?.kortnamn}})
+          </td>
+        </tr>
+        <tr>
+          <th>Summeringsnivå 3</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.prodn3?.foretagsnamn}} ({{data.prodn3?.kortnamn}})
+          </td>
+        </tr>
+        <tr>
+          <th>Giltig fr.o.m.</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.fromDatum | dateX: 'YYYY-MM-DD HH:mm'}}
+          </td>
+        </tr>
+        <tr>
+          <th>Giltig t.o.m.</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.tillDatum | dateX: 'YYYY-MM-DD HH:mm'}}
+          </td>
+        </tr>
+        <tr>
+          <th>Anmärkning</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.anmarkning}}
+          </td>
+        </tr>
+      </table>
+    </md-card-content>
+  </md-card>
+</div>

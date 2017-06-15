@@ -28,6 +28,8 @@ export class JwtHttp extends Http {
       options.headers.set('Authorization', `Bearer ${token}`);
     }
 
+    options.headers.set('If-Modified-Since', '0');
+
     super(backend, options);
 
     this.authService = authService;

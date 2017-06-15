@@ -7,6 +7,7 @@ import {ApkFormComponent} from './apk-form/apk-form.component';
 import {ApkRoutingModule} from './apk-routing.module';
 import {SharedModule} from '../shared/shared.module';
 import {UserHasDataPermissionGuard} from './guard/user-has-data-permission.guard';
+import { ArchivedDatasComponent } from './archived-datas/archived-datas.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {UserHasDataPermissionGuard} from './guard/user-has-data-permission.guard
     ApkDetailComponent,
     ApkEditComponent,
     ApkCreateComponent,
-    ApkFormComponent
+    ApkFormComponent,
+    ArchivedDatasComponent
   ],
   providers: [
     UserHasDataPermissionGuard

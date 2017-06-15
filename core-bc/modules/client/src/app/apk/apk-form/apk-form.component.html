@@ -288,13 +288,24 @@
         </md-card-content>
       </md-card>
 
+      <md-card class="example-card" [@slideIn]="hasArchivedDatas ? 'in' : 'out'">
+        <md-card-content>
+
+          <h3>Tidigare versioner</h3>
+
+          <p><a routerLink="/apk/{{data.id}}/archivedDatas">Se tidigare versioner</a> </p>
+
+        </md-card-content>
+      </md-card>
 
       <button type="submit"
               [disabled]="apkForm.pristine" md-raised-button class="btn btn-success">Spara
       </button> &nbsp;
+
       <button type="button"
               [disabled]="apkForm.pristine" md-raised-button class="btn btn-success" (click)="resetForm()">Återställ
       </button> &nbsp;
+
       <span *ngIf="!apkForm.valid">{{saveMessage}}</span>
 
       <div class="debug" *ngIf="getShowDebug()">

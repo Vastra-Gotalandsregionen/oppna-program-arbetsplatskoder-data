@@ -1,0 +1,25 @@
+div {
+  overflow: visible;
+  position: relative;
+}
+
+md-card {
+  overflow: auto;
+}
+
+table {
+  width: auto;
+
+  tr th {
+    min-width: 160px;
+  }
+
+  tr:last-child th {
+    border: none;
+  }
+}
+
+table td {
+  min-width: 256px;
+  max-width: 256px;
+}

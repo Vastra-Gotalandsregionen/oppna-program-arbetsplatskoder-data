@@ -1,6 +1,7 @@
 package se.vgregion.arbetsplatskoder.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.AbstractEntity;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
@@ -18,7 +19,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "archived_data", indexes = {@Index(columnList = "benamning"), @Index(columnList = "prodn1"), @Index(columnList = "replacer")})
+@Table(name = "archived_data", indexes = {
+        @Index(columnList = "benamning"),
+        @Index(columnList = "prodn1"),
+        @Index(columnList = "replacer", unique = false)
+})
 public class ArchivedData extends AbstractEntity {
 
     @Id
@@ -156,7 +161,9 @@ public class ArchivedData extends AbstractEntity {
     @Column
     private Boolean groupCode;
 
-    @Column
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "replacer")
+    @JsonIgnore
     private Data replacer;
 
     public Integer getId(){

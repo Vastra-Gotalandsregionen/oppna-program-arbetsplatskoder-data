@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.ArchivedData;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
@@ -126,6 +127,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     }
 
     @Override
+    @Transactional
     public Data saveAndArchive(Data data) {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -133,15 +135,17 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         try {
             Data currentlyStoredData = entityManager.find(Data.class, data.getId());
 
-            String json = mapper.writeValueAsString(currentlyStoredData);
+            if (currentlyStoredData != null) {
+                String json = mapper.writeValueAsString(currentlyStoredData);
 
-            ArchivedData archivedData = mapper.readValue(json, ArchivedData.class);
+                ArchivedData archivedData = mapper.readValue(json, ArchivedData.class);
 
-            archivedData.setId(null);
+                archivedData.setId(null);
 
-            archivedData.setReplacer(data);
+                archivedData.setReplacer(data);
 
-            entityManager.merge(archivedData);
+                entityManager.merge(archivedData);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -15,9 +15,22 @@ export class AuthService {
               private http: Http,
               private router: Router) {
 
+    const localStorageToken = localStorage.getItem('apkJwtToken');
+
+    if (localStorageToken) {
+      this.jwt = localStorageToken;
+    }
+
     if (this.isTokenExpired()) {
       this.resetAuth();
     }
+
+    Observable.interval(1000)
+      .subscribe(_ => {
+        if (this.isTokenExpired()) {
+          this.resetAuth();
+        }
+      });
   }
 
   private startRenew() {
