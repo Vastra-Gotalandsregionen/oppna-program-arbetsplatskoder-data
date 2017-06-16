@@ -1,4 +1,5 @@
 export class Report {
   fileName: string;
-  isLoading: boolean;
+  isLoading: boolean = false;
+  hmac: string;
 }

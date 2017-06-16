@@ -21,7 +21,7 @@ public class ExcelUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelUtil.class);
 
-    public static InputStream printToFile(List<String[]> result) {
+    public static InputStream exportToStream(List<String[]> result) {
 
         Workbook wb = new XSSFWorkbook();
 
@@ -51,9 +51,7 @@ public class ExcelUtil {
 
             }).start();
 
-            PipedInputStream pis = new PipedInputStream(pos);
-
-            return pis;
+            return new PipedInputStream(pos);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

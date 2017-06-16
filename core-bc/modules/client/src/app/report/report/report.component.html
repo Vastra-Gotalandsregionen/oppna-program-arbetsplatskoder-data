@@ -11,28 +11,26 @@
 
     <div>
       <h3>Alla arbetsplatskoder som gäller tillsvidare</h3>
-      <button *ngIf="!allValidReport.fileName || allValidReport.fileName == ''" [ladda]="allValidReport.isLoading" (click)="generateAllValidReport()" data-size="s" data-color="blue" data-style="expand-right">Skapa rapport</button>
-      <a *ngIf="allValidReport.fileName" href="/api/report/file/all_valid/{{allValidReport.fileName}}" >Ladda ner rapport</a>
+      <button [ladda]="validWithoutEndDateReport.isLoading" (click)="generateValidWithoutEndDateReport()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
     </div>
 
+    <div>
+      <h3>Alla arbetsplatskoder som gäller med slutdatum</h3>
+      <button [ladda]="validWithEndDateReport.isLoading" (click)="generateValidWithEndDateReport()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
+    </div>
 
-    <br />
-    <md-divider></md-divider>
-
-    <md-list>
-
-      <md-list-item>
-        <a href="/api/report/allValidDatas">Alla arbetsplatskoder som gäller tillsvidare</a>
-      </md-list-item>
-      <md-list-item>
-        <a>Alla arbetsplatskoder med ett slutdatum</a>
-      </md-list-item>
-      <md-list-item>
-        <a href="/api/report/updatedSince?fromDate={{fromDate.value}}">Uppdaterade arbetsplatskoder sedan </a>&nbsp;
+    <div>
+      <h3>Uppdaterade arbetsplatskoder mellan
         <md-input-container class="date">
           <input mdInput placeholder="Datum" [formControl]="fromDate" />
         </md-input-container>
-      </md-list-item>
-    </md-list>
+        och
+        <md-input-container class="date">
+          <input mdInput placeholder="Datum" [formControl]="toDate" />
+        </md-input-container>
+      </h3>
+      <button [ladda]="updatedBetweenDatesReport.isLoading" (click)="generateUpdatedBetweenDatesReport()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
+    </div>
+
   </md-card-content>
 </md-card>

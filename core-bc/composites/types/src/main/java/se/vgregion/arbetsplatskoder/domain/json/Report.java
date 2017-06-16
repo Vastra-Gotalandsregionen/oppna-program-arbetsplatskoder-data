@@ -11,6 +11,7 @@ public class Report {
 
     @JsonProperty("fileName")
     private String fileName;
+    private String hmac;
 
     public String getFileName() {
         return fileName;
@@ -18,5 +19,13 @@ public class Report {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public void setHmac(String hmac) {
+        this.hmac = hmac;
+    }
+
+    public String getHmac() {
+        return hmac;
     }
 }

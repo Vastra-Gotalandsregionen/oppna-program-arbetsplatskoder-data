@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Http} from '@angular/http';
+import {Http, URLSearchParams, RequestOptions} from '@angular/http';
 
 import {Report} from '../../model/report';
 
@@ -11,16 +11,14 @@ import {Report} from '../../model/report';
 })
 export class ReportComponent implements OnInit {
 
-  allValidReport: Report;
+  validWithoutEndDateReport: Report = new Report();
+  validWithEndDateReport: Report = new Report();
+  updatedBetweenDatesReport: Report = new Report();
 
   fromDate = new FormControl();
+  toDate = new FormControl();
 
-
-
-  constructor(protected http: Http) {
-    this.allValidReport = new Report();
-    this.allValidReport.isLoading = false;
-  }
+  constructor(protected http: Http) {}
 
   ngOnInit() {
     let now = new Date();
@@ -29,20 +27,44 @@ export class ReportComponent implements OnInit {
     now.setMinutes(0);
     now.setHours(0);
     now.setDate(1);
+    now.setMonth(now.getMonth() - 1);
 
     this.fromDate.setValue(now.toLocaleDateString());
+
+    const lastInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toLocaleDateString();
+
+    this.toDate.setValue(lastInMonth);
   }
 
-  generateAllValidReport(): void {
+  generateValidWithoutEndDateReport(): void {
+    this.generateReport('VALID_WITHOUT_END_DATE', this.validWithoutEndDateReport);
+  }
 
-    console.log('generateAllValidReport');
-    this.allValidReport.isLoading = true;
+  generateValidWithEndDateReport(): void {
+    this.generateReport('VALID_WITH_END_DATE', this.validWithEndDateReport);
+  }
 
-    this.http.get('/api/report/generate/all_valid')
+  generateUpdatedBetweenDatesReport(): void {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('fromDate', this.fromDate.value);
+    params.set('toDate', this.toDate.value);
+
+    this.generateReport('UPDATED_BETWEEN_DATES', this.updatedBetweenDatesReport, params);
+  }
+
+  private generateReport(reportType: string, report: Report, params?: URLSearchParams) {
+
+    report.isLoading = true;
+
+    const requestOptions = new RequestOptions();
+    requestOptions.params = params;
+
+    this.http.get('/api/report/generate/' + reportType, requestOptions)
       .map(response => response.json())
-      .subscribe((allValidReport: Report) => {
-        this.allValidReport = allValidReport;
-        this.allValidReport.isLoading = false;
+      .finally(() => report.isLoading = false)
+      .subscribe((report: Report) => {
+        this.validWithoutEndDateReport = report;
+        window.location.href = `/api/report/file/${reportType}/${report.fileName}/${report.hmac}?${params ? params.toString() : ''}`;
       });
   }
 

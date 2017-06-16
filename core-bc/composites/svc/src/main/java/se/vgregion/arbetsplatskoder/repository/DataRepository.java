@@ -37,4 +37,13 @@ public interface DataRepository extends JpaRepository<Data, Integer>, DataExtend
 
     @Query("select e from Data e where (concat(lower(e.benamning), e.arbetsplatskod, e.andringsdatum, e.tillDatum) like '%sa%')")
     List<Data> foo();
+
+    @Query("select d from Data d where d.tillDatum >= '2199-12-01' or d.tillDatum is null")
+    List<Data> findAllValidWithoutEndDate();
+
+    @Query("select d from Data d where d.tillDatum < '2199-12-01' and d.tillDatum >= current_date and d.tillDatum is not null")
+    List<Data> findAllValidWithEndDate();
+
+    @Query("select d from Data d where length(d.andringsdatum) = 16 and d.andringsdatum >= :fromDate and d.andringsdatum < :toDate")
+    List<Data> findAllUpdatedBetween(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 }
