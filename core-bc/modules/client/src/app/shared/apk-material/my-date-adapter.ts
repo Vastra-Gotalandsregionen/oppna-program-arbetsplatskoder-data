@@ -6,8 +6,8 @@ export class MyDateAdapter extends NativeDateAdapter {
     return 1; // Monday
   }
 
-  parse(value: any, parseFormat: Object): Date | null {
-    return super.parse(value, parseFormat);
+  parse(value: any): Date | null {
+    return super.parse(value);
   }
 
   format(date: Date, displayFormat: Object): string {

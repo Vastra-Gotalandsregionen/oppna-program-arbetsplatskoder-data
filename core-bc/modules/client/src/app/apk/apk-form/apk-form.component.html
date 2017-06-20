@@ -288,6 +288,28 @@
         </md-card-content>
       </md-card>
 
+      <md-card class="example-card" [@slideIn]="data.arbetsplatskodlan ? 'in' : 'out'">
+        <md-card-content>
+
+          <h3>Ersätt</h3>
+
+          <md-input-container>
+            <input placeholder="Ersatt av arbetsplatskod" type="text" mdInput
+                   formControlName="ersattav">
+          </md-input-container>
+
+          <div [@slideIn]="replaceDataEntity ? 'in': 'out'">
+            <div><span class="label">Arbetsplatskod: </span><a routerLink="/apk/{{replaceDataEntity?.id}}">{{replaceDataEntity?.arbetsplatskodlan}}</a></div>
+
+            <p>
+              <span class="label">Benämning: </span><span>{{replaceDataEntity?.benamning}}</span><br/>
+            </p>
+
+          </div>
+
+        </md-card-content>
+      </md-card>
+
       <md-card class="example-card" [@slideIn]="hasArchivedDatas ? 'in' : 'out'">
         <md-card-content>
 

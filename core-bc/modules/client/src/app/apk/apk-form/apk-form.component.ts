@@ -39,6 +39,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   apkForm: FormGroup;
 
   data: Data;
+  replaceDataEntity: Data;
   unitSearchResult: any; // todo Make typed
 
   hasArchivedDatas: boolean = false;
@@ -181,7 +182,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'tillDatum': [{
         value: this.data.tillDatum,
         disabled: !this.data.tillDatum || this.data.tillDatum.length == 0
-      }, Validators.compose([datePattern(), Validators.required])]
+      }, Validators.compose([datePattern(), Validators.required])],
+      'ersattav': [this.data.ersattav, []],
     });
 
     this.apkForm.get('unitSearch').valueChanges
@@ -192,7 +194,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
           this.unitSearchResult = [];
         }
 
-        return requiredLength
+        return requiredLength;
       })
       .flatMap(query => {
         return this.http.get('/api/search/unit?query=' + query);
@@ -200,6 +202,34 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       .map(result => result.json())
       .subscribe(
         result => this.unitSearchResult = result
+      );
+
+
+    // Init ersattav
+    this.apkForm.get('ersattav').valueChanges
+      .startWith(this.data.ersattav)
+      .filter(value => {
+        const isRequiredLength = value && value.length >= 3;
+
+        if (!isRequiredLength) {
+          this.replaceDataEntity = null;
+        }
+
+        return isRequiredLength;
+      })
+      .flatMap(query => {
+        return this.http.get('/api/data/arbetsplatskodlan/' + query);
+      })
+      .map(response => {
+        try {
+          return response.json();
+        } catch (e) {
+          return null;
+        }
+      })
+      .subscribe((result: Data) => {
+          this.replaceDataEntity = result;
+        }
       );
 
     this.apkForm.statusChanges.subscribe(value => {
@@ -431,6 +461,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     data.vgpv = formModel.vgpvGroup.vgpv;
     data.fromDatum = formModel.fromDatum && typeof formModel.fromDatum === 'object' ? formModel.fromDatum.toLocaleDateString() : formModel.fromDatum;
     data.tillDatum = formModel.tillDatum && typeof formModel.tillDatum === 'object' ? formModel.tillDatum.toLocaleDateString() : formModel.tillDatum;
+    data.ersattav = formModel.ersattav;
 
     const headers = new Headers({'Content-Type': 'application/json'});
     const options = new RequestOptions({headers: headers});

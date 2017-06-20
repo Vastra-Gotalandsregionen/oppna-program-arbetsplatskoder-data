@@ -55,8 +55,6 @@ public class DatabaseIntegrationService {
 
         List<Data> datas = dataRepository.findAll();
 
-        List<Viewapkwithao3Temp> result = new ArrayList<>();
-
         for (Data data : datas) {
             String ao3 = data.getAo3();
             Ao3 ao3Entity = ao3Map.get(ao3);
@@ -111,8 +109,6 @@ public class DatabaseIntegrationService {
             entry.setForetagsnr(ao3Entity.getForetagsnr());
             entry.setRaderad(ao3Entity.getRaderad());
             entry.setExpr2(ao3Entity.getSsmaTimestamp()); // todo Look over these
-
-            result.add(entry);
 
             entityManager.persist(entry);
         }
