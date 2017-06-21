@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -56,9 +57,9 @@ public class EHalsomyndighetenExportFileService {
          order by arbetsplatskod
          */
 
-    StringBuilder sb = new StringBuilder();
+    List<String> sb = new ArrayList<>();
     for (Data data : all) {
-      sb.append(
+      sb.add(
           R(
               data.getArbetsplatskod(),
               data.getBenamning(),
@@ -68,8 +69,8 @@ public class EHalsomyndighetenExportFileService {
               data.getAgarform(),
               data.getVardform(),
               data.getVerksamhet(),
-              data.getFromDatum(),
-              data.getTillDatum(),
+              format(data.getFromDatum()),
+              format(data.getTillDatum()),
               data.getPostadress(),
               data.getPostnr(),
               data.getPostort(),
@@ -80,24 +81,30 @@ public class EHalsomyndighetenExportFileService {
               data.getLakemedkomm()
           )
       );
-      sb.append('\n');
     }
-    return sb.toString();
+    return L(sb);
+  }
+
+  SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+
+  private String format(Date date) {
+    if (date == null) {
+      return "";
+    }
+    return dt.format(date);
   }
 
   @Transactional
   List<Data> findAllRelevantItems() {
     List<Data> all = dataRepository.findAll();
-
     Date currentDate = new Date();
     long oneYear = (long) 365 * 24 * 60 * 60 * 1000;
     Date oneYearBefore = new Date(currentDate.getTime() - oneYear);
-    //Date oneYearAgo = new Date(System.currentTimeMillis() - (365 * 24 * 60 * 60 * 1000));
-
+    //and till_datum > #DateAdd("m", -12, now())#
     all = all.stream().filter(
         d -> F(d.getArbetsplatskod()).length() < 12
             && d.getTillDatum() != null
-            && d.getTillDatum().before(oneYearBefore)).collect(Collectors.toList()
+            && d.getTillDatum().after(oneYearBefore)).collect(Collectors.toList()
     );
     all.sort(Comparator.comparing(Data::getArbetsplatskod));
     return all;
@@ -107,6 +114,10 @@ public class EHalsomyndighetenExportFileService {
     List<String> lines = new ArrayList<>();
     for (Object part : parts) lines.add(F(part));
     return String.join(";", lines);
+  }
+
+  private String L(List<String> parts) {
+    return String.join("\n", parts);
   }
 
   private String F(Object s) {

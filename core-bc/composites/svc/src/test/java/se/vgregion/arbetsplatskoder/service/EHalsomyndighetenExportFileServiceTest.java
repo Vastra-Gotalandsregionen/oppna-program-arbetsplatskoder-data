@@ -10,12 +10,19 @@ import se.vgregion.arbetsplatskoder.db.service.Crud;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by clalu4 on 2017-06-21.
@@ -64,8 +71,7 @@ public class EHalsomyndighetenExportFileServiceTest {
   @Ignore
   @Test
   public void compareFindAllRelevantItemsWithOldishDito() throws Exception {
-
-    String oldSql = "SELECT arbetsplatskod,\n" +
+    String oldishSql = "SELECT arbetsplatskod,\n" +
         "         benamning,\n" +
         "         left(ao3,3) as a03b ,\n" +
         "         ansvar,\n" +
@@ -73,8 +79,8 @@ public class EHalsomyndighetenExportFileServiceTest {
         "         agarform,\n" +
         "         vardform,\n" +
         "         verksamhet,\n" +
-        "         from_datum,\n" +
-        "         till_datum,\n" +
+        "         to_char(from_datum, 'yyyy-mm-dd') from_datum,\n" +
+        "         to_char(till_datum, 'yyyy-mm-dd') till_datum,\n" +
         "         postadress,\n" +
         "         postnr,\n" +
         "         postort,\n" +
@@ -87,20 +93,29 @@ public class EHalsomyndighetenExportFileServiceTest {
         "         where length(arbetsplatskod) < 12\n" +
         "         and till_datum > (current_date - 365)\n" +
         "         order by arbetsplatskod";
-    List<Object[]> withOldSql = crud.query(oldSql);
-    System.out.println(withOldSql);
+
+    List<Object[]> withOldSql = crud.query(oldishSql);
     assertNotNull(crud);
-    List<Data> withNewJpa = eHalsomyndighetenExportFileService.findAllRelevantItems();
-    // assertEquals(withOldSql.size(), withNewJpa.size());
 
     StringBuilder sb = new StringBuilder();
     for (Object[] objects : withOldSql) {
       sb.append(String.join(";", Arrays.asList(objects).stream()
-          .map(o -> o == null ? "" : o.toString().replace(";",","))
+          .map(o -> o == null ? "" : o.toString().replace(";", ","))
           .collect(Collectors.toList())));
       sb.append("\n");
     }
-    System.out.println(sb);
+
+    assertEquals(withOldSql.size(), eHalsomyndighetenExportFileService.findAllRelevantItems().size());
+
+    String newishJpaResult = eHalsomyndighetenExportFileService.generate();
+    String oldishSqlTextResult = sb.toString().trim();
+
+    assertEquals(oldishSqlTextResult, newishJpaResult);
+
+    /*Path p = Paths.get(new File(".").getAbsolutePath(), "src", "test", "resources", "sql-result.txt");
+    Files.write(p, oldishSqlTextResult.getBytes());
+    p = Paths.get(new File(".").getAbsolutePath(), "src", "test", "resources", "jpa-result.txt");
+    Files.write(p, newishJpaResult.getBytes());*/
   }
 
   @Test
