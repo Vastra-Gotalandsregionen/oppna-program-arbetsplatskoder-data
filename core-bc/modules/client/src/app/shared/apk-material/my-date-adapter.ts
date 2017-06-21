@@ -6,9 +6,11 @@ export class MyDateAdapter extends NativeDateAdapter {
     return 1; // Monday
   }
 
+/*
   parse(value: any, parseFormat: Object): Date | null {
     return super.parse(value, parseFormat);
   }
+*/
 
   format(date: Date, displayFormat: Object): string {
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset());

@@ -124,11 +124,11 @@ public class DataController {
         return dataRepository.findAllUserIdsWithData();
     }
 
-    @RequestMapping(value = "foo", method = RequestMethod.GET)
+    /*@RequestMapping(value = "foo", method = RequestMethod.GET)
     @ResponseBody
     public List<Data> foo() {
         return dataRepository.foo();
-    }
+    }*/
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody

@@ -73,7 +73,7 @@ public class LdapLoginService {
             NamingEnumeration<SearchResult> results = findUser(username, serviceCtx);
 
             if (results.hasMore()) {
-                // get the users DN (distinguishedName) from the result
+                // generate the users DN (distinguishedName) from the result
                 SearchResult result = results.next();
                 String distinguishedName = result.getNameInNamespace();
 
@@ -137,7 +137,7 @@ public class LdapLoginService {
         String identifyingAttribute = "cn";
         String identifier = username;
 
-        // we don't need all attributes, just let it get the identifying one
+        // we don't need all attributes, just let it generate the identifying one
         String[] attributeFilter = {identifyingAttribute, "givenName", "mail", "sn", "displayName", "thumbnailPhoto"};
         SearchControls sc = new SearchControls();
         sc.setReturningAttributes(attributeFilter);
