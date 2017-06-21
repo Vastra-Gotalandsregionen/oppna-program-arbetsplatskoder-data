@@ -35,8 +35,8 @@ public interface DataRepository extends JpaRepository<Data, Integer>, DataExtend
     @Query("select distinct(d.userIdNew) from Data d")
     List<String> findAllUserIdsWithData();
 
-    @Query("select e from Data e where (concat(lower(e.benamning), e.arbetsplatskod, e.andringsdatum, e.tillDatum) like '%sa%')")
-    List<Data> foo();
+    /*@Query("select e from Data e where (concat(lower(e.benamning), e.arbetsplatskod, e.andringsdatum, e.tillDatum) like '%sa%')")
+    List<Data> foo();*/
 
     @Query("select d from Data d where d.tillDatum >= '2199-12-01' or d.tillDatum is null")
     List<Data> findAllValidWithoutEndDate();

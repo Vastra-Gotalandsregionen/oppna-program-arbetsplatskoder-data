@@ -7,13 +7,101 @@
 
 
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-	version="2.0">
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
 
 
-	<persistence-unit name="migrate-apk">
-
-	</persistence-unit>
+  <persistence-unit name="migrate-apk">
+    <class>sse.vgregion.arbetsplatskoder.domain.jpa.migrated.AbstractEntity
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Agarform
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.AllaApk60820150121
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.AndraAnsvar2
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Andradetillsaknas20150515
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.AnsvarAndring
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Anvandare
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Anvandartyp
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Arbplkod20150121
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Behorighet
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Changeao3
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Changejourcentraler
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data20140310
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data20150126
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data20150212
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Driftform
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.ErsattHsaid
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Fakturering
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Historik
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.InlasningVgprimar
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.JusteringarApk20150212
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Kommun
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Kommunort
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Leverans
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Lk
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.NamndPvAo3
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.NamndPvAo320150126
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.OrtKommun
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn2
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn3
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Producent
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Recept
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Sequence
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Tmpvgpv
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Vardform
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.VcAnsvar
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Verksamhet
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.ArchivedData
+    </class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.User</class>
+  </persistence-unit>
 
 </persistence>
