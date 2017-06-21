@@ -130,6 +130,29 @@
           </div>
         </div>
 
+        <div *ngIf="($replacedBy | async)?.id">
+          <h3>Ersatt av</h3>
+
+          <div class="apk-details-item">
+            <div class="apk-details-item-label">Ersatt av</div>
+            <div class="apk-details-item-data">
+              <a routerLink="/apk/{{($replacedBy | async)?.id}}">{{($replacedBy | async)?.arbetsplatskodlan}}</a>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="($replaces | async)?.length > 0">
+          <h3>Ersätter</h3>
+
+          <div class="apk-details-item">
+            <div class="apk-details-item-label">Ersätter</div>
+            <div class="apk-details-item-data">
+              <div *ngFor="let data of $replaces | async">
+                <a routerLink="/apk/{{data.id}}">{{data.arbetsplatskodlan}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <h3>Övrig info</h3>
 

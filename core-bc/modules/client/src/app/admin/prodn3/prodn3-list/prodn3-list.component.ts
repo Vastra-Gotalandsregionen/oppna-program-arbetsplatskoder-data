@@ -20,7 +20,7 @@ import {BasePaginatorComponent} from "../../../shared/base-paginator.component";
     trigger('slideIn', [
       state('*', style({opacity: 0})),
       state('in', style({opacity: 1,})),
-      state('out', style({opacity: 0, height: '0', 'margin-bottom': 0, padding: 0, display: 'none'})),
+      state('out', style({opacity: 0, height: '0', margin: 0, padding: 0, display: 'none'})),
       transition('* => *', animate('.1s ease'))
     ])
   ]

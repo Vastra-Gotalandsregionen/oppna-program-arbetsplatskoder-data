@@ -44,6 +44,14 @@ public class BatchService {
     public void init() {
 
         List<Data> allDatas = dataRepository.findAll();
+
+        // Remove all ersattav where ersattav equals arbetsplatskod
+        for (Data data : allDatas) {
+            if (data.getArbetsplatskod().equals(data.getErsattav())) {
+                data.setErsattav(null);
+                dataRepository.save(data);
+            }
+        }
 //        List<Data> allDatas = dataRepository.findAllByProdn1IsNull();
 
         List<Prodn3> allProdn3s = prodn3Repository.findAll();

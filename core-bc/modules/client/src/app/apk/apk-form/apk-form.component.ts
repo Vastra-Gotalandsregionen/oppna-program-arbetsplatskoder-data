@@ -39,7 +39,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   apkForm: FormGroup;
 
   data: Data;
-  replaceDataEntity: Data;
+  replacedBy: Data;
+  $replaces: Observable<Data[]>;
   unitSearchResult: any; // todo Make typed
 
   hasArchivedDatas: boolean = false;
@@ -212,13 +213,13 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         const isRequiredLength = value && value.length >= 3;
 
         if (!isRequiredLength) {
-          this.replaceDataEntity = null;
+          this.replacedBy = null;
         }
 
         return isRequiredLength;
       })
       .flatMap(query => {
-        return this.http.get('/api/data/arbetsplatskodlan/' + query);
+        return this.http.get('/api/data/arbetsplatskod/' + query);
       })
       .map(response => {
         try {
@@ -228,9 +229,12 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         }
       })
       .subscribe((result: Data) => {
-          this.replaceDataEntity = result;
+          this.replacedBy = result;
         }
       );
+
+    this.$replaces = this.http.get('/api/data/ersattav/' + this.data.arbetsplatskod)
+      .map(response => response.json());
 
     this.apkForm.statusChanges.subscribe(value => {
       if (value === 'VALID') {
@@ -273,7 +277,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.benamningKortActivelyEdited = benamningKort.value && benamningKort.value.length > 0;
 
     benamningKort.valueChanges.subscribe(value => {
-      if (value.length === 0) {
+      if (!value || value.length === 0) {
         this.benamningKortActivelyEdited = false;
       }
     });
