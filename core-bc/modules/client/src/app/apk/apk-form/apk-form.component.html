@@ -210,7 +210,7 @@
           </md-input-container>
 
           <md-input-container>
-            <input placeholder="Benämning/enhetsnamn - Tas från KIV? +att man måste ha kortnamn för att det ska gå igenom i Concise"
+            <input placeholder="Benämning/enhetsnamn"
               type="text" mdInput formControlName="benamning" name="banamning">
           </md-input-container>
 
@@ -294,7 +294,7 @@
           <h3>Ersätts av</h3>
 
           <md-input-container>
-            <input placeholder="Arbetsplatskod (utan län) som ersätter denna" type="text" mdInput
+            <input placeholder="Arbetsplatskod som ersätter denna" type="text" mdInput
                    formControlName="ersattav">
           </md-input-container>
 
@@ -338,7 +338,7 @@
               [disabled]="apkForm.pristine" md-raised-button class="btn btn-success" (click)="resetForm()">Återställ
       </button> &nbsp;
 
-      <span *ngIf="!apkForm.valid">{{saveMessage}}</span>
+      <span *ngIf="saveMessage" class="alert alert-danger">{{saveMessage}}</span>
 
       <div class="debug" *ngIf="getShowDebug()">
 

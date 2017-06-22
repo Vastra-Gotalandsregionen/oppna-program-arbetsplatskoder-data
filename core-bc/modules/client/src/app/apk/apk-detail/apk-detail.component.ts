@@ -39,12 +39,12 @@ export class ApkDetailComponent extends ApkBase implements OnInit {
 
         this.$replacedBy = $data
           .filter((data: Data) => !!data.ersattav)
-          .mergeMap((data: Data) => this.http.get('/api/data/arbetsplatskod/' + data.ersattav))
-          .map(response => response.json())
+          .mergeMap((data: Data) => this.http.get('/api/data/arbetsplatskodlan/' + data.ersattav))
+          .map(response => response.json());
 
         this.$replaces = $data
-          .mergeMap((data: Data) => this.http.get('/api/data/ersattav/' + data.arbetsplatskod))
-          .map(response => response.json())
+          .mergeMap((data: Data) => this.http.get('/api/data/ersattav/' + data.arbetsplatskodlan))
+          .map(response => response.json());
 
       }
     });

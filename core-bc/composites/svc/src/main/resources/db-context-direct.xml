@@ -58,34 +58,4 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
-    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/hotell62_staging_1"/>
-        <property name="username" value="hotell_staging"/>
-        <property name="password" value="hotell"/>
-    </bean>-->
-
-    <!--
-    <bean id="dataSourceTest" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://vgdb0203:5432/hotell62_test_1"/>
-        <property name="username" value="hotell_test"/>
-        <property name="password" value="19hotell"/>
-    </bean>
-
-    <bean id="dataSourceStage" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://vgdb0203:5432/hotell62_staging_1"/>
-        <property name="username" value="hotell_staging"/>
-        <property name="password" value="hotell19"/>
-    </bean>
-
-    <bean id="dataSourceProd" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://vgdb0203:5432/hotell62_1"/>
-        <property name="username" value="hotell"/>
-        <property name="password" value="hotell19"/>
-    </bean>
-    -->
-
 </beans>

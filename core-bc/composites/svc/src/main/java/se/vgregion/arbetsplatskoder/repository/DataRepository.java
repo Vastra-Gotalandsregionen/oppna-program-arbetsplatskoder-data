@@ -47,7 +47,7 @@ public interface DataRepository extends JpaRepository<Data, Integer>, DataExtend
     @Query("select d from Data d where length(d.andringsdatum) = 16 and d.andringsdatum >= :fromDate and d.andringsdatum < :toDate")
     List<Data> findAllUpdatedBetween(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
-    List<Data> findAllByArbetsplatskodEquals(String arbetsplatskodlan);
+    List<Data> findAllByArbetsplatskodlanEquals(String arbetsplatskodlan);
 
     List<Data> findAllByErsattavEquals(String ersattav);
 }

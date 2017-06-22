@@ -2,6 +2,8 @@ package se.vgregion.arbetsplatskoder.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.AbstractEntity;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
@@ -164,6 +166,7 @@ public class ArchivedData extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "replacer")
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE) // Hibernate-specific
     private Data replacer;
 
     public Integer getId(){

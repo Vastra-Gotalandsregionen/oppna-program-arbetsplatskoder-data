@@ -224,10 +224,15 @@ export class ApkComponent extends ApkBase implements OnInit {
   // }
 
   confirmDelete(data: Data) {
-    let dialogRef = this.dialog.open(ConfirmDialogComponent);
+    let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        text: 'Är du säker att du vill ta bort vald arbetsplatskod?',
+        confirmButtonText: 'Ta bort'
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 'delete') {
+      if (result === 'confirm') {
         this.http.delete('/api/data/' + data.id)
           .subscribe(response => {
             console.log(response);

@@ -112,10 +112,10 @@ public class DataController {
         return userRepository.findOne(userIdFromRequest);
     }
 
-    @RequestMapping(value = "/arbetsplatskod/{arbetsplatskod}", method = RequestMethod.GET)
+    @RequestMapping(value = "/arbetsplatskodlan/{arbetsplatskodlan}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Data> getDataByArbetsplatskodlan(@PathVariable("arbetsplatskod") String arbetsplatskod) {
-        List<Data> result = dataRepository.findAllByArbetsplatskodEquals(arbetsplatskod);
+    public ResponseEntity<Data> getDataByArbetsplatskodlan(@PathVariable("arbetsplatskodlan") String arbetsplatskodlan) {
+        List<Data> result = dataRepository.findAllByArbetsplatskodlanEquals(arbetsplatskodlan);
 
         if (result.size() > 1) {
             throw new IllegalStateException("No two datas should have the same arbetsplatskod.");

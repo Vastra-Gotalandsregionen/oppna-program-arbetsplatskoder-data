@@ -6,6 +6,7 @@ import {ApkEditComponent} from './apk-edit/apk-edit.component';
 import {ApkCreateComponent} from './apk-create/apk-create.component';
 import {UserHasDataPermissionGuard} from './guard/user-has-data-permission.guard';
 import {ArchivedDatasComponent} from './archived-datas/archived-datas.component';
+import {FormChangedGuard} from "./guard/form-changed.guard";
 
 const routes: Routes = [
   {
@@ -26,7 +27,8 @@ const routes: Routes = [
       {
         path: ':id/edit',
         component: ApkEditComponent,
-        canActivate: [UserHasDataPermissionGuard]
+        canActivate: [UserHasDataPermissionGuard],
+        canDeactivate: [FormChangedGuard]
       },
       {
         path: ':id/archivedDatas',

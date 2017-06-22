@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Patrik Björk
@@ -45,14 +46,23 @@ public class BatchService {
 
         List<Data> allDatas = dataRepository.findAll();
 
-        // Remove all ersattav where ersattav equals arbetsplatskod
+        Map<String, Data> dataByArbetsplataskod = allDatas.stream()
+                .collect(Collectors.toMap(Data::getArbetsplatskod, data -> data));
+
+        // Remove all ersattav where ersattav equals arbetsplatskod and change ersattav to arbetsplatskodlan
         for (Data data : allDatas) {
             if (data.getArbetsplatskod().equals(data.getErsattav())) {
                 data.setErsattav(null);
                 dataRepository.save(data);
             }
+
+            if (data.getErsattav() != null && !data.getErsattav().startsWith("14")) {
+                if (dataByArbetsplataskod.containsKey(data.getErsattav())) {
+                    // We found the data which has replaced the for loop data. Set arbetsplatskodlan instead
+                    data.setErsattav(dataByArbetsplataskod.get(data.getErsattav()).getArbetsplatskodlan());
+                }
+            }
         }
-//        List<Data> allDatas = dataRepository.findAllByProdn1IsNull();
 
         List<Prodn3> allProdn3s = prodn3Repository.findAll();
         List<Prodn2> allProdn2s = prodn2Repository.findAll();

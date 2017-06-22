@@ -69,12 +69,17 @@ export class UsersListComponent implements OnInit {
   }
 
   confirmDelete(user: User) {
-    let dialogRef = this.dialog.open(ConfirmDialogComponent);
+    let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        text: 'Är du säker att du vill ta bort vald användare?',
+        confirmButtonText: 'Ta bort'
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 'delete') {
+      if (result === 'confirm') {
         this.http.delete('/api/user/' + user.id)
-          .subscribe(response => {        
+          .subscribe(response => {
             console.log(response);
             this.updateUsers();
             //this.snackBar.open('Lyckades radera!', null, {duration: 3000});

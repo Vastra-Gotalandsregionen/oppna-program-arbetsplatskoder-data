@@ -33,7 +33,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     Page<Data> advancedSearch(@Param("field1") String field1, Pageable page);
  */
 
-    private <T> List<T> query(Class<T> clazz, String jpql, Pageable pageable, List words) {
+    private <T> List<T> query(Class<T> clazz, String jpql, Pageable pageable, List words, Set<Prodn1> prodn1s) {
         TypedQuery<T> typedQuery = entityManager.createQuery(jpql, (Class) clazz);
         // System.out.println("Params are " + words);
         // System.out.println("Jpql are " + jpql);
@@ -41,6 +41,11 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         for (Object w : words) {
             typedQuery.setParameter(i++, w);
         }
+
+        if (prodn1s != null) {
+            typedQuery.setParameter(i++, prodn1s);
+        }
+
         if (pageable != null) {
             typedQuery.setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize());
         }
@@ -74,7 +79,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
                     "function('to_char', d.regDatum, 'YYYY-MM-DD')",
                     "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
                     "lower(d.prodn3.prodn2.kortnamn)",
-                    "lower(d.prodn3.prodn2.prodn1.kortnamn)"
+                    "lower(d.prodn1.kortnamn)"
             );
             for (Object s : wordsToLookFor) {
                 List<String> allFieldsLikeCondtion = new ArrayList<>();
@@ -85,7 +90,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
                 conditions.add("(" + String.join(" or ", allFieldsLikeCondtion) + ")");
             }
             if (prodn1s != null) {
-                conditions.add("d.prodn3.prodn2.prodn1 in ?" + (i++));
+                conditions.add("d.prodn1 in ?" + (i++));
                 wordsToLookFor.add(prodn1s);
             }
             sb.append(String.join(" and ", conditions));
@@ -94,7 +99,8 @@ public class DataRepositoryImpl implements DataExtendedRepository {
                     Long.class,
                     "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
                     null,
-                    arguments).get(0);
+                    arguments,
+                    prodn1s).get(0);
 
             if (pageable.getSort() != null) {
                 Sort sort = pageable.getSort();
@@ -113,7 +119,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
                     + " d "
                     + sb.toString();
 
-            List<Data> results = query(Data.class, jpql, pageable, arguments);
+            List<Data> results = query(Data.class, jpql, pageable, arguments, prodn1s);
 
             return new PageImpl<>(results, pageable, count);
         }

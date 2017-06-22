@@ -219,7 +219,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         return isRequiredLength;
       })
       .flatMap(query => {
-        return this.http.get('/api/data/arbetsplatskod/' + query);
+        return this.http.get('/api/data/arbetsplatskodlan/' + query);
       })
       .map(response => {
         try {
@@ -233,7 +233,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         }
       );
 
-    this.$replaces = this.http.get('/api/data/ersattav/' + this.data.arbetsplatskod)
+    this.$replaces = this.http.get('/api/data/ersattav/' + this.data.arbetsplatskodlan)
       .map(response => response.json());
 
     this.apkForm.statusChanges.subscribe(value => {
@@ -285,7 +285,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     benamning.valueChanges
       .subscribe((value: string) => {
         if (!this.benamningKortActivelyEdited || benamningKort.value.length === 0) {
-          if (value.length <= 35) {
+          if (value && value.length <= 35) {
             benamningKort.setValue(value);
           } else {
             benamningKort.setValue('');
