@@ -11,21 +11,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import se.vgregion.arbetsplatskoder.domain.ReportType;
+import se.vgregion.arbetsplatskoder.domain.jpa.FileBlob;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.json.Report;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
+import se.vgregion.arbetsplatskoder.repository.FileBlobRepository;
 import se.vgregion.arbetsplatskoder.service.HmacUtil;
 import se.vgregion.arbetsplatskoder.util.ExcelUtil;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
@@ -47,11 +43,14 @@ public class ReportController {
     @Autowired
     private DataRepository dataRepository;
 
+    @Autowired
+    private FileBlobRepository fileBlobRepository;
+
     @RequestMapping(value = "/file/{reportType}/{tempFileName}/{hmac}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> getGeneratedReport(
             @PathVariable("reportType") ReportType reportType,
-            @PathVariable("tempFileName") String tempFileName,
+            @PathVariable("tempFileName") String fileName,
             @PathVariable("hmac") String hmac,
             @RequestParam(value = "fromDate", required = false) String fromDate,
             @RequestParam(value = "toDate", required = false) String toDate
@@ -59,7 +58,7 @@ public class ReportController {
 
         // Verify requested file with hmac
         try {
-            String calculatedHmac = HmacUtil.calculateRFC2104HMAC(tempFileName);
+            String calculatedHmac = HmacUtil.calculateRFC2104HMAC(fileName);
 
             if (!calculatedHmac.equals(hmac)) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -92,7 +91,7 @@ public class ReportController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return getReportFile(tempFileName, outputFileName);
+        return getReportFile(fileName, outputFileName);
     }
 
     @RequestMapping(value = "/generate/{reportType}", method = RequestMethod.GET)
@@ -146,18 +145,16 @@ public class ReportController {
 
         String fileName = FILENAME_PREFIX + uuid;
 
-        File folder = new File(System.getProperty("java.io.tmpdir"));
-        File file = new File(folder, fileName);
-
-        try (OutputStream outputStream = new FileOutputStream(file);
-             BufferedOutputStream bos = new BufferedOutputStream(outputStream)) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
 
             int read;
             byte[] bytes = new byte[1024];
 
             while ((read = inputStream.read(bytes)) != -1) {
-                bos.write(bytes, 0, read);
+                outputStream.write(bytes, 0, read);
             }
+
+            fileBlobRepository.save(new FileBlob(fileName, outputStream.toByteArray()));
 
             report.setFileName(fileName);
             report.setHmac(HmacUtil.calculateRFC2104HMAC(fileName));
@@ -228,36 +225,16 @@ public class ReportController {
 
     private ResponseEntity<byte[]> getReportFile(String tempFileName, String outputFileName) {
 
-        File folder = new File(System.getProperty("java.io.tmpdir"));
-        File tempFile = new File(folder, tempFileName);
-
-        if (!tempFile.exists()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        ByteArrayOutputStream outputStream;
-        try (InputStream inputStream = new FileInputStream(tempFile);
-             BufferedInputStream bis = new BufferedInputStream(inputStream)) {
-
-            outputStream = new ByteArrayOutputStream();
-
-            int read;
-            byte[] bytes = new byte[1024];
-
-            while ((read = bis.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, read);
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        tempFile.delete();
-
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Disposition", Collections.singletonList("attachment; filename=" + outputFileName));
 
-        return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
+        FileBlob one = fileBlobRepository.findOne(tempFileName);
+
+        byte[] content = one.getContent();
+
+        fileBlobRepository.delete(tempFileName);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
 }

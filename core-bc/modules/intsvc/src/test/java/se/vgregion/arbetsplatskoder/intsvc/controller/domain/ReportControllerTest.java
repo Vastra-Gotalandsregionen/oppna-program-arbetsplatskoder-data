@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.vgregion.arbetsplatskoder.domain.ReportType;
+import se.vgregion.arbetsplatskoder.domain.jpa.FileBlob;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.json.Report;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
+import se.vgregion.arbetsplatskoder.repository.FileBlobRepository;
 import se.vgregion.arbetsplatskoder.service.HmacUtil;
 import se.vgregion.arbetsplatskoder.util.ExcelUtil;
 
@@ -25,10 +27,13 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -40,11 +45,16 @@ public class ReportControllerTest {
     @Mock
     private DataRepository dataRepository;
 
+    @Mock
+    private FileBlobRepository fileBlobRepository;
+
     @InjectMocks
     private ReportController reportController = new ReportController();
 
     private List<Data> datas;
     private List<Data> dataSubList;
+
+    private Map<String, FileBlob> testDatastore = new HashMap<>();
 
     @Before
     public void setup() {
@@ -64,11 +74,23 @@ public class ReportControllerTest {
         HmacUtil hmacUtil = new HmacUtil();
         ReflectionTestUtils.setField(hmacUtil, "jwtSignSecret", "aslökdjfasölkjdf");
         hmacUtil.init();
+
+        // Make so saves are stored in this.testDatastore and findOne finds what's saved in this.testDatastore.
+        when(fileBlobRepository.save(any(FileBlob.class))).then(invocation -> {
+            this.testDatastore.put(
+                    ((FileBlob) invocation.getArgument(0)).getFilename(),
+                    invocation.getArgument(0));
+            return invocation.getArgument(0);
+        });
+
+        when(fileBlobRepository.findOne(anyString()))
+                .then(invocation -> this.testDatastore.get(invocation.getArgument(0)));
     }
 
     @Test
     public void testReportValitWithoutEndDate() throws Exception {
-        ResponseEntity<Report> reportResponseEntity = reportController.generateReportFile(null, null, ReportType.VALID_WITHOUT_END_DATE);
+        ResponseEntity<Report> reportResponseEntity = reportController.generateReportFile(null, null,
+                ReportType.VALID_WITHOUT_END_DATE);
 
         ResponseEntity<byte[]> generatedReport = reportController.getGeneratedReport(
                 ReportType.VALID_WITHOUT_END_DATE,
