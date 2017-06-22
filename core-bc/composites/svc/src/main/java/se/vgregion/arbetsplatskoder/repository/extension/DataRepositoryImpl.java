@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.ArchivedData;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 
@@ -157,6 +158,29 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         }
 
         return entityManager.merge(data);
+    }
+
+    public List<Data> findStralforsExportBatch() {
+        String jpql = "select distinct d, a from Data d, Ao3 a "+
+            "where d.tillDatum > current_date " +
+            "and d.ao3 = a.ao3id " +
+            "and d.apodos = true " +
+            "and d. arbetsplatskod != '999999'";
+
+        List<Object[]> bothItems = entityManager.createQuery(jpql).getResultList();
+
+        //List<Object> bothItems = query(Object.class, jpql, null, new ArrayList());
+
+        List<Data> result = new ArrayList<>();
+
+        for (Object[] bi : bothItems) {
+            Data data = (Data) bi[0];
+            Ao3 ao3 = (Ao3) bi[1];
+            // data.setAo3item(ao3);
+            result.add(data);
+        }
+
+        return result;
     }
 
 }

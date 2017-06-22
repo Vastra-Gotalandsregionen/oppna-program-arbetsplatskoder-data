@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,4 +18,5 @@ public interface DataExtendedRepository {
 
     Data saveAndArchive(Data data);
 
+    List<Data> findStralforsExportBatch();
 }
