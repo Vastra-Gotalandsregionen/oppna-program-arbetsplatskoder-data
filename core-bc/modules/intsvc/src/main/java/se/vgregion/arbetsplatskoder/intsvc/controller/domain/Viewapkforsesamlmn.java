@@ -1,4 +1,6 @@
-package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
+package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
+
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.AbstractEntity;
 
 import javax.persistence.*;
 
@@ -7,9 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "viewapkforsesamlmn")
 public class Viewapkforsesamlmn extends AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+
     @Column (name = "arbetsplatskodlan", nullable = true)
     private java.lang.String arbetsplatskodlan;
 
@@ -76,7 +76,7 @@ public class Viewapkforsesamlmn extends AbstractEntity {
     @Column (name = "hsaid", nullable = true)
     private java.lang.String hsaid;
 
-    @Column (name = "anmarkning", nullable = true, length = 350)
+    @Column (name = "anmarkning", nullable = true)
     private java.lang.String anmarkning;
 
     @Column (name = "from_datum", nullable = true)
@@ -87,13 +87,11 @@ public class Viewapkforsesamlmn extends AbstractEntity {
 
     @Column (name = "reg_datum", nullable = true)
     private java.sql.Timestamp regDatum;
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Id
+    @Column (name = "id", nullable = false)
+    private java.lang.Long id;
+
     public java.lang.String getArbetsplatskodlan(){
         return arbetsplatskodlan;
     }
@@ -300,6 +298,14 @@ public class Viewapkforsesamlmn extends AbstractEntity {
 
     public void setRegDatum(java.sql.Timestamp v){
         this.regDatum = v;
+    }
+
+    public java.lang.Long getId(){
+        return id;
+    }
+
+    public void setId(java.lang.Long v){
+        this.id = v;
     }
 
 

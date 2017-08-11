@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import se.vgregion.arbetsplatskoder.service.EHalsomyndighetenExportFileService;
+import se.vgregion.arbetsplatskoder.service.SesamLmnExportFileService;
 import se.vgregion.arbetsplatskoder.service.StralforsExportFileService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,9 @@ public class DataExportController {
   @Autowired
   private StralforsExportFileService stralforsExportFileService;
 
+  @Autowired
+  private SesamLmnExportFileService sesamLmnExportFileService;
+
   @RequestMapping(value = "ehalsomyndigheten", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   @ResponseBody
   public String get() {
@@ -43,6 +47,14 @@ public class DataExportController {
     HttpHeaders headers = new HttpHeaders();
     headers.put("Content-Type", Collections.singletonList("text/plain"));
     return stralforsExportFileService.generate();
+  }
+
+  @RequestMapping(value = "sesam-lmn", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @ResponseBody
+  public String fetchSesamLmnExport() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.put("Content-Type", Collections.singletonList("text/plain"));
+    return sesamLmnExportFileService.generate();
   }
 
 }

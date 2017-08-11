@@ -10,29 +10,22 @@ import se.vgregion.arbetsplatskoder.db.service.Crud;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
-import java.io.File;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by clalu4 on 2017-06-21.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/test/resources/applicationContext.xml")
-public class EHalsomyndighetenExportFileServiceTest {
+public class SesamLmnExportFileServiceTest {
 
   @Autowired
-  EHalsomyndighetenExportFileService eHalsomyndighetenExportFileService;
+  SesamLmnExportFileService sesamLmnExportFileService;
 
   @Autowired
   private DataRepository dataRepository;
@@ -68,31 +61,14 @@ public class EHalsomyndighetenExportFileServiceTest {
    *
    * @throws Exception
    */
-  //@Ignore
+  @Ignore
   @Test
   public void compareFindAllRelevantItemsWithOldishDito() throws Exception {
-    String oldishSql = "SELECT arbetsplatskod,\n" +
-        "         benamning,\n" +
-        "         left(ao3,3) as a03b ,\n" +
-        "         ansvar,\n" +
-        "         frivillig_uppgift,\n" +
-        "         agarform,\n" +
-        "         vardform,\n" +
-        "         verksamhet,\n" +
-        "         to_char(from_datum, 'yyyy-mm-dd') from_datum,\n" +
-        "         to_char(till_datum, 'yyyy-mm-dd') till_datum,\n" +
-        "         postadress,\n" +
-        "         postnr,\n" +
-        "         postort,\n" +
-        "         ersattav,\n" +
-        "         sorteringskod_prod,\n" +
-        "         lankod,\n" +
-        "         kommun,\n" +
-        "         lakemedkomm\n" +
-        "         FROM data\n" +
-        "         where length(arbetsplatskod) < 12\n" +
-        "         and till_datum > (current_date - 365)\n" +
-        "         order by arbetsplatskod";
+    String oldishSql = "SELECT     arbetsplatskodlan, ao3, ansvar, frivillig_uppgift, agarform, vardform, verksamhet, sorteringskod_prod, sorteringskod_best, REPLACE(benamning, ';', ',') AS benamning,\n" +
+        "                       REPLACE(postadress, ';', ',') AS postadress, postnr, postort, kontakt_akod, leverans, fakturering, lakemedkomm, externfaktura, externfakturamodell, apodos, VGPV, \n" +
+        "                      HSAID, anmarkning, from_datum, till_datum, reg_datum\n" +
+        "FROM         data\n" +
+        "WHERE     (till_datum >= (current_date - interval '1 year'))";
 
     List<Object[]> withOldSql = crud.query(oldishSql);
     assertNotNull(crud);
@@ -105,23 +81,17 @@ public class EHalsomyndighetenExportFileServiceTest {
       sb.append("\n");
     }
 
-    assertEquals(withOldSql.size(), eHalsomyndighetenExportFileService.findAllRelevantItems().size());
+    assertEquals(withOldSql.size(), sesamLmnExportFileService.findAllRelevantItems().size());
 
-    String newishJpaResult = eHalsomyndighetenExportFileService.generate();
+    String newishJpaResult = sesamLmnExportFileService.generate();
     String oldishSqlTextResult = sb.toString().trim();
 
     assertEquals(oldishSqlTextResult, newishJpaResult);
-
-    /*Path p = Paths.get(new File(".").getAbsolutePath(), "src", "test", "resources", "sql-result.txt");
-    Files.write(p, oldishSqlTextResult.getBytes());
-    p = Paths.get(new File(".").getAbsolutePath(), "src", "test", "resources", "jpa-result.txt");
-    Files.write(p, newishJpaResult.getBytes());*/
   }
 
   @Test
   public void findAllRelevantItems() throws Exception {
-    List<Data> jpaFiltering = eHalsomyndighetenExportFileService.findAllRelevantItems();
-    // Tests remains. Smoke test at the moment, only.
+    List<Data> jpaFiltering = sesamLmnExportFileService.findAllRelevantItems();
   }
 
 }

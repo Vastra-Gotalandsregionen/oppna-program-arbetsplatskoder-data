@@ -6,19 +6,12 @@ import se.vgregion.arbetsplatskoder.db.migration.sql.Atom;
 import se.vgregion.arbetsplatskoder.db.migration.sql.Junctor;
 import se.vgregion.arbetsplatskoder.db.migration.sql.Match;
 import se.vgregion.arbetsplatskoder.db.migration.util.BeanMap;
-import se.vgregion.arbetsplatskoder.db.migration.util.Zerial;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.sql.Clob;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Dao object, general purpose for crud operations with jpa. So far only saving a new instance has been required.
@@ -127,6 +120,12 @@ public class Crud {
   public List query(String nativeSql) {
     Query query = em.createNativeQuery(nativeSql);
     return query.getResultList();
+  }
+
+  @Transactional
+  public int execute(String command) {
+    Query q = em.createNativeQuery(command);
+    return q.executeUpdate();
   }
 
   /*public static List<Map<String, Object>> toMaps(ResultSet rs) {
