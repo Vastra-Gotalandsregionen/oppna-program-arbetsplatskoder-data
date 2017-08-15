@@ -1,4 +1,5 @@
 import {NativeDateAdapter} from "@angular/material"
+import {Util} from "../../core/util/util";
 
 export class MyDateAdapter extends NativeDateAdapter {
 
@@ -11,7 +12,6 @@ export class MyDateAdapter extends NativeDateAdapter {
   }
 
   format(date: Date, displayFormat: Object): string {
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date.toISOString().slice(0, 10);
+    return Util.dateToString(date);
   }
 }

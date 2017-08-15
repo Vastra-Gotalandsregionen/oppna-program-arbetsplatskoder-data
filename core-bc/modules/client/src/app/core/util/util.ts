@@ -24,4 +24,10 @@ export class Util {
     date.setSeconds(0);
     date.setMilliseconds(0);
   }
+
+  public static dateToString(date: Date) : string {
+    let clonedDate = new Date(date.valueOf());
+    clonedDate.setMinutes(clonedDate.getMinutes() - clonedDate.getTimezoneOffset());
+    return clonedDate.toISOString().slice(0, 10);
+  }
 }

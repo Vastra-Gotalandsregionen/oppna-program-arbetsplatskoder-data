@@ -16,6 +16,7 @@ import {Prodn3} from '../../model/prodn3';
 import {JwtHttp} from '../../core/jwt-http';
 import {RestResponse} from '../../model/rest-response';
 import {ApkBase} from "../apk-base/apk-base";
+import {Util} from "../../core/util/util";
 
 @Component({
   selector: 'apk-form',
@@ -442,8 +443,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     data.prodn1 = formModel.prodn1;
     data.prodn3 = formModel.prodn3;
     data.vgpv = formModel.vgpvGroup.vgpv;
-    data.fromDatum = formModel.fromDatum && typeof formModel.fromDatum === 'object' ? formModel.fromDatum.toLocaleDateString() : formModel.fromDatum;
-    data.tillDatum = formModel.tillDatum && typeof formModel.tillDatum === 'object' ? formModel.tillDatum.toLocaleDateString() : formModel.tillDatum;
+    data.fromDatum = formModel.fromDatum && typeof formModel.fromDatum === 'object' ? Util.dateToString(formModel.fromDatum) : formModel.fromDatum;
+    data.tillDatum = formModel.tillDatum && typeof formModel.tillDatum === 'object' ? Util.dateToString(formModel.tillDatum) : formModel.tillDatum;
     data.ersattav = formModel.ersattav;
 
     const headers = new Headers({'Content-Type': 'application/json'});
@@ -583,7 +584,7 @@ export function datePattern(): ValidatorFn {
     let value = control.value;
 
     if (value && typeof value === 'object') {
-      value = value.toLocaleDateString();
+      value = Util.dateToString(value);
     }
 
     if (!value || !value.match(datePattern)) {

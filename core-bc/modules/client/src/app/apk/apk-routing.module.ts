@@ -18,7 +18,8 @@ const routes: Routes = [
       },
       {
         path: 'create',
-        component: ApkCreateComponent
+        component: ApkCreateComponent,
+        canDeactivate: [FormChangedGuard]
       },
       {
         path: ':id',

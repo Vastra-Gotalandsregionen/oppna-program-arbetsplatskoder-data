@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Http} from '@angular/http';
 import {Data} from '../../model/data';
 import {AuthService} from '../../core/auth/auth.service';
 import {ApkBase} from "../apk-base/apk-base";
 import {Observable} from 'rxjs/Observable';
+import {ApkFormComponent} from "../apk-form/apk-form.component";
 
 @Component({
   selector: 'app-apk-detail',
@@ -12,6 +13,8 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./apk-detail.component.css']
 })
 export class ApkDetailComponent extends ApkBase implements OnInit {
+
+  @ViewChild(ApkFormComponent) apkFormComponent: ApkFormComponent;
 
   id: string;
   data: Data;

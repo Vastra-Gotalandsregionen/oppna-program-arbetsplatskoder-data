@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Http, URLSearchParams, RequestOptions} from '@angular/http';
 
 import {Report} from '../../model/report';
+import {Util} from "../../core/util/util";
 
 @Component({
   selector: 'app-report',
@@ -29,9 +30,9 @@ export class ReportComponent implements OnInit {
     now.setDate(1);
     now.setMonth(now.getMonth() - 1);
 
-    this.fromDate.setValue(now.toLocaleDateString());
+    this.fromDate.setValue(Util.dateToString(now));
 
-    const lastInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toLocaleDateString();
+    const lastInMonth = Util.dateToString(new Date(now.getFullYear(), now.getMonth() + 1, 0));
 
     this.toDate.setValue(lastInMonth);
   }

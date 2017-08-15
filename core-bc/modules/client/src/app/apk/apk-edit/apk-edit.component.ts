@@ -12,8 +12,6 @@ import {ApkFormComponent} from "../apk-form/apk-form.component";
 })
 export class ApkEditComponent extends ApkDetailComponent implements OnInit {
 
-  @ViewChild(ApkFormComponent) apkFormComponent: ApkFormComponent;
-
   constructor(route: ActivatedRoute,
               http: Http,
               authService: AuthService) {
