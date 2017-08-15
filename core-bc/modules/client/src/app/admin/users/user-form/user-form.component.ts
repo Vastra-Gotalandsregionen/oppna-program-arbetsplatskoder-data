@@ -39,7 +39,7 @@ export class UserFormComponent implements OnInit {
         .map<Response, User>(response => response.json());
 
       Observable.forkJoin([prodn1s$, user$])
-        .subscribe(result => {
+        .subscribe((result: any[]) => {
           this.allProdn1s = result[0];
           this.allProdn1s.forEach(prodn1 => this.prodn1sMap.set(prodn1.id, prodn1));
           this.user = result[1];

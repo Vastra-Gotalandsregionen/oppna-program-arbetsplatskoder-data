@@ -103,7 +103,11 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
         const data = result[3];
 
-        const prodn1s = result[4]; // These won't change as opposed to prodn2 and prodn3 which may change.
+        let prodn1s = <Prodn1[]> result[4]; // These won't change as opposed to prodn2 and prodn3 which may change.
+
+        prodn1s = prodn1s.filter(prodn1 => {
+          return !prodn1.raderad || (data && data.prodn1.id === prodn1.id); // Don't show deleted ones if it isn't the one already saved for the data.
+        });
 
         this.allAo3s = ao3s;
         this.allVardforms = vardforms;
@@ -293,11 +297,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         }
       });
 
-    if (this.data.prodn3) {
-      this.initProdnControls(this.data.prodn3);
-    } else {
-      this.initProdnControls(null);
-    }
+    this.initProdnControls(this.data.prodn3);
 
     if (this.data.id) {
       this.http.getPage('/api/archivedData/' + this.data.id)
@@ -350,37 +350,16 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   private initProdnControls(prodn3: Prodn3) {
     if (prodn3) {
       // We assume the form is already built, so we don't need to fetch the prodn3 again.
-      let prodn2;
-      let prodn1;
 
       // Now we know prodn3. Based on that we want to find prodn2, prodn1 as well as options for prodn2 and prodn3.
       // Start by finding the specific prodn2
-      // todo Clean up a bit here. Decrease use of Observable.
-      Observable.of(prodn3.prodn2)
-        .concatMap(prodn2 => {
-          // this.apkForm.patchValue({'prodn2': this.getItemInstanceInArray(prodn2, this.prodn2Options)});
-
-          // From this prodn2 we can find the chosen prodn1 but also the options for prodn3.
-          const prodn1Observable: Observable<Prodn1> = Observable.of(prodn2.prodn1);
-
-          const prodn3sObservable: Observable<Prodn3[]> = this.http.get('/api/prodn3?prodn2=' + prodn2.id)
-            .map(response => response.json())
-            .map((pageable: RestResponse<Prodn3[]>) => <Prodn3[]>pageable.content);
-
-          return Observable.forkJoin(prodn1Observable, prodn3sObservable);
-        })
-        .concatMap((result: any[]) => {
-          const prodn1 = result[0];
-          const prodn3s = result[1];
-
-          this.prodn3Options = prodn3s;
-
-          // Moving on with finding the options for prodn2, based on prodn1
-          return this.http.get('/api/prodn2?prodn1=' + prodn1.id);
-        })
+      this.http.get('/api/prodn3?prodn2=' + prodn3.prodn2.id)
+        .map(response => response.json().content.filter(prodn3 => !prodn3.raderad || (this.data.prodn3.id === prodn3.id))) // Filter out deleted ones but keep it if it's already saved on the data.
+        .do((prodn3s: Prodn3[]) => this.prodn3Options = prodn3s)
+        .concatMap((prodn3s: Prodn3[]) => this.http.get('/api/prodn2?prodn1=' + prodn3.prodn2.prodn1.id)) // Moving on with finding the options for prodn2, based on prodn1
         .map(response => response.json().content)
-        .subscribe(prodn2s => {
-          this.prodn2Options = prodn2s;
+        .subscribe((prodn2s: Prodn2[]) => {
+          this.prodn2Options = prodn2s.filter(prodn2 => !prodn2.raderad || prodn3.prodn2.id === prodn2.id);
 
           // Need to get the exact instance to make the component find a match and be able to display an option from the option list.
           this.apkForm.patchValue({'prodn2': this.getItemInstanceInArray(prodn3.prodn2, this.prodn2Options)});
@@ -486,23 +465,23 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
   filterAo3(name: string): Ao3[] {
     return this.allAo3s.filter(option =>
-    new RegExp(name, 'gi').test(option.foretagsnamn) ||
-    new RegExp(name, 'gi').test(option.ao3id) ||
-    new RegExp(name, 'gi').test(this.displayAo3Fn(option)));
+      new RegExp(name, 'gi').test(option.foretagsnamn) ||
+      new RegExp(name, 'gi').test(option.ao3id) ||
+      new RegExp(name, 'gi').test(this.displayAo3Fn(option)));
   }
 
   filterVardform(name: string): Vardform[] {
     return this.allVardforms.filter(option =>
-    new RegExp(name, 'gi').test(option.vardformtext) ||
-    new RegExp(name, 'gi').test(option.vardformid) ||
-    new RegExp(name, 'gi').test(this.displayVardformFn(option)));
+      new RegExp(name, 'gi').test(option.vardformtext) ||
+      new RegExp(name, 'gi').test(option.vardformid) ||
+      new RegExp(name, 'gi').test(this.displayVardformFn(option)));
   }
 
   filterVerksamhet(name: string): Verksamhet[] {
     return this.allVerksamhets.filter(option =>
-    new RegExp(name, 'gi').test(option.verksamhettext) ||
-    new RegExp(name, 'gi').test(option.verksamhetid) ||
-    new RegExp(name, 'gi').test(this.displayVerksamhetFn(option)));
+      new RegExp(name, 'gi').test(option.verksamhettext) ||
+      new RegExp(name, 'gi').test(option.verksamhetid) ||
+      new RegExp(name, 'gi').test(this.displayVerksamhetFn(option)));
   }
 
   displayAo3Fn(ao3: Ao3): string {
