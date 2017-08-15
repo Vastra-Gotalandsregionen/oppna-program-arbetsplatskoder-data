@@ -1,10 +1,8 @@
 <h1 md-dialog-title>Logga in</h1>
 
-<!--<div md-dialog-content>-->
-
 <div class="alert alert-danger" *ngIf="loginMessage">{{loginMessage}}</div>
 
-<form #loginForm="ngForm">
+<form #loginForm="ngForm" class="login-form">
   <div>
     <md-input-container>
       <input placeholder="VGR-ID" type="text" mdInput [(ngModel)]="userId" name="USER" required>
