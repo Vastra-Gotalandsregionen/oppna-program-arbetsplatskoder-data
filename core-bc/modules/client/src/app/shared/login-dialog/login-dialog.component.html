@@ -1,7 +1,8 @@
 <h1 md-dialog-title>Logga in</h1>
 
 <!--<div md-dialog-content>-->
-<div class="alert">{{loginMessage}}</div>
+
+<div class="alert alert-danger" *ngIf="loginMessage">{{loginMessage}}</div>
 
 <form #loginForm="ngForm">
   <div>
@@ -17,7 +18,7 @@
   </div>
 
   <div md-dialog-actions>
-    <button md-button (click)="login()">Logga in</button>
+    <button md-button (click)="login()" md-raised-button>Logga in</button>
   </div>
 </form>
 

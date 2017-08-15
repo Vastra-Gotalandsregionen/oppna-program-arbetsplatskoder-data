@@ -21,7 +21,8 @@ export class FormChangedGuard implements CanDeactivate<ApkEditComponent> {
         data: {
           text: 'Du har icke sparade ändringar. Vill du ändå navigera?',
           confirmButtonText: 'Navigera'
-        }
+        },
+        panelClass: 'apk-dialog'
       });
 
       let $result = new Subject<boolean>();
