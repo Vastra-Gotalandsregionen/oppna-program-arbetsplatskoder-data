@@ -8,13 +8,18 @@
     .mat-dialog-title {
       background: $vgr-blue;
       color: white;
-      font-weight: normal;
+      font-weight: 300;
       padding: 5px 10px;
       margin: -20px -20px 20px -20px;
     }
 
     .login-form {
       min-width: 300px;
+    }
+
+    .mat-dialog-actions {
+      display: block;
+      padding: 10px 0 20px 0;
     }
 
   }

@@ -330,15 +330,19 @@
         </md-card-content>
       </md-card>
 
-      <button type="submit"
-              [disabled]="apkForm.pristine" md-raised-button class="btn btn-success">Spara
-      </button> &nbsp;
+      <div class="button-row">
 
-      <button type="button"
-              [disabled]="apkForm.pristine" md-raised-button class="btn btn-success" (click)="resetForm()">Återställ
-      </button> &nbsp;
+        <button type="submit"
+                [disabled]="apkForm.pristine" md-raised-button class="btn btn-success">Spara
+        </button>
 
-      <span *ngIf="saveMessage" class="alert alert-danger">{{saveMessage}}</span>
+        <button type="button"
+                [disabled]="apkForm.pristine" md-raised-button class="btn btn-success" (click)="resetForm()">Återställ
+        </button>
+
+      </div>
+
+      <div *ngIf="saveMessage" class="alert alert-danger">{{saveMessage}}</div>
 
       <div class="debug" *ngIf="getShowDebug()">
 
