@@ -2,18 +2,22 @@
 
   .mat-card-title {
     font-size: auto;
+    font-size: 1.0rem;
     font-weight: normal;
     margin-bottom: 10px;
 
+  }
+
+  .mat-card-title,
+  .mat-card-content {
     h3 {
       border-bottom: 1px solid $vgr-blue;
       color: $vgr-blue;
-      font-size: 1.1em;
+      font-size: 1.5em;
       font-weight: normal;
       margin: 0 0 0 0;
       padding: 0 0 10px 0;
     }
-
   }
 
 }

@@ -24,7 +24,7 @@ export class AppComponent {
     const dialogConfig:MdDialogConfig = {
       disableClose: false,
       hasBackdrop: true
-      //,panelClass: ''
+      ,panelClass: 'apk-login-dialog'
     };
 
     const dialogRef: MdDialogRef<LoginDialogComponent> = this.dialog.open(LoginDialogComponent, dialogConfig);
