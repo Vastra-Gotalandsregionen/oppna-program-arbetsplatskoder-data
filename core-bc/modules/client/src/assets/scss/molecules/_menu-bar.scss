@@ -8,7 +8,7 @@
 
   a,
   a:visited {
-    color: #fff;
+    color: white;
     text-decoration: none;
   }
 
@@ -27,7 +27,12 @@
           font-weight: normal;
           padding: 10px 30px;
 
-          &.active {
+          &:hover {
+            border-bottom-color: white;
+          }
+
+          &.active,
+          &.active:hover {
             border-bottom-color: orange;
           }
 
