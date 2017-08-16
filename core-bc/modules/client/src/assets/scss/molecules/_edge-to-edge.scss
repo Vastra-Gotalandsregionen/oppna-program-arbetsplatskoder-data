@@ -1,0 +1,22 @@
+.edge-to-edge {
+
+  background: #fff;
+
+  margin-left: -9999px;
+  margin-right: -9999px;
+
+  padding: 30px 0;
+
+  &.gray {
+    background: #eee;
+  }
+
+  &.space-bottom {
+    margin-bottom: 20px;
+  }
+
+  &.space-top {
+    margin-top: 20px;
+  }
+
+}
