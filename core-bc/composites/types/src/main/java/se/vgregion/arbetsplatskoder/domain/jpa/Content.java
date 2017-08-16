@@ -15,7 +15,7 @@ public class Content {
     @Id
     private String id;
 
-    @Column
+    @Column(length = 100_000)
     private String content;
 
     public Content() {

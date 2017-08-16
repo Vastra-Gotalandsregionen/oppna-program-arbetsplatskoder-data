@@ -230,9 +230,9 @@ public class BatchService {
     List<Link> allLinks = linkRepository.findAll();
 
     if (allLinks.size() == 0) {
-      Link link1 = new Link(1, "Ange namn", "");
-      Link link2 = new Link(2, "Ange namn", "");
-      Link link3 = new Link(3, "Ange namn", "");
+      Link link1 = new Link(1, "Användarmanual", "");
+      Link link2 = new Link(2, "Regler & Rutiner", "");
+      Link link3 = new Link(3, "Kontaktpersoner", "");
 
       linkRepository.save(link1);
       linkRepository.save(link2);
