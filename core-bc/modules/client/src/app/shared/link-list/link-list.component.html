@@ -1,0 +1,47 @@
+<div *ngIf="links" >
+  <form #theForm="ngForm" [formGroup]="formGroup" (ngSubmit)="save()"
+        novalidate>
+
+    <div class="row" formArrayName="links">
+      <div *ngFor="let link of links.controls; let i=index" [formGroupName]="i">
+
+        <div class="col c4">
+          <div class="col-inner">
+            <a [href]="link.get('url').value" class="link-box" *ngIf="!editingLink(i)">
+              <md-icon class="link-box-icon" aria-hidden="true">file_download</md-icon>
+
+              <span class="link-box-label">{{link.get('label').value}}</span>
+            </a>
+
+            <div class="inner-content">
+              <a href="#" class="inner-link" mdTooltip="Redigera" *ngIf="!editingLink(i) && admin"
+                 (click)="editLink(i); false">
+                <md-icon>edit</md-icon>
+              </a>
+            </div>
+
+            <md-card *ngIf="editingLink(i) && admin">
+              <md-card-content>
+                <md-input-container>
+                  <input placeholder="Namn" mdInput formControlName="label"/>
+                </md-input-container>
+
+                <md-input-container>
+                  <input placeholder="URL" mdInput formControlName="url"/>
+                </md-input-container>
+
+                <a href="#" mdTooltip="Spara" (click)="saveLink(i); false">
+                  <md-icon>save</md-icon>
+                </a>
+
+                <a href="#" (click)="cancelLink(i); false">
+                  Avbryt
+                </a>
+              </md-card-content>
+            </md-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

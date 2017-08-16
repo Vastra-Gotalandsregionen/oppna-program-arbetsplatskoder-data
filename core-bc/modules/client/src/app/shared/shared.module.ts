@@ -12,9 +12,12 @@ import { BackButtonComponent } from './back-button/back-button.component';
 import { SidenavToggleButtonComponent } from './sidenav-toggle-button/sidenav-toggle-button.component';
 import { EllipsisPipe } from './ellipsis/ellipsis.pipe';
 import { DateXPipe } from './date-x-pipe/date-x.pipe';
+import {CKEditorModule} from "ng2-ckeditor";
 
 
 import { LaddaModule } from 'angular2-ladda';
+import { LinkListComponent } from './link-list/link-list.component';
+import { ContentBoxComponent } from './content-box/content-box.component';
 
 @NgModule({
   imports: [
@@ -23,7 +26,8 @@ import { LaddaModule } from 'angular2-ladda';
     FormsModule,
     LaddaModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    CKEditorModule
   ],
   declarations: [
     ErrorDialogComponent,
@@ -32,7 +36,9 @@ import { LaddaModule } from 'angular2-ladda';
     BackButtonComponent,
     SidenavToggleButtonComponent,
     EllipsisPipe,
-    DateXPipe
+    DateXPipe,
+    LinkListComponent,
+    ContentBoxComponent
   ],
   entryComponents: [
     ErrorDialogComponent,
@@ -42,13 +48,17 @@ import { LaddaModule } from 'angular2-ladda';
   exports: [
     ApkMaterialModule,
     CommonModule,
+    LinkListComponent,
+    ContentBoxComponent,
     LaddaModule,
+    FormsModule,
     ReactiveFormsModule,
     RouterModule,
     BackButtonComponent,
     SidenavToggleButtonComponent,
     EllipsisPipe,
-    DateXPipe
+    DateXPipe,
+    CKEditorModule
   ],
   providers: [
     ErrorHandler,

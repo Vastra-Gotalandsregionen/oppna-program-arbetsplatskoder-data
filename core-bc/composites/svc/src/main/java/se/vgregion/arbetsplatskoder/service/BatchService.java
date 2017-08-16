@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.db.migration.util.BeanMap;
 import se.vgregion.arbetsplatskoder.db.service.Crud;
+import se.vgregion.arbetsplatskoder.domain.jpa.Link;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.*;
 import se.vgregion.arbetsplatskoder.repository.*;
 
@@ -35,12 +36,17 @@ public class BatchService {
   private Prodn3Repository prodn3Repository;
 
   @Autowired
+  private LinkRepository linkRepository;
+
+  @Autowired
   private SesamLmnExportFileService sesamLmnExportFileService;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BatchService.class);
 
   @Transactional
   public void init() {
+
+    initLinks();
 
     List<Data> allDatas = dataRepository.findAll();
 
@@ -168,7 +174,12 @@ public class BatchService {
 
       String n2 = prodn3.getN2();
 
-      Prodn2 prodn2 = prodn2Map.get(n2);
+      Prodn2 prodn2;
+      if (n2 != null) {
+        prodn2 = prodn2Map.get(n2);
+      } else {
+        prodn2 = prodn3.getProdn2();
+      }
 
       if (prodn2 == null) {
 
@@ -212,6 +223,20 @@ public class BatchService {
         data.setProdn1(prodn1);
         dataRepository.save(data);
       }
+    }
+  }
+
+  private void initLinks() {
+    List<Link> allLinks = linkRepository.findAll();
+
+    if (allLinks.size() == 0) {
+      Link link1 = new Link(1, "Ange namn", "");
+      Link link2 = new Link(2, "Ange namn", "");
+      Link link3 = new Link(3, "Ange namn", "");
+
+      linkRepository.save(link1);
+      linkRepository.save(link2);
+      linkRepository.save(link3);
     }
   }
 

@@ -1,0 +1,37 @@
+<div *ngIf="content">
+  <form #theForm="ngForm" [formGroup]="formGroup" (ngSubmit)="save()"
+        novalidate>
+
+    <md-card class="info-card">
+      <md-card-content>
+        <!--<h3>Om Arbetsplatskodsregistret</h3>
+        <p>Arbetsplatskodsregistret innehåller information om vårdens arbetsplatskoder. En arbetsplatskod måste vara giltig och finnas på receptet, eller hjälpmedelskortet, för att patienten ska kunna ta del av läkemedelsförmånen.</p>
+        <p>Med läkemedelsförmånen avses att vissa mediciner subventioneras via skattemedel. En patient får däremot betala fullt pris för ett läkemedel om koden saknas eller inte är godkänd.</p>
+        <p>Källa: eHälsomyndigheten 2017-05-10</p>-->
+
+        <div [innerHTML]="content.content" *ngIf="!editingContent"></div>
+
+        <ckeditor
+          [readonly]="false"
+          formControlName="content"
+          *ngIf="editingContent">
+        </ckeditor>
+
+        <a href="#" class="action-toolbar-item" mdTooltip="Redigera" *ngIf="!editingContent && admin"
+           (click)="editContent(); false">
+          <md-icon>edit</md-icon>
+        </a>
+
+        <a href="#" class="action-toolbar-item" mdTooltip="Spara" *ngIf="editingContent" (click)="saveContent(); false">
+          <md-icon>save</md-icon>
+        </a>
+
+        <a href="#" class="action-toolbar-item" *ngIf="editingContent" (click)="cancelContent(); false">
+          Avbryt
+        </a>
+
+      </md-card-content>
+    </md-card>
+
+  </form>
+</div>

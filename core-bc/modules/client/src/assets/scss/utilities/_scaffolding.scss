@@ -33,4 +33,11 @@
 
 .col-inner {
   padding: 10px 20px;
+  position: relative;
+
+  .inner-content {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+  }
 }

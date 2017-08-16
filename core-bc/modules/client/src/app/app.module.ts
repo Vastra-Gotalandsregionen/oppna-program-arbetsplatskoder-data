@@ -22,7 +22,6 @@ import {CoreModule} from './core/core.module';
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
