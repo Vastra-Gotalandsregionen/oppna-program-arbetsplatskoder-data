@@ -48,6 +48,7 @@ export class ContentBoxComponent implements OnInit {
 
   editContent() {
     this.editingContent = true;
+    this.formGroup.patchValue({'content': this.content.content});
   }
 
   saveContent() {
@@ -65,7 +66,6 @@ export class ContentBoxComponent implements OnInit {
   }
 
   cancelContent() {
-    this.formGroup.patchValue({'content': this.content});
     this.editingContent = false;
   }
 
