@@ -228,7 +228,8 @@ export class ApkComponent extends ApkBase implements OnInit {
       data: {
         text: 'Är du säker att du vill ta bort vald arbetsplatskod?',
         confirmButtonText: 'Ta bort'
-      }
+      },
+      panelClass: 'apk-dialog'
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -73,7 +73,8 @@ export class UsersListComponent implements OnInit {
       data: {
         text: 'Är du säker att du vill ta bort vald användare?',
         confirmButtonText: 'Ta bort'
-      }
+      },
+      panelClass: 'apk-dialog'
     });
 
     dialogRef.afterClosed().subscribe(result => {
