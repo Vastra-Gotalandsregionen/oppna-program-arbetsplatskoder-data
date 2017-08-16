@@ -14,7 +14,7 @@
             </a>
 
             <div class="inner-content">
-              <a href="#" class="inner-link" mdTooltip="Redigera" *ngIf="!editingLink(i) && admin"
+              <a href="#" class="inner-link" mdTooltip="Redigera" *ngIf="!editingLink(i) && admin && getShowContentEdit()"
                  (click)="editLink(i); false">
                 <md-icon>edit</md-icon>
               </a>

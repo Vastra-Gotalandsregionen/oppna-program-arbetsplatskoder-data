@@ -39,6 +39,11 @@
 
       button {
         text-transform: none;
+
+        &.on {
+          border: 1px solid white;
+        }
+
       }
 
     }

@@ -39,6 +39,14 @@ export class AppComponent {
     this.router.navigate(['/']);
   }
 
+  getShowContentEdit(): boolean {
+    return this.stateService.showContentEdit;
+  }
+
+  setShowContentEdit(value : boolean) {
+    this.stateService.showContentEdit = value;
+  }
+
   getShowDebug(): boolean {
     return this.stateService.showDebug;
   }

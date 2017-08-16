@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthService} from "../../core/auth/auth.service";
 import {JwtHttp} from "../../core/jwt-http";
+import {StateService} from '../../core/state/state.service';
 import {Content} from "../../model/content";
 import {MdSnackBar} from "@angular/material";
 
@@ -20,10 +21,15 @@ export class ContentBoxComponent implements OnInit {
 
   editingContent = false;
 
+  stateService: StateService;
+
   constructor(private authService: AuthService,
               private http: JwtHttp,
               private snackBar: MdSnackBar,
+              stateService: StateService,
               private formBuilder: FormBuilder) {
+
+      this.stateService = stateService;
   }
 
   ngOnInit() {
@@ -65,6 +71,14 @@ export class ContentBoxComponent implements OnInit {
 
   get admin() {
     return this.authService.getLoggedInRole() === 'ADMIN';
+  }
+
+  getShowContentEdit(): boolean {
+    return this.stateService.showContentEdit;
+  }
+
+  setShowContentEdit(value : boolean) {
+    this.stateService.showContentEdit = value;
   }
 
 }

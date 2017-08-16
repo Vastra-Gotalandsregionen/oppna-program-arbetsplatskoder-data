@@ -5,6 +5,7 @@ import {Anvandare} from '../../model/anvandare';
 export class StateService {
 
   private _loggedInUser: Anvandare;
+  private _showContentEdit: boolean;
   private _showDebug: boolean;
   private _showSidenav: boolean;
   showProgress: boolean;
@@ -18,6 +19,15 @@ export class StateService {
   set loggedInUser(value: Anvandare) {
     this._loggedInUser = value;
   }
+
+  get showContentEdit(): boolean {
+    return this._showContentEdit;
+  }
+
+  set showContentEdit(value : boolean) {
+    this._showContentEdit = value;
+  }
+
 
   get showDebug(): boolean {
     return this._showDebug;

@@ -17,7 +17,7 @@
           *ngIf="editingContent">
         </ckeditor>
 
-        <a href="#" class="action-toolbar-item" mdTooltip="Redigera" *ngIf="!editingContent && admin"
+        <a href="#" class="action-toolbar-item" mdTooltip="Redigera" *ngIf="!editingContent && admin && getShowContentEdit()"
            (click)="editContent(); false">
           <md-icon>edit</md-icon>
         </a>

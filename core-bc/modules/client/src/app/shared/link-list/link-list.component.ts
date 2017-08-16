@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {AuthService} from "../../core/auth/auth.service";
 import {JwtHttp} from "../../core/jwt-http";
+import {StateService} from '../../core/state/state.service';
 import {Link} from "../../model/link";
 import {MdSnackBar} from "@angular/material";
 
@@ -18,11 +19,16 @@ export class LinkListComponent implements OnInit {
 
   editingLinks = [false, false, false];
 
+  stateService: StateService;
+
   constructor(private authService: AuthService,
               private formBuilder: FormBuilder,
               private snackBar: MdSnackBar,
+              stateService: StateService,
               private http: JwtHttp) {
 
+
+      this.stateService = stateService;
   }
 
   ngOnInit() {
@@ -88,6 +94,14 @@ export class LinkListComponent implements OnInit {
 
   get admin() {
     return this.authService.getLoggedInRole() === 'ADMIN';
+  }
+
+  getShowContentEdit(): boolean {
+    return this.stateService.showContentEdit;
+  }
+
+  setShowContentEdit(value : boolean) {
+    this.stateService.showContentEdit = value;
   }
 
 }

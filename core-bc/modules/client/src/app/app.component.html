@@ -15,6 +15,11 @@
             <div class="header-controls">
 
               <span *ngIf="admin" class="header-control-item">
+                <button *ngIf="getShowContentEdit()" md-button (click)="setShowContentEdit(false)" mdTooltip="Dölj debug-läge" class="on"><md-icon>edit</md-icon></button>
+                <button *ngIf="!getShowContentEdit()" md-button (click)="setShowContentEdit(true)" mdTooltip="Visa debug-läge"><md-icon>edit</md-icon></button>
+              </span>
+
+              <span *ngIf="admin" class="header-control-item">
                 <button *ngIf="getShowDebug()" md-button (click)="setShowDebug(false)" mdTooltip="Dölj debug-läge"><md-icon>visibility</md-icon></button>
                 <button *ngIf="!getShowDebug()" md-button (click)="setShowDebug(true)" mdTooltip="Visa debug-läge"><md-icon>visibility_off</md-icon></button>
               </span>
