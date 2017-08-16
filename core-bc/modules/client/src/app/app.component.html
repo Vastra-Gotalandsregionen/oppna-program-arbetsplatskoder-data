@@ -8,15 +8,17 @@
       <div class="retain-contain">
 
         <md-toolbar class="">
-            <img class="logo" src="/assets/images/apk-logo4.png" alt="Logo APK" />
+            <a routerLink="home" routerLinkActive="active">
+              <img class="logo" src="/assets/images/apk-logo4.png" alt="Logo APK" />
+            </a>
 
             <div class="header-toolbar-spacer"></div>
 
             <div class="header-controls">
 
               <span *ngIf="admin" class="header-control-item">
-                <button *ngIf="getShowContentEdit()" md-button (click)="setShowContentEdit(false)" mdTooltip="Dölj debug-läge" class="on"><md-icon>edit</md-icon></button>
-                <button *ngIf="!getShowContentEdit()" md-button (click)="setShowContentEdit(true)" mdTooltip="Visa debug-läge"><md-icon>edit</md-icon></button>
+                <button *ngIf="getShowContentEdit()" md-button (click)="setShowContentEdit(false)" mdTooltip="Dölj redigeringsläge" class="on"><md-icon>edit</md-icon></button>
+                <button *ngIf="!getShowContentEdit()" md-button (click)="setShowContentEdit(true)" mdTooltip="Visa redigeringsläge"><md-icon>edit</md-icon></button>
               </span>
 
               <span *ngIf="admin" class="header-control-item">
@@ -95,7 +97,9 @@
   <div class="footer">
     <div class="retain-contain">
       <md-toolbar>
-        <img class="logo" src="/assets/images/vgr-logotyp-neg.png" alt="Logo VGR" />
+        <a href="//www.vgregion.se" class="logo-link">
+          <img class="logo" src="/assets/images/vgr-logotyp-neg.png" alt="Logo VGR" />
+        </a>
       </md-toolbar>
     </div>
   </div>
