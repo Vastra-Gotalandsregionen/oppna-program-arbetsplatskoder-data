@@ -1,0 +1,38 @@
+.edit-toolbar.mat-toolbar {
+
+  background: $vgr-blue-dark;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: normal;
+  line-height: 1;
+  min-height: auto;
+  padding: 5px 20px;
+
+  .mat-toolbar-row {
+    height: auto;
+  }
+
+  .edit-toolbar-item {
+    display: inline-block;
+    margin: 0 10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+  }
+
+  a,
+  a:visited {
+    color: white;
+    font-weight: 300;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+}

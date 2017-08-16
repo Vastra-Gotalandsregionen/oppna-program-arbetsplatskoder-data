@@ -3,6 +3,7 @@
         novalidate>
 
     <div class="row" formArrayName="links">
+
       <div *ngFor="let link of links.controls; let i=index" [formGroupName]="i">
 
         <div class="col c4">
@@ -12,13 +13,6 @@
 
               <span class="link-box-label">{{link.get('label').value}}</span>
             </a>
-
-            <div class="inner-content">
-              <a href="#" class="inner-link" mdTooltip="Redigera" *ngIf="!editingLink(i) && admin && getShowContentEdit()"
-                 (click)="editLink(i); false">
-                <md-icon>edit</md-icon>
-              </a>
-            </div>
 
             <md-card *ngIf="editingLink(i) && admin">
               <md-card-content>
@@ -30,18 +24,31 @@
                   <input placeholder="URL" mdInput formControlName="url"/>
                 </md-input-container>
 
-                <a href="#" mdTooltip="Spara" (click)="saveLink(i); false">
-                  <md-icon>save</md-icon>
-                </a>
-
-                <a href="#" (click)="cancelLink(i); false">
-                  Avbryt
-                </a>
               </md-card-content>
             </md-card>
+
+            <md-toolbar class="edit-toolbar" *ngIf="admin && getShowContentEdit()">
+              <a href="#" class="edit-toolbar-item" mdTooltip="Redigera" *ngIf="!editingLink(i)"
+                 (click)="editLink(i); false">
+                <md-icon>edit</md-icon>
+              </a>
+
+              <a href="#" class="edit-toolbar-item" mdTooltip="Spara" *ngIf="editingLink(i)" (click)="saveLink(i); false">
+                <md-icon>save</md-icon>
+              </a>
+
+              <a href="#" class="edit-toolbar-item" *ngIf="editingLink(i)" (click)="cancelLink(i); false">
+                Avbryt
+              </a>
+            </md-toolbar>
+
+
           </div>
         </div>
       </div>
     </div>
+
+
+
   </form>
 </div>

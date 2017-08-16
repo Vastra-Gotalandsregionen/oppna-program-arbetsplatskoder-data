@@ -17,21 +17,23 @@
           *ngIf="editingContent">
         </ckeditor>
 
-        <a href="#" class="action-toolbar-item" mdTooltip="Redigera" *ngIf="!editingContent && admin && getShowContentEdit()"
-           (click)="editContent(); false">
-          <md-icon>edit</md-icon>
-        </a>
-
-        <a href="#" class="action-toolbar-item" mdTooltip="Spara" *ngIf="editingContent" (click)="saveContent(); false">
-          <md-icon>save</md-icon>
-        </a>
-
-        <a href="#" class="action-toolbar-item" *ngIf="editingContent" (click)="cancelContent(); false">
-          Avbryt
-        </a>
-
       </md-card-content>
     </md-card>
+
+    <md-toolbar class="edit-toolbar" *ngIf="admin && getShowContentEdit()">
+      <a href="#" class="edit-toolbar-item" mdTooltip="Redigera" *ngIf="!editingContent"
+         (click)="editContent(); false">
+        <md-icon>edit</md-icon>
+      </a>
+
+      <a href="#" class="edit-toolbar-item" mdTooltip="Spara" *ngIf="editingContent" (click)="saveContent(); false">
+        <md-icon>save</md-icon>
+      </a>
+
+      <a href="#" class="edit-toolbar-item" *ngIf="editingContent" (click)="cancelContent(); false">
+        Avbryt
+      </a>
+    </md-toolbar>
 
   </form>
 </div>
