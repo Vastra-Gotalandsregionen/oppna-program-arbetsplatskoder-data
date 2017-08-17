@@ -2,6 +2,9 @@ package se.vgregion.arbetsplatskoder.db.migration.util;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.SQLException;
 
 /**
  * Created by clalu4 on 2016-11-17.
@@ -49,6 +52,32 @@ public class Zerial {
             } finally {
                 input.close();
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String toText(Clob clob) {
+        try {
+            Reader in = clob.getCharacterStream();
+            int line = -1;
+            StringBuilder rslt = new StringBuilder();
+            while ((line = in.read()) != -1) {
+                rslt.append((char)line);
+            }
+            return rslt.toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static byte[] toBytes(Blob blob) {
+        try {
+            int blobLength = (int) blob.length();
+            byte[] bytes = blob.getBytes(1, blobLength);
+            //release the blob and free up memory. (since JDBC 4.0)
+            blob.free();
+            return bytes;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

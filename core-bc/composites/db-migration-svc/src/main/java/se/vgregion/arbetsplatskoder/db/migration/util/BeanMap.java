@@ -300,4 +300,11 @@ public class BeanMap implements Map<String, Object> {
         });
     }
 
+    public void putAllApplicable(Map<? extends String, ? extends Object> m) {
+        for (String key : m.keySet()) {
+            if(containsKey(key) && !isReadOnly(key))
+                put(key, m.get(key));
+        }
+    }
+
 }

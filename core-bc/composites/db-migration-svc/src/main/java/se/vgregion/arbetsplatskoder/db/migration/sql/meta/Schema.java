@@ -1,4 +1,4 @@
-package se.vgregion.arbetsplatskoder.db.migration.sql;
+package se.vgregion.arbetsplatskoder.db.migration.sql.meta;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,11 +7,11 @@ import java.util.List;
 /**
  * Created by clalu4 on 2016-12-27.
  */
-public class SchemaInf implements Serializable {
+public class Schema implements Serializable {
 
     private String name;
 
-    private List<TableInf> tables = new ArrayList<>();
+    private List<Table> tables = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -21,7 +21,7 @@ public class SchemaInf implements Serializable {
         this.name = name;
     }
 
-    public List<TableInf> getTables() {
+    public List<Table> getTables() {
         return tables;
     }
 
@@ -30,10 +30,10 @@ public class SchemaInf implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SchemaInf schemaInf = (SchemaInf) o;
+        Schema schema = (Schema) o;
 
-        if (name != null ? !name.equals(schemaInf.name) : schemaInf.name != null) return false;
-        return tables != null ? tables.equals(schemaInf.tables) : schemaInf.tables == null;
+        if (name != null ? !name.equals(schema.name) : schema.name != null) return false;
+        return tables != null ? tables.equals(schema.tables) : schema.tables == null;
     }
 
     @Override
@@ -51,13 +51,13 @@ public class SchemaInf implements Serializable {
                 '}';
     }
 
-    public static List<SchemaInf> toSchemas(List<TableInf> tables) {
-        List<SchemaInf> result = new ArrayList<>();
+    public static List<Schema> toSchemas(List<Table> tables) {
+        List<Schema> result = new ArrayList<>();
         String name = "fooBarBaz123 :*)";
-        SchemaInf current = null;
-        for (TableInf table : tables) {
+        Schema current = null;
+        for (Table table : tables) {
             if (!name.equals(table.getTableSchema())) {
-                current = new SchemaInf();
+                current = new Schema();
                 name = table.getTableSchema();
                 current.setName(name);
                 result.add(current);
@@ -67,8 +67,8 @@ public class SchemaInf implements Serializable {
         return result;
     }
 
-    public TableInf getTable(String byItsName) {
-        for (TableInf table : tables) {
+    public Table getTable(String byItsName) {
+        for (Table table : tables) {
             if (table.getTableName().equals(byItsName)) {
                 return table;
             }

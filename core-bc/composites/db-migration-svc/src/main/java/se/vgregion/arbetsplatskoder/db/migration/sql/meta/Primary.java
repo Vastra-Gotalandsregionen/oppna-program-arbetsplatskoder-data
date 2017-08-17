@@ -1,14 +1,14 @@
-package se.vgregion.arbetsplatskoder.db.migration.sql;
+package se.vgregion.arbetsplatskoder.db.migration.sql.meta;
 
 import java.io.Serializable;
 
 /**
  * Created by clalu4 on 2016-12-27.
  */
-public class PrimaryKeyInf implements Serializable {
+public class Primary implements Serializable {
 
     private String tableCat, tableSchem, tableName, columnName, pkName;
-    private Integer keySeq, ordinalPosition /*This one is not in the spec*/;
+    private Short keySeq, ordinalPosition /*This one is not in the spec*/;
 
     public String getTableCat() {
         return tableCat;
@@ -70,19 +70,19 @@ public class PrimaryKeyInf implements Serializable {
         this.pkName = pkName;
     }
 
-    public Integer getKeySeq() {
+    public Short getKeySeq() {
         return keySeq;
     }
 
-    public void setKeySeq(Integer keySeq) {
+    public void setKeySeq(Short keySeq) {
         this.keySeq = keySeq;
     }
 
-    public Integer getOrdinalPosition() {
+    public Short getOrdinalPosition() {
         return ordinalPosition;
     }
 
-    public void setOrdinalPosition(Integer ordinalPosition) {
+    public void setOrdinalPosition(Short ordinalPosition) {
         this.ordinalPosition = ordinalPosition;
     }
 }
