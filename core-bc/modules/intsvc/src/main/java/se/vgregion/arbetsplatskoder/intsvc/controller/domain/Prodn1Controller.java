@@ -1,6 +1,9 @@
 package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -48,12 +51,9 @@ public class Prodn1Controller {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Prodn1>> getProdn1s(
-            @RequestParam(value = "orphan", defaultValue = "false") boolean orphan,
-            @RequestParam(value = "id", required = false) Integer id) {
+            @RequestParam(value = "orphan", defaultValue = "false") boolean orphan) {
 
-        HttpServletRequest request = this.request;
-
-        String userId = getUserIdFromRequest(request);
+        String userId = getUserIdFromRequest(this.request);
 
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -64,11 +64,12 @@ public class Prodn1Controller {
         List<Prodn1> result;
         if (Role.ADMIN.equals(user.getRole())) {
 
-            if (id == null) {
-                result = prodn1Repository.findAllByOrderByForetagsnamnAsc();
-            } else {
-                throw new RuntimeException("Use /api/prodn1/{id} instead."); // todo Remove this
-            }
+            Sort.Order sortOrder = new Sort.Order(Sort.Direction.ASC,"foretagsnamn").ignoreCase();
+
+            PageRequest pageable = new PageRequest(0, Integer.MAX_VALUE, new Sort(sortOrder));
+            Page<Prodn1> all = prodn1Repository.findAll(pageable);
+
+            result = new ArrayList<>(all.getContent()); // So we don't get an unmodifiable collection.
 
         } else {
             result = new ArrayList<>(user.getProdn1s());
@@ -103,6 +104,10 @@ public class Prodn1Controller {
         if (prodn1.getId() == null) {
             // New entity.
             prodn1.setId(Math.abs(new Random().nextInt()));
+        }
+
+        if (prodn1.getRaderad() == null) {
+            prodn1.setRaderad(false);
         }
 
         prodn1.setSsmaTimestamp(new Byte[]{0x00}); // todo What to do with these?

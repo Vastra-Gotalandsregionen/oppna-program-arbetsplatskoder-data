@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -54,6 +55,8 @@ public class Prodn3RepositoryImpl implements Prodn3ExtendedRepository {
 
         criteriaQuery.select(root);
         criteriaQuery.where(whereContent);
+        Order order = cb.asc(cb.lower(root.get("foretagsnamn")));
+        criteriaQuery.orderBy(order);
 
         TypedQuery<Prodn3> typedQuery = entityManager.createQuery(criteriaQuery);
 

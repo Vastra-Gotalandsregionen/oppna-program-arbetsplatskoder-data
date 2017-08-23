@@ -13,8 +13,6 @@ import java.util.List;
  */
 public interface Prodn1Repository extends JpaRepository<Prodn1, Integer> {
 
-    List<Prodn1> findAllByOrderByForetagsnamnAsc();
-
     @Query("select p from Prodn1 p where ((lower(p.foretagsnamn) like concat('%', :field1, '%')) or lower(p.id) like concat('%', :field1, '%')) order by p.foretagsnamn")
     List<Prodn1> search(@Param("field1") String field1);
 

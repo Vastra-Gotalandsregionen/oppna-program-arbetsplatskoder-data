@@ -62,10 +62,8 @@ public class Prodn2Controller {
 
         User user = userRepository.findOne(userId);
 
-        Sort.Order order1 = new Sort.Order(Sort.Direction.ASC, "prodn1.id").ignoreCase();
-        Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "avdelning").ignoreCase();
-
-        Sort.Order[] orders = new Sort.Order[]{order1, order2};
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "avdelning").ignoreCase();
+        Sort.Order[] orders = new Sort.Order[]{order};
 
         if (Role.ADMIN.equals(user.getRole())) {
             return getProdn2sForAdmin(prodn1Id, page, orders);
@@ -74,7 +72,11 @@ public class Prodn2Controller {
         }
     }
 
-    private ResponseEntity<Page<Prodn2>> getProdn2sForNonAdmin(@RequestParam(value = "prodn1", required = false) Integer prodn1Id, @RequestParam(value = "page", required = false) Integer page, User user, Sort.Order[] orders) {
+    private ResponseEntity<Page<Prodn2>> getProdn2sForNonAdmin(
+            @RequestParam(value = "prodn1", required = false) Integer prodn1Id,
+            @RequestParam(value = "page", required = false) Integer page,
+            User user, Sort.Order[] orders) {
+
         Set<Prodn1> prodn1s = user.getProdn1s();
         Set<Integer> usersProdn1Ids = prodn1s.stream().map(Prodn1::getId).collect(Collectors.toSet());
         if (prodn1Id != null) {
@@ -102,14 +104,18 @@ public class Prodn2Controller {
         }
     }
 
-    private ResponseEntity<Page<Prodn2>> getProdn2sForAdmin(@RequestParam(value = "prodn1", required = false) Integer prodn1Id, @RequestParam(value = "page", required = false) Integer page, Sort.Order[] orders) {
+    private ResponseEntity<Page<Prodn2>> getProdn2sForAdmin(
+            @RequestParam(value = "prodn1", required = false) Integer prodn1Id,
+            @RequestParam(value = "page", required = false) Integer page,
+            Sort.Order[] orders) {
+
         if (prodn1Id != null) {
             // Admin + prodn1 condition
             Pageable pageable;
             if (page != null) {
                 pageable = new PageRequest(page, defaultPageSize, new Sort(orders));
             } else {
-                pageable = null;
+                pageable = new PageRequest(0, Integer.MAX_VALUE, new Sort(orders));
             }
 
             Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
