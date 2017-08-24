@@ -42,7 +42,7 @@ public class UnitSearchService {
         for (Unit unit : this.unitsRoot.getUnits()) {
             String[] ou = unit.getAttributes().getOu();
             String[] hsaIdentity = unit.getAttributes().getHsaIdentity();
-            if (ou != null && ou.length > 0 && ou[0].toLowerCase().contains(query.toLowerCase())) {
+            if (ou != null && ou.length > 0 && matches(ou[0], query.toLowerCase())) {
                 results.add(unit);
             } else if (hsaIdentity != null && hsaIdentity.length > 0 && hsaIdentity[0].toLowerCase().contains(query.toLowerCase())) {
                 results.add(unit);
@@ -50,5 +50,17 @@ public class UnitSearchService {
         }
 
         return results;
+    }
+
+    private boolean matches(String text, String query) {
+        String[] split = query.split(" ");
+
+        for (String word : split) {
+            if (!text.toLowerCase().contains(word)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
