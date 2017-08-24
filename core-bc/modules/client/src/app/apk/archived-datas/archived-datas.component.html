@@ -78,21 +78,21 @@
           </td>
         </tr>
         <tr>
-          <th>Fakturering</th>
-          <td *ngFor="let data of currentPlusArchivedDatas">
-            {{data.fakturering}}
-          </td>
-        </tr>
-        <tr>
           <th>Faktureras externt</th>
           <td *ngFor="let data of currentPlusArchivedDatas">
-            {{data.externfaktura}}
+            {{data.externfakturamodell == 'ovr' ? 'Ja' : data.externfakturamodell}}
           </td>
         </tr>
         <tr>
           <th>Vårdform</th>
           <td *ngFor="let data of currentPlusArchivedDatas">
             {{data.vardform}}
+          </td>
+        </tr>
+        <tr>
+          <th>Verksamhetskod</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.verksamhet}}
           </td>
         </tr>
         <tr>

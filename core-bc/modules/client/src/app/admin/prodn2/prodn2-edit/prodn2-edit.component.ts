@@ -86,7 +86,8 @@ export class Prodn2EditComponent implements OnInit {
       n1: this.prodn2.n1, // Just keep the old value.
       prodn1: this.getProdn1ById(formModel.prodn1),
       riktvarde: formModel.riktvarde,
-      raderad: formModel.raderad ? 'true' : 'false'
+      raderad: formModel.raderad ? 'true' : 'false',
+      autoradering: this.prodn2.autoradering // Just keep the old value.
     };
 
     this.http.put('/api/prodn2', prodn2)

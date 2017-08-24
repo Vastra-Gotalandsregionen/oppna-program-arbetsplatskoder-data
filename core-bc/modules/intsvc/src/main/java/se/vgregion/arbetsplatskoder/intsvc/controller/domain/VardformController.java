@@ -1,6 +1,9 @@
 package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Vardform;
 import se.vgregion.arbetsplatskoder.repository.VardformRepository;
 
-import java.util.List;
 import java.util.Random;
 
 @Controller
@@ -23,8 +25,10 @@ public class VardformController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    public List<Vardform> getVardforms() {
-        return vardformRepository.findAll();
+    public Page<Vardform> getVardforms() {
+        PageRequest pageRequest = new PageRequest(0, Integer.MAX_VALUE, new Sort(new Sort.Order("vardformid").ignoreCase()));
+
+        return vardformRepository.findAll(pageRequest);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

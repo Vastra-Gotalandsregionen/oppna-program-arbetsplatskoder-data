@@ -85,7 +85,8 @@ export class Prodn3EditComponent implements OnInit {
       kortnamn: formModel.kortnamn,
       prodn2: this.getProdn2ById(formModel.prodn2),
       producentid: this.prodn3.producentid, // Just keep the old value.
-      raderad: formModel.raderad ? 'true' : 'false'
+      raderad: formModel.raderad ? 'true' : 'false',
+      autoradering: this.prodn3.autoradering // Just keep the old value.
     };
 
     this.http.put('/api/prodn3', prodn3)

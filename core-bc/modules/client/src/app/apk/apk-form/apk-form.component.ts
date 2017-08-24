@@ -92,7 +92,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     }
 
     const ao3Observable = this.http.get('/api/ao3').map(response => response.json().content);
-    const vardformObservable = this.http.get('/api/vardform').map(response => response.json());
+    const vardformObservable = this.http.get('/api/vardform').map(response => response.json().content);
     const verksamhetObservable = this.http.get('/api/verksamhet').map(response => response.json());
     const prodn1 = this.http.get('/api/prodn1').map(response => response.json());
 
@@ -102,17 +102,17 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         const vardforms = result[1];
         const verksamhets = result[2];
 
-        const data = result[3];
+        const data = <Data> result[3];
 
         let prodn1s = <Prodn1[]> result[4]; // These won't change as opposed to prodn2 and prodn3 which may change.
 
         prodn1s = prodn1s.filter(prodn1 => {
-          return !prodn1.raderad || (data && data.prodn1.id === prodn1.id); // Don't show deleted ones if it isn't the one already saved for the data.
+          return !prodn1.raderad || (data && data.prodn1 && data.prodn1.id === prodn1.id); // Don't show deleted ones if it isn't the one already saved for the data.
         });
 
-        this.allAo3s = ao3s;
-        this.allVardforms = vardforms;
-        this.allVerksamhets = verksamhets;
+        this.allAo3s = ao3s.filter((ao3: Ao3) => !ao3.raderad || ao3.ao3id === data.ao3);// Don't show deleted ones if it isn't the one already saved for the data.
+        this.allVardforms = vardforms.filter((vardform: Vardform) => !vardform.raderad || (data.vardform == vardform.vardformid));
+        this.allVerksamhets = verksamhets.filter((verksamhet: Verksamhet) => !verksamhet.raderad || data.verksamhet == verksamhet.verksamhetid); // Only show those not raderad.;
 
         this.data = data;
 
@@ -393,7 +393,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       .flatMap(prodn1 =>
         this.http.get('/api/prodn2?prodn1=' + prodn1.id).map(response => response.json().content))
       .subscribe(prodn2s => {
-        this.prodn2Options = prodn2s;
+        this.prodn2Options = prodn2s.filter(prodn2 => !prodn2.raderad); // Only show those not raderad.
         this.prodn3Options = [];
         this.apkForm.patchValue({
           'prodn2': null,
@@ -407,7 +407,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       .map(response => response.json())
       .map((pageable: RestResponse<Prodn3[]>) => <Prodn3[]>pageable.content)
       .subscribe(prodn3s => {
-        this.prodn3Options = prodn3s;
+        this.prodn3Options = prodn3s.filter(prodn3 => !prodn3.raderad); // Only show those not raderad.
         this.apkForm.patchValue({
           'prodn3': null
         });

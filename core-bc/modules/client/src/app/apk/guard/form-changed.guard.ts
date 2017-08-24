@@ -17,7 +17,7 @@ export class FormChangedGuard implements CanDeactivate<ApkEditComponent> {
                 currentState: RouterStateSnapshot,
                 nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    if (component.apkFormComponent.apkForm.touched) {
+    if (!component.apkFormComponent.apkForm.pristine) {
       let dialogRef = this.dialog.open(ConfirmDialogComponent, {
         data: {
           text: 'Du har icke sparade ändringar. Vill du ändå navigera?',

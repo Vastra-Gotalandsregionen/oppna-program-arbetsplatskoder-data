@@ -1,15 +1,15 @@
 package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Vardform;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ResponseBody;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Verksamhet;
 import se.vgregion.arbetsplatskoder.repository.VerksamhetRepository;
 
@@ -26,7 +26,9 @@ public class VerksamhetController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public List<Verksamhet> getVerksamhets() {
-        return verksamhetRepository.findAllByOrderByVerksamhettext();
+        PageRequest pageRequest = new PageRequest(0, Integer.MAX_VALUE, new Sort(new Sort.Order("verksamhettext").ignoreCase()));
+
+        return verksamhetRepository.findAll(pageRequest).getContent();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

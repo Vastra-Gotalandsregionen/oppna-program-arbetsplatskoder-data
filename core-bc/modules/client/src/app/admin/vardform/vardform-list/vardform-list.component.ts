@@ -17,7 +17,7 @@ export class VardformListComponent implements OnInit {
   ngOnInit() {
 
     this.vardforms$ = this.http.getPage('/api/vardform')
-      .map(response => response.json());
+      .map(response => response.json().content);
   }
 
 }
