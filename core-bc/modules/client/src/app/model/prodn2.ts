@@ -4,7 +4,7 @@ export class Prodn2 {
   avdelning: string;
   id: number;
   kortnamn: string;
-  // n1: string;
+  n1: string;
   prodn1: Prodn1;
   producentid: string;
   raderad: boolean;

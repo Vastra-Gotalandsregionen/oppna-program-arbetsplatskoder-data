@@ -26,10 +26,6 @@
           <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
         </md-input-container>
 
-        <md-input-container>
-          <input placeholder="Producent-ID" type="text" mdInput formControlName="producentid"/>
-        </md-input-container>
-
         <div>
           <md-select placeholder="Summeringsnivå 1" formControlName="prodn1" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
             <md-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">

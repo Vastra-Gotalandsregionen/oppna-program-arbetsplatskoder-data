@@ -1,9 +1,9 @@
 <md-toolbar class="action-toolbar">
   <h1>
-     AO3
+    Motpart
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Ao3 2"><md-icon>add</md-icon></a>
+  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Motpart"><md-icon>add</md-icon></a>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
 </md-toolbar>
 
@@ -26,7 +26,9 @@
       <tbody>
       <tr *ngFor="let ao3 of response?.content">
         <td>{{ao3.foretagsnamn}}</td>
-        <td>{{ao3.producent}}</td>
+        <td>
+          <span *ngFor="let text of [toList(ao3.prodn1s)]" mdTooltip="{{text.length > 20 ? text : null}}">{{text | ellipsis:20}}</span>
+        </td>
         <td>{{ao3.kontaktperson}}</td>
         <td>{{ao3.foretagsnr}}</td>
         <td>

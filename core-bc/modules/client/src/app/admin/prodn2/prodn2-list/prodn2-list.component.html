@@ -40,7 +40,6 @@
       <tr>
         <th class="row-department">Avdelning</th>
         <th class="row-short-name">Kortnamn</th>
-        <th class="row-prod-id" mdTooltip="Producent-ID">Prod-ID</th>
         <th class="row-prod1" mdTooltip="Summeringsnivå 1">Sum.nivå 1</th>
         <th class="row-status">Status</th>
         <th class="row-menu"></th>
@@ -54,7 +53,6 @@
         <td>
           <span mdTooltip="{{prodn2.kortnamn?.length > 30 ? prodn2.kortnamn : null}}">{{prodn2.kortnamn | ellipsis:30}}</span>
         </td>
-        <td>{{prodn2.producentid}}</td>
         <td>
           <span *ngIf="!prodn2.prodn1" mdTooltip="Finns ingen summeringsnivå 1 med denna kod"
               [ngClass]="'circle-alert'">{{prodn2.n1}}

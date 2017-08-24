@@ -6,6 +6,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 import {BasePaginatorComponent} from "../../../shared/base-paginator.component";
+import {Prodn1} from "../../../model/prodn1";
 
 @Component({
   selector: 'app-ao3-list',
@@ -56,6 +57,10 @@ export class Ao3ListComponent extends BasePaginatorComponent implements OnInit {
     if (this.pageSubject.value > 0) {
       this.pageSubject.next(this.pageSubject.value - 1);
     }
+  }
+
+  toList(prodn1s: Prodn1[]) {
+    return prodn1s.map(prodn1 => prodn1.foretagsnamn).join(', ');
   }
 
 }

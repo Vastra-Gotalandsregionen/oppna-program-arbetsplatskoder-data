@@ -50,7 +50,6 @@ export class Prodn1EditComponent implements OnInit {
       'id': [{value: this.prodn1.id, disabled: true}],
       'foretagsnamn': [this.prodn1.foretagsnamn, Validators.required],
       'kortnamn': [this.prodn1.kortnamn, Validators.required],
-      'producentid': [{value: this.prodn1.producentid, disabled: this.prodn1.producentid}, Validators.required],
       'raderad': [this.prodn1.raderad, []]
     })
   }
@@ -68,7 +67,7 @@ export class Prodn1EditComponent implements OnInit {
       id: this.prodn1.id,
       foretagsnamn: formModel.foretagsnamn,
       kortnamn: formModel.kortnamn,
-      producentid: formModel.producentid || this.prodn1.producentid, // Either formModel, if new entity, or the old value.
+      producentid: this.prodn1.producentid, // Just keep the old value.
       raderad: formModel.raderad ? 'true' : 'false'
     };
 

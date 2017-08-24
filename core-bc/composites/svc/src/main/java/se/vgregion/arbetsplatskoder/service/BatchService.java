@@ -3,14 +3,17 @@ package se.vgregion.arbetsplatskoder.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.vgregion.arbetsplatskoder.db.migration.util.BeanMap;
 import se.vgregion.arbetsplatskoder.db.service.Crud;
 import se.vgregion.arbetsplatskoder.domain.jpa.Link;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.*;
 import se.vgregion.arbetsplatskoder.repository.*;
 
+import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +42,13 @@ public class BatchService {
   private LinkRepository linkRepository;
 
   @Autowired
+  private Ao3Repository ao3Repository;
+
+  @Autowired
   private SesamLmnExportFileService sesamLmnExportFileService;
+
+  @Autowired
+  private DataSource dataSource;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BatchService.class);
 
@@ -48,25 +57,11 @@ public class BatchService {
 
     initLinks();
 
+    processDbSchemaChanges();
+
     List<Data> allDatas = dataRepository.findAll();
 
-    Map<String, Data> dataByArbetsplataskod = allDatas.stream()
-        .collect(Collectors.toMap(Data::getArbetsplatskod, data -> data));
-
-    // Remove all ersattav where ersattav equals arbetsplatskod and change ersattav to arbetsplatskodlan
-    for (Data data : allDatas) {
-      if (data.getArbetsplatskod().equals(data.getErsattav())) {
-        data.setErsattav(null);
-        dataRepository.save(data);
-      }
-
-      if (data.getErsattav() != null && !data.getErsattav().startsWith("14")) {
-        if (dataByArbetsplataskod.containsKey(data.getErsattav())) {
-          // We found the data which has replaced the for loop data. Set arbetsplatskodlan instead
-          data.setErsattav(dataByArbetsplataskod.get(data.getErsattav()).getArbetsplatskodlan());
-        }
-      }
-    }
+    processErsattav(allDatas);
 
     List<Prodn3> allProdn3s = prodn3Repository.findAll();
     List<Prodn2> allProdn2s = prodn2Repository.findAll();
@@ -108,6 +103,8 @@ public class BatchService {
         prodn2Repository.save(prodn2);
       }
     }
+
+    processAo3s(prodn1Map);
 
     for (Data data : allDatas) {
 //            if (data.getProdn1() != null) {
@@ -224,6 +221,72 @@ public class BatchService {
         dataRepository.save(data);
       }
     }
+  }
+
+  private void processAo3s(Map<String, Prodn1> prodn1Map) {
+    List<Ao3> all = ao3Repository.findAll();
+
+    for (Ao3 ao3 : all) {
+      String producent = ao3.getProducent();
+
+      if (ao3.getProdn1s().size() > 0 || (producent == null || producent.length() == 0)) {
+        continue;
+      }
+
+      String[] producents = producent.split(",");
+
+      List<Prodn1> prodn1s = new ArrayList<>();
+
+      for (String producentPart : producents) {
+        Prodn1 prodn1 = prodn1Map.get(producentPart);
+
+        if (prodn1 == null) {
+          prodn1 = prodn1Map.get(producentPart.toLowerCase());
+        }
+
+        if (prodn1 != null) {
+          prodn1s.add(prodn1);
+        }
+      }
+
+      ao3.setProdn1s(prodn1s);
+      ao3Repository.save(ao3);
+
+      if (prodn1s.size() == 0) {
+        LOGGER.info("Couldn't set prodn1s for Ao3 with id=" + ao3.getId());
+      } else {
+        LOGGER.info("Set prodn1s for Ao3 with id=" + ao3.getId());
+      }
+
+    }
+  }
+
+  void processErsattav(List<Data> allDatas) {
+    Map<String, Data> dataByArbetsplataskod = allDatas.stream()
+        .collect(Collectors.toMap(Data::getArbetsplatskod, data -> data));
+
+    // Remove all ersattav where ersattav equals arbetsplatskod and change ersattav to arbetsplatskodlan
+    for (Data data : allDatas) {
+      if (data.getArbetsplatskod().equals(data.getErsattav())) {
+        data.setErsattav(null);
+        dataRepository.save(data);
+      }
+
+      if (data.getErsattav() != null && !data.getErsattav().startsWith("14")) {
+        if (dataByArbetsplataskod.containsKey(data.getErsattav())) {
+          // We found the data which has replaced the for loop data. Set arbetsplatskodlan instead
+          data.setErsattav(dataByArbetsplataskod.get(data.getErsattav()).getArbetsplatskodlan());
+        }
+      }
+    }
+  }
+
+  void processDbSchemaChanges() {
+    ClassPathResource classPathResource = new ClassPathResource("init-db.sql");
+    ResourceDatabasePopulator databasePopulator =
+            new ResourceDatabasePopulator(false, false, "UTF-8", classPathResource);
+
+    databasePopulator.execute(dataSource);
   }
 
   private void initLinks() {

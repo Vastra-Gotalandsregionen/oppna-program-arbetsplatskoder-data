@@ -19,7 +19,7 @@
         </md-input-container>
 
         <md-input-container>
-          <input placeholder="AO3-ID" type="text" mdInput formControlName="ao3id"/>
+          <input placeholder="Motpart-ID" type="text" mdInput formControlName="ao3id"/>
         </md-input-container>
 
         <md-input-container>
@@ -31,15 +31,20 @@
         </md-input-container>
 
         <div>
-          <md-input-container>
-            <input placeholder="Summeringsnivå 1" type="text" mdInput formControlName="producent" [mdAutocomplete]="producentAutocompleteRef"/>
-          </md-input-container>
+          <label>Summeringsnivå 1:</label>
+          <a href="" (click)="toggleEditProdn1();false" mdTooltip="Redigera">
+            <md-icon>edit</md-icon>
+          </a>
 
-          <md-autocomplete class="autocomplete" #producentAutocompleteRef="mdAutocomplete">
-            <md-option class="md-option" *ngFor="let prodn1 of prodn1SearchResult$ | async" [value]="prodn1.id">
+          <ul *ngIf="!editProdn1">
+            <li *ngFor="let prodn1 of selectedProdn1s">{{prodn1.foretagsnamn}}</li>
+          </ul>
+
+          <md-chip-list *ngIf="editProdn1">
+            <md-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggleProdn1(prodn1)">
               {{prodn1.foretagsnamn}}
-            </md-option>
-          </md-autocomplete>
+            </md-chip>
+          </md-chip-list>
         </div>
 
         <md-input-container>

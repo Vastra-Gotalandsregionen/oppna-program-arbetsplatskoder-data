@@ -30,7 +30,7 @@ public class Ao3Controller {
     public Page<Ao3> getAo3s(@RequestParam(value = "pageSize", required = false) Integer pageSize,
                              @RequestParam(value = "page", required = false) Integer page) {
 
-        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "foretagsnamn");
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "foretagsnamn").ignoreCase();
         Sort sort = new Sort(order);
 
         Pageable pageable = null;
