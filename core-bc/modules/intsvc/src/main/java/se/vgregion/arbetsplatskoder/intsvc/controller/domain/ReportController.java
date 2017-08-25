@@ -171,18 +171,27 @@ public class ReportController {
 
         matrix.add(new String[]{
                 "Arbetsplatskod",
+                "Ägarform",
                 "Ao3",
                 "Ansvar",
                 "Frivillig uppgift",
-                "Ägarform",
+                "Faktureras externt",
+                "VGPV",
                 "Vårdform",
-                "Verksamhet",
+                "Medicinsk verksamhetskod",
                 "Summeringsnivå 1",
                 "Summeringsnivå 2",
                 "Summeringsnivå 3",
+                "HSA-ID",
                 "Benämning",
+                "Benämning kort",
+                "Adress",
+                "Postnummer",
+                "Postort",
                 "Giltig fr.o.m.",
                 "Giltig t.o.m.",
+                "Anmärkning",
+                "Ersätts av",
                 "Ändringsdatum"
         });
 
@@ -195,24 +204,31 @@ public class ReportController {
 
     private static String[] createRow(Data data) {
 
-        String[] row = new String[]{
+        return new String[]{
                 data.getArbetsplatskodlan(),
+                data.getAgarform(),
                 data.getAo3(),
                 data.getAnsvar(),
                 data.getFrivilligUppgift(),
-                data.getAgarform(),
+                data.getExternfakturamodell(),
+                data.getVgpv() ? "Ja" : "Nej",
                 data.getVardform(),
                 data.getVerksamhet(),
                 data.getProdn1() != null ? data.getProdn1().getKortnamn() : "",
                 data.getProdn3() != null && data.getProdn3().getProdn2() != null ? data.getProdn3().getProdn2().getAvdelning() : "",
                 data.getProdn3() != null ? data.getProdn3().getForetagsnamn() : "",
+                data.getHsaid(),
                 data.getBenamning(),
+                data.getBenamningKort(),
+                data.getPostadress(),
+                data.getPostnr(),
+                data.getPostort(),
                 toDateString(data.getFromDatum()),
                 toDateString(data.getTillDatum()),
+                data.getAnmarkning(),
+                data.getErsattav(),
                 data.getAndringsdatum()
         };
-
-        return row;
     }
 
     private static String toDateString(Timestamp timestamp) {
