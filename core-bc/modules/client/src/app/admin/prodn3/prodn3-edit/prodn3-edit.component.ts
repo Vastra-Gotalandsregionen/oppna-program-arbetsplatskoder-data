@@ -55,7 +55,6 @@ export class Prodn3EditComponent implements OnInit {
   buildForm() {
     this.prodn3Form = this.formBuilder.group({
       'id': [{value: this.prodn3.id, disabled: true}],
-      'foretagsnamn': [this.prodn3.foretagsnamn, Validators.required],
       'kortnamn': [this.prodn3.kortnamn, Validators.required],
       'prodn1': [this.prodn3.prodn2 && this.prodn3.prodn2.prodn1 ? this.prodn3.prodn2.prodn1.id : null, Validators.required],
       'prodn2': [this.prodn3.prodn2 ? this.prodn3.prodn2.id : null, Validators.required],
@@ -81,7 +80,7 @@ export class Prodn3EditComponent implements OnInit {
 
     const prodn3 = {
       id: this.prodn3.id,
-      foretagsnamn: formModel.foretagsnamn,
+      foretagsnamn: this.prodn3.foretagsnamn, // Just keep the old value.
       kortnamn: formModel.kortnamn,
       prodn2: this.getProdn2ById(formModel.prodn2),
       producentid: this.prodn3.producentid, // Just keep the old value.

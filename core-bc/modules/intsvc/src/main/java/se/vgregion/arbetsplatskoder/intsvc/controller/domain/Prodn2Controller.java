@@ -62,8 +62,9 @@ public class Prodn2Controller {
 
         User user = userRepository.findOne(userId);
 
-        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "avdelning").ignoreCase();
-        Sort.Order[] orders = new Sort.Order[]{order};
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "prodn1.foretagsnamn").ignoreCase();
+        Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "kortnamn").ignoreCase();
+        Sort.Order[] orders = new Sort.Order[]{order, order2};
 
         if (Role.ADMIN.equals(user.getRole())) {
             return getProdn2sForAdmin(prodn1Id, page, orders);

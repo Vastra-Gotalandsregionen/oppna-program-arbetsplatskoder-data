@@ -19,15 +19,11 @@
         </md-input-container>
 
         <md-input-container>
-          <input placeholder="Företagsnamn" type="text" mdInput formControlName="foretagsnamn"/>
-        </md-input-container>
-
-        <md-input-container>
-          <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
+          <input placeholder="Concise SumNivå 3" type="text" mdInput formControlName="kortnamn"/>
         </md-input-container>
 
         <div>
-          <md-select placeholder="Summeringsnivå 1" formControlName="prodn1" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
+          <md-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
             <md-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">
               {{prodn1.foretagsnamn}}
             </md-option>
@@ -35,9 +31,9 @@
         </div>
 
         <div>
-          <md-select placeholder="Summeringsnivå 2" formControlName="prodn2" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
+          <md-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
             <md-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2.id">
-              {{prodn2.avdelning}}
+              {{prodn2.kortnamn}}
             </md-option>
           </md-select>
         </div>
