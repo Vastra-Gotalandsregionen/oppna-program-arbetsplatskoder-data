@@ -8,4 +8,5 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Vardform;
  */
 public interface VardformRepository extends JpaRepository<Vardform, Integer> {
 
+    Vardform findByVardformid(String vardformid);
 }

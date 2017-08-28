@@ -8,4 +8,6 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
  */
 public interface Ao3Repository extends JpaRepository<Ao3, Integer> {
 
+    Ao3 findByAo3id(String ao3id);
+
 }

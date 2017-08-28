@@ -1,5 +1,8 @@
 package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,15 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import se.vgregion.arbetsplatskoder.domain.AgarformEnum;
 import se.vgregion.arbetsplatskoder.domain.ReportType;
 import se.vgregion.arbetsplatskoder.domain.jpa.FileBlob;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Vardform;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Verksamhet;
 import se.vgregion.arbetsplatskoder.domain.json.Report;
+import se.vgregion.arbetsplatskoder.repository.Ao3Repository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 import se.vgregion.arbetsplatskoder.repository.FileBlobRepository;
+import se.vgregion.arbetsplatskoder.repository.VardformRepository;
+import se.vgregion.arbetsplatskoder.repository.VerksamhetRepository;
 import se.vgregion.arbetsplatskoder.service.HmacUtil;
 import se.vgregion.arbetsplatskoder.util.ExcelUtil;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +56,24 @@ public class ReportController {
 
     @Autowired
     private FileBlobRepository fileBlobRepository;
+
+    @Autowired
+    private VardformRepository vardformRepository;
+
+    @Autowired
+    private VerksamhetRepository verksamhetRepository;
+
+    @Autowired
+    private Ao3Repository ao3Repository;
+
+    private CacheManager cacheManager = CacheManager.getInstance();
+
+    @PostConstruct
+    public void init() {
+        cacheManager.addCacheIfAbsent(new Cache("vardform", 100, false, false, 10, 10));
+        cacheManager.addCacheIfAbsent(new Cache("verksamhet", 100, false, false, 10, 10));
+        cacheManager.addCacheIfAbsent(new Cache("ao3", 100, false, false, 10, 10));
+    }
 
     @RequestMapping(value = "/file/{reportType}/{tempFileName}/{hmac}", method = RequestMethod.GET)
     @ResponseBody
@@ -166,13 +195,13 @@ public class ReportController {
         return ResponseEntity.ok(report);
     }
 
-    static List<String[]> dataSetToMatrix(List<Data> result) {
+    List<String[]> dataSetToMatrix(List<Data> result) {
         List<String[]> matrix = new ArrayList<>();
 
         matrix.add(new String[]{
                 "Arbetsplatskod",
                 "Ägarform",
-                "Ao3",
+                "Motpart",
                 "Ansvar",
                 "Frivillig uppgift",
                 "Faktureras externt",
@@ -202,18 +231,20 @@ public class ReportController {
     }
 
 
-    private static String[] createRow(Data data) {
+    private String[] createRow(Data data) {
+
+        AgarformEnum agarform = AgarformEnum.getByKey(data.getAgarform());
 
         return new String[]{
                 data.getArbetsplatskodlan(),
-                data.getAgarform(),
-                data.getAo3(),
+                agarform != null ? agarform.getLabel() : data.getAgarform(),
+                getAo3Text(data.getAo3()),
                 data.getAnsvar(),
                 data.getFrivilligUppgift(),
                 data.getExternfakturamodell(),
                 data.getVgpv() ? "Ja" : "Nej",
-                data.getVardform(),
-                data.getVerksamhet(),
+                getVardformText(data.getVardform()),
+                getVerksamhetText(data.getVerksamhet()),
                 data.getProdn1() != null ? data.getProdn1().getKortnamn() : "",
                 data.getProdn3() != null && data.getProdn3().getProdn2() != null ? data.getProdn3().getProdn2().getAvdelning() : "",
                 data.getProdn3() != null ? data.getProdn3().getForetagsnamn() : "",
@@ -229,6 +260,57 @@ public class ReportController {
                 data.getErsattav(),
                 data.getAndringsdatum()
         };
+    }
+
+    private String getAo3Text(String ao3id) {
+        Cache cache = cacheManager.getCache("ao3");
+
+        Element element = cache.get(ao3id);
+        if (element != null) {
+            return (String) element.getObjectValue();
+        } else {
+            Ao3 byAo3id = ao3Repository.findByAo3id(ao3id);
+
+            String ao3text = ao3id + ", " + byAo3id.getForetagsnamn();
+
+            cache.put(new Element(ao3id, ao3text));
+
+            return ao3text;
+        }
+    }
+
+    private String getVerksamhetText(String verksamhetid) {
+        Cache cache = cacheManager.getCache("verksamhet");
+
+        Element element = cache.get(verksamhetid);
+        if (element != null) {
+            return (String) element.getObjectValue();
+        } else {
+            Verksamhet byVerksamhetid = verksamhetRepository.findByVerksamhetid(verksamhetid);
+
+            String verksamhettext = verksamhetid + ", " + byVerksamhetid.getVerksamhettext();
+
+            cache.put(new Element(verksamhetid, verksamhettext));
+
+            return verksamhettext;
+        }
+    }
+
+    private String getVardformText(String vardformid) {
+        Cache cache = cacheManager.getCache("vardform");
+
+        Element element = cache.get(vardformid);
+        if (element != null) {
+            return (String) element.getObjectValue();
+        } else {
+            Vardform byVardformid = vardformRepository.findByVardformid(vardformid);
+
+            String vardformtext = vardformid + ", " + byVardformid.getVardformtext();
+
+            cache.put(new Element(vardformid, vardformtext));
+
+            return vardformtext;
+        }
     }
 
     private static String toDateString(Timestamp timestamp) {

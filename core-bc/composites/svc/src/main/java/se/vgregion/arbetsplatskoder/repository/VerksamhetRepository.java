@@ -14,4 +14,5 @@ public interface VerksamhetRepository extends JpaRepository<Verksamhet, Integer>
 
     List<Verksamhet> findAllByOrderByVerksamhettext();
 
+    Verksamhet findByVerksamhetid(String verksamhetid);
 }
