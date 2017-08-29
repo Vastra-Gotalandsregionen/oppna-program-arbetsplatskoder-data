@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.vgregion.arbetsplatskoder.db.service.Crud;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3Temp;
 import se.vgregion.arbetsplatskoder.repository.Ao3Repository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
+import se.vgregion.arbetsplatskoder.repository.IntegrationExportRepository;
 import se.vgregion.arbetsplatskoder.repository.Viewapkwithao3TempRepository;
 
 import javax.persistence.EntityManager;
@@ -49,6 +51,9 @@ public class DatabaseIntegrationService {
         LOGGER.info("Start populateLokeTable()...");
 
         viewapkwithao3Repository.deleteAll();
+
+        Crud crud = new IntegrationExportRepository().getCrud();
+        crud.execute("delete from viewapkforsesamlmn");
 
         Map<String, Ao3> ao3Map = ao3Repository.findAll().stream()
                 .collect(Collectors.toMap(Ao3::getAo3id, ao3 -> ao3));
@@ -110,7 +115,8 @@ public class DatabaseIntegrationService {
             entry.setRaderad(ao3Entity.getRaderad());
             entry.setExpr2(ao3Entity.getSsmaTimestamp()); // todo Look over these
 
-            entityManager.persist(entry);
+            //entityManager.persist(entry);
+            crud.create(entry); // Create in the integration db.
         }
 
         LOGGER.info("Finish populateLokeTable()...");
