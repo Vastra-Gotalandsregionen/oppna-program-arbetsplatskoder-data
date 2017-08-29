@@ -111,8 +111,6 @@ public class Prodn1Controller {
             prodn1.setRaderad(false);
         }
 
-        prodn1.setSsmaTimestamp(new Byte[]{0x00}); // todo What to do with these?
-
         return ResponseEntity.ok(prodn1Repository.save(prodn1));
     }
 }

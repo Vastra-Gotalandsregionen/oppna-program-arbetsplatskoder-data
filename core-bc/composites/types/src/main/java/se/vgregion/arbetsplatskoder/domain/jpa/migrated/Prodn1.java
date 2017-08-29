@@ -22,9 +22,6 @@ public class Prodn1 {
     @Column (name = "raderad", nullable = false)
     private java.lang.Boolean raderad;
 
-    @Column (name = "ssma_timestamp", nullable = false)
-    private Byte[] ssmaTimestamp;
-
     public java.lang.Integer getId(){
         return id;
     }
@@ -63,14 +60,6 @@ public class Prodn1 {
 
     public void setRaderad(java.lang.Boolean v){
         this.raderad = v;
-    }
-
-    public Byte[] getSsmaTimestamp(){
-        return ssmaTimestamp;
-    }
-
-    public void setSsmaTimestamp(Byte[] v){
-        this.ssmaTimestamp = v;
     }
 
     @Override

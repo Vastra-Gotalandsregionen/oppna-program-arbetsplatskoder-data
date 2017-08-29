@@ -48,8 +48,6 @@ public class VardformController {
             vardform.setId(Math.abs(new Random().nextInt()));
         }
 
-        vardform.setSsmaTimestamp(new Byte[]{0x00}); // todo What to do with these?
-
         return ResponseEntity.ok(vardformRepository.save(vardform));
     }
 }

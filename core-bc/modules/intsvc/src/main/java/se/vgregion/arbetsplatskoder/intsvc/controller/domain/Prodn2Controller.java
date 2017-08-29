@@ -154,8 +154,6 @@ public class Prodn2Controller {
             prodn2.setId(Math.abs(new Random().nextInt()));
         }
 
-        prodn2.setSsmaTimestamp(new Byte[]{0x00}); // todo What to do with these?
-
         return ResponseEntity.ok(prodn2Repository.save(prodn2));
     }
 }

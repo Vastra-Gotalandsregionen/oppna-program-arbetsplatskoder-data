@@ -48,8 +48,6 @@ public class VerksamhetController {
             verksamhet.setId(Math.abs(new Random().nextInt()));
         }
 
-        verksamhet.setSsmaTimestamp(new Byte[]{0x00}); // todo What to do with these?
-
         return ResponseEntity.ok(verksamhetRepository.save(verksamhet));
     }
 

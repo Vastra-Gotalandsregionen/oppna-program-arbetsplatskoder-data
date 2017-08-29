@@ -52,25 +52,21 @@ public class Prodn1ControllerTest {
         p1.setForetagsnamn("AA");
         p1.setId(1);
         p1.setRaderad(false);
-        p1.setSsmaTimestamp(new Byte[]{0x00});
 
         Prodn1 p2 = new Prodn1();
         p2.setForetagsnamn("DD");
         p2.setId(2);
         p2.setRaderad(false);
-        p2.setSsmaTimestamp(new Byte[]{0x00});
 
         Prodn1 p3 = new Prodn1();
         p3.setForetagsnamn("CC");
         p3.setId(3);
         p3.setRaderad(false);
-        p3.setSsmaTimestamp(new Byte[]{0x00});
 
         Prodn1 p4 = new Prodn1();
         p4.setForetagsnamn("bb");
         p4.setId(4);
         p4.setRaderad(false);
-        p4.setSsmaTimestamp(new Byte[]{0x00});
 
         prodn1Repository.save(p1);
         prodn1Repository.save(p2);

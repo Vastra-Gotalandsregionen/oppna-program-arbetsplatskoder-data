@@ -3,5 +3,4 @@ export class Vardform {
   vardformid: string;
   vardformtext: string;
   raderad: boolean;
-  // ssmaTimestamp...
 }

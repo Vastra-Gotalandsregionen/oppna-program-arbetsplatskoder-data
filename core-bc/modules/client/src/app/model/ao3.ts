@@ -9,5 +9,4 @@ export class Ao3 {
   kontaktperson: string;
   foretagsnr: string;
   raderad: boolean;
-  // ssmaTimestamp...
 }

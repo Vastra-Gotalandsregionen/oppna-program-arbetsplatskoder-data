@@ -8,5 +8,4 @@ export class Prodn3 {
   prodn2: Prodn2;
   producentid: string;
   raderad: boolean;
-  // ssmaTimestamp: any;
 }
