@@ -26,9 +26,11 @@
           <md-checkbox formControlName="inactivated">Inaktiverad</md-checkbox>
         </div>
 
-        <div class="btn-container">
+        <div class="btn-container button-row">
           <button md-raised-button type="submit">Spara</button>
         </div>
+
+        <div *ngIf="saveMessage" class="alert alert-danger">{{saveMessage}}</div>
 
       </md-card-content>
     </md-card>
