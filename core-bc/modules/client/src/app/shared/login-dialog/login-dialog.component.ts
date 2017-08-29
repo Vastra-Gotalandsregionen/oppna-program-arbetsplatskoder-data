@@ -4,7 +4,7 @@ import {NgForm} from '@angular/forms';
 import {StateService} from '../../core/state/state.service';
 import {TimeoutError} from 'rxjs/util/TimeoutError';
 import {AuthService} from '../../core/auth/auth.service';
-import {JwtHttp} from '../../core/jwt-http';
+import {Http} from "@angular/http";
 
 @Component({
   selector: 'app-login-dialog',
@@ -23,7 +23,7 @@ export class LoginDialogComponent implements OnInit {
   loginMessage: string;
 
   constructor(dialogRef: MdDialogRef<LoginDialogComponent>,
-              private http: JwtHttp,
+              private http: Http,
               private stateService: StateService,
               private authService: AuthService) {
     this.dialogRef = dialogRef;
