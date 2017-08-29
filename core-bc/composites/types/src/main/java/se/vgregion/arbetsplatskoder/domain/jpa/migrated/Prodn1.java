@@ -2,12 +2,9 @@ package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
 
 import javax.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
-@Table(name = "prodn1", uniqueConstraints = {@UniqueConstraint(columnNames = {"producentid"})},
-        indexes = {@Index(columnList = "kortnamn")})
-public class Prodn1 extends AbstractEntity {
+@Table(name = "prodn1", indexes = {@Index(columnList = "kortnamn")})
+public class Prodn1 {
 
     @Id
     @Column (name = "id", nullable = false)
@@ -88,8 +85,6 @@ public class Prodn1 extends AbstractEntity {
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        return result;
+        return 31 + (id != null ? id.hashCode() : 0);
     }
 }

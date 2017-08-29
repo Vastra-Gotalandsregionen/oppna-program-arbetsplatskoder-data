@@ -2,6 +2,7 @@ package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,11 +32,10 @@ public class ContentController {
         return content;
     }
 
-    // TODO protect
     @RequestMapping(value = "", method = RequestMethod.PUT)
+    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<Content> saveContent(@RequestBody Content content) {
         return ResponseEntity.ok(contentRepository.save(content));
     }
-
 
 }

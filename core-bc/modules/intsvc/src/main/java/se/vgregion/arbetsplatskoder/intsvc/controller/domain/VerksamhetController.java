@@ -3,6 +3,7 @@ package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,7 +40,7 @@ public class VerksamhetController {
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseBody
-    // todo secure
+    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<Verksamhet> saveVerksamhet(@RequestBody Verksamhet verksamhet) {
 
         if (verksamhet.getId() == null) {

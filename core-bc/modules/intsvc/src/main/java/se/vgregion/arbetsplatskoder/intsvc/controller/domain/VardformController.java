@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +40,7 @@ public class VardformController {
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseBody
-    // todo secure
+    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<Vardform> saveVardform(@RequestBody Vardform vardform) {
 
         if (vardform.getId() == null) {
