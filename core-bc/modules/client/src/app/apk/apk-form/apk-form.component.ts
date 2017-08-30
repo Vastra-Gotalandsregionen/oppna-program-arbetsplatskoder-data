@@ -184,10 +184,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }),
       'anmarkning': [this.data.anmarkning],
       'hsaid': [this.data.hsaid, Validators.required],
-      'fromDatum': [this.data.fromDatum, Validators.compose([datePattern(), Validators.required])],
+      'fromDatum': [Util.dateStringToObject(this.data.fromDatum), Validators.compose([datePattern(), Validators.required])],
       'noTillDatum': [!this.data.tillDatum || this.data.tillDatum.length === 0],
       'tillDatum': [{
-        value: this.data.tillDatum,
+        value: Util.dateStringToObject(this.data.tillDatum),
         disabled: !this.data.tillDatum || this.data.tillDatum.length == 0
       }, Validators.compose([datePattern(), Validators.required])],
       'ersattav': [this.data.ersattav, []],
