@@ -11,7 +11,7 @@ import {JwtHttp} from '../../../core/jwt-http';
   styleUrls: ['./old-users-list.component.scss']
 })
 export class OldUsersListComponent implements OnInit {
-  anvandares: Anvandare[]; // todo Type
+  anvandares: Anvandare[];
 
   constructor(private http: JwtHttp,
               private errorHandler: ErrorHandler,

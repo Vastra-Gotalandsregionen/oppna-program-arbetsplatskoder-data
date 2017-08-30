@@ -52,7 +52,6 @@ export class Prodn2EditComponent implements OnInit {
   buildForm() {
     this.prodn2Form = this.formBuilder.group({
       'id': [{value: this.prodn2.id, disabled: true}],
-      'avdelning': [this.prodn2.avdelning, Validators.required],
       'kortnamn': [this.prodn2.kortnamn, Validators.required],
       'prodn1': [this.prodn2.prodn1 ? this.prodn2.prodn1.id : null, Validators.required],
       'riktvarde': [this.prodn2.riktvarde, []],
@@ -80,7 +79,7 @@ export class Prodn2EditComponent implements OnInit {
 
     const prodn2 = {
       id: this.prodn2.id,
-      avdelning: formModel.avdelning,
+      avdelning: this.prodn2.avdelning, // Just keep the old value.
       kortnamn: formModel.kortnamn,
       producentid: this.prodn2.producentid, // Just keep the old value.
       n1: this.prodn2.n1, // Just keep the old value.

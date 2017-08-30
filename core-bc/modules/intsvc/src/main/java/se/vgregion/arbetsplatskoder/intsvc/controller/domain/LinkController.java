@@ -2,6 +2,7 @@ package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class LinkController {
         return linkRepository.findAllByOrderById();
     }
 
-    // TODO protect
+    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public ResponseEntity<Link> saveLink(@RequestBody Link link) {
         return ResponseEntity.ok(linkRepository.save(link));

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,14 +80,9 @@ public class Prodn3Controller {
 
         User user = userRepository.findOne(userId);
 
-        Sort.Order order1 = new Sort.Order(Sort.Direction.ASC, "prodn2.id").ignoreCase();
-        Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "foretagsnamn").ignoreCase();
-
-        Sort.Order[] orders = new Sort.Order[]{order1, order2};
-
         Pageable pageable;
         if (page != null) {
-            pageable = new PageRequest(page == null ? 0 : page, pageSize, new Sort(orders));
+            pageable = new PageRequest(page, pageSize);
         } else {
             pageable = null;
         }
@@ -192,15 +188,13 @@ public class Prodn3Controller {
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseBody
-    // todo secure
+    @PreAuthorize("@authService.hasProdn1Access(authentication, #prodn3.prodn2.prodn1)")
     public ResponseEntity<Prodn3> saveProdn3(@RequestBody Prodn3 prodn3) {
 
         if (prodn3.getId() == null) {
             // New entity.
             prodn3.setId(Math.abs(new Random().nextInt()));
         }
-
-        prodn3.setSsmaTimestamp(new Byte[]{0x00}); // todo What to do with these?
 
         return ResponseEntity.ok(prodn3Repository.save(prodn3));
     }

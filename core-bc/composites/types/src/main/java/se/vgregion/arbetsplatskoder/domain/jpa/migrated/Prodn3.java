@@ -34,9 +34,6 @@ public class Prodn3 extends AbstractEntity {
     @Column (name = "autoradering", nullable = true)
     private java.lang.Boolean autoradering;
 
-    @Column (name = "ssma_timestamp", nullable = false)
-    private Byte[] ssmaTimestamp;
-
     public java.lang.Integer getId(){
         return id;
     }
@@ -100,14 +97,4 @@ public class Prodn3 extends AbstractEntity {
     public void setAutoradering(java.lang.Boolean v){
         this.autoradering = v;
     }
-
-    public Byte[] getSsmaTimestamp(){
-        return ssmaTimestamp;
-    }
-
-    public void setSsmaTimestamp(Byte[] v){
-        this.ssmaTimestamp = v;
-    }
-
-
 }

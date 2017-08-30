@@ -3,5 +3,4 @@ export class Agarform {
   agarformid: number;
   agarformtext: string;
   raderad: boolean;
-  // ssmaTimestamp...
 }

@@ -13,10 +13,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.vgregion.arbetsplatskoder.domain.ReportType;
 import se.vgregion.arbetsplatskoder.domain.jpa.FileBlob;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Vardform;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Verksamhet;
 import se.vgregion.arbetsplatskoder.domain.json.Report;
+import se.vgregion.arbetsplatskoder.repository.Ao3Repository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 import se.vgregion.arbetsplatskoder.repository.FileBlobRepository;
+import se.vgregion.arbetsplatskoder.repository.VardformRepository;
+import se.vgregion.arbetsplatskoder.repository.VerksamhetRepository;
 import se.vgregion.arbetsplatskoder.service.HmacUtil;
 import se.vgregion.arbetsplatskoder.util.ExcelUtil;
 
@@ -46,6 +52,15 @@ public class ReportControllerTest {
     private DataRepository dataRepository;
 
     @Mock
+    private Ao3Repository ao3Repository;
+
+    @Mock
+    private VardformRepository vardformRepository;
+
+    @Mock
+    private VerksamhetRepository verksamhetRepository;
+
+    @Mock
     private FileBlobRepository fileBlobRepository;
 
     @InjectMocks
@@ -56,11 +71,20 @@ public class ReportControllerTest {
 
     private Map<String, FileBlob> testDatastore = new HashMap<>();
 
+    {
+        reportController.init();
+    }
+
     @Before
     public void setup() {
+
         Data d1 = new Data();
         Data d2 = new Data();
         Data d3 = new Data();
+
+        d1.setVgpv(false);
+        d2.setVgpv(false);
+        d3.setVgpv(false);
 
         d1.setFromDatum(Timestamp.from(Instant.now()));
         d1.setTillDatum(Timestamp.from(Instant.now()));
@@ -85,6 +109,10 @@ public class ReportControllerTest {
 
         when(fileBlobRepository.findOne(anyString()))
                 .then(invocation -> this.testDatastore.get(invocation.getArgument(0)));
+
+        when(ao3Repository.findByAo3id(any())).thenReturn(new Ao3());
+        when(vardformRepository.findByVardformid(any())).thenReturn(new Vardform());
+        when(verksamhetRepository.findByVerksamhetid(any())).thenReturn(new Verksamhet());
     }
 
     @Test
@@ -99,7 +127,7 @@ public class ReportControllerTest {
                 null,
                 null);
 
-        InputStream inputStream = ExcelUtil.exportToStream(ReportController.dataSetToMatrix(datas));
+        InputStream inputStream = ExcelUtil.exportToStream(reportController.dataSetToMatrix(datas));
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -177,7 +205,7 @@ public class ReportControllerTest {
                 toDate);
 
         // Expected
-        InputStream inputStream = ExcelUtil.exportToStream(ReportController.dataSetToMatrix(dataSubList));
+        InputStream inputStream = ExcelUtil.exportToStream(reportController.dataSetToMatrix(dataSubList));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         IOUtils.copy(inputStream, baos);
 

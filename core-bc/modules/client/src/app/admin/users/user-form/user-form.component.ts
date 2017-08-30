@@ -15,6 +15,8 @@ import {Router} from '@angular/router';
 })
 export class UserFormComponent implements OnInit {
 
+  saveMessage: string;
+
   @Input('userId') userId;
 
   userForm: FormGroup;
@@ -48,6 +50,7 @@ export class UserFormComponent implements OnInit {
         });
     } else {
       this.user = new User();
+      this.user.role = 'USER';
       prodn1s$.subscribe(allProdn1 => {
         this.allProdn1s = allProdn1;
         this.allProdn1s.forEach(prodn1 => this.prodn1sMap.set(prodn1.id, prodn1));
@@ -86,7 +89,7 @@ export class UserFormComponent implements OnInit {
 
   save() {
     if (!this.userForm.valid) {
-      // todo Display some message to user.
+      this.saveMessage = 'Alla fält är inte korrekt ifyllda.';
       return;
     }
 

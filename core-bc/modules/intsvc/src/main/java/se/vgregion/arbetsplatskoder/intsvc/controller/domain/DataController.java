@@ -180,8 +180,6 @@ public class DataController {
 
         data.setUserIdNew(user.getId());
 
-        data.setSsmaTimestamp(new Byte[]{0x00});
-
         Timestamp now = Timestamp.from(Instant.now());
 
         if (data.getRegDatum() == null) {

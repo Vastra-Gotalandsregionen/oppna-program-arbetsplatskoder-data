@@ -2,6 +2,7 @@ package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,13 +27,13 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    // TODO protect
+    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         return ResponseEntity.ok(userRepository.save(user));
     }
 
-    // TODO protect
+    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") String userId) {
         userRepository.delete(userId);

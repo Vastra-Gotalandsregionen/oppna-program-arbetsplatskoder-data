@@ -1,6 +1,6 @@
 <md-toolbar class="action-toolbar">
   <h2>
-     {{prodn2.avdelning === undefined ? 'Lägg till ny Summeringsnivå 2' : 'Redigera ' + prodn2.avdelning}}
+     {{prodn2.kortnamn === undefined ? 'Lägg till ny Summeringsnivå 2' : 'Redigera ' + prodn2.kortnamn}}
   </h2>
   <div class="action-toolbar-spacer"></div>
   <app-back-button class="action-toolbar-item"></app-back-button>
@@ -19,15 +19,11 @@
         </md-input-container>
 
         <md-input-container>
-          <input placeholder="Avdelning" type="text" mdInput formControlName="avdelning"/>
-        </md-input-container>
-
-        <md-input-container>
-          <input placeholder="Kortnamn" type="text" mdInput formControlName="kortnamn"/>
+          <input placeholder="Concise SumNivå 2" type="text" mdInput formControlName="kortnamn"/>
         </md-input-container>
 
         <div>
-          <md-select placeholder="Summeringsnivå 1" formControlName="prodn1" ngClass="{{prodn2Form.submitted ? 'submitted' : ''}}">
+          <md-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{prodn2Form.submitted ? 'submitted' : ''}}">
             <md-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">
               {{prodn1.foretagsnamn}}
             </md-option>

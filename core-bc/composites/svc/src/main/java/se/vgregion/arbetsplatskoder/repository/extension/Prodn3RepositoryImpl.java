@@ -55,8 +55,10 @@ public class Prodn3RepositoryImpl implements Prodn3ExtendedRepository {
 
         criteriaQuery.select(root);
         criteriaQuery.where(whereContent);
-        Order order = cb.asc(cb.lower(root.get("foretagsnamn")));
-        criteriaQuery.orderBy(order);
+        Order order1 = cb.asc(cb.lower(root.get("prodn2").get("prodn1").get("kortnamn")));
+        Order order2 = cb.asc(cb.lower(root.get("prodn2").get("kortnamn")));
+        Order order3 = cb.asc(cb.lower(root.get("kortnamn")));
+        criteriaQuery.orderBy(order1, order2, order3);
 
         TypedQuery<Prodn3> typedQuery = entityManager.createQuery(criteriaQuery);
 

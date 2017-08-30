@@ -55,7 +55,6 @@ export class JwtHttp extends Http {
     if (this.authService.isTokenExpired()) {
       this.location.go('/');
       this.authService.resetAuth();
-      // todo Show info dialog informing user's been logged out
       return Observable.of();
     }
 

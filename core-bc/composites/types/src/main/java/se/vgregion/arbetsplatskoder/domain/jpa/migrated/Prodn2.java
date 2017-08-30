@@ -37,9 +37,6 @@ public class Prodn2 extends AbstractEntity {
     @Column (name = "riktvarde", nullable = true)
     private java.lang.String riktvarde;
 
-    @Column (name = "ssma_timestamp", nullable = false)
-    private Byte[] ssmaTimestamp;
-
     public java.lang.Integer getId(){
         return id;
     }
@@ -110,14 +107,6 @@ public class Prodn2 extends AbstractEntity {
 
     public void setRiktvarde(java.lang.String v){
         this.riktvarde = v;
-    }
-
-    public Byte[] getSsmaTimestamp(){
-        return ssmaTimestamp;
-    }
-
-    public void setSsmaTimestamp(Byte[] v){
-        this.ssmaTimestamp = v;
     }
 
     @Override

@@ -104,7 +104,6 @@ public class DatabaseIntegrationService {
             entry.setExternfaktura(data.getExternfaktura());
             entry.setKommunkod(null); // todo Probably don't need this?
             entry.setExternfakturamodell(data.getExternfakturamodell());
-            entry.setSsmaTimestamp(new Byte[]{0x00}); // todo What to do with these?
             entry.setVgpv(data.getVgpv());
             entry.setExpr1(ao3Entity.getId());
             entry.setAo3id(ao3Entity.getAo3id());
@@ -113,7 +112,7 @@ public class DatabaseIntegrationService {
             entry.setKontaktperson(ao3Entity.getKontaktperson());
             entry.setForetagsnr(ao3Entity.getForetagsnr());
             entry.setRaderad(ao3Entity.getRaderad());
-            entry.setExpr2(ao3Entity.getSsmaTimestamp()); // todo Look over these
+//            entry.setExpr2(ao3Entity.getSsmaTimestamp()); // todo Look over these
 
             //entityManager.persist(entry);
             crud.create(entry); // Create in the integration db.

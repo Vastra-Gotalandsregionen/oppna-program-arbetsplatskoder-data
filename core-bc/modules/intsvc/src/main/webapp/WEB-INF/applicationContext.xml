@@ -16,7 +16,6 @@
 
     <beans:repositories base-package="se.vgregion.arbetsplatskoder.repository" />
     <context:component-scan base-package="se.vgregion.arbetsplatskoder.service" />
-    <context:component-scan base-package="se.vgregion.arbetsplatskoder.intsvc"/>
     <context:component-scan base-package="se.vgregion.arbetsplatskoder.spring"/>
 
 </beans>

@@ -145,9 +145,6 @@ public class ArchivedData extends AbstractEntity {
     @Column (name = "externfakturamodell", nullable = true)
     private String externfakturamodell;
 
-    @Column (name = "ssma_timestamp", nullable = false)
-    private Byte[] ssmaTimestamp;
-
     @Column (name = "vgpv", nullable = true)
     private Boolean vgpv;
 
@@ -463,14 +460,6 @@ public class ArchivedData extends AbstractEntity {
 
     public void setExternfakturamodell(String v){
         this.externfakturamodell = v;
-    }
-
-    public Byte[] getSsmaTimestamp(){
-        return ssmaTimestamp;
-    }
-
-    public void setSsmaTimestamp(Byte[] v){
-        this.ssmaTimestamp = v;
     }
 
     public Boolean getVgpv(){

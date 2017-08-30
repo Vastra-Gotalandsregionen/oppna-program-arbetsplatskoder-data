@@ -4,5 +4,4 @@ export class Prodn1 {
   kortnamn: string;
   producentid: string;
   raderad: boolean;
-  // ssmaTimestamp:
 }

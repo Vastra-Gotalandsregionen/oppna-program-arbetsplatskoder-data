@@ -9,5 +9,4 @@ export class Prodn2 {
   producentid: string;
   raderad: boolean;
   riktvarde: string;
-  // ssmaTimestamp: any;
 }

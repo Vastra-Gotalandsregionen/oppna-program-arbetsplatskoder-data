@@ -38,7 +38,6 @@ export class Data {
   externfaktura: string;
   kommunkod: string;
   externfakturamodell: string;
-  ssmaTimestamp: string;
   vgpv: string;
   hsaid: string;
   userIdNew: string;

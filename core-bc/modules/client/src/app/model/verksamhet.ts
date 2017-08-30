@@ -3,5 +3,4 @@ export class Verksamhet {
   verksamhetid: string;
   verksamhettext: string;
   raderad: boolean;
-  // ssmaTimestamp...
 }

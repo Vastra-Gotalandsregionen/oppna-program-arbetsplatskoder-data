@@ -17,6 +17,7 @@ import {JwtHttp} from '../../core/jwt-http';
 import {RestResponse} from '../../model/rest-response';
 import {ApkBase} from "../apk-base/apk-base";
 import {Util} from "../../core/util/util";
+import {UnitSearchResult} from "../../model/UnitSearchResult";
 
 @Component({
   selector: 'apk-form',
@@ -42,7 +43,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   data: Data;
   replacedBy: Data;
   $replaces: Observable<Data[]>;
-  unitSearchResult: any; // todo Make typed
+  unitSearchResult: UnitSearchResult[];
 
   hasArchivedDatas: boolean = false;
 

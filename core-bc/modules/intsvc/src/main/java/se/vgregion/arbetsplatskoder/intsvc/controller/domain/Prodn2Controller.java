@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,8 +63,9 @@ public class Prodn2Controller {
 
         User user = userRepository.findOne(userId);
 
-        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "avdelning").ignoreCase();
-        Sort.Order[] orders = new Sort.Order[]{order};
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "prodn1.foretagsnamn").ignoreCase();
+        Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "kortnamn").ignoreCase();
+        Sort.Order[] orders = new Sort.Order[]{order, order2};
 
         if (Role.ADMIN.equals(user.getRole())) {
             return getProdn2sForAdmin(prodn1Id, page, orders);
@@ -144,15 +146,13 @@ public class Prodn2Controller {
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseBody
-    // todo secure
+    @PreAuthorize("@authService.hasProdn1Access(authentication, #prodn2.prodn1)")
     public ResponseEntity<Prodn2> saveProdn2(@RequestBody Prodn2 prodn2) {
 
         if (prodn2.getId() == null) {
             // New entity.
             prodn2.setId(Math.abs(new Random().nextInt()));
         }
-
-        prodn2.setSsmaTimestamp(new Byte[]{0x00}); // todo What to do with these?
 
         return ResponseEntity.ok(prodn2Repository.save(prodn2));
     }

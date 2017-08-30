@@ -49,10 +49,9 @@
     <table class="apk-table prod3-table">
       <thead>
       <tr>
-        <th class="row-name">Företagsnamn</th>
-        <th class="row-short-name">Kortnamn</th>
-        <th class="row-prod1" mdTooltip="Summeringsnivå 1">Sum.nivå 1</th>
-        <th class="row-prod2" mdTooltip="Summeringsnivå 2">Sum.nivå 2</th>
+        <th class="row-prod1" mdTooltip="Summeringsnivå 1">Concise SumNivå 1</th>
+        <th class="row-prod2" mdTooltip="Summeringsnivå 2">Concise SumNivå 2</th>
+        <th class="row-short-name">Concise SumNivå 3</th>
         <th class="row-status">Status</th>
         <th class="row-menu"></th>
       </tr>
@@ -60,16 +59,13 @@
       <tbody>
       <tr *ngFor="let prodn3 of response?.content">
         <td>
-          <span mdTooltip="{{prodn3.foretagsnamn?.length > 35 ? prodn3.foretagsnamn : null}}">{{prodn3.foretagsnamn | ellipsis:35}}</span>
-        </td>
-        <td>
-          <span mdTooltip="{{prodn3.kortnamn?.length > 25 ? prodn3.kortnamn : null}}">{{prodn3.kortnamn | ellipsis:25}}</span>
-        </td>
-        <td>
           <span mdTooltip="{{prodn3.prodn2?.prodn1?.kortnamn?.length > 20 ? prodn3.prodn2?.prodn1?.kortnamn : null}}">{{prodn3.prodn2?.prodn1?.kortnamn | ellipsis:20}}</span>
         </td>
         <td>
           <span mdTooltip="{{prodn3.prodn2?.kortnamn?.length > 25 ? prodn3.prodn2?.kortnamn : null}}">{{prodn3.prodn2?.kortnamn | ellipsis:25}}</span>
+        </td>
+        <td>
+          <span mdTooltip="{{prodn3.kortnamn?.length > 25 ? prodn3.kortnamn : null}}">{{prodn3.kortnamn | ellipsis:25}}</span>
         </td>
         <td>
           <md-icon mdTooltip="Autoradering" *ngIf="prodn3.autoradering">delete_forever</md-icon>

@@ -35,9 +35,6 @@ public class Ao3 extends AbstractEntity {
     @Column (name = "raderad", nullable = false)
     private java.lang.Boolean raderad;
 
-    @Column (name = "ssma_timestamp", nullable = false)
-    private Byte[] ssmaTimestamp;
-
     public java.lang.Integer getId(){
         return id;
     }
@@ -101,14 +98,5 @@ public class Ao3 extends AbstractEntity {
     public void setRaderad(java.lang.Boolean v){
         this.raderad = v;
     }
-
-    public Byte[] getSsmaTimestamp(){
-        return ssmaTimestamp;
-    }
-
-    public void setSsmaTimestamp(Byte[] v){
-        this.ssmaTimestamp = v;
-    }
-
 
 }

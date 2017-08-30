@@ -2,12 +2,9 @@ package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
 
 import javax.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
-@Table(name = "prodn1", uniqueConstraints = {@UniqueConstraint(columnNames = {"producentid"})},
-        indexes = {@Index(columnList = "kortnamn")})
-public class Prodn1 extends AbstractEntity {
+@Table(name = "prodn1", indexes = {@Index(columnList = "kortnamn")})
+public class Prodn1 {
 
     @Id
     @Column (name = "id", nullable = false)
@@ -24,9 +21,6 @@ public class Prodn1 extends AbstractEntity {
 
     @Column (name = "raderad", nullable = false)
     private java.lang.Boolean raderad;
-
-    @Column (name = "ssma_timestamp", nullable = false)
-    private Byte[] ssmaTimestamp;
 
     public java.lang.Integer getId(){
         return id;
@@ -68,14 +62,6 @@ public class Prodn1 extends AbstractEntity {
         this.raderad = v;
     }
 
-    public Byte[] getSsmaTimestamp(){
-        return ssmaTimestamp;
-    }
-
-    public void setSsmaTimestamp(Byte[] v){
-        this.ssmaTimestamp = v;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,8 +74,6 @@ public class Prodn1 extends AbstractEntity {
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        return result;
+        return 31 + (id != null ? id.hashCode() : 0);
     }
 }
