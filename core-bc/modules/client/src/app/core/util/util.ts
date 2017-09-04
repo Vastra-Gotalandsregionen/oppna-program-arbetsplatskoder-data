@@ -30,4 +30,12 @@ export class Util {
     clonedDate.setMinutes(clonedDate.getMinutes() - clonedDate.getTimezoneOffset());
     return clonedDate.toISOString().slice(0, 10);
   }
+
+  public static dateStringToObject(date: string): Date {
+    if (!date || date.length < 2) {
+      return null;
+    }
+    let dateObject = new Date(date);
+    return dateObject;
+  }
 }
