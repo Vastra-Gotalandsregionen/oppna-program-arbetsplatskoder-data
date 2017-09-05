@@ -18,7 +18,7 @@
 
         <md-chip-list id="prodn1ChipList">
           <md-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
-            {{prodn1.foretagsnamn}}
+            {{prodn1.foretagsnamn}} <span *ngIf="prodn1.raderad"><md-icon md-tooltip="Raderad">clear</md-icon></span>
           </md-chip>
         </md-chip-list>
 
