@@ -24,17 +24,17 @@ public abstract class AbstractJob {
   protected ConnectionExt legacyCon;
   protected ConnectionExt mainCon;
 
-  private Properties getLegacyProperties() {
+  private static Properties getLegacyProperties() {
     Path path = (Paths.get(System.getProperty("user.home"), ".app", "arbetsplatskoder", "legacy.jdbc.properties"));
     return getProperties(path);
   }
 
-  private Properties getMainJdbcProperties() {
+  private static Properties getMainJdbcProperties() {
     Path path = (Paths.get(System.getProperty("user.home"), ".app", "arbetsplatskoder", "main.jdbc.properties"));
     return getProperties(path);
   }
 
-  private Properties getProperties(Path fromHere) {
+  private static Properties getProperties(Path fromHere) {
     Properties properties = new Properties();
     try (BufferedReader reader = Files.newBufferedReader(fromHere)) {
       properties.load(reader);
@@ -44,23 +44,17 @@ public abstract class AbstractJob {
     return properties;
   }
 
-  public ConnectionExt getLegacyConnectionExt() {
-//        Console console = System.console();
-
-//        char[] chars = console.readPassword("Password?");
-//        String password = new String(chars);
-
+  public static ConnectionExt getLegacyConnectionExt() {
     Properties prop = getLegacyProperties();
     ConnectionExt connection = new ConnectionExt(
         prop.getProperty("url"),
         prop.getProperty("user"),
         prop.getProperty("password"),
-//                password,
         prop.getProperty("driver"));
     return connection;
   }
 
-  public ConnectionExt getMainConnectionExt() {
+  public static ConnectionExt getMainConnectionExt() {
     Properties prop = getMainJdbcProperties();
     ConnectionExt connection = new ConnectionExt(
         prop.getProperty("jdbc.url"),

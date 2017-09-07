@@ -97,6 +97,50 @@ public class ConnectionExt {
     }
   }
 
+  public int update(Table that, Map<String, Object> withThatNewData, Map<String, Object> matchingThis) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("update " + that.getTableSchema() + "." + that.getTableName() + " set ");
+    Junctor setting = new Junctor(", ");
+
+    for (String key : withThatNewData.keySet()) {
+      Column column = that.getColumn(key);
+      if (column != null)
+        setting.add(new Match(new Atom(key), " = ", new ValueRef(withThatNewData.get(key))));
+    }
+
+    Junctor where = new Junctor(" and ");
+    for (String key : matchingThis.keySet()) {
+      Column column = that.getColumn(key);
+      if (column != null)
+        where.add(new Match(new Atom(key), " = ", new ValueRef(matchingThis.get(key))));
+    }
+
+    List values = new ArrayList();
+    setting.toSql(sb, values);
+    if (!where.isEmpty())
+      sb.append(" where ");
+
+    where.toSql(sb, values);
+    // System.out.println(sb + " " + values);
+    return update(sb.toString(), values.toArray());
+  }
+
+  public int update(String sqlThatAltersData, Object... values) {
+    PreparedStatement ps = null;
+    try {
+      ps = connection.prepareStatement(sqlThatAltersData);
+      int index = 1;
+      for (Object value : values) {
+        ps.setObject(index++, value);
+      }
+      int r = ps.executeUpdate();
+      ps.close();
+      return r;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public boolean execute(String script, Object... values) {
     PreparedStatement ps = null;
     try {

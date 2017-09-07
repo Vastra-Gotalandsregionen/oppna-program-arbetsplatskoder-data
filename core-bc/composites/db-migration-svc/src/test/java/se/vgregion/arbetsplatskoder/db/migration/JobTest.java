@@ -1,6 +1,9 @@
 package se.vgregion.arbetsplatskoder.db.migration;
 
 import org.junit.Test;
+import se.vgregion.arbetsplatskoder.db.migration.sql.ConnectionExt;
+import se.vgregion.arbetsplatskoder.db.migration.sql.meta.Schema;
+import se.vgregion.arbetsplatskoder.db.migration.sql.meta.Table;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.junit.Assert.*;
@@ -36,6 +40,17 @@ public class JobTest {
         return properties;
     }
 
-
+    public static void main(String[] args) {
+        ConnectionExt con = Job.getMainConnectionExt();
+        Schema schema = con.getSchemas("public").get(0);
+        for (Table table : schema.getTables()) {
+            if (table.getTableName().toLowerCase().contains("user")) {
+                System.out.println(table);
+                for (Map<String, Object> map : con.query("select * from " + table.getTableName(), 0, 100)) {
+                    System.out.println(map);
+                }
+            }
+        }
+    }
 
 }

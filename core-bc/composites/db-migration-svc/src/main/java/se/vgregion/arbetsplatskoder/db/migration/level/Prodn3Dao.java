@@ -5,11 +5,11 @@ import se.vgregion.arbetsplatskoder.db.migration.sql.ConnectionExt;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Leafs extends AbstractLevel {
+public class Prodn3Dao extends AbstractDao {
 
 
-  public Leafs(ConnectionExt connection, String table) {
-    super(connection, table);
+  public Prodn3Dao(ConnectionExt connection) {
+    super(connection, "prodn3");
   }
 
   @Override

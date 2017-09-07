@@ -12,7 +12,6 @@ public class Job extends AbstractJob {
     public static void main(String[] args) {
         Job job = new Job();
         job.init(); // Connect to two databases. Old one 'legacy' and the 'new' one 'main'.
-
         job.copyTypesFromLegacyToDiscCache(); // This step takes som time.
         // Ignore it if you are in a hurry and if this already have been done (and the cached tables are up to date).
         job.dropTablesAlreadyInMain();
