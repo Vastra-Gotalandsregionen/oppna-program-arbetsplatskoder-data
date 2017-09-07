@@ -6,9 +6,9 @@ import se.vgregion.arbetsplatskoder.db.migration.sql.meta.Table;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Trunk extends AbstractLevel {
+public class Branches extends AbstractLevel {
 
-  public Trunk(ConnectionExt connection, String table) {
+  public Branches(ConnectionExt connection, String table) {
     super(connection, table);
   }
 
@@ -17,11 +17,16 @@ public class Trunk extends AbstractLevel {
     Map<String, Object> item = new HashMap<>();
     item.put("id", sequence--);
     item.put("producentid", newLevel);
-    item.put("foretagsnamn", newLevel);
+    item.put("avdelning", newLevel);
     item.put("kortnamn", newLevel);
     item.put("raderad", false);
+    item.put("n1", parent.get("kortnamn"));
+    //item.put("autoradering", withThatName);
+    //item.put("riktvarde", withThatName);
+    item.put("prodn1", parent.get("id"));
     connection.insert(table, item);
-    this.cache.put(newLevel, item);
+    cache.put(newLevel, item);
+    insertCount++;
     return item;
   }
 

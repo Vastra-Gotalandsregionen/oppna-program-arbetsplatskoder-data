@@ -5,10 +5,10 @@ import se.vgregion.arbetsplatskoder.db.migration.sql.ConnectionExt;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Leaf extends AbstractLevel {
+public class Leafs extends AbstractLevel {
 
 
-  public Leaf(ConnectionExt connection, String table) {
+  public Leafs(ConnectionExt connection, String table) {
     super(connection, table);
   }
 
@@ -25,6 +25,7 @@ public class Leaf extends AbstractLevel {
     item.put("prodn2", parent.get("id"));
     connection.insert(table, item);
     cache.put(newLevel, item);
+    insertCount++;
     return item;
   }
 
