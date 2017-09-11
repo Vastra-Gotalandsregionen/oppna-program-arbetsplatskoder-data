@@ -91,8 +91,9 @@ public abstract class AbstractLevels {
         System.out.println("'" + String.join("', '", missingCodes) + "'");
     }
 
-/*
     public void undoPreviousLevelCreation() {
+        connection.update("update data set prodn1=null where prodn1 < 0");
+        connection.update("update data set prodn3=null where prodn3 < 0");
         int count = connection.update("delete from prodn3 where id < 0");
         System.out.println("Removed " + count + " from prodn3 ");
         count = connection.update("delete from prodn2 where id < 0");
@@ -101,7 +102,6 @@ public abstract class AbstractLevels {
         System.out.println("Removed " + count + " from prodn1 ");
         connection.commit();
     }
-*/
 
 
 /*
@@ -150,21 +150,21 @@ public abstract class AbstractLevels {
                 map.get("Summeringsnivå 2"),
                 map.get("Summeringsnivå 3"),
                 map.get("Arbetsplatskod"));
-            if (!perfectMatch.isEmpty()) continue;
-            List<Map<String, Object>> datas = connection.query("select * from data where arbetsplatskodlan = ?", 0, 10, map.get("Arbetsplatskod"));
-            for (Map<String, Object> data : datas) {
-                Map<String, Object> what = new HashMap<>();
-                Map<String, Object> where = new HashMap<>();
-                List<Map<String, Object>> ps = findOrCreateProdnLevelsInDatabase(
-                    (String) map.get("Summeringsnivå 1"),
-                    (String) map.get("Summeringsnivå 2"),
-                    (String) map.get("Summeringsnivå 3")
-                );
-                what.put("prodn1", ps.get(0).get("id"));
-                what.put("prodn3", ps.get(2).get("id"));
-                where.put("arbetsplatskodlan", map.get("Arbetsplatskod"));
-                connection.update(table, what, where);
+            if (!perfectMatch.isEmpty()) {
+                continue;
             }
+
+            Map<String, Object> what = new HashMap<>();
+            Map<String, Object> where = new HashMap<>();
+            List<Map<String, Object>> ps = findOrCreateProdnLevelsInDatabase(
+                (String) map.get("Summeringsnivå 1"),
+                (String) map.get("Summeringsnivå 2"),
+                (String) map.get("Summeringsnivå 3")
+            );
+            what.put("prodn1", ps.get(0).get("id"));
+            what.put("prodn3", ps.get(2).get("id"));
+            where.put("arbetsplatskodlan", map.get("Arbetsplatskod"));
+            connection.update(table, what, where);
         }
         connection.commit();
     }

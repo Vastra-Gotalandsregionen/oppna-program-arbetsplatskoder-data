@@ -15,7 +15,7 @@ public class Levels extends AbstractLevels {
 
   public static void main(String[] args) {
     Levels levels = new Levels(AbstractJob.getMainConnectionExt());
-    //levels.undoPreviousLevelCreation();
+    levels.undoPreviousLevelCreation();
     /*levels.copyLevelsFromFileIntoDatabase();
     levels.pairCodeWithNewLevels();
     levels.markOldLevelsAsObsolete();

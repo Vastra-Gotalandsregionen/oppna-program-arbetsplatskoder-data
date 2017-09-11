@@ -85,6 +85,14 @@ public abstract class AbstractJob {
     }
   }
 
+  public void dropOtherJpaTables() {
+    ConnectionExt local = getMainConnectionExt();
+      local.execute("drop table if exists " + "archived_data" + " cascade");
+      local.execute("drop table if exists " + "ao3_prodn1" + " cascade");
+      local.commit();
+      System.out.println("Droped " + "archived_data and ao3_prodn1");
+  }
+
   public void createTablesInMainDatabase() {
     mainCon.getSchemas("public");
     for (Table table : getTablesOnDisc()) {

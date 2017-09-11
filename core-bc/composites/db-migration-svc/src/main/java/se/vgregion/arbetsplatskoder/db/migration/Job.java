@@ -15,6 +15,7 @@ public class Job extends AbstractJob {
         job.copyTypesFromLegacyToDiscCache(); // This step takes som time.
         // Ignore it if you are in a hurry and if this already have been done (and the cached tables are up to date).
         job.dropTablesAlreadyInMain();
+        job.dropOtherJpaTables();
         job.createTablesInMainDatabase();
         job.copyDataToDiscCache();
         job.copyDataIntoMainDatabase();
