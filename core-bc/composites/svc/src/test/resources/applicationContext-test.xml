@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:property-placeholder location="file:${user.home}/.app/arbetsplatskoder/main.jdbc.properties,file:${user.home}/.app/arbetsplatskoder/application.properties"/>
+    <context:property-placeholder location="main.jdbc.test.properties,application.test.properties"/>
 
     <import resource="classpath:db-context-direct.xml"/>
 

@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by clalu4 on 2017-06-21.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/test/resources/applicationContext.xml")
+@ContextConfiguration("classpath:applicationContext-test.xml")
 public class SesamLmnExportFileServiceTest {
 
   @Autowired

@@ -17,7 +17,6 @@ import se.vgregion.arbetsplatskoder.repository.Viewapkwithao3TempRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class DatabaseIntegrationService {
+public class LokeDatabaseIntegrationService {
 
     @Autowired
     private Viewapkwithao3TempRepository viewapkwithao3Repository;
@@ -41,7 +40,7 @@ public class DatabaseIntegrationService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseIntegrationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LokeDatabaseIntegrationService.class);
 
     // Minute 15 and 45 each hour, monday to friday
     @Scheduled(cron = "0 15/45 * * * MON-FRI")

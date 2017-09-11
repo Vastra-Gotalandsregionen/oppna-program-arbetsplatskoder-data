@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class LokeDatabaseIntegrationService {
+public class KivDatabaseIntegrationService {
 
     @Autowired
     private Viewapkwithao3TempRepository viewapkwithao3Repository;

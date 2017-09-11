@@ -45,8 +45,8 @@
     </bean>
 
     <bean id="jpaVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="database" value="POSTGRESQL" />
-        <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQL9Dialect" />
+        <!--<property name="database" value="POSTGRESQL" />-->
+        <property name="databasePlatform" value="${jdbc.database.platform}" />
         <property name="generateDdl" value="true" />
         <property name="showSql" value="false" />
     </bean>

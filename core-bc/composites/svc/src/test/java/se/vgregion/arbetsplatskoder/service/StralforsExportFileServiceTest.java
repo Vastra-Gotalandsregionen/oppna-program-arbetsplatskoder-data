@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/test/resources/applicationContext.xml")
+@ContextConfiguration("classpath:applicationContext-test.xml")
 public class StralforsExportFileServiceTest {
 
   @Autowired

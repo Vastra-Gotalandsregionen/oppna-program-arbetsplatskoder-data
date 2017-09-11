@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/test/resources/applicationContext.xml")
+@ContextConfiguration("classpath:applicationContext-test.xml")
 public class BatchServiceTest {
 
   @Autowired
