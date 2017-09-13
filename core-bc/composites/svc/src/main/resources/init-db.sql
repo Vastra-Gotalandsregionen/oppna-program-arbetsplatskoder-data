@@ -9,3 +9,5 @@ ALTER TABLE verksamhet DROP COLUMN IF EXISTS ssma_timestamp;
 ALTER TABLE vardform DROP COLUMN IF EXISTS ssma_timestamp;
 ALTER TABLE viewapkwithao3 DROP COLUMN IF EXISTS ssma_timestamp;
 ALTER TABLE viewapkwithao3temp DROP COLUMN IF EXISTS ssma_timestamp;
+
+update data set arbetsplatskodlan=trim(arbetsplatskodlan) where arbetsplatskodlan like '% %';
