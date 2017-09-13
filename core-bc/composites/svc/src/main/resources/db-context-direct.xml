@@ -14,8 +14,6 @@
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
-    <bean class="se.vgregion.arbetsplatskoder.db.service.Crud"/>
-
     <!-- Uses by default transaction bean with name transactionManager -->
     <tx:annotation-driven />
 

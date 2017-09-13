@@ -13,6 +13,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.regex.Pattern;
  */
 public class DataRepositoryImpl implements DataExtendedRepository {
 
-    @Autowired
+    @PersistenceContext(unitName = "default")
     private EntityManager entityManager;
 
 /*

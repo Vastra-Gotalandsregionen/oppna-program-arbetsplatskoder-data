@@ -11,7 +11,11 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
 
-	<persistence-unit name="arbetsplatskoder">
+	<persistence-unit name="default">
+
+	</persistence-unit>
+
+	<persistence-unit name="integration">
 
 	</persistence-unit>
 

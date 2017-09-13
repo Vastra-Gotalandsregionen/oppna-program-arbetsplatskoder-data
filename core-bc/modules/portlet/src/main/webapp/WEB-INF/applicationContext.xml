@@ -10,6 +10,7 @@
           ">
 
     <import resource="classpath:db-context-direct.xml"/>
+    <import resource="classpath:db-export-data-context.xml"/>
 
     <context:annotation-config/>
 

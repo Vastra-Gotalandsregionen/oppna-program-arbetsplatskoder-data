@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 public class Crud {
 
-  @PersistenceContext
+  @PersistenceContext(unitName = "integration")
   private EntityManager em;
 
   /**

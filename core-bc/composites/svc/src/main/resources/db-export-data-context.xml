@@ -10,8 +10,60 @@
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
         >
 
-    <context:property-placeholder location="file:${user.home}/.app/arbetsplatskoder/export.data.jdbc.properties,file:${user.home}/.app/arbetsplatskoder/application.properties"/>
+    <!--<context:property-placeholder location="file:${user.home}/.app/arbetsplatskoder/export.data.jdbc.properties,file:${user.home}/.app/arbetsplatskoder/application.properties"/>
 
-    <import resource="classpath:db-context-direct.xml"/>
+    <import resource="classpath:db-context-direct.xml"/>-->
+
+  <context:annotation-config />
+
+  <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+  <bean class="se.vgregion.arbetsplatskoder.db.service.Crud">
+  </bean>
+
+  <!-- Uses by default transaction bean with name transactionManager -->
+  <tx:annotation-driven />
+
+  <bean id="integrationTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <property name="entityManagerFactory" ref="integrationEntityManagerFactory" />
+  </bean>
+
+  <bean id="integrationEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="dataSource" ref="integrationDataSource" />
+    <!--<property name="dataSource" ref="dataSourceTest" />-->
+    <!--<property name="dataSource" ref="dataSourceStage" />-->
+    <!--<property name="dataSource" ref="dataSourceProd" />-->
+    <property name="persistenceXmlLocation" value="classpath:META-INF/persistence-for-data-export.xml"></property>
+    <!--<property name="persistenceUnitName" value="integration" />-->
+    <property name="jpaVendorAdapter" ref="integrationJpaVendor" />
+    <!--<property name="jpaPropertyMap">
+        <map>
+            <entry key="hibernate.format_sql" value="false" />
+        </map>
+    </property>-->
+    <property name="jpaPropertyMap">
+      <map>
+        <!--<entry key="hibernate.format_sql" value="true" />-->
+        <!--<entry key="eclipselink.weaving" value="false"/>-->
+        <!--<entry key="eclipselink.target-database" value="HSQL"/>-->
+      </map>
+    </property>
+  </bean>
+
+  <bean id="integrationJpaVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    <!--<property name="database" value="POSTGRESQL" />-->
+    <property name="databasePlatform" value="${jdbc.export.database.platform}" />
+    <property name="generateDdl" value="true" />
+    <property name="showSql" value="false" />
+  </bean>
+
+  <bean id="integrationDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="${jdbc.export.driver}"/>
+    <property name="url" value="${jdbc.export.url}"/>
+    <property name="username" value="${jdbc.export.user}"/>
+    <property name="password" value="${jdbc.export.password}"/>
+  </bean>
+
+
 
 </beans>

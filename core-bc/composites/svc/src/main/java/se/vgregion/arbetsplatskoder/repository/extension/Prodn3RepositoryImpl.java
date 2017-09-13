@@ -8,6 +8,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn2;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn3;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -25,7 +26,7 @@ import java.util.Set;
 
 public class Prodn3RepositoryImpl implements Prodn3ExtendedRepository {
 
-    @Autowired
+    @PersistenceContext(unitName = "default")
     private EntityManager entityManager;
 
     @Override

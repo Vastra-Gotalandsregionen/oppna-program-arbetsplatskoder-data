@@ -10,11 +10,11 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:property-placeholder location="file:${user.home}/.app/arbetsplatskoder/main.jdbc.properties,file:${user.home}/.app/arbetsplatskoder/application.properties"/>
-
+    <context:property-placeholder location="file:${user.home}/.app/arbetsplatskoder/main.jdbc.properties,file:${user.home}/.app/arbetsplatskoder/application.properties,file:${user.home}/.app/arbetsplatskoder/export.jdbc.properties"/>
     <import resource="classpath:db-context-direct.xml"/>
+    <import resource="classpath:db-export-data-context.xml"/>
 
-    <beans:repositories base-package="se.vgregion.arbetsplatskoder.repository" />
+    <beans:repositories base-package="se.vgregion.arbetsplatskoder.repository" entity-manager-factory-ref="entityManagerFactory" />
     <context:component-scan base-package="se.vgregion.arbetsplatskoder.service" />
     <context:component-scan base-package="se.vgregion.arbetsplatskoder.spring"/>
 

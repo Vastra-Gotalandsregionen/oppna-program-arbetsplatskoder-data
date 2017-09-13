@@ -37,9 +37,6 @@ public class KivDatabaseIntegrationService {
     @Autowired
     private Ao3Repository ao3Repository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(LokeDatabaseIntegrationService.class);
 
     // Minute 15 and 45 each hour, monday to friday
