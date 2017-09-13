@@ -1,9 +1,9 @@
 <md-toolbar class="action-toolbar">
   <h1>
-     Summeringsnivå 3
+    Concise SumNivå 3
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a  class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Summeringsnivå 3"><md-icon>add</md-icon></a>
+  <a  class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Concise SumNivå 3"><md-icon>add</md-icon></a>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
 </md-toolbar>
 
@@ -25,7 +25,7 @@
 
   <md-card-content [@slideIn]="showFilter ? 'in' : 'out'">
     <div>
-      <md-select placeholder="Visa bara för summeringsnivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
+      <md-select placeholder="Visa bara för Concise SumNivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
         <md-option value="">Visa alla</md-option>
         <md-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
           {{prodn1.foretagsnamn}}
@@ -34,7 +34,7 @@
     </div>
 
     <div [@slideIn]="showFilter && selectedProdn1.value ? 'in' : 'out'">
-      <md-select placeholder="Visa bara för summeringsnivå 2" [formControl]="filterProdn2" (change)="onFilterProdn2Change()">
+      <md-select placeholder="Visa bara för Concise SumNivå 2" [formControl]="filterProdn2" (change)="onFilterProdn2Change()">
         <md-option value="">Visa alla</md-option>
         <md-option *ngFor="let prodn2 of availableProdn2s$ | async" [value]="prodn2.id">
           {{prodn2.avdelning}}
@@ -49,8 +49,8 @@
     <table class="apk-table prod3-table">
       <thead>
       <tr>
-        <th class="row-prod1" mdTooltip="Summeringsnivå 1">Concise SumNivå 1</th>
-        <th class="row-prod2" mdTooltip="Summeringsnivå 2">Concise SumNivå 2</th>
+        <th class="row-prod1">Concise SumNivå 1</th>
+        <th class="row-prod2">Concise SumNivå 2</th>
         <th class="row-short-name">Concise SumNivå 3</th>
         <th class="row-status">Status</th>
         <th class="row-menu"></th>

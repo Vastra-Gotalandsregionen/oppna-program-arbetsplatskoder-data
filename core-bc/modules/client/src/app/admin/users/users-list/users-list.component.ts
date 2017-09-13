@@ -58,7 +58,11 @@ export class UsersListComponent implements OnInit {
   }
 
   prodn1sToString(prodn1: Prodn1[]) {
-    return prodn1.map(prodn1 => prodn1.id).join(', ')
+    return prodn1.map(prodn1 => prodn1.kortnamn).join(', ')
+  }
+
+  count(prodn1s: Prodn1[]) {
+    return prodn1s.length;
   }
 
   impersonate(user: User) {
