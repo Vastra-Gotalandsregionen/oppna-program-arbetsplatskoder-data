@@ -146,15 +146,13 @@ public class DataController {
         return dataRepository.findAllUserIdsWithData();
     }
 
-    /*@RequestMapping(value = "foo", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Data> foo() {
-        return dataRepository.foo();
-    }*/
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity deleteData(@PathVariable("id") Integer id) {
+        if (!getUser().getProdn1s().contains(dataRepository.findOne(id).getProdn1())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         dataRepository.delete(id);
 
         return ResponseEntity.ok().build();
@@ -163,8 +161,20 @@ public class DataController {
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Data saveData(@RequestBody Data data) {
+    public ResponseEntity<Data> saveData(@RequestBody Data data) {
         User user = getUser();
+
+        if (!user.getProdn1s().contains(data.getProdn1())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (data.getId() != null) {
+            // Already persisted entity. Check that the user has permission to that entity.
+            Data persisted = dataRepository.findOne(data.getId());
+            if (!user.getProdn1s().contains(persisted.getProdn1())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        }
 
         Random random = new Random();
 
@@ -191,7 +201,7 @@ public class DataController {
 
         data.setAndringsdatum(sdf.format(now));
 
-        return dataRepository.saveAndArchive(data);
+        return ResponseEntity.ok(dataRepository.saveAndArchive(data));
     }
 
 
