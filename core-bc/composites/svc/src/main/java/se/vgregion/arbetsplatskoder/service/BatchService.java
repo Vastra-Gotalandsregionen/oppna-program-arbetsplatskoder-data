@@ -84,7 +84,7 @@ public class BatchService {
             }
             Prodn2 prodn2 = prodn2Map.get(prodn3.getN2().toLowerCase());
 
-            if (prodn2 != null && (prodn3.getProdn2() == null || !prodn3.getProdn2().getId().equals(prodn2.getId()))) {
+            if (prodn2 != null && prodn3.getProdn2() == null) {
                 prodn3.setProdn2(prodn2);
                 prodn3Repository.save(prodn3);
             }
@@ -98,7 +98,7 @@ public class BatchService {
             }
             Prodn1 prodn1 = prodn1Map.get(prodn2.getN1().toLowerCase());
 
-            if (prodn1 != null && (prodn2.getProdn1() == null || !prodn2.getProdn1().getId().equals(prodn2.getId()))) {
+            if (prodn1 != null && prodn2.getProdn1() == null) {
                 prodn2.setProdn1(prodn1);
                 prodn2Repository.save(prodn2);
             }
