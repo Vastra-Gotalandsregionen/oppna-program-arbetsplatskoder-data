@@ -172,10 +172,10 @@
       <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
         <md-card-content>
 
-          <h3>Välj summeringsnivå</h3>
+          <h3>Välj Concise SumNivå</h3>
 
           <div>
-            <md-select placeholder="Summeringsnivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <md-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
                 {{prodn1.foretagsnamn}}
               </md-option>
@@ -183,7 +183,7 @@
           </div>
 
           <div>
-            <md-select placeholder="Summeringsnivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <md-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
                 {{prodn2.avdelning}}
               </md-option>
@@ -191,7 +191,7 @@
           </div>
 
           <div>
-            <md-select placeholder="Summeringsnivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+            <md-select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
                 {{prodn3.foretagsnamn}}
               </md-option>

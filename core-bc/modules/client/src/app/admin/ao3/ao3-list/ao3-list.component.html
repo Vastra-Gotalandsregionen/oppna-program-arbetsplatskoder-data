@@ -16,8 +16,9 @@
       <thead>
       <tr>
         <th class="row-name">Företagsnamn</th>
-        <th class="row-prod1" mdTooltip="Summeringsnivå 1">Sum.nivå 1</th>
+        <th class="row-prod1">Concise SumNivå 1</th>
         <th class="row-contact-person">Kontaktperson</th>
+        <th class="row-company-number">Motpart</th>
         <th class="row-company-number">Företagsnr</th>
         <th class="row-status">Status</th>
         <th class="row-menu"></th>
@@ -30,6 +31,7 @@
           <span *ngFor="let text of [toList(ao3.prodn1s)]" mdTooltip="{{text.length > 20 ? text : null}}">{{text | ellipsis:20}}</span>
         </td>
         <td>{{ao3.kontaktperson}}</td>
+        <td>{{ao3.ao3id}}</td>
         <td>{{ao3.foretagsnr}}</td>
         <td>
           <md-icon mdTooltip="Markerad som raderad" *ngIf="ao3.raderad">clear</md-icon>

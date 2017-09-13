@@ -149,7 +149,8 @@ public class DataController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity deleteData(@PathVariable("id") Integer id) {
-        if (!getUser().getProdn1s().contains(dataRepository.findOne(id).getProdn1())) {
+        if (!(getUser().getProdn1s().contains(dataRepository.findOne(id).getProdn1())
+                || getUser().getRole().equals(Role.ADMIN))) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -164,14 +165,14 @@ public class DataController {
     public ResponseEntity<Data> saveData(@RequestBody Data data) {
         User user = getUser();
 
-        if (!user.getProdn1s().contains(data.getProdn1())) {
+        if (!(user.getProdn1s().contains(data.getProdn1()) || user.getRole().equals(Role.ADMIN))) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         if (data.getId() != null) {
             // Already persisted entity. Check that the user has permission to that entity.
             Data persisted = dataRepository.findOne(data.getId());
-            if (!user.getProdn1s().contains(persisted.getProdn1())) {
+            if (!(user.getProdn1s().contains(persisted.getProdn1()) || user.getRole().equals(Role.ADMIN))) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
         }

@@ -19,7 +19,7 @@
         <th class="row-id">VGR-ID</th>
         <th class="row-email">E-post</th>
         <th class="row-permissions">Behörighet</th>
-        <th class="row-prod1">Sorteringskod 1</th>
+        <th class="row-prod1">Concise SumNivå 1</th>
         <th class="row-menu"></th>
       </tr>
       </thead>
@@ -31,7 +31,7 @@
         <td>{{user.id}}</td>
         <td>{{user.mail}}</td>
         <td>{{user.role}}</td>
-        <td>{{prodn1sToString(user.prodn1s)}}</td>
+        <td><a href="#" (click)="false" mdTooltip="{{prodn1sToString(user.prodn1s)}}">{{count(user.prodn1s)}} st</a> </td>
 
         <td>
           <button md-icon-button [mdMenuTriggerFor]="menu">
