@@ -7,12 +7,14 @@
 
 
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-	version="2.0">
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
 
-	<persistence-unit name="integration">
-		<class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3Temp</class>
-	</persistence-unit>
+  <persistence-unit name="export">
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3Temp</class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3</class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid</class>
+  </persistence-unit>
 
 </persistence>

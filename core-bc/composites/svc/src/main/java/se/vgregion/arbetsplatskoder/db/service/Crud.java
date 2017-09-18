@@ -20,113 +20,114 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked")
 @Service
+@Deprecated
 public class Crud {
 
-  @PersistenceContext(unitName = "integration")
-  private EntityManager em;
+    @PersistenceContext(unitName = "export")
+    private EntityManager em;
 
-  /**
-   * Updates a entity in the db (jpa-persist operation).
-   *
-   * @param item to be persisted.
-   * @param <T>  type of the param.
-   * @return the instance just created.
-   */
-  @Transactional
-  public <T> T update(T item) {
-    item = em.merge(item);
-    return item;
-  }
+    /**
+     * Updates a entity in the db (jpa-persist operation).
+     *
+     * @param item to be persisted.
+     * @param <T>  type of the param.
+     * @return the instance just created.
+     */
+    @Transactional
+    public <T> T update(T item) {
+        item = em.merge(item);
+        return item;
+    }
 
-  /**
-   * Deletes a entity in the db (jpa-persist operation).
-   *
-   * @param item to be persisted.
-   * @param <T>  type of the param.
-   * @return the instance just created.
-   */
-  @Transactional
-  public <T> T delete(T item) {
-    em.remove(item);
-    return item;
-  }
+    /**
+     * Deletes a entity in the db (jpa-persist operation).
+     *
+     * @param item to be persisted.
+     * @param <T>  type of the param.
+     * @return the instance just created.
+     */
+    @Transactional
+    public <T> T delete(T item) {
+        em.remove(item);
+        return item;
+    }
 
-  /**
-   * Creates a new entity in the db (jpa-persist operation).
-   *
-   * @param item to be persisted.
-   * @param <T>  type of the param.
-   * @return the instance just created.
-   */
-  @Transactional
-  public <T> T create(T item) {
-    em.persist(item);
-    return item;
-  }
+    /**
+     * Creates a new entity in the db (jpa-persist operation).
+     *
+     * @param item to be persisted.
+     * @param <T>  type of the param.
+     * @return the instance just created.
+     */
+    @Transactional
+    public <T> T create(T item) {
+        em.persist(item);
+        return item;
+    }
 
-  @Transactional
-  public <T> List<T> find(T byThatExample) {
-    BeanMap bm = new BeanMap(byThatExample);
-    StringBuilder sb = new StringBuilder();
-    sb.append("select t from " + byThatExample.getClass().getSimpleName() + " t");
+    @Transactional
+    public <T> List<T> find(T byThatExample) {
+        BeanMap bm = new BeanMap(byThatExample);
+        StringBuilder sb = new StringBuilder();
+        sb.append("select t from " + byThatExample.getClass().getSimpleName() + " t");
 
-    StringBuilder condition = new StringBuilder();
-    Junctor<Match> and = new Junctor<>(" and ");
+        StringBuilder condition = new StringBuilder();
+        Junctor<Match> and = new Junctor<>(" and ");
 
-    List values = new ArrayList();
+        List values = new ArrayList();
 
-    int i = 1;
-    for (String s : bm.keySet()) {
-      if (s.equalsIgnoreCase("class")) {
-        continue;
-      }
-      Object value = bm.get(s);
-      if (value != null) {
-        if (value instanceof String) {
-          String asText = (String) value;
-          asText = asText.replace("*", "%");
-          value = asText;
+        int i = 1;
+        for (String s : bm.keySet()) {
+            if (s.equalsIgnoreCase("class")) {
+                continue;
+            }
+            Object value = bm.get(s);
+            if (value != null) {
+                if (value instanceof String) {
+                    String asText = (String) value;
+                    asText = asText.replace("*", "%");
+                    value = asText;
+                }
+                Match match = null;
+
+                if (value.toString().contains("%")) {
+                    match = new Match(new Atom("lower(t." + s + ")"), " like ", new Atom("lower(?" + (i++) + ")"));
+                } else {
+                    match = new Match(new Atom("t." + s), value.toString().contains("%") ? " like " : " = ", new Atom("?" + (i++)));
+                }
+
+                and.add(match);
+                values.add(value);
+            }
         }
-        Match match = null;
 
-        if (value.toString().contains("%")) {
-          match = new Match(new Atom("lower(t." + s + ")"), " like ", new Atom("lower(?" + (i++) + ")"));
-        } else {
-          match = new Match(new Atom("t." + s), value.toString().contains("%") ? " like " : " = ", new Atom("?" + (i++)));
+        if (!and.isEmpty()) {
+            sb.append(" where ");
+            and.toSql(sb, values);
         }
 
-        and.add(match);
-        values.add(value);
-      }
+        Query q = em.createQuery(sb.toString());
+
+        if (!values.isEmpty()) {
+            i = 1;
+            for (Object value : values) {
+                q.setParameter(i++, value);
+            }
+        }
+
+        return (List<T>) q.getResultList();
     }
 
-    if (!and.isEmpty()) {
-      sb.append(" where ");
-      and.toSql(sb, values);
+    public List query(String nativeSql) {
+        Query query = em.createNativeQuery(nativeSql);
+        return query.getResultList();
     }
 
-    Query q = em.createQuery(sb.toString());
-
-    if (!values.isEmpty()) {
-      i = 1;
-      for (Object value : values) {
-        q.setParameter(i++, value);
-      }
+    @Transactional
+    public int execute(String command) {
+        Query q = em.createNativeQuery(command);
+        return q.executeUpdate();
     }
-
-    return (List<T>) q.getResultList();
-  }
-
-  public List query(String nativeSql) {
-    Query query = em.createNativeQuery(nativeSql);
-    return query.getResultList();
-  }
-
-  @Transactional
-  public int execute(String command) {
-    Query q = em.createNativeQuery(command);
-    return q.executeUpdate();
-  }
 
   /*public static List<Map<String, Object>> toMaps(ResultSet rs) {
     try {

@@ -6,17 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.vgregion.arbetsplatskoder.db.service.Crud;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
-import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3Temp;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3;
+import se.vgregion.arbetsplatskoder.export.repository.Viewapkwithao3Repository;
 import se.vgregion.arbetsplatskoder.repository.Ao3Repository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
-import se.vgregion.arbetsplatskoder.repository.IntegrationExportRepository;
-import se.vgregion.arbetsplatskoder.repository.Viewapkwithao3TempRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,7 +25,7 @@ import java.util.stream.Collectors;
 public class LokeDatabaseIntegrationService {
 
     @Autowired
-    private Viewapkwithao3TempRepository viewapkwithao3Repository;
+    Viewapkwithao3Repository viewapkwithao3Repository;
 
     @Autowired
     private DataRepository dataRepository;
@@ -48,11 +44,10 @@ public class LokeDatabaseIntegrationService {
 
         viewapkwithao3Repository.deleteAll();
 
-        Crud crud = new IntegrationExportRepository().getCrud();
-        crud.execute("delete from viewapkforsesamlmn");
+        viewapkwithao3Repository.deleteAll();
 
         Map<String, Ao3> ao3Map = ao3Repository.findAll().stream()
-                .collect(Collectors.toMap(Ao3::getAo3id, ao3 -> ao3));
+            .collect(Collectors.toMap(Ao3::getAo3id, ao3 -> ao3));
 
         List<Data> datas = dataRepository.findAll();
 
@@ -65,7 +60,7 @@ public class LokeDatabaseIntegrationService {
                 continue;
             }
 
-            Viewapkwithao3Temp entry = new Viewapkwithao3Temp();
+            Viewapkwithao3 entry = new Viewapkwithao3();
 
             entry.setId(data.getId());
             entry.setLankod(data.getLankod());
@@ -91,7 +86,7 @@ public class LokeDatabaseIntegrationService {
             entry.setTillDatum(data.getTillDatum());
             entry.setRegDatum(data.getRegDatum());
             entry.setErsattav(data.getErsattav());
-            entry.setUserId(data.getUserIdNew() != null ? data.getUserIdNew() : data.getUserId() + "");
+            entry.setUserId(data.getUserId()); // data.getUserIdNew() != null ? data.getUserIdNew() : data.getUserId() + "");
             entry.setArbetsplatskodlan(data.getArbetsplatskodlan());
             entry.setNamn(null); // todo Probably don't need this?
             entry.setAndringsdatum(data.getAndringsdatum());
@@ -108,10 +103,8 @@ public class LokeDatabaseIntegrationService {
             entry.setKontaktperson(ao3Entity.getKontaktperson());
             entry.setForetagsnr(ao3Entity.getForetagsnr());
             entry.setRaderad(ao3Entity.getRaderad());
-//            entry.setExpr2(ao3Entity.getSsmaTimestamp()); // todo Look over these
 
-            //entityManager.persist(entry);
-            crud.create(entry); // Create in the integration db.
+            viewapkwithao3Repository.save(entry);
         }
 
         LOGGER.info("Finish populateLokeTable()...");

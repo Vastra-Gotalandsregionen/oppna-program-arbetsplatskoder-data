@@ -15,8 +15,10 @@
 
 	</persistence-unit>
 
-	<persistence-unit name="integration">
-
-	</persistence-unit>
+  <persistence-unit name="export">
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3Temp</class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3</class>
+    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid</class>
+  </persistence-unit>
 
 </persistence>

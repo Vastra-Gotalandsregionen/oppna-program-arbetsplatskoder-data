@@ -1,4 +1,4 @@
-package se.vgregion.arbetsplatskoder.repository;
+package se.vgregion.arbetsplatskoder.export.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3Temp;

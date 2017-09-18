@@ -7,9 +7,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.vgregion.arbetsplatskoder.db.service.Crud;
 import se.vgregion.arbetsplatskoder.domain.jpa.Link;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.*;
+import se.vgregion.arbetsplatskoder.export.repository.ViewapkforsesamlmnRepository;
 import se.vgregion.arbetsplatskoder.repository.*;
 
 import javax.sql.DataSource;
@@ -266,7 +266,7 @@ public class BatchService {
 
     void processErsattav(List<Data> allDatas) {
         Map<String, Data> dataByArbetsplataskod = allDatas.stream()
-                .collect(Collectors.toMap(Data::getArbetsplatskod, data -> data));
+            .collect(Collectors.toMap(Data::getArbetsplatskod, data -> data));
 
         // Remove all ersattav where ersattav equals arbetsplatskod and change ersattav to arbetsplatskodlan
         for (Data data : allDatas) {
@@ -287,7 +287,7 @@ public class BatchService {
     void processDbSchemaChanges() {
         ClassPathResource classPathResource = new ClassPathResource("init-db.sql");
         ResourceDatabasePopulator databasePopulator =
-                new ResourceDatabasePopulator(false, false, "UTF-8", classPathResource);
+            new ResourceDatabasePopulator(false, false, "UTF-8", classPathResource);
 
         databasePopulator.execute(dataSource);
     }
@@ -308,24 +308,24 @@ public class BatchService {
 
     private void trimProdn3sProducentid(List<Prodn3> allProdn3s) {
         allProdn3s.stream()
-                .filter(prodn3 -> prodn3.getProducentid() != null)
-                .forEach(prodn3 -> {
-                    if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
-                        prodn3.setProducentid(prodn3.getProducentid().trim());
-                        prodn3Repository.save(prodn3);
-                    }
-                });
+            .filter(prodn3 -> prodn3.getProducentid() != null)
+            .forEach(prodn3 -> {
+                if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
+                    prodn3.setProducentid(prodn3.getProducentid().trim());
+                    prodn3Repository.save(prodn3);
+                }
+            });
     }
+
+    @Autowired
+    ViewapkforsesamlmnRepository viewapkforsesamlmnRepository;
 
     @Transactional
     public void runSesamLmnTransfer() {
-        if (IntegrationExportRepository.isExportConfigPresentInEnvironment()) {
-            Crud crud = new IntegrationExportRepository().getCrud();
-            crud.execute("delete from viewapkforsesamlmn");
-            List<Data> datas = sesamLmnExportFileService.findAllRelevantItems();
-            for (Data data : datas) {
-                crud.create(toViewapkforsesamlmn(data));
-            }
+        viewapkforsesamlmnRepository.deleteAll();
+        List<Data> datas = sesamLmnExportFileService.findAllRelevantItems();
+        for (Data data : datas) {
+            viewapkforsesamlmnRepository.save(toViewapkforsesamlmn(data));
         }
     }
 

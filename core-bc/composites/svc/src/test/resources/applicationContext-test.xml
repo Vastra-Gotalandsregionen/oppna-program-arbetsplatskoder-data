@@ -10,10 +10,16 @@
          http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
   <context:property-placeholder location="main.jdbc.test.properties,application.test.properties,export.jdbc.test.properties"/>
+
   <import resource="classpath:db-context-direct.xml"/>
+
   <import resource="classpath:db-export-data-context.xml"/>
 
-  <beans:repositories base-package="se.vgregion.arbetsplatskoder.repository"/>
+  <beans:repositories base-package="se.vgregion.arbetsplatskoder.repository" entity-manager-factory-ref="entityManagerFactory" />
+  <beans:repositories base-package="se.vgregion.arbetsplatskoder.export.repository" entity-manager-factory-ref="entityManagerFactory" />
+
   <context:component-scan base-package="se.vgregion.arbetsplatskoder.service"/>
+
+
 
 </beans>

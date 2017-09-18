@@ -4,3 +4,9 @@ ldap.search.base=
 ldap.url=
 
 jwt.sign.secret=
+
+export.sesam-lmn.smb.url=smb://127.0.0.1/share/;
+export.sesam-lmn.smb.user=user
+export.sesam-lmn.smb.user.domain=VGREGION
+export.sesam-lmn.smb.password=secret
+

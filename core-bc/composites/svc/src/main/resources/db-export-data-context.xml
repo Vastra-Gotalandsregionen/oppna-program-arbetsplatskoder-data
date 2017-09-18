@@ -24,18 +24,18 @@
   <!-- Uses by default transaction bean with name transactionManager -->
   <tx:annotation-driven />
 
-  <bean id="integrationTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-    <property name="entityManagerFactory" ref="integrationEntityManagerFactory" />
+  <bean id="exportTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <property name="entityManagerFactory" ref="exportEntityManagerFactory" />
   </bean>
 
-  <bean id="integrationEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-    <property name="dataSource" ref="integrationDataSource" />
+  <bean id="exportEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="dataSource" ref="exportDataSource" />
     <!--<property name="dataSource" ref="dataSourceTest" />-->
     <!--<property name="dataSource" ref="dataSourceStage" />-->
     <!--<property name="dataSource" ref="dataSourceProd" />-->
     <property name="persistenceXmlLocation" value="classpath:META-INF/persistence-for-data-export.xml"></property>
-    <!--<property name="persistenceUnitName" value="integration" />-->
-    <property name="jpaVendorAdapter" ref="integrationJpaVendor" />
+    <property name="persistenceUnitName" value="export" />
+    <property name="jpaVendorAdapter" ref="exportJpaVendor" />
     <!--<property name="jpaPropertyMap">
         <map>
             <entry key="hibernate.format_sql" value="false" />
@@ -50,14 +50,14 @@
     </property>
   </bean>
 
-  <bean id="integrationJpaVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+  <bean id="exportJpaVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
     <!--<property name="database" value="POSTGRESQL" />-->
     <property name="databasePlatform" value="${jdbc.export.database.platform}" />
     <property name="generateDdl" value="true" />
     <property name="showSql" value="false" />
   </bean>
 
-  <bean id="integrationDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  <bean id="exportDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="${jdbc.export.driver}"/>
     <property name="url" value="${jdbc.export.url}"/>
     <property name="username" value="${jdbc.export.user}"/>

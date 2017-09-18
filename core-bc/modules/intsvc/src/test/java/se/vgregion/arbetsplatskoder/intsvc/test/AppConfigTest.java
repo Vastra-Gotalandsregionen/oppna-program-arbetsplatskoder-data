@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @Import(JpaConfigTest.class)
-@EnableJpaRepositories("se.vgregion.arbetsplatskoder.repository")
+@EnableJpaRepositories(value = {"se.vgregion.arbetsplatskoder.repository", "se.vgregion.arbetsplatskoder.export.repository"})
 @ComponentScan("se.vgregion.arbetsplatskoder.intsvc.controller.domain")
 @ComponentScan(basePackageClasses = se.vgregion.arbetsplatskoder.service.JwtUtil.class)
 @PropertySource("classpath:application-test.properties")
