@@ -10,3 +10,8 @@ export.sesam-lmn.smb.user=user
 export.sesam-lmn.smb.user.domain=VGREGION
 export.sesam-lmn.smb.password=secret
 
+export.ehalsomyndigheten.smb.url=smb://127.0.0.1/share/;
+export.ehalsomyndigheten.smb.user=user
+export.ehalsomyndigheten.smb.user.domain=VGREGION
+export.ehalsomyndigheten.smb.password=secret
+

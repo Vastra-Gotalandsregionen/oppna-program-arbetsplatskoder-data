@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-@PropertySource("file:${user.home}/.app/arbetsplatskoder/application.properties")
 public class SesamLmnExportFileService {
 
     @Autowired
@@ -34,6 +32,9 @@ public class SesamLmnExportFileService {
     public String generate() {
         return generate(findAllRelevantItems());
     }
+
+    @Value("${export.sesam-lmn.should.run}")
+    private Boolean exportShouldRun;
 
     @Value("${export.sesam-lmn.smb.url}")
     private String url;
@@ -50,14 +51,19 @@ public class SesamLmnExportFileService {
     @Scheduled(cron = "0 15/45 * * * MON-FRI")
     @Transactional
     public void runFileTransfer() {
+        if (!exportShouldRun) {
+            return;
+        }
+        LOGGER.info(SesamLmnExportFileService.class.getName() + ".runFileTransfer() starts.");
         String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + "sesam-lmn.export.txt";
-        WindowsFileClient.putFile(
+        SambaFileClient.putFile(
             urlAtTheTime,
             generate(),
             userDomain,
             user,
             password
         );
+        LOGGER.info(SesamLmnExportFileService.class.getName() + ".runFileTransfer() completes.");
     }
 
     String generate(List<Data> all) {

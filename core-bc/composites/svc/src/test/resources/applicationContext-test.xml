@@ -9,7 +9,7 @@
 
          http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-  <context:property-placeholder location="main.jdbc.test.properties,application.test.properties,export.jdbc.test.properties"/>
+  <context:property-placeholder location="main.jdbc.test.properties,application-test.properties,export.jdbc.test.properties"/>
 
   <import resource="classpath:db-context-direct.xml"/>
 

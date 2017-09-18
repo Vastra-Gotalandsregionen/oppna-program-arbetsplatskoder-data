@@ -3,6 +3,8 @@ package se.vgregion.arbetsplatskoder.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
@@ -22,16 +24,49 @@ import java.util.stream.Collectors;
 @Transactional
 public class EHalsomyndighetenExportFileService {
 
-  @Autowired
-  private DataRepository dataRepository;
+    @Autowired
+    private DataRepository dataRepository;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(EHalsomyndighetenExportFileService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EHalsomyndighetenExportFileService.class);
 
-  public String generate() {
-    return generate(findAllRelevantItems());
-  }
+    @Value("${export.ehalsomyndigheten.should.run}")
+    private Boolean exportShouldRun;
 
-  String generate(List<Data> all) {
+    @Value("${export.ehalsomyndigheten.smb.url}")
+    private String url;
+
+    @Value("${export.ehalsomyndigheten.smb.user}")
+    private String user;
+
+    @Value("${export.ehalsomyndigheten.smb.user.domain}")
+    private String userDomain;
+
+    @Value("${export.ehalsomyndigheten.smb.password}")
+    private String password;
+
+    @Scheduled(cron = "0 15/45 * * * MON-FRI")
+    @Transactional
+    public void runFileTransfer() {
+        if (!exportShouldRun) {
+            return;
+        }
+        LOGGER.info(EHalsomyndighetenExportFileService.class.getName() + ".runFileTransfer() starts.");
+        String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + "ehalsomyndigheten.export.txt";
+        SambaFileClient.putFile(
+            urlAtTheTime,
+            generate(),
+            userDomain,
+            user,
+            password
+        );
+        LOGGER.info(SesamLmnExportFileService.class.getName() + ".runFileTransfer() completes.");
+    }
+
+    public String generate() {
+        return generate(findAllRelevantItems());
+    }
+
+    String generate(List<Data> all) {
 
         /*
          * SELECT arbetsplatskod,
@@ -57,72 +92,72 @@ public class EHalsomyndighetenExportFileService {
          order by arbetsplatskod
          */
 
-    List<String> sb = new ArrayList<>();
-    for (Data data : all) {
-      sb.add(
-          R(
-              data.getArbetsplatskod(),
-              data.getBenamning(),
-              data.getAo3().length() > 3 ? data.getAo3().substring(0, 3) : data.getAo3(),
-              data.getAnsvar(),
-              data.getFrivilligUppgift(),
-              data.getAgarform(),
-              data.getVardform(),
-              data.getVerksamhet(),
-              format(data.getFromDatum()),
-              format(data.getTillDatum()),
-              data.getPostadress(),
-              data.getPostnr(),
-              data.getPostort(),
-              data.getErsattav(),
-              data.getSorteringskodProd(),
-              data.getLankod(),
-              data.getKommun(),
-              data.getLakemedkomm()
-          )
-      );
+        List<String> sb = new ArrayList<>();
+        for (Data data : all) {
+            sb.add(
+                R(
+                    data.getArbetsplatskod(),
+                    data.getBenamning(),
+                    data.getAo3().length() > 3 ? data.getAo3().substring(0, 3) : data.getAo3(),
+                    data.getAnsvar(),
+                    data.getFrivilligUppgift(),
+                    data.getAgarform(),
+                    data.getVardform(),
+                    data.getVerksamhet(),
+                    format(data.getFromDatum()),
+                    format(data.getTillDatum()),
+                    data.getPostadress(),
+                    data.getPostnr(),
+                    data.getPostort(),
+                    data.getErsattav(),
+                    data.getSorteringskodProd(),
+                    data.getLankod(),
+                    data.getKommun(),
+                    data.getLakemedkomm()
+                )
+            );
+        }
+        return L(sb);
     }
-    return L(sb);
-  }
 
-  SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 
-  private String format(Date date) {
-    if (date == null) {
-      return "";
+    private String format(Date date) {
+        if (date == null) {
+            return "";
+        }
+        return dt.format(date);
     }
-    return dt.format(date);
-  }
 
-  @Transactional
-  List<Data> findAllRelevantItems() {
-    List<Data> all = dataRepository.findAll();
-    Date currentDate = new Date();
-    long oneYear = (long) 365 * 24 * 60 * 60 * 1000;
-    Date oneYearBefore = new Date(currentDate.getTime() - oneYear);
-    //and till_datum > #DateAdd("m", -12, now())#
-    all = all.stream().filter(
-        d -> F(d.getArbetsplatskod()).length() < 12
-            && d.getTillDatum() != null
-            && d.getTillDatum().after(oneYearBefore)).collect(Collectors.toList()
-    );
-    all.sort(Comparator.comparing(Data::getArbetsplatskod));
-    return all;
-  }
+    @Transactional
+    List<Data> findAllRelevantItems() {
+        List<Data> all = dataRepository.findAll();
+        Date currentDate = new Date();
+        long oneYear = (long) 365 * 24 * 60 * 60 * 1000;
+        Date oneYearBefore = new Date(currentDate.getTime() - oneYear);
+        //and till_datum > #DateAdd("m", -12, now())#
+        all = all.stream().filter(
+            d -> F(d.getArbetsplatskod()).length() < 12
+                && d.getTillDatum() != null
+                && d.getTillDatum().after(oneYearBefore)).collect(Collectors.toList()
+        );
+        all.sort(Comparator.comparing(Data::getArbetsplatskod));
+        return all;
+    }
 
-  private String R(Object... parts) {
-    List<String> lines = new ArrayList<>();
-    for (Object part : parts) lines.add(F(part));
-    return String.join(";", lines);
-  }
+    private String R(Object... parts) {
+        List<String> lines = new ArrayList<>();
+        for (Object part : parts) lines.add(F(part));
+        return String.join(";", lines);
+    }
 
-  private String L(List<String> parts) {
-    return String.join("\n", parts);
-  }
+    private String L(List<String> parts) {
+        return String.join("\n", parts);
+    }
 
-  private String F(Object s) {
-    if (s == null) return "";
-    return s.toString().replace(';', ',');
-  }
+    private String F(Object s) {
+        if (s == null) return "";
+        return s.toString().replace(';', ',');
+    }
 
 }
