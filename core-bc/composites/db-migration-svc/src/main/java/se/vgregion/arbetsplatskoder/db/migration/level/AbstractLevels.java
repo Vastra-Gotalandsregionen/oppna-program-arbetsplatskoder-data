@@ -198,15 +198,19 @@ public abstract class AbstractLevels {
     }
 
     public void disableProdnsNotInImport() {
-        disableProdn(1, getDistinctValuesFromFileColumn("Summeringsnivå 1"));
-        disableProdn(2, getDistinctValuesFromFileColumn("Summeringsnivå 2"));
-        disableProdn(3, getDistinctValuesFromFileColumn("Summeringsnivå 3"));
+        disableProdn(1, getConcatenatedKeyFromFileColumns("Summeringsnivå 1"));
+        disableProdn(2, getConcatenatedKeyFromFileColumns("Summeringsnivå 1", "Summeringsnivå 2"));
+        disableProdn(3, getConcatenatedKeyFromFileColumns("Summeringsnivå 1", "Summeringsnivå 2", "Summeringsnivå 3"));
     }
 
-    Set<String> getDistinctValuesFromFileColumn(String withThatName) {
+    Set<String> getConcatenatedKeyFromFileColumns(String... withThatName) {
         Set<String> result = new TreeSet<>();
         for (Map<String, Object> item : importFile.getItems()) {
-            result.add((String) item.get(withThatName));
+            StringBuilder sb = new StringBuilder();
+            for (String columnName : withThatName) {
+                sb.append((String) item.get(columnName));
+            }
+            result.add(sb.toString());
         }
         return result;
     }
@@ -214,19 +218,30 @@ public abstract class AbstractLevels {
     void disableProdn(int no, Set<String> sumNivNamesFromFile) {
         assert no == 1 || no == 2 || no == 3;
         String tableName = "prodn" + no;
-        List<Map<String, Object>> result = connection.query("select distinct kortnamn from " + tableName, 0, 10000);
-        Set<String> itemIds = new TreeSet<>();
+
+        List<Map<String, Object>> result = null;
+        switch (no) {
+            case 1:
+                result = connection.query("select distinct id, kortnamn, kortnamn as concatkey from prodn1", 0, 10000);
+                break;
+            case 2:
+                result = connection.query("select distinct p2.id as id, p2.kortnamn as kortnamn, (p1.kortnamn || p2.kortnamn) as concatkey from prodn2 p2 left join prodn1 p1 on p2.prodn1=p1.id", 0, 10000);
+                break;
+            case 3:
+                result = connection.query("select distinct p3.id as id, p3.kortnamn as kortnamn, (p1.kortnamn || p2.kortnamn || p3.kortnamn) as concatkey from prodn3 p3 left join prodn2 p2 on p3.prodn2=p2.id left join prodn1 p1 on p2.prodn1=p1.id", 0, 10000);
+                break;
+        }
+
         final Table prodnType = connection.getSchemas("public").get(0).getTable(tableName);
+
         for (Map<String, Object> prodn : result) {
-            //itemIds.add((String) prodn1.get("kortnamn"));
-            if (!sumNivNamesFromFile.contains(prodn.get("kortnamn"))) {
+            if (!sumNivNamesFromFile.contains(prodn.get("concatkey"))) {
                 Map<String, Object> what = new HashMap<>();
                 Map<String, Object> where = new HashMap<>();
                 what.put("raderad", true);
-                where.put("kortnamn", prodn.get("kortnamn"));
+                where.put("id", prodn.get("id"));
                 int count = connection.update(prodnType, what, where);
                 System.out.println("Raderade " + prodn.get("kortnamn") + " " + count);
-                //System.out.println("Antal data med koden " + connection.query("select * from data where " + tableName + " in (select id from prodn1 where kortnamn = ?)", 0, 10000, prodn.get("kortnamn")).size());
             }
         }
     }
