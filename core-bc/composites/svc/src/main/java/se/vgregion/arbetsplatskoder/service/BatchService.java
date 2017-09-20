@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.Link;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.*;
-import se.vgregion.arbetsplatskoder.export.repository.ViewapkforsesamlmnRepository;
 import se.vgregion.arbetsplatskoder.repository.*;
 
 import javax.sql.DataSource;
@@ -315,18 +314,6 @@ public class BatchService {
                     prodn3Repository.save(prodn3);
                 }
             });
-    }
-
-    @Autowired
-    ViewapkforsesamlmnRepository viewapkforsesamlmnRepository;
-
-    @Transactional
-    public void runSesamLmnTransfer() {
-        viewapkforsesamlmnRepository.deleteAll();
-        List<Data> datas = sesamLmnExportFileService.findAllRelevantItems();
-        for (Data data : datas) {
-            viewapkforsesamlmnRepository.save(toViewapkforsesamlmn(data));
-        }
     }
 
     private Viewapkforsesamlmn toViewapkforsesamlmn(Data data) {

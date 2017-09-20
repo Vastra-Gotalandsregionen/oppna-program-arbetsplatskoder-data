@@ -14,15 +14,11 @@
 
     <import resource="classpath:db-context-direct.xml"/>-->
 
-  <context:annotation-config />
-
-  <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
-
   <bean class="se.vgregion.arbetsplatskoder.db.service.Crud">
   </bean>
 
   <!-- Uses by default transaction bean with name transactionManager -->
-  <tx:annotation-driven />
+  <tx:annotation-driven transaction-manager="exportTransactionManager" />
 
   <bean id="exportTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
     <property name="entityManagerFactory" ref="exportEntityManagerFactory" />

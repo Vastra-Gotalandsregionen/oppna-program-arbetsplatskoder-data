@@ -1,6 +1,6 @@
 package se.vgregion.arbetsplatskoder.intsvc.test;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -22,13 +22,9 @@ import java.util.Properties;
 public class JpaConfigTest {
 
     private String jdbcUrl = "jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false";
-
     private String jdbcUser = "sa";
-
     private String jdbcPassword = "";
-
     private String jdbcDriver = "org.h2.Driver";
-
     private String hibernateDialect = "org.hibernate.dialect.H2Dialect";
 
     @Bean
@@ -36,11 +32,21 @@ public class JpaConfigTest {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Bean
+    @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        return getLocalContainerEntityManagerFactoryBean("default");
+    }
+
+    @Bean(name = "exportEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryExport() {
+        return getLocalContainerEntityManagerFactoryBean("export");
+    }
+
+    LocalContainerEntityManagerFactoryBean getLocalContainerEntityManagerFactoryBean(String unitName) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[] { "se.vgregion.arbetsplatskoder.domain.jpa" });
+        em.setPersistenceUnitName(unitName);
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
@@ -61,7 +67,7 @@ public class JpaConfigTest {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
 

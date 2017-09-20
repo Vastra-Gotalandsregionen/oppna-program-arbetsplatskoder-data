@@ -15,7 +15,7 @@
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
     <!-- Uses by default transaction bean with name transactionManager -->
-    <tx:annotation-driven />
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />

@@ -76,7 +76,7 @@ public class Viewapkforsesamlmn extends AbstractEntity {
     @Column (name = "hsaid", nullable = true)
     private java.lang.String hsaid;
 
-    @Column (name = "anmarkning", nullable = true, length = 350)
+    @Column (name = "anmarkning", nullable = true, length = 4096)
     private java.lang.String anmarkning;
 
     @Column (name = "from_datum", nullable = true)

@@ -12,9 +12,13 @@
              version="2.0">
 
   <persistence-unit name="export">
-    <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3Temp</class>
     <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3</class>
     <class>se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid</class>
+
+    <properties>
+      <property name="hibernate.archive.autodetection" value="false" />
+    </properties>
+
   </persistence-unit>
 
 </persistence>
