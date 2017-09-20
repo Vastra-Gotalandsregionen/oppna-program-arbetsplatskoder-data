@@ -50,4 +50,6 @@ public interface DataRepository extends JpaRepository<Data, Integer>, DataExtend
     List<Data> findAllByArbetsplatskodlanEquals(String arbetsplatskodlan);
 
     List<Data> findAllByErsattavEquals(String ersattav);
+
+    List<Data> findAllByProdn1Raderad(Boolean raderad);
 }

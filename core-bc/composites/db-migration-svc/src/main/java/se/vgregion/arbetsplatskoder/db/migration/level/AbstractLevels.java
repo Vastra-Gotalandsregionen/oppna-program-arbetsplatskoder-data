@@ -219,18 +219,22 @@ public abstract class AbstractLevels {
         assert no == 1 || no == 2 || no == 3;
         String tableName = "prodn" + no;
 
-        List<Map<String, Object>> result = null;
+        String query = null;
         switch (no) {
             case 1:
-                result = connection.query("select distinct id, kortnamn, kortnamn as concatkey from prodn1", 0, 10000);
+                query = "select distinct id, kortnamn, kortnamn as concatkey from prodn1";
                 break;
             case 2:
-                result = connection.query("select distinct p2.id as id, p2.kortnamn as kortnamn, (p1.kortnamn || p2.kortnamn) as concatkey from prodn2 p2 left join prodn1 p1 on p2.prodn1=p1.id", 0, 10000);
+                query = "select distinct p2.id as id, p2.kortnamn as kortnamn, (p1.kortnamn || p2.kortnamn) as " +
+                        "concatkey from prodn2 p2 left join prodn1 p1 on p2.prodn1=p1.id";
                 break;
             case 3:
-                result = connection.query("select distinct p3.id as id, p3.kortnamn as kortnamn, (p1.kortnamn || p2.kortnamn || p3.kortnamn) as concatkey from prodn3 p3 left join prodn2 p2 on p3.prodn2=p2.id left join prodn1 p1 on p2.prodn1=p1.id", 0, 10000);
+                query = "select distinct p3.id as id, p3.kortnamn as kortnamn, (p1.kortnamn || p2.kortnamn || " +
+                        "p3.kortnamn) as concatkey from prodn3 p3 left join prodn2 p2 on p3.prodn2=p2.id left join " +
+                        "prodn1 p1 on p2.prodn1=p1.id";
                 break;
         }
+        List<Map<String, Object>> result = connection.query(query, 0, 10000);
 
         final Table prodnType = connection.getSchemas("public").get(0).getTable(tableName);
 
@@ -245,7 +249,6 @@ public abstract class AbstractLevels {
             }
         }
     }
-
 
     public void commit(){
         connection.commit();

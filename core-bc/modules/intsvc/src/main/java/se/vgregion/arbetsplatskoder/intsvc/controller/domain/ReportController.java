@@ -116,6 +116,10 @@ public class ReportController {
                 OUTPUT_FILENAME_PREFIX = "arbetsplatskoder_giltiga_mellan_" + fromDate + "_och_" + toDate;
                 outputFileName = OUTPUT_FILENAME_PREFIX + OUTPUT_FILENAME_SUFFIX;
                 break;
+            case WITH_DELETED_PRODN1:
+                OUTPUT_FILENAME_PREFIX = "arbetsplatskoder_med_raderad_concise_sumnivå1_";
+                outputFileName = OUTPUT_FILENAME_PREFIX + OUTPUT_FILENAME_SUFFIX;
+                break;
             default:
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -157,6 +161,9 @@ public class ReportController {
                 break;
             case VALID_WITH_END_DATE:
                 result = dataRepository.findAllValidWithEndDate();
+                break;
+            case WITH_DELETED_PRODN1:
+                result = dataRepository.findAllByProdn1Raderad(true);
                 break;
             default:
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
