@@ -15,7 +15,7 @@
     <import resource="classpath:db-export-data-context.xml"/>
 
     <beans:repositories base-package="se.vgregion.arbetsplatskoder.repository" entity-manager-factory-ref="entityManagerFactory" />
-    <beans:repositories base-package="se.vgregion.arbetsplatskoder.export.repository" entity-manager-factory-ref="entityManagerFactory" />
+    <beans:repositories base-package="se.vgregion.arbetsplatskoder.export.repository" entity-manager-factory-ref="exportEntityManagerFactory" />
 
     <context:component-scan base-package="se.vgregion.arbetsplatskoder.service" />
     <context:component-scan base-package="se.vgregion.arbetsplatskoder.spring"/>

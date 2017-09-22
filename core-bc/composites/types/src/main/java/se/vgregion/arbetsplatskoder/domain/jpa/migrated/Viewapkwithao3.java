@@ -66,7 +66,7 @@ public class Viewapkwithao3 extends AbstractEntity {
     @Column (name = "fakturering", nullable = true)
     private java.lang.Integer fakturering;
 
-    @Column (name = "anmarkning", nullable = true)
+    @Column (name = "anmarkning", nullable = true, length = 4096)
     private java.lang.String anmarkning;
 
     @Column (name = "from_datum", nullable = true)

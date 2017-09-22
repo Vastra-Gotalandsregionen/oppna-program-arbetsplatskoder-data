@@ -36,5 +36,13 @@
       <button [ladda]="updatedBetweenDatesReport.isLoading" (click)="generateUpdatedBetweenDatesReport()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
     </div>
 
+    <md-divider class="space-top"></md-divider>
+
+    <div>
+      <h4>Alla arbetsplatskoder med raderad Concise SumNivå 1</h4>
+      <button [ladda]="withDeletedProdn1.isLoading" (click)="generateWithDeletedProdn1Report()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
+    </div>
+
+
   </md-card-content>
 </md-card>

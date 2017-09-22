@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3;
@@ -21,11 +22,11 @@ import java.util.stream.Collectors;
  * @author Patrik Björk
  */
 @Service
-@Transactional
+@Transactional(transactionManager = "exportTransactionManager")
 public class LokeDatabaseIntegrationService {
 
     @Autowired
-    Viewapkwithao3Repository viewapkwithao3Repository;
+    private Viewapkwithao3Repository viewapkwithao3Repository;
 
     @Autowired
     private DataRepository dataRepository;
@@ -37,14 +38,18 @@ public class LokeDatabaseIntegrationService {
 
     // Minute 15 and 45 each hour, monday to friday
     @Scheduled(cron = "0 15/45 * * * MON-FRI")
-    @Transactional
     public void populateLokeTable() {
 
         LOGGER.info("Start populateLokeTable()...");
 
-        viewapkwithao3Repository.deleteAll();
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         viewapkwithao3Repository.deleteAll();
+
+        stopWatch.stop();
+        LOGGER.info("Deleted all Viewapkwithao3: " + stopWatch.getTotalTimeMillis() + " ms");
+        stopWatch.start();
 
         Map<String, Ao3> ao3Map = ao3Repository.findAll().stream()
             .collect(Collectors.toMap(Ao3::getAo3id, ao3 -> ao3));
@@ -104,10 +109,11 @@ public class LokeDatabaseIntegrationService {
             entry.setForetagsnr(ao3Entity.getForetagsnr());
             entry.setRaderad(ao3Entity.getRaderad());
 
-            viewapkwithao3Repository.save(entry);
+            viewapkwithao3Repository.persist(entry);
         }
 
-        LOGGER.info("Finish populateLokeTable()...");
+        stopWatch.stop();
+        LOGGER.info("Finish populateLokeTable()... " + stopWatch.getTotalTimeMillis() + " ms");
     }
 
 }

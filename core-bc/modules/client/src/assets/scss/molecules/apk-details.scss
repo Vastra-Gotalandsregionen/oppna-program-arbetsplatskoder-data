@@ -1,0 +1,45 @@
+.apk-details {
+
+  padding: 10px;
+
+  &.apk-details-highlight {
+    background: #eee;
+
+    .apk-details-item {
+      border-bottom: none;
+    }
+  }
+
+  h3 {
+    margin-top: 0;
+  }
+
+}
+
+
+.col {
+
+  &.c6,
+  &.c5,
+  &.c4 {
+
+    .apk-details {
+
+      .apk-details-item {
+
+        .apk-details-item-label {
+          margin-right: 1%;
+          width: 49%;
+        }
+
+        .apk-details-item-data {
+          width: 49.5%;
+        }
+
+      }
+
+    }
+
+  }
+
+}

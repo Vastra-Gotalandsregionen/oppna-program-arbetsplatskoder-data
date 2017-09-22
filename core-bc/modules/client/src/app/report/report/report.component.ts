@@ -15,6 +15,7 @@ export class ReportComponent implements OnInit {
   validWithoutEndDateReport: Report = new Report();
   validWithEndDateReport: Report = new Report();
   updatedBetweenDatesReport: Report = new Report();
+  withDeletedProdn1: Report = new Report();
 
   fromDate = new FormControl();
   toDate = new FormControl();
@@ -43,6 +44,10 @@ export class ReportComponent implements OnInit {
 
   generateValidWithEndDateReport(): void {
     this.generateReport('VALID_WITH_END_DATE', this.validWithEndDateReport);
+  }
+
+  generateWithDeletedProdn1Report(): void {
+    this.generateReport('WITH_DELETED_PRODN1', this.withDeletedProdn1);
   }
 
   generateUpdatedBetweenDatesReport(): void {

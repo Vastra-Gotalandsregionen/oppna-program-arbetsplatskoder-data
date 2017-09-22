@@ -11,4 +11,31 @@
     font-size: 100%;
   }
 
+  // Scaffolding inside card
+
+  .row {
+
+    .col:first-child {
+      .col-inner {
+        padding-left: 0;
+      }
+    }
+
+    .col:last-child {
+      .col-inner {
+        padding-right: 0;
+      }
+    }
+
+    // First row in a card
+    &:first-child {
+      .col {
+        .col-inner {
+          padding-top: 0;
+        }
+      }
+    }
+
+  }
+
 }

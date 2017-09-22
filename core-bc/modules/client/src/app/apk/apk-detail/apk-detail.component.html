@@ -3,6 +3,8 @@
   <md-toolbar class="action-toolbar">
     <h1>
        Arbetsplatskod: {{data.arbetsplatskodlan}}
+       <md-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">warning</md-icon>
+       <md-icon *ngIf="getStatus(data) === 'fullyClosed'" style="color: #d33;" mdTooltip="Giltighetsdatum passerat för över ett år sedan.">error</md-icon>
     </h1>
     <div class="action-toolbar-spacer"></div>
     <app-back-button class="action-toolbar-item"></app-back-button>
@@ -15,153 +17,207 @@
 
       <md-card-content>
 
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Benämning</div>
-          <div class="apk-details-item-data">
-            {{data.benamning}}
-          </div>
-        </div>
+        <div class="row">
+        	<div class="col c12">
+        		<div class="col-inner">
+              <div class="apk-details apk-details-highlight">
 
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Kortnamn</div>
-          <div class="apk-details-item-data">
-            {{data.benamningKort}}
-          </div>
-        </div>
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Benämning:</div>
+                  <div class="apk-details-item-data">
+                    {{data.benamning}}
+                  </div>
+                </div>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Kortnamn:</div>
+                  <div class="apk-details-item-data">
+                    {{data.benamningKort}}
+                  </div>
+                </div>
 
 
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">HSA-ID</div>
-          <div class="apk-details-item-data">
-            {{data.hsaid}}
-          </div>
-        </div>
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">HSA-ID:</div>
+                  <div class="apk-details-item-data">
+                    {{data.hsaid}}
+                  </div>
+                </div>
 
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Adress</div>
-          <div class="apk-details-item-data">
-            {{data.postadress}} <br />
-            {{data.postnr}} {{data.postort}}
-          </div>
-        </div>
-
-        <h3>Ekonomiska koder</h3>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Motpart</div>
-          <div class="apk-details-item-data">
-            {{data.ao3}}
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Ansvar</div>
-          <div class="apk-details-item-data">
-            {{data.ansvar}}
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Faktureras externt</div>
-          <div class="apk-details-item-data">
-            {{data.externfakturamodell}}
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">VGPV</div>
-          <div class="apk-details-item-data">
-            {{data.vgpv}}
-          </div>
-        </div>
-
-        <h3>Vårdadministrativa koder</h3>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Vårdform</div>
-          <div class="apk-details-item-data">
-            {{data.vardform}}
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Medicinsk verksamhetskod</div>
-          <div class="apk-details-item-data">
-            {{data.verksamhet}}
-          </div>
-        </div>
-
-        <h3>Concise SumNivå</h3>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Concise SumNivå 1</div>
-          <div class="apk-details-item-data">
-            {{data.prodn1.foretagsnamn}} ({{data.prodn1.kortnamn}})
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Concise SumNivå 2</div>
-          <div class="apk-details-item-data">
-            {{data.prodn3.prodn2.avdelning}} ({{data.prodn3.prodn2.kortnamn}})
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Concise SumNivå 3</div>
-          <div class="apk-details-item-data">
-            {{data.prodn3.foretagsnamn}} ({{data.prodn3.kortnamn}})
-          </div>
-        </div>
-
-        <h3>Giltighetstid</h3>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Giltig fr.o.m.</div>
-          <div class="apk-details-item-data">
-            {{data.fromDatum | dateX: 'YYYY-MM-DD'}}
-          </div>
-        </div>
-
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Giltig t.o.m.</div>
-          <div class="apk-details-item-data">
-            {{(!data.tillDatum || data.tillDatum.length == 0) ? "Tills vidare" : (data.tillDatum | dateX: 'YYYY-MM-DD')}}
-          </div>
-        </div>
-
-        <div *ngIf="($replacedBy | async)?.id">
-          <h3>Ersatt av</h3>
-
-          <div class="apk-details-item">
-            <div class="apk-details-item-label">Ersatt av</div>
-            <div class="apk-details-item-data">
-              <a routerLink="/apk/{{($replacedBy | async)?.id}}">{{($replacedBy | async)?.arbetsplatskodlan}}</a>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="($replaces | async)?.length > 0">
-          <h3>Ersätter</h3>
-
-          <div class="apk-details-item">
-            <div class="apk-details-item-label">Ersätter</div>
-            <div class="apk-details-item-data">
-              <div *ngFor="let data of $replaces | async">
-                <a routerLink="/apk/{{data.id}}">{{data.arbetsplatskodlan}}</a>
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Adress:</div>
+                  <div class="apk-details-item-data">
+                    {{data.postadress}} <br />
+                    {{data.postnr}} {{data.postort}}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+        	</div>
         </div>
 
-        <h3>Övrig info</h3>
+        <div class="row">
 
-        <div class="apk-details-item">
-          <div class="apk-details-item-label">Anmärkning</div>
-          <div class="apk-details-item-data">
-            {{data.anmarkning || '-'}}
-          </div>
+        	<div class="col c6">
+        		<div class="col-inner">
+
+              <div class="apk-details">
+              <h3>Ekonomiska koder</h3>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Motpart:</div>
+                  <div class="apk-details-item-data">
+                    {{data.ao3}}
+                  </div>
+                </div>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Ansvar:</div>
+                  <div class="apk-details-item-data">
+                    {{data.ansvar}}
+                  </div>
+                </div>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Faktureras externt:</div>
+                  <div class="apk-details-item-data">
+                    {{data.externfakturamodell}}
+                  </div>
+                </div>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">VGPV:</div>
+                  <div class="apk-details-item-data">
+                    {{data.vgpv === true ? "ja" : "nej"}}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+        	</div>
+
+        	<div class="col c6">
+        		<div class="col-inner">
+
+              <div class="apk-details">
+                <h3>Vårdadministrativa koder</h3>
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Vårdform:</div>
+                  <div class="apk-details-item-data">
+                    {{data.vardform}}
+                  </div>
+                </div>
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Medicinsk verksamhetskod:</div>
+                  <div class="apk-details-item-data">
+                    {{data.verksamhet}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+        	</div>
+
         </div>
+
+        <div class="row">
+
+          <div class="col c6">
+        		<div class="col-inner">
+
+              <div class="apk-details">
+                <h3>Concise SumNivå</h3>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Concise SumNivå 1:</div>
+                  <div class="apk-details-item-data">
+                    {{data.prodn1.foretagsnamn}} ({{data.prodn1.kortnamn}})
+                  </div>
+                </div>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Concise SumNivå 2:</div>
+                  <div class="apk-details-item-data">
+                    {{data.prodn3.prodn2.avdelning}} ({{data.prodn3.prodn2.kortnamn}})
+                  </div>
+                </div>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Concise SumNivå 3:</div>
+                  <div class="apk-details-item-data">
+                    {{data.prodn3.foretagsnamn}} ({{data.prodn3.kortnamn}})
+                  </div>
+                </div>
+              </div>
+
+            </div>
+        	</div>
+
+          <div class="col c6">
+        		<div class="col-inner">
+
+              <div class="apk-details">
+                <h3>Giltighetstid</h3>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Giltig fr.o.m:</div>
+                  <div class="apk-details-item-data">
+                    {{data.fromDatum | dateX: 'YYYY-MM-DD'}}
+                  </div>
+                </div>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Giltig t.o.m:</div>
+                  <div class="apk-details-item-data">
+                    {{(!data.tillDatum || data.tillDatum.length == 0) ? "Tills vidare" : (data.tillDatum | dateX: 'YYYY-MM-DD')}}
+                  </div>
+                </div>
+
+                <div *ngIf="($replacedBy | async)?.id">
+                  <div class="apk-details-item">
+                    <div class="apk-details-item-label">Ersatt av:</div>
+                    <div class="apk-details-item-data">
+                      <a routerLink="/apk/{{($replacedBy | async)?.id}}">{{($replacedBy | async)?.arbetsplatskodlan}}</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="($replaces | async)?.length > 0">
+                  <div class="apk-details-item">
+                    <div class="apk-details-item-label">Ersätter:</div>
+                    <div class="apk-details-item-data">
+                      <div *ngFor="let data of $replaces | async">
+                        <a routerLink="/apk/{{data.id}}">{{data.arbetsplatskodlan}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+        	</div>
+
+        </div>
+
+        <div class="row">
+        	<div class="col c12">
+        		<div class="col-inner">
+              <div class="apk-details">
+                <h3>Övrig info</h3>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Anmärkning:</div>
+                  <div class="apk-details-item-data">
+                    {{data.anmarkning || '-'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+        	</div>
+        </div>
+
+
 
       </md-card-content>
     </md-card>

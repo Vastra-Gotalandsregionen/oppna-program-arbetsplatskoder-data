@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {Data} from "../../model/data";
 import {ActivatedRoute} from '@angular/router';
 import {JwtHttp} from "../../core/jwt-http";
