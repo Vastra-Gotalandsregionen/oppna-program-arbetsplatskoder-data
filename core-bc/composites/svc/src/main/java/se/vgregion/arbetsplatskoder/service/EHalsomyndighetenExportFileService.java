@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
+import se.vgregion.arbetsplatskoder.repository.extension.DataExtendedRepository;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * @author clalu4
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class EHalsomyndighetenExportFileService {
 
     @Autowired
-    private DataRepository dataRepository;
+    DataRepository dataRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EHalsomyndighetenExportFileService.class);
 
@@ -44,6 +44,15 @@ public class EHalsomyndighetenExportFileService {
     @Value("${export.ehalsomyndigheten.smb.password}")
     private String password;
 
+    public static String getTodaysFileName(Date now) {
+        SimpleDateFormat sdf = new SimpleDateFormat("YYMMdd");
+        return sdf.format(now) + "_14_arbetsplatser.txt";
+    }
+
+    public static String getTodaysFileName() {
+        return getTodaysFileName(new Date());
+    }
+
     @Scheduled(cron = "0 15/45 * * * MON-FRI")
     @Transactional
     public void runFileTransfer() {
@@ -51,7 +60,7 @@ public class EHalsomyndighetenExportFileService {
             return;
         }
         LOGGER.info(EHalsomyndighetenExportFileService.class.getName() + ".runFileTransfer() starts.");
-        String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + "ehalsomyndigheten.export.txt";
+        String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + getTodaysFileName();
         SambaFileClient.putFile(
             urlAtTheTime,
             generate(),
@@ -59,103 +68,132 @@ public class EHalsomyndighetenExportFileService {
             user,
             password
         );
-        LOGGER.info(SesamLmnExportFileService.class.getName() + ".runFileTransfer() completes.");
+        LOGGER.info(EHalsomyndighetenExportFileService.class.getName() + ".runFileTransfer() completes.");
     }
 
     public String generate() {
-        return generate(findAllRelevantItems());
+        String result = generate(findAllRelevantItems()) + "\n";
+        return result;
     }
 
-    String generate(List<Data> all) {
+    private List<Data> findAllRelevantItems() {
+        return dataRepository.findEhalsomyndighetensExportBatch();
+    }
 
-        /*
-         * SELECT arbetsplatskod,
-         benamning,
-         left(ao3,3) as a03b ,
-         ansvar,frivillig_uppgift,
-         agarform,
-         vardform,
-         verksamhet,
-         from_datum,
-         till_datum,
-         postadress,
-         postnr,
-         postort,
-         ersattav,
-         sorteringskod_prod,
-         lankod,
-         kommun,
-         lakemedkomm
-         FROM data
-         where len(arbetsplatskod) < 12
-         and till_datum > #DateAdd("m", -12, now())#
-         order by arbetsplatskod
-         */
+    static String trim(String thatText, int toMaximumLength) {
+        if (thatText.length() > toMaximumLength) {
+            return thatText.substring(0, toMaximumLength);
+        } else {
+            return thatText;
+        }
+    }
 
-        List<String> sb = new ArrayList<>();
-        for (Data data : all) {
-            sb.add(
-                R(
-                    data.getArbetsplatskod(),
-                    data.getBenamning(),
-                    data.getAo3().length() > 3 ? data.getAo3().substring(0, 3) : data.getAo3(),
-                    data.getAnsvar(),
-                    data.getFrivilligUppgift(),
-                    data.getAgarform(),
-                    data.getVardform(),
-                    data.getVerksamhet(),
-                    format(data.getFromDatum()),
-                    format(data.getTillDatum()),
-                    data.getPostadress(),
-                    data.getPostnr(),
-                    data.getPostort(),
-                    data.getErsattav(),
-                    data.getSorteringskodProd(),
-                    data.getLankod(),
-                    data.getKommun(),
-                    data.getLakemedkomm()
+    static String trim(Object thatObject, int toMaximumLength) {
+        return trim(thatObject.toString(), toMaximumLength);
+    }
+
+    String generate(List<Data> items) {
+        List<String> lines = new ArrayList<>();
+        for (Data item : items) {
+            lines.add(
+                formatRow(
+                    item.getArbetsplatskodlan()
+                    , trim(item.getBenamning(), 100)
+                    , ""
+                    , item.getAgarform()
+                    , item.getVardform()
+                    , item.getVerksamhet()
+                    , formatFranDatum(item.getFromDatum(), (Date) item.getTillDatum())
+                    , formatTillDatum(item.getTillDatum())
+                    , trim(item.getPostadress(), 35)
+                    , item.getPostnr()
+                    , trim(item.getPostort(), 25)
+                    , ""
+                    , ""
+                    , ""
+                    , item.getLakemedkomm()
+                    , ""
+                    , ""
+                    , ""
+                    , ""
                 )
             );
         }
-        return L(sb);
+        return formatLines(lines);
     }
 
-    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+    static DateTimeFormatter yyyyMmDd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private String format(Date date) {
-        if (date == null) {
+    static String formatTillDatum(String dateAsTextYyyyMmDd) {
+        if (dateAsTextYyyyMmDd == null || dateAsTextYyyyMmDd.isEmpty()) {
+            return "2000-01-01";
+        }
+        if (dateAsTextYyyyMmDd.startsWith("2199-")) {
             return "";
         }
-        return dt.format(date);
+        return inc(dateAsTextYyyyMmDd, 1);
     }
 
-    @Transactional
-    List<Data> findAllRelevantItems() {
-        List<Data> all = dataRepository.findAll();
-        Date currentDate = new Date();
-        long oneYear = (long) 365 * 24 * 60 * 60 * 1000;
-        Date oneYearBefore = new Date(currentDate.getTime() - oneYear);
-        //and till_datum > #DateAdd("m", -12, now())#
-        all = all.stream().filter(
-            d -> F(d.getArbetsplatskod()).length() < 12
-                && d.getTillDatum() != null
-                && d.getTillDatum().after(oneYearBefore)).collect(Collectors.toList()
-        );
-        all.sort(Comparator.comparing(Data::getArbetsplatskod));
-        return all;
+    static String formatTillDatum(Date toDate) {
+        if (toDate == null) {
+            return "2000-01-01";
+        }
+        LocalDateTime ld = toLocalDateTime(toDate);
+        if (ld.getYear() == 2199) {
+            return "";
+        }
+        return inc(toDate, 1);
     }
 
-    private String R(Object... parts) {
+    static String inc(String textualDate, int withNumberOfDays) {
+        LocalDate date = LocalDate.parse(textualDate, yyyyMmDd);
+        LocalDate result = date.plusDays(withNumberOfDays);
+        return yyyyMmDd.format(result);
+    }
+
+    static String inc(Date that, int withNumberOfDays) {
+        LocalDate date = toLocalDateTime(that).toLocalDate();
+        LocalDate result = date.plusDays(withNumberOfDays);
+        return yyyyMmDd.format(result);
+    }
+
+    static LocalDateTime toLocalDateTime(Date fromThat) {
+        LocalDateTime result = LocalDateTime.ofInstant(fromThat.toInstant(), TimeZone.getDefault().toZoneId());
+        return result;
+    }
+
+    static String formatFranDatum(Date fromDate, Date toDate) {
+        if (fromDate == null) {
+            return "";
+        }
+        LocalDateTime ldFromDate = toLocalDateTime(fromDate);
+        if (ldFromDate.getYear() == 1900) {
+            return "";
+        }
+
+        if (toDate != null) {
+            LocalDateTime ldToDate = toLocalDateTime(toDate);
+            if (ldFromDate.getYear() == ldToDate.getYear() &&
+                ldFromDate.getMonth() == ldToDate.getMonth() &&
+                ldFromDate.getDayOfMonth() == ldToDate.getDayOfMonth()) {
+                return inc(fromDate, -1);
+            }
+        }
+        return inc(fromDate, 0);
+    }
+
+
+    private String formatRow(Object... parts) {
         List<String> lines = new ArrayList<>();
-        for (Object part : parts) lines.add(F(part));
+        for (Object part : parts) lines.add(formatValue(part));
         return String.join(";", lines);
     }
 
-    private String L(List<String> parts) {
+    private String formatLines(List<String> parts) {
         return String.join("\n", parts);
     }
 
-    private String F(Object s) {
+    private String formatValue(Object s) {
         if (s == null) return "";
         return s.toString().replace(';', ',');
     }

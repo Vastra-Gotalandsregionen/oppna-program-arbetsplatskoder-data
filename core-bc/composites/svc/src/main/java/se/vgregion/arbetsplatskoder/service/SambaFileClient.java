@@ -10,6 +10,9 @@ public class SambaFileClient {
         try {
             NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
             SmbFile smbFile = new SmbFile(here, auth);
+            if (!smbFile.exists()) {
+                smbFile.createNewFile();
+            }
             try (SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile)) {
                 smbfos.write(withContent.getBytes());
             }

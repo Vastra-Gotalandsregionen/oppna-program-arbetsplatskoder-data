@@ -18,8 +18,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * It turns out that SesamLmn reads its data from the same database table as Kiv.
  * @author clalu4
  */
+@Deprecated
 @Service
 @Transactional
 public class SesamLmnExportFileService {
@@ -48,7 +50,7 @@ public class SesamLmnExportFileService {
     @Value("${export.sesam-lmn.smb.password}")
     private String password;
 
-    @Scheduled(cron = "0 15/45 * * * MON-FRI")
+    //@Scheduled(cron = "0 15/45 * * * MON-FRI")
     @Transactional
     public void runFileTransfer() {
         if (!exportShouldRun) {

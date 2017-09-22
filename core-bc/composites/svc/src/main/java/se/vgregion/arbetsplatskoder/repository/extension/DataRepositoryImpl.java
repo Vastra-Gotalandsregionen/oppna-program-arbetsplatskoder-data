@@ -1,25 +1,21 @@
 package se.vgregion.arbetsplatskoder.repository.extension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.ArchivedData;
-import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -59,8 +55,8 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         List<String> result = new ArrayList<>();
         for (String s : ofThat.trim().split(Pattern.quote(" "))) {
             result.add((s.startsWith("%") ? "" : "%")
-                    + s
-                    + (s.endsWith("%") ? "" : "%"));
+                + s
+                + (s.endsWith("%") ? "" : "%"));
         }
         return result;
     }
@@ -76,12 +72,12 @@ public class DataRepositoryImpl implements DataExtendedRepository {
             List<String> conditions = new ArrayList<>();
             int i = 1;
             List<String> allFields = Arrays.asList(
-                    "lower(d.arbetsplatskodlan)",
-                    "lower(d.benamning)",
-                    "function('to_char', d.regDatum, 'YYYY-MM-DD')",
-                    "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
-                    "lower(d.prodn3.prodn2.kortnamn)",
-                    "lower(d.prodn1.kortnamn)"
+                "lower(d.arbetsplatskodlan)",
+                "lower(d.benamning)",
+                "function('to_char', d.regDatum, 'YYYY-MM-DD')",
+                "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
+                "lower(d.prodn3.prodn2.kortnamn)",
+                "lower(d.prodn1.kortnamn)"
             );
             for (Object s : wordsToLookFor) {
                 List<String> allFieldsLikeCondtion = new ArrayList<>();
@@ -98,11 +94,11 @@ public class DataRepositoryImpl implements DataExtendedRepository {
             sb.append(String.join(" and ", conditions));
 
             long count = query(
-                    Long.class,
-                    "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
-                    null,
-                    arguments,
-                    prodn1s).get(0);
+                Long.class,
+                "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
+                null,
+                arguments,
+                prodn1s).get(0);
 
             if (pageable.getSort() != null) {
                 Sort sort = pageable.getSort();
@@ -117,9 +113,9 @@ public class DataRepositoryImpl implements DataExtendedRepository {
             }
 
             String jpql = "select d from "
-                    + Data.class.getSimpleName()
-                    + " d "
-                    + sb.toString();
+                + Data.class.getSimpleName()
+                + " d "
+                + sb.toString();
 
             List<Data> results = query(Data.class, jpql, pageable, arguments, prodn1s);
 
@@ -161,27 +157,67 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         return entityManager.merge(data);
     }
 
-    public List<Data> findStralforsExportBatch() {
-        String jpql = "select distinct d, a from Data d, Ao3 a "+
-            "where d.tillDatum > current_date " +
-            "and d.ao3 = a.ao3id " +
-            "and d.apodos = true " +
-            "and d. arbetsplatskod != '999999'";
-
-        List<Object[]> bothItems = entityManager.createQuery(jpql).getResultList();
-
-        //List<Object> bothItems = query(Object.class, jpql, null, new ArrayList());
-
-        List<Data> result = new ArrayList<>();
-
-        for (Object[] bi : bothItems) {
-            Data data = (Data) bi[0];
-            Ao3 ao3 = (Ao3) bi[1];
-            // data.setAo3item(ao3);
-            result.add(data);
-        }
+    private List<Map<String, Object>> query() {
+        List<Map<String, Object>> result = new ArrayList<>();
 
         return result;
+    }
+
+    /*
+    @Override
+    public List<List<Object>> findStralforsTextualExportBatch() {
+        List<List<Object>> rows = new ArrayList<>();
+        String sql = "SELECT distinct arbetsplatskodlan, benamning, postadress, postnr, postort, \n" +
+            " coalesce(leverans.leveranstext, 'Mölndal.') as leveranstext, \n" +
+            " coalesce(fakturering.fakturering_kort_text, 'saknas') as faktureringstext \n" +
+            "FROM data\n" +
+            " left join fakturering on data.fakturering = fakturering.id                   \n" +
+            " left join ao3 on data.ao3 = AO3.AO3id\n" +
+            " left join leverans on data.leverans = leverans.id\n" +
+            "WHERE \n" +
+            " data.till_datum > current_timestamp and \n" +
+            " data.apodos = false and  \n" +
+            " arbetsplatskod <> '999999'";
+        Query nq = entityManager.createNativeQuery(sql);
+        List rl = nq.getResultList();
+        for (Object os : rl) {
+            Object[] row = (Object[]) os;
+            rows.add(Arrays.asList(row));
+            assert row.length == 7;
+        }
+        return rows;
+    }
+    */
+
+    @Override
+    public List<Data> findEhalsomyndighetensExportBatch() {
+        String jpql = "select d\n" +
+            " from Data d \n" +
+            "where length(d.arbetsplatskod) < 12\n" +
+            " and d.tillDatum > :oneYearAgo\n" +
+            "order by d.arbetsplatskodlan";
+
+        Calendar cal = Calendar.getInstance();
+        Date today = cal.getTime();
+        cal.add(Calendar.YEAR, -1);
+        Date oneYearAgo = cal.getTime();
+        Query nq = entityManager.createQuery(jpql);
+        nq.setParameter("oneYearAgo", oneYearAgo);
+        List<Data> rows = nq.getResultList();
+        return rows;
+    }
+
+    @Override
+    public List<Data> findStralforsExportBatch() {
+        String sql = "SELECT distinct d " +
+            "FROM Data d\n" +
+            "WHERE \n" +
+            " d.tillDatum > current_timestamp and \n" +
+            " d.apodos = false and  \n" +
+            " arbetsplatskod <> '999999'";
+        Query nq = entityManager.createQuery(sql);
+        List rl = nq.getResultList();
+        return new ArrayList<>(rl);
     }
 
 }

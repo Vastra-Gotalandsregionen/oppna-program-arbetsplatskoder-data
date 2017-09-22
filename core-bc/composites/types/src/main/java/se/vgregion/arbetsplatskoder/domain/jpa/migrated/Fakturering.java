@@ -18,6 +18,9 @@ public class Fakturering extends AbstractEntity {
     @Column (name = "faktureringtext", nullable = true)
     private java.lang.String faktureringtext;
 
+    @Column (name = "fakturering_kort_text", nullable = true)
+    private java.lang.String faktureringKortText;
+
     @Column (name = "raderad", nullable = false)
     private java.lang.Boolean raderad;
 
@@ -65,4 +68,11 @@ public class Fakturering extends AbstractEntity {
     }
 
 
+    public String getFaktureringKortText() {
+        return faktureringKortText;
+    }
+
+    public void setFaktureringKortText(String faktureringKortText) {
+        this.faktureringKortText = faktureringKortText;
+    }
 }

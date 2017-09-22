@@ -8,13 +8,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Fakturering;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Leverans;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
+import se.vgregion.arbetsplatskoder.repository.FaktureringRepository;
+import se.vgregion.arbetsplatskoder.repository.LeveransRepository;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author clalu4
@@ -23,10 +24,20 @@ import java.util.List;
 @Transactional
 public class StralforsExportFileService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(StralforsExportFileService.class);
+
     @Autowired
     private DataRepository dataRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StralforsExportFileService.class);
+    @Autowired
+    private LeveransRepository leveransRepository;
+
+    @Autowired
+    private FaktureringRepository faktureringRepository;
+
+    private Map<Integer, Leverans> leveranses;
+
+    private Map<Integer, Fakturering> fakturerings;
 
     @Value("${export.stralfors.should.run}")
     private Boolean exportShouldRun;
@@ -45,68 +56,57 @@ public class StralforsExportFileService {
 
     @Scheduled(cron = "0 15/45 * * * MON-FRI")
     @Transactional
-    public void runFileTransfer() {
+    public String runFileTransfer() {
         if (!exportShouldRun) {
-            return;
+            return "This instance is not set to generate files!";
         }
-        LOGGER.info(EHalsomyndighetenExportFileService.class.getName() + ".runFileTransfer() starts.");
-        String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + "stralfors.export.txt";
+        LOGGER.info("runFileTransfer() starts.");
+        String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + getTodaysFileName();
+        String result = generate();
         SambaFileClient.putFile(
             urlAtTheTime,
-            generate(),
+            result,
             userDomain,
             user,
             password
         );
-        LOGGER.info(SesamLmnExportFileService.class.getName() + ".runFileTransfer() completes.");
+        LOGGER.info("runFileTransfer() completes.");
+        return result;
+    }
+
+    static String getTodaysFileName(Date now) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd");
+        return "utdata_nassjo_" + sdf.format(now) + ".txt";
+    }
+
+    static String getTodaysFileName() {
+        return getTodaysFileName(new Date());
     }
 
     public String generate() {
         return generate(findAllRelevantItems());
     }
 
-    String generate(List<Data> all) {
-
-    /*		SELECT distinct lankod,arbetsplatskod,benamning,postadress,
-    postnr, postort, till_datum, data.leverans, data.fakturering
-		FROM        data,ao3
-		WHERE       data.ao3 = AO3.AO3id AND
-				data.till_datum > #now()# AND
-				data.apodos = 0 AND --apodos <> TRUE
-				arbetsplatskod <> '999999'*/
-
-        List<String> lines = new ArrayList<>();
-        for (Data data : all) {
-            lines.add(
-                formatRow(
-                    data.getLankod(),
-                    data.getArbetsplatskod(),
-                    data.getBenamning(),
-                    data.getPostadress(),
-                    data.getPostnr(),
-                    data.getPostort(),
-                    format(data.getTillDatum()),
-                    data.getLeverans(),
-                    data.getFakturering()
-                )
-            );
+    @Transactional
+    private String generate(List<Data> items) {
+        List<String> rows = new ArrayList<>();
+        for (Data item : items) {
+            rows.add(formatRow(
+                item.getArbetsplatskodlan(),
+                item.getBenamning(),
+                item.getPostadress(),
+                item.getPostnr(),
+                item.getPostort(),
+                getLeveransText(item),
+                getFaktureringKortText(item)
+            ));
         }
-        return formatLines(lines);
-    }
-
-    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-
-    private String format(Date date) {
-        if (date == null) {
-            return "";
-        }
-        return dt.format(date);
+        return formatLines(rows);
     }
 
     @Transactional
-    List<Data> findAllRelevantItems() {
+    public List<Data> findAllRelevantItems() {
         List<Data> all = dataRepository.findStralforsExportBatch();
-        all.sort(Comparator.comparing(Data::getArbetsplatskod));
         return all;
     }
 
@@ -121,8 +121,36 @@ public class StralforsExportFileService {
     }
 
     private String formatValue(Object s) {
-        if (s == null) return "";
+        if (s == null) {
+            return "";
+        }
         return s.toString().replace(';', ',');
+    }
+
+    private String getLeveransText(Data forThisOne) {
+        if (leveranses == null) {
+            leveranses = new HashMap<>();
+            for (Leverans leverans : leveransRepository.findAll()) {
+                leveranses.put(leverans.getId(), leverans);
+            }
+        }
+        if (forThisOne.getLeverans() == null || !leveranses.containsKey(forThisOne.getLeverans())) {
+            return "Mölndal.";
+        }
+        return leveranses.get(forThisOne.getLeverans()).getLeveranstext();
+    }
+
+    private String getFaktureringKortText(Data forThisOne) {
+        if (fakturerings == null) {
+            fakturerings = new HashMap<Integer, Fakturering>();
+            for (Fakturering fakturering : faktureringRepository.findAll()) {
+                fakturerings.put(fakturering.getId(), fakturering);
+            }
+        }
+        if (forThisOne.getFakturering() == null || !fakturerings.containsKey(forThisOne.getFakturering())) {
+            return "saknas";
+        }
+        return fakturerings.get(forThisOne.getFakturering()).getFaktureringKortText();
     }
 
 }
