@@ -35,6 +35,7 @@ public class Crud {
      */
     @Transactional
     public <T> T update(T item) {
+        if(true) throw new java.lang.RuntimeException();
         item = em.merge(item);
         return item;
     }
@@ -48,6 +49,7 @@ public class Crud {
      */
     @Transactional
     public <T> T delete(T item) {
+        if(true) throw new java.lang.RuntimeException();
         em.remove(item);
         return item;
     }
@@ -61,12 +63,14 @@ public class Crud {
      */
     @Transactional
     public <T> T create(T item) {
+        if(true) throw new java.lang.RuntimeException();
         em.persist(item);
         return item;
     }
 
     @Transactional
     public <T> List<T> find(T byThatExample) {
+        if(true) throw new java.lang.RuntimeException();
         BeanMap bm = new BeanMap(byThatExample);
         StringBuilder sb = new StringBuilder();
         sb.append("select t from " + byThatExample.getClass().getSimpleName() + " t");
@@ -125,6 +129,7 @@ public class Crud {
 
     @Transactional
     public int execute(String command) {
+        if(true) throw new java.lang.RuntimeException();
         Query q = em.createNativeQuery(command);
         return q.executeUpdate();
     }
