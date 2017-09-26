@@ -9,44 +9,42 @@
 
   <md-card-content>
 
-    <div class="apk-reports-item">
-      <h4>Alla arbetsplatskoder som gäller tillsvidare</h4>
+    <div class="apk-reports-item-wrap">
+      <div class="apk-reports-item">
+        <md-icon>file_download</md-icon>
+        <span class="apk-reports-item-label">Alla arbetsplatskoder som gäller tillsvidare</span>
+      </div>
       <button [ladda]="validWithoutEndDateReport.isLoading" (click)="generateValidWithoutEndDateReport()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
     </div>
 
-    <!--
-
-    <md-divider class="space-top"></md-divider>
-    -->
-
-    <div class="apk-reports-item">
-      <h4>Alla arbetsplatskoder som gäller med slutdatum</h4>
+    <div class="apk-reports-item-wrap">
+      <div class="apk-reports-item">
+        <md-icon>file_download</md-icon>
+        <span class="apk-reports-item-label">Alla arbetsplatskoder som gäller med slutdatum</span>
+      </div>
       <button [ladda]="validWithEndDateReport.isLoading" (click)="generateValidWithEndDateReport()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
     </div>
 
-    <!--
-    <md-divider class="space-top"></md-divider>
-    -->
-
-    <div class="apk-reports-item">
-      <h4>Uppdaterade arbetsplatskoder mellan
+    <div class="apk-reports-item-wrap">
+      <div class="apk-reports-item">
+        <md-icon>file_download</md-icon>
+        <span class="apk-reports-item-label">Uppdaterade arbetsplatskoder mellan</span>
         <md-input-container class="date">
           <input mdInput placeholder="Datum" [formControl]="fromDate" />
         </md-input-container>
-        och
+        <span class="apk-reports-item-label">och</span>
         <md-input-container class="date">
           <input mdInput placeholder="Datum" [formControl]="toDate" />
         </md-input-container>
-      </h4>
+      </div>
       <button [ladda]="updatedBetweenDatesReport.isLoading" (click)="generateUpdatedBetweenDatesReport()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
     </div>
 
-    <!--
-    <md-divider class="space-top"></md-divider>
-    -->
-
-    <div class="apk-reports-item">
-      <h4>Alla arbetsplatskoder med raderad Concise SumNivå 1</h4>
+    <div class="apk-reports-item-wrap">
+      <div class="apk-reports-item">
+        <md-icon>file_download</md-icon>
+        <span class="apk-reports-item-label">Alla arbetsplatskoder med raderad Concise SumNivå 1</span>
+      </div>
       <button [ladda]="withDeletedProdn1.isLoading" (click)="generateWithDeletedProdn1Report()" data-size="s" data-color="blue" data-style="expand-right">Hämta rapport</button>
     </div>
 
