@@ -56,6 +56,8 @@ export class LinkListComponent implements OnInit {
 
     this._links[index].label = this.links.controls[index].get('label').value;
 
+    this._links[index].privateContent = this.links.controls[index].get('privateContent').value;
+
     let url = this.links.controls[index].get('url').value;
 
     if (url.indexOf('http') !== 0) {
@@ -94,6 +96,10 @@ export class LinkListComponent implements OnInit {
 
   get admin() {
     return this.authService.getLoggedInRole() === 'ADMIN';
+  }
+
+  get loggedIn() {
+    return this.authService.getLoggedInUserId() != null;
   }
 
   getShowContentEdit(): boolean {

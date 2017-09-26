@@ -6,7 +6,7 @@
 
       <div *ngFor="let link of links.controls; let i=index" [formGroupName]="i">
 
-        <div class="col c4">
+        <div class="col c4" *ngIf="(loggedIn) || (!loggedIn && !link.get('privateContent').value)">
           <div class="col-inner">
             <a [href]="link.get('url').value" class="link-box" *ngIf="!editingLink(i)">
               <md-icon class="link-box-icon" aria-hidden="true">file_download</md-icon>
@@ -23,6 +23,11 @@
                 <md-input-container>
                   <input placeholder="URL" mdInput formControlName="url"/>
                 </md-input-container>
+
+                <div class="checkbox-container">
+                  <md-checkbox align="end" formControlName="privateContent">Visa bara för inloggade</md-checkbox>
+                </div>
+
 
               </md-card-content>
             </md-card>

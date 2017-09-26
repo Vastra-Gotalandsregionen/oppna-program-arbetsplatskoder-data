@@ -21,6 +21,9 @@ public class Link {
     @Column
     private String url;
 
+    @Column
+    private Boolean privateContent;
+
     public Link() {
     }
 
@@ -53,4 +56,14 @@ public class Link {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public Boolean isPrivateContent() {
+        return privateContent;
+    }
+
+    public void setUrl(Boolean privateContent) {
+        this.privateContent = privateContent;
+    }
+
+
 }
