@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import se.vgregion.arbetsplatskoder.domain.jpa.Link;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.*;
 import se.vgregion.arbetsplatskoder.repository.*;
@@ -47,9 +49,30 @@ public class BatchService {
     private SesamLmnExportFileService sesamLmnExportFileService;
 
     @Autowired
+    private UnitSearchService unitSearchService;
+
+    @Autowired
     private DataSource dataSource;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BatchService.class);
+
+    @Scheduled(cron = "0 37 5 * * *")
+    @Transactional
+    public void processMissingHsaids() {
+        List<Data> all = dataRepository.findAll();
+
+        for (Data data : all) {
+            if (!StringUtils.isEmpty(data.getHsaid()) && data.getHsaid().startsWith("SE")) {
+                Boolean isInKiv = unitSearchService.searchUnits(data.getHsaid()).size() > 0;
+
+                if (!isInKiv.equals(data.getHsaidMissingInKiv())) {
+                    data.setHsaidMissingInKiv(!isInKiv);
+                    dataRepository.save(data);
+                    LOGGER.info("Saved data: " + data.getId() + " - " + data.getBenamning());
+                }
+            }
+        }
+    }
 
     @Transactional
     public void init() {

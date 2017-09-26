@@ -143,6 +143,9 @@ public class Data extends AbstractEntity {
     @Column
     private Boolean groupCode;
 
+    @Column
+    private Boolean hsaidMissingInKiv;
+
     public Data() {
     }
 
@@ -483,4 +486,11 @@ public class Data extends AbstractEntity {
         this.groupCode = groupCode;
     }
 
+    public Boolean getHsaidMissingInKiv() {
+        return hsaidMissingInKiv;
+    }
+
+    public void setHsaidMissingInKiv(Boolean hsaidMissingInKiv) {
+        this.hsaidMissingInKiv = hsaidMissingInKiv;
+    }
 }

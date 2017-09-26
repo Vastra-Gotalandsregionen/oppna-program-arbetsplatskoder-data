@@ -86,6 +86,7 @@
           <td>
             <md-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">warning</md-icon>
             <md-icon *ngIf="getStatus(data) === 'fullyClosed'" style="color: #d33;" mdTooltip="Giltighetsdatum passerat för över ett år sedan.">error</md-icon>
+            <md-icon *ngIf="data.hsaidMissingInKiv" style="color: #dd7900;" mdTooltip="HSA-ID saknas i KIV">warning</md-icon>
           </td>
           <td>
             <button md-icon-button [mdMenuTriggerFor]="menu">

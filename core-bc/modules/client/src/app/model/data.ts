@@ -43,4 +43,5 @@ export class Data {
   userIdNew: string;
   deletable: boolean;
   groupCode: boolean;
+  hsaidMissingInKiv: boolean;
 }
