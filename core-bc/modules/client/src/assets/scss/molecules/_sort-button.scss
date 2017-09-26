@@ -1,11 +1,11 @@
 .sort-button,
 .sort-button.mat-button {
-
-  border-radius: 0;
   font-size: 100%;
   font-weight: bold;
   padding: 0;
   text-decoration: none;
+
+  @include border-radius(0);
 
   &:hover {
     cursor: pointer;

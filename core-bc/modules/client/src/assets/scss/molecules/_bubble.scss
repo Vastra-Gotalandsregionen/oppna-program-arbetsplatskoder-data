@@ -1,0 +1,11 @@
+.bubble {
+  background: #eee;
+  border: 1px solid #eee;
+  color: #555;
+  display: inline-block;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  width: 36px;
+  @include border-radius(50%);
+}
