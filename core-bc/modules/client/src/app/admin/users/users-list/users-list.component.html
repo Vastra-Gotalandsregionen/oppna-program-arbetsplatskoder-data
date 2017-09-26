@@ -31,7 +31,13 @@
         <td>{{user.id}}</td>
         <td>{{user.mail}}</td>
         <td>{{user.role}}</td>
-        <td><a href="#" (click)="false" mdTooltip="{{prodn1sToString(user.prodn1s)}}">{{count(user.prodn1s)}} st</a> </td>
+        <td>
+
+          <span class="bubble" mdTooltip="{{prodn1sToString(user.prodn1s)}}">{{count(user.prodn1s)}}</span>
+          <!--
+          <a href="#" (click)="false" mdTooltip="{{prodn1sToString(user.prodn1s)}}">{{count(user.prodn1s)}} st</a>
+          -->
+        </td>
 
         <td>
           <button md-icon-button [mdMenuTriggerFor]="menu">

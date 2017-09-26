@@ -1,0 +1,69 @@
+.apk-reports {
+
+
+  .apk-reports-item-wrap {
+    border: 0 solid rgba(0, 0, 0, 0.12);
+    border-bottom-width: 1px;
+
+    margin: 20px 0;
+    padding: 20px 10px;
+
+    // Clearfix
+    &:after {
+      clear: both;
+      display: table;
+      content: "";
+    }
+
+
+    .apk-reports-item {
+      float: left;
+      font-size: 1em;
+      margin: 0;
+      padding: 6px 0;
+      width: 80%;
+
+      .mat-icon,
+      .apk-reports-item-label,
+      .mat-form-field {
+        float: left;
+        margin-right: 10px;
+      }
+
+
+      .mat-icon {
+        color: #777;
+        color: $vgr-blue;
+        font-size: 48px;
+        height: 48px;
+        width: 48px;
+      }
+
+      .apk-reports-item-label {
+        line-height: 48px;
+      }
+
+      .mat-form-field {
+      }
+
+    }
+
+    button {
+      float: right;
+    }
+
+    &:last-child {
+      border-bottom-width: 0;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+
+    &:first-child {
+      margin-top: 10px;
+      padding-top: 10px;
+    }
+
+
+  }
+
+}

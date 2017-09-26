@@ -35,3 +35,11 @@
     @content;
   }
 }
+
+// Border radius
+@mixin border-radius($size: 2px) {
+  -webkit-border-radius: $size;
+  -moz-border-radius: $size;
+  border-radius: $size;
+
+}

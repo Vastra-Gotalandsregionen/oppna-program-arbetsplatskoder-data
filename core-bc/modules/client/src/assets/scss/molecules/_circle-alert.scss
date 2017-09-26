@@ -1,7 +1,7 @@
 .circle-alert {
   border: 1px solid red;
-  border-radius: 50%;
   text-align: center;
   padding-left: 4px;
   padding-right: 4px;
+  @include border-radius(50%);
 }
