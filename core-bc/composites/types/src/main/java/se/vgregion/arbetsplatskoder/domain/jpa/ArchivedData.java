@@ -160,6 +160,9 @@ public class ArchivedData extends AbstractEntity {
     @Column
     private Boolean groupCode;
 
+    @Column
+    private Boolean hsaidMissingInKiv;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "replacer")
     @JsonIgnore
@@ -509,5 +512,13 @@ public class ArchivedData extends AbstractEntity {
 
     public void setReplacer(Data replacer) {
         this.replacer = replacer;
+    }
+
+    public Boolean getHsaidMissingInKiv() {
+        return hsaidMissingInKiv;
+    }
+
+    public void setHsaidMissingInKiv(Boolean hsaidMissingInKiv) {
+        this.hsaidMissingInKiv = hsaidMissingInKiv;
     }
 }

@@ -3,8 +3,9 @@
   <md-toolbar class="action-toolbar">
     <h1>
        Arbetsplatskod: {{data.arbetsplatskodlan}}
-       <md-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">warning</md-icon>
+       <md-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">error</md-icon>
        <md-icon *ngIf="getStatus(data) === 'fullyClosed'" style="color: #d33;" mdTooltip="Giltighetsdatum passerat för över ett år sedan.">error</md-icon>
+       <md-icon *ngIf="data.hsaidMissingInKiv" style="color: #dd7900;" mdTooltip="HSA-ID saknas i KIV">warning</md-icon>
     </h1>
     <div class="action-toolbar-spacer"></div>
     <app-back-button class="action-toolbar-item"></app-back-button>

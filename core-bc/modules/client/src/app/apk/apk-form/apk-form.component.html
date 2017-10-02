@@ -177,7 +177,7 @@
           <div>
             <md-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
-                {{prodn1.foretagsnamn}}
+                {{prodn1.kortnamn}}
               </md-option>
             </md-select>
           </div>
@@ -185,7 +185,7 @@
           <div>
             <md-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
-                {{prodn2.avdelning}}
+                {{prodn2.kortnamn}}
               </md-option>
             </md-select>
           </div>
@@ -193,7 +193,7 @@
           <div>
             <md-select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
               <md-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
-                {{prodn3.foretagsnamn}}
+                {{prodn3.kortnamn}}
               </md-option>
             </md-select>
           </div>

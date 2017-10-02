@@ -228,7 +228,8 @@ public class ReportController {
                 "Giltig t.o.m.",
                 "Anmärkning",
                 "Ersätts av",
-                "Ändringsdatum"
+                "Ändringsdatum",
+                "HSA-ID saknas i KIV"
         });
 
         for (Data data : result) {
@@ -253,8 +254,8 @@ public class ReportController {
                 getVardformText(data.getVardform()),
                 getVerksamhetText(data.getVerksamhet()),
                 data.getProdn1() != null ? data.getProdn1().getKortnamn() : "",
-                data.getProdn3() != null && data.getProdn3().getProdn2() != null ? data.getProdn3().getProdn2().getAvdelning() : "",
-                data.getProdn3() != null ? data.getProdn3().getForetagsnamn() : "",
+                data.getProdn3() != null && data.getProdn3().getProdn2() != null ? data.getProdn3().getProdn2().getKortnamn() : "",
+                data.getProdn3() != null ? data.getProdn3().getKortnamn() : "",
                 data.getHsaid(),
                 data.getBenamning(),
                 data.getBenamningKort(),
@@ -265,7 +266,8 @@ public class ReportController {
                 toDateString(data.getTillDatum()),
                 data.getAnmarkning(),
                 data.getErsattav(),
-                data.getAndringsdatum()
+                data.getAndringsdatum(),
+                data.getHsaidMissingInKiv() ? "Ja" : "Nej"
         };
     }
 
