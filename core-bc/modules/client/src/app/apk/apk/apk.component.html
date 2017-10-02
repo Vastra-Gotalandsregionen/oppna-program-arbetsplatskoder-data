@@ -42,11 +42,17 @@
           <th class="row-prod2">
             Concise SumNivå 2
           </th>
+          <th class="row-prod3">
+            Concise SumNivå 3
+          </th>
+
+          <!--
           <th class="row-reg-date">
             <button class="sort-button" md-button (click)="toggleSort('regDatum')" [ngClass]="{'sort-field': sort?.field === 'regDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
               Reg-datum <md-icon>arrow_drop_up</md-icon>
             </button>
           </th>
+          -->
           <th class="row-to-date">
             <button class="sort-button" md-button (click)="toggleSort('tillDatum')" [ngClass]="{'sort-field': sort?.field === 'tillDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
               Giltig till <md-icon>arrow_drop_up</md-icon>
@@ -67,19 +73,26 @@
           </td>
           <td>
             <a routerLink="{{data.id}}" routerLinkActive="active">
-              <span mdTooltip="{{data.benamning?.length > 40 ? data.benamning : null}}">{{data.benamning | ellipsis:40}}</span>
+              <span mdTooltip="{{data.benamning?.length > 35 ? data.benamning : null}}">{{data.benamning | ellipsis:35}}</span>
             </a>
           </td>
           <td>
-            <span mdTooltip="{{data.prodn1?.kortnamn?.length > 10 ? data.prodn1.kortnamn : null}}">{{data.prodn1?.kortnamn | ellipsis:10}}</span>
+            <span mdTooltip="{{data.prodn1?.kortnamn?.length > 12 ? data.prodn1.kortnamn : null}}">{{data.prodn1?.kortnamn | ellipsis:12}}</span>
           </td>
           <td>
-            <span mdTooltip="{{data.prodn3?.prodn2?.kortnamn?.length > 10 ? data.prodn3?.prodn2?.kortnamn : null}}">{{data.prodn3?.prodn2?.kortnamn | ellipsis:10}}</span>
+            <span mdTooltip="{{data.prodn3?.prodn2?.kortnamn?.length > 12 ? data.prodn3?.prodn2?.kortnamn : null}}">{{data.prodn3?.prodn2?.kortnamn | ellipsis:12}}</span>
           </td>
 
           <td>
+            <span mdTooltip="{{data.prodn3?.kortnamn?.length > 12 ? data.prodn3?.kortnamn : null}}">{{data.prodn3?.kortnamn | ellipsis:12}}</span>
+          </td>
+
+
+          <!--
+          <td>
             {{data.regDatum | dateX: 'YYYY-MM-DD'}}
           </td>
+          -->
           <td>
             {{data.tillDatum ? data.tillDatum : 'Tills vidare'}}
           </td>
