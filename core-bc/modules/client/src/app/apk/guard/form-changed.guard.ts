@@ -20,8 +20,9 @@ export class FormChangedGuard implements CanDeactivate<ApkEditComponent> {
     if (!component.apkFormComponent.apkForm.pristine) {
       let dialogRef = this.dialog.open(ConfirmDialogComponent, {
         data: {
-          text: 'Du har icke sparade ändringar. Vill du ändå navigera?',
-          confirmButtonText: 'Navigera'
+          text: 'Du har icke sparade ändringar. Vill du lämna sidan utan att spara?',
+          confirmButtonText: 'Ja - lämna sidan',
+          cancelButtonText: 'Nej'
         },
         panelClass: 'apk-dialog'
       });
