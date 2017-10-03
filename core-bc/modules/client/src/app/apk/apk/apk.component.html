@@ -13,7 +13,7 @@
     <md-toolbar class="action-toolbar">
 
       <md-input-container class="action-toolbar-item">
-        <input mdInput placeholder="Filtrera" [formControl]="stateCtrl" [(ngModel)]="query">
+        <input mdInput placeholder="Skriv in arbetsplatskod, benämning, datum med mera för att filtrera listan nedan..." [formControl]="stateCtrl" [(ngModel)]="query">
       </md-input-container>
 
       <md-checkbox class="action-toolbar-item" [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Visa endast <span class="tooltip-text" mdTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></md-checkbox>
