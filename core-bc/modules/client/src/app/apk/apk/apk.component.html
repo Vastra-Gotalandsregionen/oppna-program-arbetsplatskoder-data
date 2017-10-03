@@ -13,7 +13,7 @@
     <md-toolbar class="action-toolbar">
 
       <md-input-container class="action-toolbar-item">
-        <input mdInput placeholder="Skriv in arbetsplatskod, benämning, datum med mera för att filtrera listan nedan..." [formControl]="stateCtrl" [(ngModel)]="query">
+        <input mdInput placeholder="Skriv in arbetsplatskod / benämning / datum etc. för att filtrera tabellen nedan..." [formControl]="stateCtrl" [(ngModel)]="query">
       </md-input-container>
 
       <md-checkbox class="action-toolbar-item" [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Visa endast <span class="tooltip-text" mdTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></md-checkbox>
@@ -56,10 +56,48 @@
           <th class="row-status">
             Status
           </th>
-          <th class="row-menu"></th>
+          <th class="row-menu">
+            <button class="toggle-filter-button" mdTooltip="{{showFilter ? 'Göm' : 'Visa'}} kolumnfilter" (click)="showFilter = !showFilter">
+              <md-icon>filter_list</md-icon>
+            </button>
+          </th>
         </tr>
       </thead>
       <tbody>
+
+        <tr class="apk-table-filter-row" [ngClass]="{'hide' : !showFilter}">
+          <td></td>
+          <td></td>
+          <td>
+            <md-form-field class="apk-table-filter-field">
+              <input mdInput placeholder="Filtrera" value="">
+            </md-form-field>
+          </td>
+          <td>
+            <md-form-field class="apk-table-filter-field">
+              <input mdInput placeholder="Filtrera" value="">
+            </md-form-field>
+          </td>
+          <td>
+            <md-form-field class="apk-table-filter-field">
+              <input mdInput placeholder="Filtrera" value="">
+            </md-form-field>
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+            <!--
+            <md-select placeholder="Filtrera">
+              <md-option value="0">Alla</md-option>
+              <md-option value="1">Giltighetsdatum passerat för över ett år sedan</md-option>
+              <md-option value="2">Giltighetsdatum passerat för under ett år sedan</md-option>
+              <md-option value="3">HSA-ID saknas i KIV</md-option>
+            </md-select>
+            -->
+          </td>
+          <td></td>
+        </tr>
+
         <tr *ngFor="let data of response.content">
           <td>
             <a routerLink="{{data.id}}" routerLinkActive="active">

@@ -33,6 +33,8 @@ export class ApkComponent extends ApkBase implements OnInit {
   sort: { field: string, ascending: boolean };
   usersProdn1sString$: Observable<string>;
 
+  showFilter = false;
+
   constructor(private http: JwtHttp,
               location: Location,
               private route: ActivatedRoute,

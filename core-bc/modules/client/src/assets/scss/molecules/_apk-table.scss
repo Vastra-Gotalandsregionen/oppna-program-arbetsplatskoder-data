@@ -17,6 +17,17 @@
         color: rgba(0, 0, 0, 0.87);
       }
     }
+
+    .toggle-filter-button {
+      background: transparent;
+      border: none;
+
+      .mat-icon {
+        color: rgba(0, 0, 0, 0.57);
+      }
+
+    }
+
   }
 
   td {
