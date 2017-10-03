@@ -267,7 +267,7 @@ public class ReportController {
                 data.getAnmarkning(),
                 data.getErsattav(),
                 data.getAndringsdatum(),
-                data.getHsaidMissingInKiv() ? "Ja" : "Nej"
+                data.getHsaidMissingInKiv() != null && data.getHsaidMissingInKiv() ? "Ja" : "Nej"
         };
     }
 
@@ -314,7 +314,7 @@ public class ReportController {
         } else {
             Vardform byVardformid = vardformRepository.findByVardformid(vardformid);
 
-            String vardformtext = vardformid + ", " + byVardformid.getVardformtext();
+            String vardformtext = vardformid + ", " + (byVardformid != null ? byVardformid.getVardformtext() : "VÅRDFORM SAKNAS");
 
             cache.put(new Element(vardformid, vardformtext));
 

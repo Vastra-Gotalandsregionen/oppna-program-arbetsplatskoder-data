@@ -54,7 +54,11 @@ public class UnitSearchService {
 
     @PostConstruct
     public void init() throws IOException {
-        updateUnits();
+        try {
+            updateUnits();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 
     @Scheduled(cron = "0 25 6 * * *")

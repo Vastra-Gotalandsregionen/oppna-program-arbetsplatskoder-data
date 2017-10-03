@@ -141,9 +141,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
         this.buildForm();
 
-        this.initAo3FormControl(ao3s);
-        this.initVardformControl();
-        this.initVerksamhetControl();
       });
   }
 
@@ -308,6 +305,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
           this.hasArchivedDatas = archivedDatas.length > 0;
         });
     }
+
+    this.initAo3FormControl();
+    this.initVardformControl();
+    this.initVerksamhetControl();
   }
 
   private initVerksamhetControl() {
@@ -316,6 +317,21 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.filteredVerksamhetOptions = verksamhetFormControl.valueChanges
       .startWith(null)
       .map((name: string) => name ? this.filterVerksamhet(name) : this.allVerksamhets.slice());
+
+    const map: Map<string, Verksamhet> = new Map();
+    for (const verksamhet of this.allVerksamhets) {
+      map.set(this.displayVerksamhetFn(verksamhet), verksamhet);
+    }
+
+    verksamhetFormControl.valueChanges.subscribe(value => {
+      if (typeof value === 'string') {
+        if (map.has(value)) {
+          verksamhetFormControl.setValue(map.get(value));
+        }
+      }
+    });
+
+    verksamhetFormControl.setValidators(verksamhetValidator(this.allVerksamhets));
   }
 
   private initVardformControl() {
@@ -324,9 +340,24 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.filteredVardformOptions = vardformFormControl.valueChanges
       .startWith(null)
       .map((name: string) => name ? this.filterVardform(name) : this.allVardforms.slice());
+
+    const map: Map<string, Vardform> = new Map();
+    for (const vardform of this.allVardforms) {
+      map.set(this.displayVardformFn(vardform), vardform);
+    }
+
+    vardformFormControl.valueChanges.subscribe(value => {
+      if (typeof value === 'string') {
+        if (map.has(value)) {
+          vardformFormControl.setValue(map.get(value));
+        }
+      }
+    });
+
+    vardformFormControl.setValidators(vardformValidator(this.allVardforms));
   }
 
-  private initAo3FormControl(ao3s) {
+  private initAo3FormControl() {
     const ao3FormControl = this.apkForm.get('ao3');
 
     this.filteredAo3Options = ao3FormControl.valueChanges // Side effect
@@ -334,7 +365,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       .map((name: string) => name ? this.filterAo3(name) : this.allAo3s.slice());
 
     const map: Map<string, Ao3> = new Map();
-    for (const ao3 of ao3s) {
+    for (const ao3 of this.allAo3s) {
       map.set(this.displayAo3Fn(ao3), ao3);
     }
 
@@ -346,7 +377,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }
     });
 
-    ao3FormControl.setValidators(ao3Validator(ao3s))
+    ao3FormControl.setValidators(ao3Validator(this.allAo3s))
   }
 
   private initProdnControls(prodn3: Prodn3) {
@@ -575,6 +606,18 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 export function ao3Validator(ao3s: Ao3[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     return ao3s.indexOf(control.value) === -1 ? {'invalidName': control.value} : null;
+  };
+}
+
+export function vardformValidator(vardforms: Vardform[]): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } => {
+    return vardforms.indexOf(control.value) === -1 ? {'invalidName': control.value} : null;
+  };
+}
+
+export function verksamhetValidator(verksamhets: Verksamhet[]): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } => {
+    return verksamhets.indexOf(control.value) === -1 ? {'invalidName': control.value} : null;
   };
 }
 

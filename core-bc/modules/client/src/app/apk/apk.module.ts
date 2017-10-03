@@ -9,6 +9,7 @@ import {SharedModule} from '../shared/shared.module';
 import {UserHasDataPermissionGuard} from './guard/user-has-data-permission.guard';
 import { ArchivedDatasComponent } from './archived-datas/archived-datas.component';
 import {FormChangedGuard} from "./guard/form-changed.guard";
+import {UserLoggedInGuard} from "./guard/user-logged-in.guard";
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import {FormChangedGuard} from "./guard/form-changed.guard";
     ArchivedDatasComponent
   ],
   providers: [
+    UserLoggedInGuard,
     UserHasDataPermissionGuard,
     FormChangedGuard
   ]

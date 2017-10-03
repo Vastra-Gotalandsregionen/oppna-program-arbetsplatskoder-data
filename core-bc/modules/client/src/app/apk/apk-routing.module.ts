@@ -7,6 +7,7 @@ import {ApkCreateComponent} from './apk-create/apk-create.component';
 import {UserHasDataPermissionGuard} from './guard/user-has-data-permission.guard';
 import {ArchivedDatasComponent} from './archived-datas/archived-datas.component';
 import {FormChangedGuard} from "./guard/form-changed.guard";
+import {UserLoggedInGuard} from "./guard/user-logged-in.guard";
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       {
         path: 'create',
         component: ApkCreateComponent,
+        canActivate: [UserLoggedInGuard],
         canDeactivate: [FormChangedGuard]
       },
       {
