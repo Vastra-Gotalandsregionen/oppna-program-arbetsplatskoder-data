@@ -7,6 +7,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Fakturering;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Leverans;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,7 @@ public interface DataExtendedRepository {
 
     Page<Data> advancedSearch(String withTextFilter, Pageable pageable);
 
-    Page<Data> advancedSearch(String withTextFilter, Pageable pageable, Set<Prodn1> prodn1s);
+    Page<Data> advancedSearch(String withTextFilter, Pageable pageable, Set<Prodn1> prodn1s, Date validToDat);
 
     Data saveAndArchive(Data data);
 

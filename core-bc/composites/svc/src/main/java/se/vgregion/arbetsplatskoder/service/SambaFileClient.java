@@ -21,4 +21,32 @@ public class SambaFileClient {
         }
     }
 
+    public static void createPath(String path, String domain, String user, String pass) {
+        try {
+            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
+            SmbFile smbFile = new SmbFile(path, auth);
+            if (!smbFile.exists()) {
+                smbFile.mkdirs();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String[] listPathContent(String path, String domain, String user, String pass) {
+        try {
+            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
+            if (!path.endsWith("/")) {
+                path += "/";
+            }
+            SmbFile smbFile = new SmbFile(path, auth);
+            if (smbFile.exists()) {
+                return smbFile.list();
+            }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

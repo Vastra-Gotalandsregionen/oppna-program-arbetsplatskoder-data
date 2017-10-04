@@ -63,6 +63,14 @@ public class StralforsExportFileService {
         LOGGER.info("runFileTransfer() starts.");
         String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + getTodaysFileName();
         String result = generate();
+
+        SambaFileClient.createPath(
+            url,
+            userDomain,
+            user,
+            password
+        );
+
         SambaFileClient.putFile(
             urlAtTheTime,
             result,
