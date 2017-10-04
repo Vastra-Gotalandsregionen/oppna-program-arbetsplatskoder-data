@@ -125,10 +125,13 @@
       <div *ngIf="response" class="search-summary">
         Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
       </div>
+      
       <div class="paging-toolbar-spacer"></div>
+      
       <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
       <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
 
+      <div class="paging-toolbar-spacer"></div>
       
       <md-select placeholder="Välj sida" [(ngModel)]="selectedPage" (change)="goToPage(selectedPage)" >
         <md-option *ngFor="let page of totalPagesArr" [value]=page>Sida {{page}}</md-option>

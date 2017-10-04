@@ -66,10 +66,14 @@ export class ApkComponent extends ApkBase implements OnInit {
 
         if (params.onlyActiveDatas) {
           this.onlyActiveDatas = params.onlyActiveDatas === 'true';
+        } else {
+          //this.onlyActiveDatas = this.loggedIn;
         }
 
         if (params.onlyMyDatas) {
           this.onlyMyDatas = params.onlyMyDatas === 'true';
+        } else {
+          //this.onlyMyDatas = this.loggedIn;
         }
         
 
@@ -210,10 +214,8 @@ export class ApkComponent extends ApkBase implements OnInit {
 
   goToPage(): void {
 
-    console.log("goToPage this.selectedPage is: " + this.selectedPage);
-
-    if(this.selectedPage > 0 && (this.selectedPage + 1 < this.response.totalPages)) {
-      this.page = this.selectedPage;
+    if(this.selectedPage > 0 && (this.selectedPage <= this.response.totalPages)) {
+      this.page = this.selectedPage - 1;
       this.updateState();
     }
 
