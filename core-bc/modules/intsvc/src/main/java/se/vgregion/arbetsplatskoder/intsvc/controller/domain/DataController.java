@@ -8,13 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import se.vgregion.arbetsplatskoder.domain.jpa.Role;
 import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
@@ -27,10 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.TimeZone;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 @Controller
 @RequestMapping("/data")
@@ -50,10 +44,13 @@ public class DataController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Page<Data> getDatas(@RequestParam(value = "page", required = false) Integer page,
-                                @RequestParam(value = "query", required = false) String query,
-                                @RequestParam(value = "sort", required = false) String sort,
-                                @RequestParam(value = "asc", required = false) boolean asc,
-                                @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas) throws NoSuchFieldException {
+                               @RequestParam(value = "query", required = false) String query,
+                               @RequestParam(value = "sort", required = false) String sort,
+                               @RequestParam(value = "asc", required = false) boolean asc,
+                               @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas,
+                               @RequestParam(value = "onlyActiveDatas", required = false) boolean onlyActiveDatas) throws NoSuchFieldException {
+
+        System.out.println("onlyActiveDatas = " + onlyActiveDatas);
 
         Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
         Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "benamning").ignoreCase();
@@ -78,22 +75,25 @@ public class DataController {
             finalSort);
 
         Page<Data> result;
-        if (query != null && query.length() > 0) {
-            if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
-                Set<Prodn1> prodn1s = getUserProdn1s();
-                result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable, prodn1s);
-                //result = dataRepository.advancedSearchByProdn1In("%" + query.toLowerCase() + "%", prodn1s, pageable);
-            } else {
-                result = dataRepository.advancedSearch("%" + query.toLowerCase() + "%", pageable);
-            }
-        } else {
-            if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
-                Set<Prodn1> prodn1s = getUserProdn1s();
+        Date validToDate = null;
 
-                result = dataRepository.findAllByProdn1In(prodn1s, pageable);
-            } else {
-                result = dataRepository.findAll(pageable);
-            }
+        if (onlyActiveDatas) {
+            LocalDateTime ldt = LocalDateTime.ofInstant(new Date().toInstant(), TimeZone.getDefault().toZoneId());
+            LocalDateTime now = LocalDateTime.of(ldt.getYear() - 1, ldt.getMonth(), ldt.getDayOfMonth(), 0, 0, 0, 0);
+            ZonedDateTime zdt = now.atZone(ZoneId.systemDefault());
+            validToDate = Date.from(zdt.toInstant());
+        }
+
+        if (query == null) {
+            query = "";
+        }
+
+        if (onlyMyDatas && !Role.ADMIN.equals(getUser().getRole())) {
+            Set<Prodn1> prodn1s = getUserProdn1s();
+            result = dataRepository.advancedSearch(query.toLowerCase(), pageable, prodn1s, validToDate);
+            //result = dataRepository.advancedSearchByProdn1In("%" + query.toLowerCase() + "%", prodn1s, pageable);
+        } else {
+            result = dataRepository.advancedSearch(query.toLowerCase(), pageable, null, validToDate);
         }
 
         return result;
@@ -150,7 +150,7 @@ public class DataController {
     @ResponseBody
     public ResponseEntity deleteData(@PathVariable("id") Integer id) {
         if (!(getUser().getProdn1s().contains(dataRepository.findOne(id).getProdn1())
-                || getUser().getRole().equals(Role.ADMIN))) {
+            || getUser().getRole().equals(Role.ADMIN))) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -204,6 +204,5 @@ public class DataController {
 
         return ResponseEntity.ok(dataRepository.saveAndArchive(data));
     }
-
 
 }

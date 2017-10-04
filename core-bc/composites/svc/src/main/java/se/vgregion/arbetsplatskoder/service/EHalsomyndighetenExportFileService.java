@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
-import se.vgregion.arbetsplatskoder.repository.extension.DataExtendedRepository;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * @author clalu4
@@ -55,20 +57,31 @@ public class EHalsomyndighetenExportFileService {
 
     @Scheduled(cron = "0 15/45 * * * MON-FRI")
     @Transactional
-    public void runFileTransfer() {
+    public String runFileTransfer() {
         if (!exportShouldRun) {
-            return;
+            return null;
         }
-        LOGGER.info(EHalsomyndighetenExportFileService.class.getName() + ".runFileTransfer() starts.");
+        LOGGER.info("runFileTransfer() starts.");
         String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + getTodaysFileName();
-        SambaFileClient.putFile(
-            urlAtTheTime,
-            generate(),
+        String result;
+
+        SambaFileClient.createPath(
+            url,
             userDomain,
             user,
             password
         );
-        LOGGER.info(EHalsomyndighetenExportFileService.class.getName() + ".runFileTransfer() completes.");
+
+        SambaFileClient.putFile(
+            urlAtTheTime,
+            result = generate(),
+            userDomain,
+            user,
+            password
+        );
+        markItemsAsSent();
+        LOGGER.info("runFileTransfer() completes.");
+        return result;
     }
 
     public String generate() {
@@ -196,6 +209,16 @@ public class EHalsomyndighetenExportFileService {
     private String formatValue(Object s) {
         if (s == null) return "";
         return s.toString().replace(';', ',');
+    }
+
+    @Transactional
+    public void markItemsAsSent() {
+        for (Data data : findAllRelevantItems()) {
+            if (data.getDeletable() == null || (data.getDeletable() != null && data.getDeletable())) {
+                data.setDeletable(false);
+                dataRepository.save(data);
+            }
+        }
     }
 
 }

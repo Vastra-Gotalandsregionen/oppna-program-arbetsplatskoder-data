@@ -49,7 +49,8 @@ public class DataExportController {
     public String get() {
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", Collections.singletonList("text/plain"));
-        return eHalsomyndighetenExportFileService.generate();
+        return eHalsomyndighetenExportFileService.runFileTransfer();
+        // return eHalsomyndighetenExportFileService.generate();
     }
 
     @RequestMapping(value = "stralfors", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

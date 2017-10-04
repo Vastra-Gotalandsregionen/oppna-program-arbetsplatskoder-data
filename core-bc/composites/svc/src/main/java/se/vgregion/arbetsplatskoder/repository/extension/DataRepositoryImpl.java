@@ -52,6 +52,9 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     }
 
     private List<String> toLikableWords(String ofThat) {
+        if (ofThat == null) {
+            return Arrays.asList("%");
+        }
         List<String> result = new ArrayList<>();
         for (String s : ofThat.trim().split(Pattern.quote(" "))) {
             result.add((s.startsWith("%") ? "" : "%")
@@ -62,7 +65,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     }
 
     @Override
-    public Page<Data> advancedSearch(String withTextFilter, Pageable pageable, Set<Prodn1> prodn1s) {
+    public Page<Data> advancedSearch(String withTextFilter, Pageable pageable, Set<Prodn1> prodn1s, Date validToDate) {
         StringBuilder sb = new StringBuilder();
         List wordsToLookFor = toLikableWords(withTextFilter);
         List arguments = new ArrayList();
@@ -74,7 +77,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
             List<String> allFields = Arrays.asList(
                 "lower(d.arbetsplatskodlan)",
                 "lower(d.benamning)",
-                "function('to_char', d.regDatum, 'YYYY-MM-DD')",
+                "lower(d.ansvar)",
                 "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
                 "lower(d.prodn3.prodn2.kortnamn)",
                 "lower(d.prodn1.kortnamn)"
@@ -91,6 +94,12 @@ public class DataRepositoryImpl implements DataExtendedRepository {
                 conditions.add("d.prodn1 in ?" + (i++));
                 wordsToLookFor.add(prodn1s);
             }
+
+            if (validToDate != null) {
+                conditions.add("d.tillDatum >= ?" + (i++));
+                arguments.add(validToDate);
+            }
+
             sb.append(String.join(" and ", conditions));
 
             long count = query(
@@ -127,7 +136,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
 
     @Override
     public Page<Data> advancedSearch(String withTextFilter, Pageable pageable) {
-        return advancedSearch(withTextFilter, pageable, null);
+        return advancedSearch(withTextFilter, pageable, null, null);
     }
 
     @Override

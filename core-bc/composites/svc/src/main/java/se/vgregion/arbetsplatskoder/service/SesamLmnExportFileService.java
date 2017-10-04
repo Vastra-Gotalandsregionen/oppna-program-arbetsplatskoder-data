@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
@@ -19,6 +18,7 @@ import java.util.stream.Collectors;
 
 /**
  * It turns out that SesamLmn reads its data from the same database table as Kiv.
+ *
  * @author clalu4
  */
 @Deprecated
@@ -58,6 +58,14 @@ public class SesamLmnExportFileService {
         }
         LOGGER.info(SesamLmnExportFileService.class.getName() + ".runFileTransfer() starts.");
         String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + "sesam-lmn.export.txt";
+
+        SambaFileClient.createPath(
+            url,
+            userDomain,
+            user,
+            password
+        );
+
         SambaFileClient.putFile(
             urlAtTheTime,
             generate(),
