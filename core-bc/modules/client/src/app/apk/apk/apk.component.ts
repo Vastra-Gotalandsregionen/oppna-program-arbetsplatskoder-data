@@ -27,6 +27,8 @@ export class ApkComponent extends ApkBase implements OnInit {
 
   query: string;
   page = 0;
+  selectedPage = 1;
+  totalPagesArr: Array<number>;
   onlyActiveDatas: boolean;
   onlyMyDatas: boolean;
   location: Location;
@@ -138,6 +140,11 @@ export class ApkComponent extends ApkBase implements OnInit {
   private handleResponse(response) {
     this.response = response;
 
+    this.totalPagesArr = new Array(0);
+    for(let i = 1; i <= this.response.totalPages; i++) {
+      this.totalPagesArr.push(i);
+    }
+
     if (this.page + 1 > this.response.totalPages) {
       // Reset pages and refetch.
       this.page = 0;
@@ -199,6 +206,17 @@ export class ApkComponent extends ApkBase implements OnInit {
       this.page--;
       this.updateState();
     }
+  }
+
+  goToPage(): void {
+
+    console.log("goToPage this.selectedPage is: " + this.selectedPage);
+
+    if(this.selectedPage > 0 && (this.selectedPage + 1 < this.response.totalPages)) {
+      this.page = this.selectedPage;
+      this.updateState();
+    }
+
   }
 
   toggleSort(field: string) {

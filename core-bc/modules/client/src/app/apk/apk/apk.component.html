@@ -128,6 +128,12 @@
       <div class="paging-toolbar-spacer"></div>
       <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
       <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
+
+      
+      <md-select placeholder="Välj sida" [(ngModel)]="selectedPage" (change)="goToPage(selectedPage)" >
+        <md-option *ngFor="let page of totalPagesArr" [value]=page>Sida {{page}}</md-option>
+      </md-select>      
+
     </md-toolbar>
 
   </md-card-actions>
