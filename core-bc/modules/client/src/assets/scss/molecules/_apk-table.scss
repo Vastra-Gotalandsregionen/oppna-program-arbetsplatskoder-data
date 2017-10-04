@@ -40,19 +40,8 @@
   &.apks-table {
     table-layout: fixed;
 
-    .row-apk { width: 12%; }
-    .row-name { width: 30%; }
-    .row-prod1 { width: 11%; }
-    .row-prod2 { width: 11%; }
-    .row-prod3 { width: 11%; }
-    .row-to-date { width: 10%; }
-    .row-status { width: 10%; }
-    .row-menu { width: 5%; }
-
-
-    // With ansvar
-    .row-apk { width: 10%; }
-    .row-name { width: 27%; }
+    .row-apk { width: 11%; }
+    .row-name { width: 26%; }
     .row-prod1 { width: 11%; }
     .row-prod2 { width: 11%; }
     .row-prod3 { width: 11%; }
