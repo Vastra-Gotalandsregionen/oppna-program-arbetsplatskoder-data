@@ -13,36 +13,50 @@
 
   .apk-table-filter-field {
 
-    .mat-form-field-wrapper {
-      padding-bottom: 0.2em;
+
+    input[type="text"] {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 5px 5px;
+
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+
+      width: 100%;
     }
 
-    .mat-form-field-underline {
-        bottom: 0.2em;
-    }
 
-    .mat-input-placeholder-wrapper {
+    // .mat-form-field-wrapper {
+    //   padding-bottom: 0.2em;
+    // }
 
-      .mat-input-placeholder {
-          display: none;
+    // .mat-form-field-underline {
+    //     bottom: 0.2em;
+    // }
 
-          &.mat-form-field-empty {
-            display: block;
-          }
-      }
+    // .mat-input-placeholder-wrapper {
+
+    //   .mat-input-placeholder {
+    //       display: none;
+
+    //       &.mat-form-field-empty {
+    //         display: block;
+    //       }
+    //   }
 
 
-    }
+    // }
 
-    .mat-form-field-infix {
-      border-top: 0px solid transparent;
-    }
+    // .mat-form-field-infix {
+    //   border-top: 0px solid transparent;
+    // }
 
-    &.mat-focused {
-      .mat-input-placeholder-wrapper {
-        display: none;
-      }
-    }
+    // &.mat-focused {
+    //   .mat-input-placeholder-wrapper {
+    //     display: none;
+    //   }
+    // }
 
 
   }
