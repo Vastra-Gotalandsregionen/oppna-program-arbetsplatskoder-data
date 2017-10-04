@@ -22,10 +22,12 @@ import {HostListener} from "@angular/core";
 export class ApkComponent extends ApkBase implements OnInit {
 
   stateCtrl: FormControl;
+  onlyActiveDatasCtrl: FormControl;
   onlyMyDatasCtrl: FormControl;
 
   query: string;
   page = 0;
+  onlyActiveDatas: boolean;
   onlyMyDatas: boolean;
   location: Location;
 
@@ -42,6 +44,7 @@ export class ApkComponent extends ApkBase implements OnInit {
     super();
     this.location = location;
     this.stateCtrl = new FormControl();
+    this.onlyActiveDatasCtrl = new FormControl();
     this.onlyMyDatasCtrl = new FormControl();
   }
 
@@ -59,9 +62,14 @@ export class ApkComponent extends ApkBase implements OnInit {
           this.sort = {field: params.sort, ascending: params.asc === 'true'}
         }
 
+        if (params.onlyActiveDatas) {
+          this.onlyActiveDatas = params.onlyActiveDatas === 'true';
+        }
+
         if (params.onlyMyDatas) {
           this.onlyMyDatas = params.onlyMyDatas === 'true';
         }
+        
 
         this.fetchDatas();
 
@@ -70,6 +78,13 @@ export class ApkComponent extends ApkBase implements OnInit {
           .debounceTime(50) // Primarily to avoid many requests if user presses and holds backspace button.
           .subscribe(query => {
             this.query = query;
+            this.updateState();
+          });
+
+          this.onlyActiveDatasCtrl.valueChanges
+          .skip(1) // Skip on init
+          .subscribe(value => {
+            this.onlyActiveDatas = value;
             this.updateState();
           });
 
@@ -92,13 +107,14 @@ export class ApkComponent extends ApkBase implements OnInit {
   }
 
   private updateState() {
-    if (this.query || this.page > 0 || this.sort || this.onlyMyDatas) {
+    if (this.query || this.page > 0 || this.sort || this.onlyMyDatas || this.onlyActiveDatas) {
       const queryPart = (this.query ? '&query=' + this.query : '');
       const pagePart = (this.page > 0 ? '&page=' + this.page : '');
       const sortPart = (this.sort ? '&sort=' + this.sort.field + '&asc=' + this.sort.ascending : '');
       const onlyMyDatasPart = (this.onlyMyDatas ? `&onlyMyDatas=${this.onlyMyDatas}` : '');
+      const onlyActiveDatasPart = (this.onlyActiveDatas ? `&onlyActiveDatas=${this.onlyActiveDatas}` : '');
 
-      let fullQueryPart = queryPart + pagePart + sortPart + onlyMyDatasPart;
+      let fullQueryPart = queryPart + pagePart + sortPart + onlyMyDatasPart + onlyActiveDatasPart;
 
       if (fullQueryPart.startsWith('&')) {
         fullQueryPart = fullQueryPart.substring(1);
@@ -144,6 +160,10 @@ export class ApkComponent extends ApkBase implements OnInit {
     if (this.sort) {
       params.set('sort', this.sort.field);
       params.set('asc', this.sort.ascending + '');
+    }
+
+    if (this.onlyActiveDatas) {
+      params.set('onlyActiveDatas', this.onlyActiveDatas + '');
     }
 
     if (this.onlyMyDatas) {
