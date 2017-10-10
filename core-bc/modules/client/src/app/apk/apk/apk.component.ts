@@ -75,7 +75,7 @@ export class ApkComponent extends ApkBase implements OnInit {
         } else {
           //this.onlyMyDatas = this.loggedIn;
         }
-        
+
 
         this.fetchDatas();
 
@@ -201,6 +201,7 @@ export class ApkComponent extends ApkBase implements OnInit {
   nextPage(): void {
     if (this.page + 1 < this.response.totalPages) {
       this.page++;
+      this.selectedPage++;
       this.updateState();
     }
   }
@@ -208,12 +209,12 @@ export class ApkComponent extends ApkBase implements OnInit {
   previousPage(): void {
     if (this.page > 0) {
       this.page--;
+      this.selectedPage--;
       this.updateState();
     }
   }
 
-  goToPage(): void {
-
+  goToSelectedPage(): void {
     if(this.selectedPage > 0 && (this.selectedPage <= this.response.totalPages)) {
       this.page = this.selectedPage - 1;
       this.updateState();
