@@ -35,10 +35,8 @@ public class KivSesamLmnDatabaseIntegrationService {
     @Autowired
     private ViewapkHsaidRepository viewapkHsaidRepository; // To put the results in.
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LokeDatabaseIntegrationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KivSesamLmnDatabaseIntegrationService.class);
 
-    // Minute 15 and 45 each hour, monday to friday
-    @Scheduled(cron = "0 15/45 * * * MON-FRI")
     @Transactional
     public void run() {
         LOGGER.info("Starts KivDatabaseIntegrationService.run().");
