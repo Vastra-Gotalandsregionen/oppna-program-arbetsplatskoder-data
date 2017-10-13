@@ -4,7 +4,7 @@ import {JwtHttp} from '../../../core/jwt-http';
 import {ErrorHandler} from '../../../shared/error-handler';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {Prodn1} from '../../../model/prodn1';
 import {Observable} from 'rxjs/Observable';
 
@@ -25,7 +25,7 @@ export class Prodn2EditComponent implements OnInit {
 
   constructor(route: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private snackBar: MdSnackBar,
+              private snackBar: MatSnackBar,
               private http: JwtHttp,
               private errorHandler: ErrorHandler) {
     route.params

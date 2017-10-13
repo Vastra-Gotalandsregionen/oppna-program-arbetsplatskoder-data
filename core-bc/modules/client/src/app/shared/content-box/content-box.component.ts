@@ -4,7 +4,7 @@ import {AuthService} from "../../core/auth/auth.service";
 import {JwtHttp} from "../../core/jwt-http";
 import {StateService} from '../../core/state/state.service';
 import {Content} from "../../model/content";
-import {MdSnackBar} from "@angular/material";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-content-box',
@@ -25,7 +25,7 @@ export class ContentBoxComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private http: JwtHttp,
-              private snackBar: MdSnackBar,
+              private snackBar: MatSnackBar,
               stateService: StateService,
               private formBuilder: FormBuilder) {
 

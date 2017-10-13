@@ -4,7 +4,7 @@ import {AuthService} from "../../core/auth/auth.service";
 import {JwtHttp} from "../../core/jwt-http";
 import {StateService} from '../../core/state/state.service';
 import {Link} from "../../model/link";
-import {MdSnackBar} from "@angular/material";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-link-list',
@@ -23,7 +23,7 @@ export class LinkListComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private formBuilder: FormBuilder,
-              private snackBar: MdSnackBar,
+              private snackBar: MatSnackBar,
               stateService: StateService,
               private http: JwtHttp) {
 

@@ -17,6 +17,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 import se.vgregion.arbetsplatskoder.service.job.EHalsomyndighetenExportFileJob;
 import se.vgregion.arbetsplatskoder.service.job.KivSesamLmnDatabaseIntegrationJob;
 import se.vgregion.arbetsplatskoder.service.job.LokeDatabaseIntegrationJob;
+import se.vgregion.arbetsplatskoder.service.job.SesamLmnDatabaseIntegrationJob;
 import se.vgregion.arbetsplatskoder.service.job.StralforsExportFileJob;
 
 import java.io.File;
@@ -63,6 +64,12 @@ public class QuartzConfig {
                 StralforsExportFileJob.class);
     }
 
+    @Bean(name = "jobDetailSesam")
+    public JobDetailFactoryBean jobDetailSesam() {
+        return getJobDetailFactoryBean("SesamLmnDatabaseIntegrationJob description",
+                SesamLmnDatabaseIntegrationJob.class);
+    }
+
     @Bean(name = "ehalsomyndighetenTrigger")
     public CronTriggerFactoryBean triggerEhalsomyndigheten(@Qualifier("jobDetailEhalosmyndigheten") JobDetail job) {
         return getCronTriggerFactoryBean(job, "0 15,45 * ? * MON-FRI", "EHalsomyndighetenExportFileJob");
@@ -81,6 +88,11 @@ public class QuartzConfig {
     @Bean(name = "stralforsTrigger")
     public CronTriggerFactoryBean triggerStralfors(@Qualifier("jobDetailStralfors") JobDetail job) {
         return getCronTriggerFactoryBean(job, "0 15,45 * ? * MON-FRI", "StralforsExportFileJob");
+    }
+
+    @Bean(name = "sesamTrigger")
+    public CronTriggerFactoryBean triggerSesam(@Qualifier("jobDetailSesam") JobDetail job) {
+        return getCronTriggerFactoryBean(job, "0 15,45 * ? * MON-FRI", "SesamLmnDatabaseIntegrationJob");
     }
 
     CronTriggerFactoryBean getCronTriggerFactoryBean(JobDetail job, String cronExpression, String name) {
@@ -106,18 +118,20 @@ public class QuartzConfig {
                                           @Qualifier("kivSesamTrigger") Trigger trigger2,
                                           @Qualifier("lokeTrigger") Trigger trigger3,
                                           @Qualifier("stralforsTrigger") Trigger trigger4,
+                                          @Qualifier("sesamTrigger") Trigger trigger5,
                                           @Qualifier("jobDetailEhalosmyndigheten") JobDetail job1,
                                           @Qualifier("jobDetailKivSesamLmnDatabaseIntegration") JobDetail job2,
                                           @Qualifier("jobDetailLokeDatabaseIntegration") JobDetail job3,
-                                          @Qualifier("jobDetailStralfors") JobDetail job4) {
+                                          @Qualifier("jobDetailStralfors") JobDetail job4,
+                                          @Qualifier("jobDetailSesam") JobDetail job5) {
         SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
         Resource configLocation = getConfigLocation();
         schedulerFactory.setConfigLocation(configLocation);
 
         schedulerFactory.setJobFactory(springBeanJobFactory());
-        schedulerFactory.setJobDetails(job1, job2, job3, job4);
-        schedulerFactory.setTriggers(trigger1, trigger2, trigger3, trigger4);
+        schedulerFactory.setJobDetails(job1, job2, job3, job4, job5);
+        schedulerFactory.setTriggers(trigger1, trigger2, trigger3, trigger4, trigger5);
         return schedulerFactory;
     }
 

@@ -1,4 +1,3 @@
-import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {Response} from '@angular/http';
 import {Router} from '@angular/router';
@@ -8,7 +7,7 @@ import {Prodn1} from '../../../model/prodn1';
 import {JwtHttp} from '../../../core/jwt-http';
 import {AuthService} from '../../../core/auth/auth.service';
 
-import {MdDialog, MdSnackBar} from "@angular/material";
+import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
@@ -26,7 +25,7 @@ export class UsersListComponent implements OnInit {
               private errorHandler: ErrorHandler,
               private authService: AuthService,
               private router: Router,
-              private dialog: MdDialog) { }
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.updateUsers();

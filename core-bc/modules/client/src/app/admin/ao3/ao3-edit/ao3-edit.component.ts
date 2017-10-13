@@ -4,7 +4,7 @@ import {JwtHttp} from "../../../core/jwt-http";
 import {Response} from '@angular/http';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {Prodn1} from "../../../model/prodn1";
 import {Location} from "@angular/common";
 
@@ -32,7 +32,7 @@ export class Ao3EditComponent implements OnInit {
 
   constructor(route: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private snackBar: MdSnackBar,
+              private snackBar: MatSnackBar,
               private http: JwtHttp,
               public location: Location) {
 

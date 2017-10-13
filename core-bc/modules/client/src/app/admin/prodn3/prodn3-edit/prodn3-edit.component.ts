@@ -4,7 +4,7 @@ import {Prodn2} from '../../../model/prodn2';
 import {JwtHttp} from '../../../core/jwt-http';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {Prodn1} from "../../../model/prodn1";
 
 @Component({
@@ -25,7 +25,7 @@ export class Prodn3EditComponent implements OnInit {
 
   constructor(route: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private snackBar: MdSnackBar,
+              private snackBar: MatSnackBar,
               private http: JwtHttp) {
     route.params
       .filter(params => {

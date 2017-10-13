@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {StateService} from './core/state/state.service';
-import {MdDialog, MdDialogRef, MdDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material';
 import {LoginDialogComponent} from './shared/login-dialog/login-dialog.component';
 import {AuthService} from './core/auth/auth.service';
 import {Router} from '@angular/router';
@@ -16,18 +16,18 @@ export class AppComponent {
   constructor(private authService: AuthService,
               private stateService: StateService,
               private sanitizer: DomSanitizer,
-              private dialog: MdDialog,
+              private dialog: MatDialog,
               private router: Router) {}
 
   openLogin() {
 
-    const dialogConfig:MdDialogConfig = {
+    const dialogConfig:MatDialogConfig = {
       disableClose: false,
       hasBackdrop: true,
       panelClass: 'apk-dialog'
     };
 
-    const dialogRef: MdDialogRef<LoginDialogComponent> = this.dialog.open(LoginDialogComponent, dialogConfig);
+    const dialogRef: MatDialogRef<LoginDialogComponent> = this.dialog.open(LoginDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);

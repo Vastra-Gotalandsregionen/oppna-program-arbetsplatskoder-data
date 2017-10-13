@@ -7,7 +7,7 @@ import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '
 import {Observable} from 'rxjs/Observable';
 import {Vardform} from '../../model/vardform';
 import {Verksamhet} from '../../model/verksamhet';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {StateService} from '../../core/state/state.service';
 import {ErrorHandler} from '../../shared/error-handler';
 import {Prodn1} from '../../model/prodn1';
@@ -70,7 +70,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
   constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
-              private snackBar: MdSnackBar,
+              private snackBar: MatSnackBar,
               stateService: StateService,
               private errorHandler: ErrorHandler) {
 

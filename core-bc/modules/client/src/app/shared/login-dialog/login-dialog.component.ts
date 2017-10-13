@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 import {NgForm} from '@angular/forms';
 import {StateService} from '../../core/state/state.service';
 import {TimeoutError} from 'rxjs/util/TimeoutError';
@@ -13,7 +13,7 @@ import {Http} from "@angular/http";
 })
 export class LoginDialogComponent implements OnInit {
 
-  public dialogRef: MdDialogRef<LoginDialogComponent>;
+  public dialogRef: MatDialogRef<LoginDialogComponent>;
 
   @ViewChild(NgForm) form: NgForm;
 
@@ -22,7 +22,7 @@ export class LoginDialogComponent implements OnInit {
 
   loginMessage: string;
 
-  constructor(dialogRef: MdDialogRef<LoginDialogComponent>,
+  constructor(dialogRef: MatDialogRef<LoginDialogComponent>,
               private http: Http,
               private stateService: StateService,
               private authService: AuthService) {

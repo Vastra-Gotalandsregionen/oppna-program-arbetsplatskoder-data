@@ -1,5 +1,5 @@
 import {Component, Optional} from '@angular/core';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
     styleUrls: ['./error-dialog.component.css'],
@@ -8,9 +8,9 @@ import {MdDialogRef} from '@angular/material';
 export class ErrorDialogComponent {
     err: any;
     showDetails = false;
-    public dialogRef: MdDialogRef<ErrorDialogComponent>;
+    public dialogRef: MatDialogRef<ErrorDialogComponent>;
 
-    constructor(@Optional() dialogRef: MdDialogRef<ErrorDialogComponent>) {
+    constructor(@Optional() dialogRef: MatDialogRef<ErrorDialogComponent>) {
         this.dialogRef = dialogRef;
     }
 

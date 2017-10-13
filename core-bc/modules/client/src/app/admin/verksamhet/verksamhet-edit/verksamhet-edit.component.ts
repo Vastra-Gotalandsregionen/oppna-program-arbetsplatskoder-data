@@ -3,7 +3,7 @@ import {Verksamhet} from "../../../model/verksamhet";
 import {JwtHttp} from "../../../core/jwt-http";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-verksamhet-edit',
@@ -20,7 +20,7 @@ export class VerksamhetEditComponent implements OnInit {
 
   constructor(route: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private snackBar: MdSnackBar,
+              private snackBar: MatSnackBar,
               private http: JwtHttp) {
     route.params
       .filter(params => {

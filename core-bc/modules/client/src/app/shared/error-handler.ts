@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {ErrorDialogComponent} from './error-dialog/error-dialog.component';
-import {MdDialog, MdDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Injectable()
 export class ErrorHandler {
 
-  constructor(private dialog: MdDialog) {
+  constructor(private dialog: MatDialog) {
   }
 
   public notifyError(error: any): void {
-    const dialogRef: MdDialogRef<ErrorDialogComponent> = this.dialog.open(ErrorDialogComponent);
+    const dialogRef: MatDialogRef<ErrorDialogComponent> = this.dialog.open(ErrorDialogComponent);
     dialogRef.componentInstance.err = error;
   }
 }

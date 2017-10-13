@@ -9,7 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../core/auth/auth.service';
 import {JwtHttp} from '../../core/jwt-http';
 import {Prodn1} from '../../model/prodn1';
-import {MdDialog, MdSnackBar} from "@angular/material";
+import {MatDialog, MatSnackBar} from "@angular/material";
 import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
 import {ApkBase} from "../apk-base/apk-base";
 import {HostListener} from "@angular/core";
@@ -41,8 +41,8 @@ export class ApkComponent extends ApkBase implements OnInit {
               location: Location,
               private route: ActivatedRoute,
               private authService: AuthService,
-              private snackBar: MdSnackBar,
-              private dialog: MdDialog) {
+              private snackBar: MatSnackBar,
+              private dialog: MatDialog) {
     super();
     this.location = location;
     this.stateCtrl = new FormControl();
