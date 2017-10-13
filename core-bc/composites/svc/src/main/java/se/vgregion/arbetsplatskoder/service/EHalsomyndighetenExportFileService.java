@@ -55,10 +55,10 @@ public class EHalsomyndighetenExportFileService {
         return getTodaysFileName(new Date());
     }
 
-    @Scheduled(cron = "0 15/45 * * * MON-FRI")
     @Transactional
     public String runFileTransfer() {
         if (!exportShouldRun) {
+            LOGGER.info("Skipping runFileTransfer()...");
             return null;
         }
         LOGGER.info("runFileTransfer() starts.");

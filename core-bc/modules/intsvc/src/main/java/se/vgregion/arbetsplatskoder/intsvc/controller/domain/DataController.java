@@ -50,8 +50,6 @@ public class DataController {
                                @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas,
                                @RequestParam(value = "onlyActiveDatas", required = false) boolean onlyActiveDatas) throws NoSuchFieldException {
 
-        System.out.println("onlyActiveDatas = " + onlyActiveDatas);
-
         Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
         Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "benamning").ignoreCase();
 

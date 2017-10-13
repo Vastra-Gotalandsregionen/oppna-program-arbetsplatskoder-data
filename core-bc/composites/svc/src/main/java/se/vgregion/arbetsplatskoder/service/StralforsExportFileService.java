@@ -54,10 +54,10 @@ public class StralforsExportFileService {
     @Value("${export.stralfors.smb.password}")
     private String password;
 
-    @Scheduled(cron = "0 15/45 * * * MON-FRI")
     @Transactional
     public String runFileTransfer() {
         if (!exportShouldRun) {
+            LOGGER.info("Skipping runFileTransfer()...");
             return "This instance is not set to generate files!";
         }
         LOGGER.info("runFileTransfer() starts.");

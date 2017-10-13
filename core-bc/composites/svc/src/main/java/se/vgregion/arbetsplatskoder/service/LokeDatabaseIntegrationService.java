@@ -36,8 +36,6 @@ public class LokeDatabaseIntegrationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LokeDatabaseIntegrationService.class);
 
-    // Minute 15 and 45 each hour, monday to friday
-    @Scheduled(cron = "0 15/45 * * * MON-FRI")
     public void populateLokeTable() {
 
         LOGGER.info("Start populateLokeTable()...");

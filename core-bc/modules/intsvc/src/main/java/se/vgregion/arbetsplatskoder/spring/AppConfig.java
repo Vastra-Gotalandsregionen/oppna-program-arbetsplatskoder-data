@@ -12,22 +12,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * @author Patrik Björk
  */
 @Configuration
-@Import(RepositoryRestMvcConfiguration.class)
+@Import({RepositoryRestMvcConfiguration.class, QuartzConfig.class})
 @EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppConfig {
-
-    /*@Bean
-    public RepositoryRestConfigurer repositoryRestConfigurer() {
-
-        return new RepositoryRestConfigurerAdapter() {
-
-            @Override
-            public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-                config.setBasePath("/api");
-            }
-        };
-    }*/
 
     @Bean
     public AuthenticationManager authenticationManager() {
