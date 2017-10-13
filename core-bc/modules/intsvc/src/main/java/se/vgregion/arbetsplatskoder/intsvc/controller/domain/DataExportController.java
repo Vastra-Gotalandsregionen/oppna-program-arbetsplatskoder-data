@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3;
+import se.vgregion.arbetsplatskoder.export.repository.ViewApkForSesamLmnRepository;
 import se.vgregion.arbetsplatskoder.export.repository.Viewapkwithao3Repository;
 import se.vgregion.arbetsplatskoder.service.EHalsomyndighetenExportFileService;
 import se.vgregion.arbetsplatskoder.service.LokeDatabaseIntegrationService;
@@ -34,6 +35,9 @@ public class DataExportController {
 
     @Autowired
     private StralforsExportFileService stralforsExportFileService;
+
+    @Autowired
+    ViewApkForSesamLmnRepository viewApkForSesamLmnRepository;
 
     @Autowired
     LokeDatabaseIntegrationService lokeDatabaseIntegrationService;
@@ -63,10 +67,11 @@ public class DataExportController {
 
     @RequestMapping(value = "sesam-lmn", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public String fetchSesamLmnExport() {
+    public ResponseEntity<List<se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn>> fetchSesamLmnExport() {
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", Collections.singletonList("text/plain"));
-        return sesamLmnExportFileService.generate();
+        List<se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn> result = viewApkForSesamLmnRepository.findAll();
+        return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "loke", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
