@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * It turns out that SesamLmn reads its data from the same database table as Kiv.
+ * It turns out that SesamLmn reads its data from the DB, not a file.
  *
  * @author clalu4
  */

@@ -9,6 +9,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.repository.extension.DataExtendedRepository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +41,9 @@ public interface DataRepository extends JpaRepository<Data, Integer>, DataExtend
 
     @Query("select d from Data d where d.tillDatum >= '2199-12-01' or d.tillDatum is null")
     List<Data> findAllValidWithoutEndDate();
+
+    @Query("select d from Data d where d.tillDatum >= :than")
+    List<Data> findAllTillDatumGreater(@Param("than") Timestamp that);
 
     @Query("select d from Data d where d.tillDatum < '2199-12-01' and d.tillDatum >= current_date and d.tillDatum is not null")
     List<Data> findAllValidWithEndDate();
