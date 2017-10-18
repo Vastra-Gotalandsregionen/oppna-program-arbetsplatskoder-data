@@ -23,19 +23,23 @@
         </mat-input-container>
 
         <div>
-          <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
-            <mat-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">
-              {{prodn1.foretagsnamn}}
-            </mat-option>
-          </mat-select>
+          <mat-form-field>
+            <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
+              <mat-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">
+                {{prodn1.foretagsnamn}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div>
-          <mat-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
-            <mat-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2.id">
-              {{prodn2.kortnamn}}
-            </mat-option>
-          </mat-select>
+          <mat-form-field>
+            <mat-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{prodn3Form.submitted ? 'submitted' : ''}}">
+              <mat-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2.id">
+                {{prodn2.kortnamn}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <div class="checkbox-container">

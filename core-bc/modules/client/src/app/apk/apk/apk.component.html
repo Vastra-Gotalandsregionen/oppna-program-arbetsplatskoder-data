@@ -133,9 +133,11 @@
 
       <div class="paging-toolbar-spacer"></div>
 
-      <mat-select placeholder="Välj sida" [(ngModel)]="selectedPage" (change)="goToSelectedPage()" >
-        <mat-option *ngFor="let page of totalPagesArr" [value]=page>Sida {{page}}</mat-option>
-      </mat-select>
+      <mat-form-field class="select-page-field">
+        <mat-select placeholder="Välj sida" [(ngModel)]="selectedPage" (change)="goToSelectedPage()" >
+          <mat-option *ngFor="let page of totalPagesArr" [value]=page>Sida {{page}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </mat-toolbar>
 
   </mat-card-actions>

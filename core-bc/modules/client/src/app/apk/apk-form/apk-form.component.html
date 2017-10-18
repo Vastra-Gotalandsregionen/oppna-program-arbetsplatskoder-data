@@ -175,27 +175,33 @@
           <h3>Välj Concise SumNivå</h3>
 
           <div>
-            <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <mat-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
-                {{prodn1.kortnamn}}
-              </mat-option>
-            </mat-select>
+            <mat-form-field>
+              <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
+                  {{prodn1.kortnamn}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
           <div>
-            <mat-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <mat-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
-                {{prodn2.kortnamn}}
-              </mat-option>
-            </mat-select>
+            <mat-form-field>
+              <mat-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
+                  {{prodn2.kortnamn}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
           <div>
-            <mat-select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <mat-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
-                {{prodn3.kortnamn}}
-              </mat-option>
-            </mat-select>
+            <mat-form-field>
+              <mat-select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
+                  {{prodn3.kortnamn}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </mat-card-content>
       </mat-card>

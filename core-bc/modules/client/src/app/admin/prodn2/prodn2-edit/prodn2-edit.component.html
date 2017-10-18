@@ -23,11 +23,13 @@
         </mat-input-container>
 
         <div>
-          <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{prodn2Form.submitted ? 'submitted' : ''}}">
-            <mat-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">
-              {{prodn1.foretagsnamn}}
-            </mat-option>
-          </mat-select>
+          <mat-form-field>
+            <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{prodn2Form.submitted ? 'submitted' : ''}}">
+              <mat-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">
+                {{prodn1.foretagsnamn}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <mat-input-container>
