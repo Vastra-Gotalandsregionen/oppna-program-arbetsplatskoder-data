@@ -1,32 +1,32 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
      Arbetsplatskoder
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a class="action-toolbar-item" md-fab routerLink="create" mdTooltip="Lägg till ny arbetsplatskod" *ngIf="loggedIn"><md-icon>add</md-icon></a>
-</md-toolbar>
+  <a class="action-toolbar-item" mat-fab routerLink="create" matTooltip="Lägg till ny arbetsplatskod" *ngIf="loggedIn"><mat-icon>add</mat-icon></a>
+</mat-toolbar>
 
-<md-card>
+<mat-card>
 
-  <md-card-title class="edge2edge">
+  <mat-card-title class="edge2edge">
 
-    <md-toolbar class="action-toolbar">
+    <mat-toolbar class="action-toolbar">
 
-      <md-input-container class="action-toolbar-item">
-        <input mdInput placeholder="Skriv in arbetsplatskod, benämning, datum med mera för att filtrera listan nedan..." [formControl]="stateCtrl" [(ngModel)]="query">
-      </md-input-container>
+      <mat-input-container class="action-toolbar-item">
+        <input matInput placeholder="Skriv in arbetsplatskod, benämning, datum med mera för att filtrera listan nedan..." [formControl]="stateCtrl" [(ngModel)]="query">
+      </mat-input-container>
 
-      <md-checkbox class="action-toolbar-item" [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Bara <span class="tooltip-text" mdTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></md-checkbox>
+      <mat-checkbox class="action-toolbar-item" [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Bara <span class="tooltip-text" matTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></mat-checkbox>
 
-      <md-checkbox class="action-toolbar-item" [formControl]="onlyActiveDatasCtrl" [(ngModel)]="onlyActiveDatas" *ngIf="loggedIn">Bara aktiva arbetsplatskoder</md-checkbox>
+      <mat-checkbox class="action-toolbar-item" [formControl]="onlyActiveDatasCtrl" [(ngModel)]="onlyActiveDatas" *ngIf="loggedIn">Bara aktiva arbetsplatskoder</mat-checkbox>
 
       <div class="action-toolbar-spacer"></div>
 
-    </md-toolbar>
+    </mat-toolbar>
 
-  </md-card-title>
+  </mat-card-title>
 
-  <md-card-content>
+  <mat-card-content>
     <table *ngIf="response" class="apk-table apks-table">
       <thead>
         <tr>
@@ -34,8 +34,8 @@
             Arbetsplatskod
           </th>
           <th class="row-name">
-            <button class="sort-button" md-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
-              Benämning <md-icon>arrow_drop_up</md-icon>
+            <button class="sort-button" mat-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
+              Benämning <mat-icon>arrow_drop_up</mat-icon>
             </button>
           </th>
           <th class="row-prod1">
@@ -51,8 +51,8 @@
             Ansvar
           </th>
           <th class="row-to-date">
-            <button class="sort-button" md-button (click)="toggleSort('tillDatum')" [ngClass]="{'sort-field': sort?.field === 'tillDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
-              Giltig till <md-icon>arrow_drop_up</md-icon>
+            <button class="sort-button" mat-button (click)="toggleSort('tillDatum')" [ngClass]="{'sort-field': sort?.field === 'tillDatum', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
+              Giltig till <mat-icon>arrow_drop_up</mat-icon>
             </button>
           </th>
           <th class="row-status">
@@ -70,17 +70,17 @@
           </td>
           <td>
             <a routerLink="{{data.id}}" routerLinkActive="active">
-              <span mdTooltip="{{data.benamning?.length > 35 ? data.benamning : null}}">{{data.benamning | ellipsis:35}}</span>
+              <span matTooltip="{{data.benamning?.length > 35 ? data.benamning : null}}">{{data.benamning | ellipsis:35}}</span>
             </a>
           </td>
           <td>
-            <span mdTooltip="{{data.prodn1?.kortnamn?.length > 12 ? data.prodn1.kortnamn : null}}">{{data.prodn1?.kortnamn | ellipsis:12}}</span>
+            <span matTooltip="{{data.prodn1?.kortnamn?.length > 12 ? data.prodn1.kortnamn : null}}">{{data.prodn1?.kortnamn | ellipsis:12}}</span>
           </td>
           <td>
-            <span mdTooltip="{{data.prodn3?.prodn2?.kortnamn?.length > 12 ? data.prodn3?.prodn2?.kortnamn : null}}">{{data.prodn3?.prodn2?.kortnamn | ellipsis:12}}</span>
+            <span matTooltip="{{data.prodn3?.prodn2?.kortnamn?.length > 12 ? data.prodn3?.prodn2?.kortnamn : null}}">{{data.prodn3?.prodn2?.kortnamn | ellipsis:12}}</span>
           </td>
           <td>
-            <span mdTooltip="{{data.prodn3?.kortnamn?.length > 12 ? data.prodn3?.kortnamn : null}}">{{data.prodn3?.kortnamn | ellipsis:12}}</span>
+            <span matTooltip="{{data.prodn3?.kortnamn?.length > 12 ? data.prodn3?.kortnamn : null}}">{{data.prodn3?.kortnamn | ellipsis:12}}</span>
           </td>
           <td>
             {{data.ansvar}}
@@ -89,55 +89,55 @@
             {{data.tillDatum ? data.tillDatum : 'Tills vidare'}}
           </td>
           <td>
-            <md-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">error</md-icon>
-            <md-icon *ngIf="getStatus(data) === 'fullyClosed'" style="color: #d33;" mdTooltip="Giltighetsdatum passerat för över ett år sedan.">error</md-icon>
-            <md-icon *ngIf="data.hsaidMissingInKiv" style="color: #dd7900;" mdTooltip="HSA-ID saknas i KIV">warning</md-icon>
+            <mat-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" matTooltip="Giltighetsdatum passerat.">error</mat-icon>
+            <mat-icon *ngIf="getStatus(data) === 'fullyClosed'" style="color: #d33;" matTooltip="Giltighetsdatum passerat för över ett år sedan.">error</mat-icon>
+            <mat-icon *ngIf="data.hsaidMissingInKiv" style="color: #dd7900;" matTooltip="HSA-ID saknas i KIV">warning</mat-icon>
           </td>
           <td>
-            <button md-icon-button [mdMenuTriggerFor]="menu">
-              <md-icon>more_vert</md-icon>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
             </button>
-            <md-menu #menu="mdMenu">
-              <button md-menu-item routerLink="{{data.id}}">
-                <md-icon>folder_open</md-icon>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item routerLink="{{data.id}}">
+                <mat-icon>folder_open</mat-icon>
                 <span>Visa detaljer</span>
               </button>
-              <button md-menu-item routerLink="{{data.id}}/edit" *ngIf="userHasEditPermission(data)" [disabled]="getStatus(data) === 'closed' || getStatus(data) === 'fullyClosed'">
-                <md-icon>edit</md-icon>
+              <button mat-menu-item routerLink="{{data.id}}/edit" *ngIf="userHasEditPermission(data)" [disabled]="getStatus(data) === 'closed' || getStatus(data) === 'fullyClosed'">
+                <mat-icon>edit</mat-icon>
                 <span>Redigera</span>
-                <md-icon *ngIf="getStatus(data) === 'closed' || getStatus(data) === 'fullyClosed'" mdTooltip="Redigera ej möjligt när giltighetsdatum passerat">info</md-icon>
+                <mat-icon *ngIf="getStatus(data) === 'closed' || getStatus(data) === 'fullyClosed'" matTooltip="Redigera ej möjligt när giltighetsdatum passerat">info</mat-icon>
               </button>
-              <button md-menu-item *ngIf="userHasEditPermission(data)" [disabled]="!data.deletable" (click)="confirmDelete(data)">
-                <md-icon>delete</md-icon>
+              <button mat-menu-item *ngIf="userHasEditPermission(data)" [disabled]="!data.deletable" (click)="confirmDelete(data)">
+                <mat-icon>delete</mat-icon>
                 <span>Radera</span>&nbsp;
-                <md-icon *ngIf="!data.deletable" mdTooltip="Radera ej möjligt efter post skickats till EHM">info</md-icon>
+                <mat-icon *ngIf="!data.deletable" matTooltip="Radera ej möjligt efter post skickats till EHM">info</mat-icon>
               </button>
-            </md-menu>
+            </mat-menu>
           </td>
         </tr>
       </tbody>
     </table>
-  </md-card-content>
+  </mat-card-content>
 
-  <md-card-actions *ngIf="response">
+  <mat-card-actions *ngIf="response">
 
-    <md-toolbar class="paging-toolbar">
+    <mat-toolbar class="paging-toolbar">
       <div *ngIf="response" class="search-summary">
         Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
       </div>
 
       <div class="paging-toolbar-spacer"></div>
 
-      <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
-      <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
+      <button (click)="previousPage()" mat-button [disabled]="response.first"><mat-icon>arrow_back</mat-icon> Föregående</button>
+      <button (click)="nextPage()" mat-button [disabled]="response.last">Nästa <mat-icon>arrow_forward</mat-icon></button>
 
       <div class="paging-toolbar-spacer"></div>
 
-      <md-select placeholder="Välj sida" [(ngModel)]="selectedPage" (change)="goToSelectedPage()" >
-        <md-option *ngFor="let page of totalPagesArr" [value]=page>Sida {{page}}</md-option>
-      </md-select>
-    </md-toolbar>
+      <mat-select placeholder="Välj sida" [(ngModel)]="selectedPage" (change)="goToSelectedPage()" >
+        <mat-option *ngFor="let page of totalPagesArr" [value]=page>Sida {{page}}</mat-option>
+      </mat-select>
+    </mat-toolbar>
 
-  </md-card-actions>
+  </mat-card-actions>
 
-</md-card>
+</mat-card>

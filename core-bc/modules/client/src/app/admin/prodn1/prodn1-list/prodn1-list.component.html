@@ -1,17 +1,17 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
     Concise SumNivå 1
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a class="action-toolbar-item" routerLink="create" md-fab mdTooltip="Lägg till ny Concise SumNivå 1" *ngIf="admin">
-    <md-icon>add</md-icon>
+  <a class="action-toolbar-item" routerLink="create" mat-fab matTooltip="Lägg till ny Concise SumNivå 1" *ngIf="admin">
+    <mat-icon>add</mat-icon>
   </a>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
-</md-toolbar>
+</mat-toolbar>
 
-<md-card>
+<mat-card>
 
-  <md-card-content>
+  <mat-card-content>
 
     <table class="apk-table prod1-table">
       <thead>
@@ -25,22 +25,22 @@
       <tbody>
       <tr *ngFor="let prodn1 of prodn1s$ | async">
         <td>
-          <span mdTooltip="{{prodn1.foretagsnamn?.length > 50 ? prodn1.foretagsnamn : null}}">{{prodn1.foretagsnamn | ellipsis:50}}</span>
+          <span matTooltip="{{prodn1.foretagsnamn?.length > 50 ? prodn1.foretagsnamn : null}}">{{prodn1.foretagsnamn | ellipsis:50}}</span>
         </td>
         <td>
-          <span mdTooltip="{{prodn1.kortnamn?.length > 35 ? prodn1.kortnamn : null}}">{{prodn1.kortnamn | ellipsis:35}}</span>
+          <span matTooltip="{{prodn1.kortnamn?.length > 35 ? prodn1.kortnamn : null}}">{{prodn1.kortnamn | ellipsis:35}}</span>
         </td>
         <td>
-          <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn1.raderad">clear</md-icon>
-          <md-icon mdTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">warning</md-icon>
+          <mat-icon matTooltip="Markerad som raderad" *ngIf="prodn1.raderad">clear</mat-icon>
+          <mat-icon matTooltip="Används inte i någon arbetsplatskod" *ngIf="orphanProdn1s.indexOf(prodn1.id) > -1">warning</mat-icon>
         </td>
         <td>
-          <a routerLink="{{prodn1.id}}/edit" mdTooltip="Redigera">
-            <md-icon>edit</md-icon>
+          <a routerLink="{{prodn1.id}}/edit" matTooltip="Redigera">
+            <mat-icon>edit</mat-icon>
           </a>
         </td>
       </tr>
       </tbody>
     </table>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

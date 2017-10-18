@@ -1,11 +1,11 @@
-<h1 md-dialog-title="">Bekräfta</h1>
+<h1 mat-dialog-title="">Bekräfta</h1>
 
 <div class="confirm-dialog">
 
-    <div md-dialog-content>{{data.text}}</div>
+    <div mat-dialog-content>{{data.text}}</div>
 
-    <div md-dialog-actions>
-        <button md-button class="btn btn-primary" (click)="dialogRef.close('confirm')" md-raised-button>{{data.confirmButtonText}}</button>
-        <button md-button class="btn btn-default" (click)="dialogRef.close('abort')">Avbryt</button>
+    <div mat-dialog-actions>
+        <button mat-button class="btn btn-primary" (click)="dialogRef.close('confirm')" mat-raised-button>{{data.confirmButtonText}}</button>
+        <button mat-button class="btn btn-default" (click)="dialogRef.close('abort')">Avbryt</button>
     </div>
 </div>

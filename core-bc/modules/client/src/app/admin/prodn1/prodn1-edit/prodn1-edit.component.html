@@ -1,41 +1,41 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
      {{prodn1.foretagsnamn === undefined ? 'Lägg till ny Concise SumNivå 1' : 'Redigera ' + prodn1.foretagsnamn}}
   </h1>
   <div class="action-toolbar-spacer"></div>
   <app-back-button class="action-toolbar-item"></app-back-button>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
-</md-toolbar>
+</mat-toolbar>
 
-<md-card class="example-card">
-  <md-card-content>
+<mat-card class="example-card">
+  <mat-card-content>
 
     <div *ngIf="prodn1Form; else loading">
 
       <form #formRef="ngForm" [formGroup]="prodn1Form" (ngSubmit)="save()" novalidate>
 
-        <md-input-container>
-          <input placeholder="ID" type="text" mdInput formControlName="id"/>
-        </md-input-container>
+        <mat-input-container>
+          <input placeholder="ID" type="text" matInput formControlName="id"/>
+        </mat-input-container>
 
-        <md-input-container>
-          <input placeholder="Namn" type="text" mdInput formControlName="foretagsnamn"/>
-        </md-input-container>
+        <mat-input-container>
+          <input placeholder="Namn" type="text" matInput formControlName="foretagsnamn"/>
+        </mat-input-container>
 
-        <md-input-container>
-          <input placeholder="Concise SumNivå 1" type="text" mdInput formControlName="kortnamn"/>
-        </md-input-container>
+        <mat-input-container>
+          <input placeholder="Concise SumNivå 1" type="text" matInput formControlName="kortnamn"/>
+        </mat-input-container>
 
         <div class="checkbox-container">
-          <md-checkbox formControlName="raderad">Raderad</md-checkbox>
+          <mat-checkbox formControlName="raderad">Raderad</mat-checkbox>
         </div>
 
         <div class="btn-container">
           <button type="submit"
-                  [disabled]="prodn1Form.pristine" md-raised-button class="btn btn-success">Spara
+                  [disabled]="prodn1Form.pristine" mat-raised-button class="btn btn-success">Spara
           </button> &nbsp;
           <button type="button"
-                  [disabled]="prodn1Form.pristine" md-raised-button class="btn" (click)="resetForm()">Återställ
+                  [disabled]="prodn1Form.pristine" mat-raised-button class="btn" (click)="resetForm()">Återställ
           </button> &nbsp;
           {{saveMessage}}
         </div>
@@ -45,5 +45,5 @@
 
     <ng-template #loading>Läser in...</ng-template>
 
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

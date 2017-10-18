@@ -9,43 +9,43 @@
         <div class="col c4" *ngIf="(loggedIn) || (!loggedIn && !link.get('privateContent').value)">
           <div class="col-inner">
             <a [href]="link.get('url').value" class="link-box" *ngIf="!editingLink(i)">
-              <md-icon class="link-box-icon" aria-hidden="true">file_download</md-icon>
+              <mat-icon class="link-box-icon" aria-hidden="true">file_download</mat-icon>
 
               <span class="link-box-label">{{link.get('label').value}}</span>
             </a>
 
-            <md-card *ngIf="editingLink(i) && admin">
-              <md-card-content>
-                <md-input-container>
-                  <input placeholder="Namn" mdInput formControlName="label"/>
-                </md-input-container>
+            <mat-card *ngIf="editingLink(i) && admin">
+              <mat-card-content>
+                <mat-input-container>
+                  <input placeholder="Namn" matInput formControlName="label"/>
+                </mat-input-container>
 
-                <md-input-container>
-                  <input placeholder="URL" mdInput formControlName="url"/>
-                </md-input-container>
+                <mat-input-container>
+                  <input placeholder="URL" matInput formControlName="url"/>
+                </mat-input-container>
 
                 <div class="checkbox-container">
-                  <md-checkbox align="end" formControlName="privateContent">Visa bara för inloggade</md-checkbox>
+                  <mat-checkbox align="end" formControlName="privateContent">Visa bara för inloggade</mat-checkbox>
                 </div>
 
 
-              </md-card-content>
-            </md-card>
+              </mat-card-content>
+            </mat-card>
 
-            <md-toolbar class="edit-toolbar" *ngIf="admin && getShowContentEdit()">
-              <a href="#" class="edit-toolbar-item" mdTooltip="Redigera" *ngIf="!editingLink(i)"
+            <mat-toolbar class="edit-toolbar" *ngIf="admin && getShowContentEdit()">
+              <a href="#" class="edit-toolbar-item" matTooltip="Redigera" *ngIf="!editingLink(i)"
                  (click)="editLink(i); false">
-                <md-icon>edit</md-icon>
+                <mat-icon>edit</mat-icon>
               </a>
 
-              <a href="#" class="edit-toolbar-item" mdTooltip="Spara" *ngIf="editingLink(i)" (click)="saveLink(i); false">
-                <md-icon>save</md-icon>
+              <a href="#" class="edit-toolbar-item" matTooltip="Spara" *ngIf="editingLink(i)" (click)="saveLink(i); false">
+                <mat-icon>save</mat-icon>
               </a>
 
               <a href="#" class="edit-toolbar-item" *ngIf="editingLink(i)" (click)="cancelLink(i); false">
                 Avbryt
               </a>
-            </md-toolbar>
+            </mat-toolbar>
 
 
           </div>

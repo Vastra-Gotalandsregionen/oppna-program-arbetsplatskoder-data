@@ -2,8 +2,8 @@
   <form #theForm="ngForm" [formGroup]="formGroup" (ngSubmit)="save()"
         novalidate>
 
-    <md-card class="info-card">
-      <md-card-content>
+    <mat-card class="info-card">
+      <mat-card-content>
         <!--<h3>Om Arbetsplatskodsregistret</h3>
         <p>Arbetsplatskodsregistret innehåller information om vårdens arbetsplatskoder. En arbetsplatskod måste vara giltig och finnas på receptet, eller hjälpmedelskortet, för att patienten ska kunna ta del av läkemedelsförmånen.</p>
         <p>Med läkemedelsförmånen avses att vissa mediciner subventioneras via skattemedel. En patient får däremot betala fullt pris för ett läkemedel om koden saknas eller inte är godkänd.</p>
@@ -17,23 +17,23 @@
           *ngIf="editingContent">
         </ckeditor>
 
-      </md-card-content>
-    </md-card>
+      </mat-card-content>
+    </mat-card>
 
-    <md-toolbar class="edit-toolbar" *ngIf="admin && getShowContentEdit()">
-      <a href="#" class="edit-toolbar-item" mdTooltip="Redigera" *ngIf="!editingContent"
+    <mat-toolbar class="edit-toolbar" *ngIf="admin && getShowContentEdit()">
+      <a href="#" class="edit-toolbar-item" matTooltip="Redigera" *ngIf="!editingContent"
          (click)="editContent(); false">
-        <md-icon>edit</md-icon>
+        <mat-icon>edit</mat-icon>
       </a>
 
-      <a href="#" class="edit-toolbar-item" mdTooltip="Spara" *ngIf="editingContent" (click)="saveContent(); false">
-        <md-icon>save</md-icon>
+      <a href="#" class="edit-toolbar-item" matTooltip="Spara" *ngIf="editingContent" (click)="saveContent(); false">
+        <mat-icon>save</mat-icon>
       </a>
 
       <a href="#" class="edit-toolbar-item" *ngIf="editingContent" (click)="cancelContent(); false">
         Avbryt
       </a>
-    </md-toolbar>
+    </mat-toolbar>
 
   </form>
 </div>

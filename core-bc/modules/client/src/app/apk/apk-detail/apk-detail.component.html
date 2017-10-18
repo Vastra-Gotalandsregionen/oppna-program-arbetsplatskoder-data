@@ -1,22 +1,22 @@
 <div *ngIf="data">
 
-  <md-toolbar class="action-toolbar">
+  <mat-toolbar class="action-toolbar">
     <h1>
        Arbetsplatskod: {{data.arbetsplatskodlan}}
-       <md-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" mdTooltip="Giltighetsdatum passerat.">error</md-icon>
-       <md-icon *ngIf="getStatus(data) === 'fullyClosed'" style="color: #d33;" mdTooltip="Giltighetsdatum passerat för över ett år sedan.">error</md-icon>
-       <md-icon *ngIf="data.hsaidMissingInKiv" style="color: #dd7900;" mdTooltip="HSA-ID saknas i KIV">warning</md-icon>
+       <mat-icon *ngIf="getStatus(data) === 'closed'" style="color: #ebb62f;" matTooltip="Giltighetsdatum passerat.">error</mat-icon>
+       <mat-icon *ngIf="getStatus(data) === 'fullyClosed'" style="color: #d33;" matTooltip="Giltighetsdatum passerat för över ett år sedan.">error</mat-icon>
+       <mat-icon *ngIf="data.hsaidMissingInKiv" style="color: #dd7900;" matTooltip="HSA-ID saknas i KIV">warning</mat-icon>
     </h1>
     <div class="action-toolbar-spacer"></div>
     <app-back-button class="action-toolbar-item"></app-back-button>
-    <a class="action-toolbar-item" md-fab routerLink="edit" mdTooltip="Redigera arbetsplatskod" *ngIf="userHasEditPermission(data) && getStatus(data) !== 'closed' && getStatus(data) !== 'fullyClosed'">
-      <md-icon>edit</md-icon>
+    <a class="action-toolbar-item" mat-fab routerLink="edit" matTooltip="Redigera arbetsplatskod" *ngIf="userHasEditPermission(data) && getStatus(data) !== 'closed' && getStatus(data) !== 'fullyClosed'">
+      <mat-icon>edit</mat-icon>
     </a>
-  </md-toolbar>
+  </mat-toolbar>
 
-    <md-card class="example-card">
+    <mat-card class="example-card">
 
-      <md-card-content>
+      <mat-card-content>
 
         <div class="row">
         	<div class="col c12">
@@ -220,10 +220,10 @@
 
 
 
-      </md-card-content>
-    </md-card>
+      </mat-card-content>
+    </mat-card>
 
-    <md-toolbar class="meta-toolbar">
+    <mat-toolbar class="meta-toolbar">
 
       <div class="meta-toolbar-item">
         <span>Skapad:</span> <span>{{data.regDatum | dateX: 'YYYY-MM-DD HH:mm'}}</span>
@@ -243,6 +243,6 @@
         <span>ID:</span> <span>{{data.id}}</span>
       </div>
 
-    </md-toolbar>
+    </mat-toolbar>
 
 </div>

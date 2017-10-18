@@ -1,16 +1,16 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
     Motpart
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Motpart"><md-icon>add</md-icon></a>
+  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" mat-fab matTooltip="Lägg till ny Motpart"><mat-icon>add</mat-icon></a>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
-</md-toolbar>
+</mat-toolbar>
 
 
-<md-card>
+<mat-card>
 
-  <md-card-content>
+  <mat-card-content>
 
     <table class="apk-table a03-table">
       <thead>
@@ -28,32 +28,32 @@
       <tr *ngFor="let ao3 of response?.content">
         <td>{{ao3.foretagsnamn}}</td>
         <td>
-          <span *ngFor="let text of [toList(ao3.prodn1s)]" mdTooltip="{{text.length > 20 ? text : null}}">{{text | ellipsis:20}}</span>
+          <span *ngFor="let text of [toList(ao3.prodn1s)]" matTooltip="{{text.length > 20 ? text : null}}">{{text | ellipsis:20}}</span>
         </td>
         <td>{{ao3.kontaktperson}}</td>
         <td>{{ao3.ao3id}}</td>
         <td>{{ao3.foretagsnr}}</td>
         <td>
-          <md-icon mdTooltip="Markerad som raderad" *ngIf="ao3.raderad">clear</md-icon>
+          <mat-icon matTooltip="Markerad som raderad" *ngIf="ao3.raderad">clear</mat-icon>
         </td>
         <td>
-          <a routerLink="{{ao3.id}}/edit" mdTooltip="Redigera">
-            <md-icon>edit</md-icon>
+          <a routerLink="{{ao3.id}}/edit" matTooltip="Redigera">
+            <mat-icon>edit</mat-icon>
           </a>
         </td>
       </tr>
       </tbody>
     </table>
-  </md-card-content>
+  </mat-card-content>
 
-  <md-card-actions *ngIf="response">
-    <md-toolbar class="paging-toolbar">
+  <mat-card-actions *ngIf="response">
+    <mat-toolbar class="paging-toolbar">
       <div *ngIf="response" class="search-summary">
         Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
       </div>
       <div class="paging-toolbar-spacer"></div>
-      <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
-      <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
-    </md-toolbar>
-  </md-card-actions>
-</md-card>
+      <button (click)="previousPage()" mat-button [disabled]="response.first"><mat-icon>arrow_back</mat-icon> Föregående</button>
+      <button (click)="nextPage()" mat-button [disabled]="response.last">Nästa <mat-icon>arrow_forward</mat-icon></button>
+    </mat-toolbar>
+  </mat-card-actions>
+</mat-card>

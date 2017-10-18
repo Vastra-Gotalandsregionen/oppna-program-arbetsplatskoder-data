@@ -1,44 +1,44 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
     {{verksamhet.verksamhettext === undefined ? 'Skapa ny Medicinsk verksamhetskod' : 'Redigera ' + verksamhet.verksamhettext}}
   </h1>
   <div class="action-toolbar-spacer"></div>
   <app-back-button></app-back-button>
-</md-toolbar>
+</mat-toolbar>
 
 <div class="alert alert-danger">
   VARNING! Ändra inte 'Verksamhet-ID' utan att Apoteksbolaget har bekräftat att motsvarande kod finns inlagd i deras system.
 </div>
 
-<md-card>
-  <md-card-content>
+<mat-card>
+  <mat-card-content>
 
     <div *ngIf="verksamhetForm; else loading">
 
       <form #formRef="ngForm" [formGroup]="verksamhetForm" (ngSubmit)="save()" novalidate (autocomplete)="false">
 
-        <md-input-container>
-          <input placeholder="ID" type="text" mdInput formControlName="id"/>
-        </md-input-container>
+        <mat-input-container>
+          <input placeholder="ID" type="text" matInput formControlName="id"/>
+        </mat-input-container>
 
-        <md-input-container>
-          <input placeholder="Verksamhet-ID" type="text" mdInput formControlName="verksamhetid"/>
-        </md-input-container>
+        <mat-input-container>
+          <input placeholder="Verksamhet-ID" type="text" matInput formControlName="verksamhetid"/>
+        </mat-input-container>
 
-        <md-input-container>
-          <input placeholder="Verksamhettext" type="text" mdInput formControlName="verksamhettext"/>
-        </md-input-container>
+        <mat-input-container>
+          <input placeholder="Verksamhettext" type="text" matInput formControlName="verksamhettext"/>
+        </mat-input-container>
 
         <div class="checkbox-container">
-          <md-checkbox formControlName="raderad">Inaktiverad</md-checkbox>
+          <mat-checkbox formControlName="raderad">Inaktiverad</mat-checkbox>
         </div>
 
         <div class="btn-container">
           <button type="submit"
-                  [disabled]="verksamhetForm.pristine" md-raised-button class="btn btn-success">Spara
+                  [disabled]="verksamhetForm.pristine" mat-raised-button class="btn btn-success">Spara
           </button> &nbsp;
           <button type="button"
-                  [disabled]="verksamhetForm.pristine" md-raised-button class="btn" (click)="resetForm()">Återställ
+                  [disabled]="verksamhetForm.pristine" mat-raised-button class="btn" (click)="resetForm()">Återställ
           </button> &nbsp;
           {{saveMessage}}
         </div>
@@ -48,5 +48,5 @@
 
     <ng-template #loading>Läser in...</ng-template>
 
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

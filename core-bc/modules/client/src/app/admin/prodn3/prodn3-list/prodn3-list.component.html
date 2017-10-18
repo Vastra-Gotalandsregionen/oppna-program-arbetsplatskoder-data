@@ -1,50 +1,50 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
     Concise SumNivå 3
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a  class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Concise SumNivå 3"><md-icon>add</md-icon></a>
+  <a  class="action-toolbar-item"routerLink="create" mat-fab matTooltip="Lägg till ny Concise SumNivå 3"><mat-icon>add</mat-icon></a>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
-</md-toolbar>
+</mat-toolbar>
 
-<md-card>
+<mat-card>
 
-  <md-card-title class="edge2edge">
-    <md-toolbar class="action-toolbar">
+  <mat-card-title class="edge2edge">
+    <mat-toolbar class="action-toolbar">
 
-      <md-checkbox class="action-toolbar-item" (click)="toggleOnlyUnused()" [(ngModel)]="onlyUnused">Endast oanvända</md-checkbox>
+      <mat-checkbox class="action-toolbar-item" (click)="toggleOnlyUnused()" [(ngModel)]="onlyUnused">Endast oanvända</mat-checkbox>
 
       <div class="action-toolbar-spacer"></div>
 
-        <button class="action-toolbar-item" mdTooltip="{{showFilter ? 'Göm' : 'Visa'}} filter" (click)="showFilter = !showFilter">
-          <md-icon>filter_list</md-icon>
+        <button class="action-toolbar-item" matTooltip="{{showFilter ? 'Göm' : 'Visa'}} filter" (click)="showFilter = !showFilter">
+          <mat-icon>filter_list</mat-icon>
         </button>
 
-    </md-toolbar>
-  </md-card-title>
+    </mat-toolbar>
+  </mat-card-title>
 
-  <md-card-content *ngIf="showFilter">
+  <mat-card-content *ngIf="showFilter">
     <div>
-      <md-select placeholder="Visa bara för Concise SumNivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
-        <md-option value="">Visa alla</md-option>
-        <md-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
+      <mat-select placeholder="Visa bara för Concise SumNivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
+        <mat-option value="">Visa alla</mat-option>
+        <mat-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
           {{prodn1.foretagsnamn}}
-        </md-option>
-      </md-select>
+        </mat-option>
+      </mat-select>
     </div>
 
     <div [@slideIn]="showFilter && selectedProdn1.value ? 'in' : 'out'">
-      <md-select placeholder="Visa bara för Concise SumNivå 2" [formControl]="filterProdn2" (change)="onFilterProdn2Change()">
-        <md-option value="">Visa alla</md-option>
-        <md-option *ngFor="let prodn2 of availableProdn2s$ | async" [value]="prodn2.id">
+      <mat-select placeholder="Visa bara för Concise SumNivå 2" [formControl]="filterProdn2" (change)="onFilterProdn2Change()">
+        <mat-option value="">Visa alla</mat-option>
+        <mat-option *ngFor="let prodn2 of availableProdn2s$ | async" [value]="prodn2.id">
           {{prodn2.avdelning}}
-        </md-option>
-      </md-select>
+        </mat-option>
+      </mat-select>
     </div>
 
-  </md-card-content>
+  </mat-card-content>
 
-  <md-card-content>
+  <mat-card-content>
 
     <table class="apk-table prod3-table">
       <thead>
@@ -59,36 +59,36 @@
       <tbody>
       <tr *ngFor="let prodn3 of response?.content">
         <td>
-          <span mdTooltip="{{prodn3.prodn2?.prodn1?.kortnamn?.length > 20 ? prodn3.prodn2?.prodn1?.kortnamn : null}}">{{prodn3.prodn2?.prodn1?.kortnamn | ellipsis:20}}</span>
+          <span matTooltip="{{prodn3.prodn2?.prodn1?.kortnamn?.length > 20 ? prodn3.prodn2?.prodn1?.kortnamn : null}}">{{prodn3.prodn2?.prodn1?.kortnamn | ellipsis:20}}</span>
         </td>
         <td>
-          <span mdTooltip="{{prodn3.prodn2?.kortnamn?.length > 25 ? prodn3.prodn2?.kortnamn : null}}">{{prodn3.prodn2?.kortnamn | ellipsis:25}}</span>
+          <span matTooltip="{{prodn3.prodn2?.kortnamn?.length > 25 ? prodn3.prodn2?.kortnamn : null}}">{{prodn3.prodn2?.kortnamn | ellipsis:25}}</span>
         </td>
         <td>
-          <span mdTooltip="{{prodn3.kortnamn?.length > 25 ? prodn3.kortnamn : null}}">{{prodn3.kortnamn | ellipsis:25}}</span>
+          <span matTooltip="{{prodn3.kortnamn?.length > 25 ? prodn3.kortnamn : null}}">{{prodn3.kortnamn | ellipsis:25}}</span>
         </td>
         <td>
-          <md-icon mdTooltip="Autoradering" *ngIf="prodn3.autoradering">delete_forever</md-icon>
-          <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn3.raderad">clear</md-icon>
+          <mat-icon matTooltip="Autoradering" *ngIf="prodn3.autoradering">delete_forever</mat-icon>
+          <mat-icon matTooltip="Markerad som raderad" *ngIf="prodn3.raderad">clear</mat-icon>
         </td>
         <td>
-          <a routerLink="{{prodn3.id}}/edit" mdTooltip="Redigera">
-            <md-icon>edit</md-icon>
+          <a routerLink="{{prodn3.id}}/edit" matTooltip="Redigera">
+            <mat-icon>edit</mat-icon>
           </a>
         </td>
       </tr>
       </tbody>
     </table>
-  </md-card-content>
+  </mat-card-content>
 
-  <md-card-actions *ngIf="response">
-    <md-toolbar class="paging-toolbar">
+  <mat-card-actions *ngIf="response">
+    <mat-toolbar class="paging-toolbar">
       <div *ngIf="response" class="search-summary">
         Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
       </div>
       <div class="paging-toolbar-spacer"></div>
-      <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
-      <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
-    </md-toolbar>
-  </md-card-actions>
-</md-card>
+      <button (click)="previousPage()" mat-button [disabled]="response.first"><mat-icon>arrow_back</mat-icon> Föregående</button>
+      <button (click)="nextPage()" mat-button [disabled]="response.last">Nästa <mat-icon>arrow_forward</mat-icon></button>
+    </mat-toolbar>
+  </mat-card-actions>
+</mat-card>

@@ -1,11 +1,11 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
      Redigera användare
   </h1>
   <div class="action-toolbar-spacer"></div>
   <app-back-button class="action-toolbar-item"></app-back-button>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
-</md-toolbar>
+</mat-toolbar>
 
 <app-user-form [userId]="userId" *ngIf="userId; else loading"></app-user-form>
 

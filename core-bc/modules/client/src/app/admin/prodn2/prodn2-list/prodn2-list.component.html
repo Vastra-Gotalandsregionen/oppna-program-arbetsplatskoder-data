@@ -1,39 +1,39 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
     Concise SumNivå 2
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a  class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny Concise SumNivå 2"><md-icon>add</md-icon></a>
+  <a  class="action-toolbar-item"routerLink="create" mat-fab matTooltip="Lägg till ny Concise SumNivå 2"><mat-icon>add</mat-icon></a>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
-</md-toolbar>
+</mat-toolbar>
 
-<md-card>
+<mat-card>
 
-  <md-card-title class="edge2edge">
-    <md-toolbar class="action-toolbar">
+  <mat-card-title class="edge2edge">
+    <mat-toolbar class="action-toolbar">
       <div class="action-toolbar-spacer"></div>
 
-      <button class="action-toolbar-item" mdTooltip="{{showFilter ? 'Göm' : 'Visa'}} filter" (click)="showFilter = !showFilter">
-        <md-icon>filter_list</md-icon>
+      <button class="action-toolbar-item" matTooltip="{{showFilter ? 'Göm' : 'Visa'}} filter" (click)="showFilter = !showFilter">
+        <mat-icon>filter_list</mat-icon>
       </button>
 
-    </md-toolbar>
-  </md-card-title>
+    </mat-toolbar>
+  </mat-card-title>
 
-  <md-card-content *ngIf="showFilter">
+  <mat-card-content *ngIf="showFilter">
 
     <div>
-      <md-select placeholder="Visa bara för Concise SumNivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
-        <md-option value="">Visa alla</md-option>
-        <md-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
+      <mat-select placeholder="Visa bara för Concise SumNivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
+        <mat-option value="">Visa alla</mat-option>
+        <mat-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
           {{prodn1.foretagsnamn}}
-        </md-option>
-      </md-select>
+        </mat-option>
+      </mat-select>
     </div>
 
-  </md-card-content>
+  </mat-card-content>
 
-  <md-card-content>
+  <mat-card-content>
 
     <table class="apk-table prod2-table">
       <thead>
@@ -47,37 +47,37 @@
       <tbody>
       <tr *ngFor="let prodn2 of response?.content">
         <td>
-          <span *ngIf="!prodn2.prodn1" mdTooltip="Finns ingen Concise SumNivå 1 med denna kod"
+          <span *ngIf="!prodn2.prodn1" matTooltip="Finns ingen Concise SumNivå 1 med denna kod"
               [ngClass]="'circle-alert'">{{prodn2.n1}}
           </span>
 
-          <span mdTooltip="{{prodn2.prodn1.kortnamn?.length > 20 ? prodn2.prodn1.foretagsnamn : null}}">{{prodn2.prodn1.foretagsnamn | ellipsis:20}}</span>
+          <span matTooltip="{{prodn2.prodn1.kortnamn?.length > 20 ? prodn2.prodn1.foretagsnamn : null}}">{{prodn2.prodn1.foretagsnamn | ellipsis:20}}</span>
         </td>
         <td>
-          <span mdTooltip="{{prodn2.kortnamn?.length > 30 ? prodn2.kortnamn : null}}">{{prodn2.kortnamn | ellipsis:30}}</span>
+          <span matTooltip="{{prodn2.kortnamn?.length > 30 ? prodn2.kortnamn : null}}">{{prodn2.kortnamn | ellipsis:30}}</span>
         </td>
         <td>
-          <md-icon mdTooltip="Markerad som raderad" *ngIf="prodn2.raderad">clear</md-icon>
+          <mat-icon matTooltip="Markerad som raderad" *ngIf="prodn2.raderad">clear</mat-icon>
           {{prodn2.autoradering}}
         </td>
         <td>
-          <a routerLink="{{prodn2.id}}/edit" mdTooltip="Redigera">
-            <md-icon>edit</md-icon>
+          <a routerLink="{{prodn2.id}}/edit" matTooltip="Redigera">
+            <mat-icon>edit</mat-icon>
           </a>
         </td>
       </tr>
       </tbody>
     </table>
-  </md-card-content>
+  </mat-card-content>
 
-  <md-card-actions *ngIf="response?.content">
-    <md-toolbar class="paging-toolbar">
+  <mat-card-actions *ngIf="response?.content">
+    <mat-toolbar class="paging-toolbar">
       <div *ngIf="response" class="search-summary">
         Visar sida {{response.number + 1}} av {{response.totalPages}}. Totalt antal: {{response.totalElements}}
       </div>
       <div class="paging-toolbar-spacer"></div>
-      <button (click)="previousPage()" md-button [disabled]="response.first"><md-icon>arrow_back</md-icon> Föregående</button>
-      <button (click)="nextPage()" md-button [disabled]="response.last">Nästa <md-icon>arrow_forward</md-icon></button>
-    </md-toolbar>
-  </md-card-actions>
-</md-card>
+      <button (click)="previousPage()" mat-button [disabled]="response.first"><mat-icon>arrow_back</mat-icon> Föregående</button>
+      <button (click)="nextPage()" mat-button [disabled]="response.last">Nästa <mat-icon>arrow_forward</mat-icon></button>
+    </mat-toolbar>
+  </mat-card-actions>
+</mat-card>

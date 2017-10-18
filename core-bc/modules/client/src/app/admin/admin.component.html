@@ -1,68 +1,68 @@
-<md-sidenav-container class="example-container" fxFlex>
+<mat-sidenav-container class="example-container" fxFlex>
 
-  <md-sidenav class="example-sidenav" #sidenav mode="side" align="start" [opened]="sidebarOpen">
+  <mat-sidenav class="example-sidenav" #sidenav mode="side" align="start" [opened]="sidebarOpen">
 
-    <md-list>
-      <md-list-item>
+    <mat-list>
+      <mat-list-item>
         <a routerLink="landing" routerLinkActive="active">
-          <md-icon>home</md-icon>
+          <mat-icon>home</mat-icon>
           <span class="nav-label">Översikt</span>
         </a>
-      </md-list-item>
-      <md-list-item *ngIf="admin">
+      </mat-list-item>
+      <mat-list-item *ngIf="admin">
         <a routerLink="old-users" routerLinkActive="active">
-          <md-icon>people</md-icon>
+          <mat-icon>people</mat-icon>
           <span class="nav-label">Användare (gamla)</span>
         </a>
-      </md-list-item>
-      <md-list-item *ngIf="admin">
+      </mat-list-item>
+      <mat-list-item *ngIf="admin">
         <a routerLink="users" routerLinkActive="active">
-          <md-icon>people</md-icon>
+          <mat-icon>people</mat-icon>
           <span class="nav-label">Användare (nya)</span>
         </a>
-      </md-list-item>
-      <md-list-item *ngIf="loggedIn">
+      </mat-list-item>
+      <mat-list-item *ngIf="loggedIn">
         <a routerLink="prodn1" routerLinkActive="active">
-          <md-icon>list</md-icon>
+          <mat-icon>list</mat-icon>
           <span class="nav-label">Concise SumNivå 1</span>
         </a>
-      </md-list-item>
-      <md-list-item *ngIf="loggedIn">
+      </mat-list-item>
+      <mat-list-item *ngIf="loggedIn">
         <a routerLink="prodn2" routerLinkActive="active">
-          <md-icon>list</md-icon>
+          <mat-icon>list</mat-icon>
           <span class="nav-label">Concise SumNivå 2</span>
         </a>
-      </md-list-item>
-      <md-list-item *ngIf="loggedIn">
+      </mat-list-item>
+      <mat-list-item *ngIf="loggedIn">
         <a routerLink="prodn3" routerLinkActive="active">
-          <md-icon>list</md-icon>
+          <mat-icon>list</mat-icon>
           <span class="nav-label">Concise SumNivå 3</span>
         </a>
-      </md-list-item>
-      <md-list-item *ngIf="admin">
+      </mat-list-item>
+      <mat-list-item *ngIf="admin">
         <a routerLink="ao3" routerLinkActive="active">
-          <md-icon>business_center</md-icon>
+          <mat-icon>business_center</mat-icon>
           <span class="nav-label">Motpart</span>
         </a>
-      </md-list-item>
-      <md-list-item *ngIf="admin">
+      </mat-list-item>
+      <mat-list-item *ngIf="admin">
         <a routerLink="vardform" routerLinkActive="active">
-          <md-icon>local_pharmacy</md-icon>
+          <mat-icon>local_pharmacy</mat-icon>
           <span class="nav-label">Vårdform</span>
         </a>
-      </md-list-item>
-      <md-list-item *ngIf="admin">
+      </mat-list-item>
+      <mat-list-item *ngIf="admin">
         <a routerLink="verksamhet" routerLinkActive="active">
-          <md-icon>domain</md-icon>
+          <mat-icon>domain</mat-icon>
           <span class="nav-label">Medicinsk verksamhetskod</span>
         </a>
-      </md-list-item>
-    </md-list>
+      </mat-list-item>
+    </mat-list>
 
-  </md-sidenav>
+  </mat-sidenav>
 
   <!-- primary content -->
 
   <router-outlet></router-outlet>
 
-</md-sidenav-container>
+</mat-sidenav-container>

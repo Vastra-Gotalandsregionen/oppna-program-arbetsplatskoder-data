@@ -1,15 +1,15 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
     Vårdform
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" md-fab mdTooltip="Lägg till ny vårdform"><md-icon>add</md-icon></a>
+  <a class="action-toolbar-item" class="action-toolbar-item"routerLink="create" mat-fab matTooltip="Lägg till ny vårdform"><mat-icon>add</mat-icon></a>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
-</md-toolbar>
+</mat-toolbar>
 
-<md-card>
+<mat-card>
 
-  <md-card-content>
+  <mat-card-content>
 
     <table class="apk-table vardform-table">
       <thead>
@@ -25,17 +25,17 @@
         <td>{{vardform.vardformid}}</td>
         <td>{{vardform.vardformtext}}</td>
         <td>
-          <md-icon mdTooltip="Markerad som raderad" *ngIf="vardform.raderad">clear</md-icon>
+          <mat-icon matTooltip="Markerad som raderad" *ngIf="vardform.raderad">clear</mat-icon>
         </td>
 
         <td>
-          <a routerLink="{{vardform.id}}/edit" mdTooltip="Redigera">
-            <md-icon>edit</md-icon>
+          <a routerLink="{{vardform.id}}/edit" matTooltip="Redigera">
+            <mat-icon>edit</mat-icon>
           </a>
         </td>
       </tr>
       </tbody>
     </table>
-  </md-card-content>
+  </mat-card-content>
 
-</md-card>
+</mat-card>

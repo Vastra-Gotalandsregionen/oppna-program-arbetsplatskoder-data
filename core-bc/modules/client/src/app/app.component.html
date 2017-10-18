@@ -1,4 +1,4 @@
-<md-progress-bar *ngIf="showProgress" mode="indeterminate"></md-progress-bar>
+<mat-progress-bar *ngIf="showProgress" mode="indeterminate"></mat-progress-bar>
 
 <div id="container">
 
@@ -7,7 +7,7 @@
     <div class="header-top-bar">
       <div class="retain-contain">
 
-        <md-toolbar class="">
+        <mat-toolbar class="">
             <a routerLink="home" routerLinkActive="active">
               <img class="logo" src="/assets/images/apk-logo4.png" alt="Logo APK" />
             </a>
@@ -17,13 +17,13 @@
             <div class="header-controls">
 
               <span *ngIf="admin" class="header-control-item">
-                <button *ngIf="getShowContentEdit()" md-button (click)="setShowContentEdit(false)" mdTooltip="Dölj redigeringsläge" class="on"><md-icon>edit</md-icon></button>
-                <button *ngIf="!getShowContentEdit()" md-button (click)="setShowContentEdit(true)" mdTooltip="Visa redigeringsläge"><md-icon>edit</md-icon></button>
+                <button *ngIf="getShowContentEdit()" mat-button (click)="setShowContentEdit(false)" matTooltip="Dölj redigeringsläge" class="on"><mat-icon>edit</mat-icon></button>
+                <button *ngIf="!getShowContentEdit()" mat-button (click)="setShowContentEdit(true)" matTooltip="Visa redigeringsläge"><mat-icon>edit</mat-icon></button>
               </span>
 
               <span *ngIf="admin" class="header-control-item">
-                <button *ngIf="getShowDebug()" md-button (click)="setShowDebug(false)" mdTooltip="Dölj debug-läge"><md-icon>visibility</md-icon></button>
-                <button *ngIf="!getShowDebug()" md-button (click)="setShowDebug(true)" mdTooltip="Visa debug-läge"><md-icon>visibility_off</md-icon></button>
+                <button *ngIf="getShowDebug()" mat-button (click)="setShowDebug(false)" matTooltip="Dölj debug-läge"><mat-icon>visibility</mat-icon></button>
+                <button *ngIf="!getShowDebug()" mat-button (click)="setShowDebug(true)" matTooltip="Visa debug-läge"><mat-icon>visibility_off</mat-icon></button>
               </span>
 
               <span *ngIf="getLoggedInUserId()" class="header-control-item">
@@ -34,50 +34,50 @@
                 {{getLoggedInDisplayName()}}
               </span>
               <span *ngIf="!getLoggedInDisplayName()" class="header-control-item">
-                <button md-button (click)="openLogin()">Logga in</button>
+                <button mat-button (click)="openLogin()">Logga in</button>
               </span>
               <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
-                <button md-button (click)="logout()">Logga ut</button>
+                <button mat-button (click)="logout()">Logga ut</button>
               </span>
 
             </div>
-        </md-toolbar>
+        </mat-toolbar>
       </div>
     </div>
 
     <div class="header-menu-bar">
       <div class="retain-contain">
-        <md-toolbar class="menu-bar">
+        <mat-toolbar class="menu-bar">
 
-          <md-list>
+          <mat-list>
 
-            <md-list-item>
+            <mat-list-item>
               <a routerLink="home" routerLinkActive="active">
                 <span class="nav-label">Hem</span>
               </a>
-            </md-list-item>
+            </mat-list-item>
 
-            <md-list-item>
+            <mat-list-item>
               <a routerLink="apk" routerLinkActive="active">
                 <span class="nav-label">Arbetsplatskoder</span>
               </a>
-            </md-list-item>
+            </mat-list-item>
 
-            <md-list-item>
+            <mat-list-item>
               <a routerLink="admin" routerLinkActive="active" *ngIf="getLoggedInUserId()">
                 <span class="nav-label">Administration</span>
               </a>
-            </md-list-item>
+            </mat-list-item>
 
-            <md-list-item>
+            <mat-list-item>
               <a routerLink="report" routerLinkActive="active" *ngIf="getLoggedInUserId()">
                 <span class="nav-label">Rapporter</span>
               </a>
-            </md-list-item>
+            </mat-list-item>
 
-          </md-list>
+          </mat-list>
 
-        </md-toolbar>
+        </mat-toolbar>
       </div>
     </div>
 
@@ -96,11 +96,11 @@
 
   <div class="footer">
     <div class="retain-contain">
-      <md-toolbar>
+      <mat-toolbar>
         <a href="//www.vgregion.se" class="logo-link">
           <img class="logo" src="/assets/images/vgr-logotyp-neg.png" alt="Logo VGR" />
         </a>
-      </md-toolbar>
+      </mat-toolbar>
     </div>
   </div>
 

@@ -1,35 +1,35 @@
 <div *ngIf="userForm; else loading">
 
   <form #formRef="ngForm" [formGroup]="userForm" (ngSubmit)="save()" novalidate>
-    <md-card>
-      <md-card-content>
+    <mat-card>
+      <mat-card-content>
 
-        <md-input-container>
-          <input placeholder="VGR-ID" type="text" mdInput formControlName="userId">
-        </md-input-container>
+        <mat-input-container>
+          <input placeholder="VGR-ID" type="text" matInput formControlName="userId">
+        </mat-input-container>
 
         <div formGroupName="roleGroup" ngClass="{{formRef.submitted ? 'submitted' : ''}}" class="form-element">
           <label class="field-label">Behörighet</label>
-          <md-radio-group formControlName="role">
-            <md-radio-button value="ADMIN">ADMIN</md-radio-button>
-            <md-radio-button value="USER">USER</md-radio-button>
-          </md-radio-group>
+          <mat-radio-group formControlName="role">
+            <mat-radio-button value="ADMIN">ADMIN</mat-radio-button>
+            <mat-radio-button value="USER">USER</mat-radio-button>
+          </mat-radio-group>
         </div>
 
-        <md-chip-list id="prodn1ChipList">
-          <md-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
-            {{prodn1.foretagsnamn}} <span *ngIf="prodn1.raderad"><md-icon md-tooltip="Raderad">clear</md-icon></span>
-          </md-chip>
-        </md-chip-list>
+        <mat-chip-list id="prodn1ChipList">
+          <mat-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
+            {{prodn1.foretagsnamn}} <span *ngIf="prodn1.raderad"><mat-icon mat-tooltip="Raderad">clear</mat-icon></span>
+          </mat-chip>
+        </mat-chip-list>
 
         <div class="btn-container button-row">
-          <button md-raised-button type="submit">Spara</button>
+          <button mat-raised-button type="submit">Spara</button>
         </div>
 
         <div *ngIf="saveMessage" class="alert alert-danger">{{saveMessage}}</div>
 
-      </md-card-content>
-    </md-card>
+      </mat-card-content>
+    </mat-card>
 
   </form>
 

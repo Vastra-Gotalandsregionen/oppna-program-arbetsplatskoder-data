@@ -2,7 +2,7 @@
   <form #theForm="ngForm" [formGroup]="apkForm" (ngSubmit)="save()"
         novalidate>
 
-      <md-toolbar class="meta-toolbar" *ngIf="data.arbetsplatskodlan">
+      <mat-toolbar class="meta-toolbar" *ngIf="data.arbetsplatskodlan">
 
         <div class="meta-toolbar-item">
           <span>Skapad:</span> <span>{{data.regDatum | dateX: 'YYYY-MM-DD HH:mm'}}</span>
@@ -22,51 +22,51 @@
           <span>ID:</span> <span>{{data.id}}</span>
         </div>
 
-      </md-toolbar>
+      </mat-toolbar>
 
 
-    <md-card class="example-card">
-      <md-card-content>
+    <mat-card class="example-card">
+      <mat-card-content>
 
         <h3>Välj ägarform</h3>
 
-        <md-radio-group formControlName="agarform" class="col-2">
-          <md-radio-button value="1">Landsting</md-radio-button>
-          <md-radio-button value="2">Kommun</md-radio-button>
-          <md-radio-button value="3">Statlig</md-radio-button>
-          <md-radio-button value="4">Privat, vårdavtal</md-radio-button>
-          <md-radio-button value="5">Privat, enl lag om läkarvårdsersättning</md-radio-button>
-          <md-radio-button value="6">Privat, utan offentlig finansiering</md-radio-button>
-          <md-radio-button value="7">Kommunförbund</md-radio-button>
-          <md-radio-button value="9">Övrigt</md-radio-button>
-        </md-radio-group>
+        <mat-radio-group formControlName="agarform" class="col-2">
+          <mat-radio-button value="1">Landsting</mat-radio-button>
+          <mat-radio-button value="2">Kommun</mat-radio-button>
+          <mat-radio-button value="3">Statlig</mat-radio-button>
+          <mat-radio-button value="4">Privat, vårdavtal</mat-radio-button>
+          <mat-radio-button value="5">Privat, enl lag om läkarvårdsersättning</mat-radio-button>
+          <mat-radio-button value="6">Privat, utan offentlig finansiering</mat-radio-button>
+          <mat-radio-button value="7">Kommunförbund</mat-radio-button>
+          <mat-radio-button value="9">Övrigt</mat-radio-button>
+        </mat-radio-group>
 
-        <md-divider class="space-vertical" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'"></md-divider>
+        <mat-divider class="space-vertical" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'"></mat-divider>
 
         <div class="checkbox-container" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
-          <md-checkbox align="end" formControlName="groupCode">Gruppkod</md-checkbox>
-          <md-icon mdTooltip="Förklaring...">help</md-icon>
+          <mat-checkbox align="end" formControlName="groupCode">Gruppkod</mat-checkbox>
+          <mat-icon matTooltip="Förklaring...">help</mat-icon>
         </div>
 
-      </md-card-content>
+      </mat-card-content>
 
-    </md-card>
+    </mat-card>
 
-    <md-card [@slideIn]="apkForm.value.agarform === '1' || apkForm.value.agarform === '4' ? 'in' :'out'" class="example-card">
+    <mat-card [@slideIn]="apkForm.value.agarform === '1' || apkForm.value.agarform === '4' ? 'in' :'out'" class="example-card">
 
-      <md-card-content>
+      <mat-card-content>
         <h3>Sök efter enhet i KIV</h3>
 
-        <md-input-container>
-          <input placeholder="Skriv in enhetsnamn / verksamhetsnamn etc" type="text" mdInput [mdAutocomplete]="unitAutocompleteRef"
+        <mat-input-container>
+          <input placeholder="Skriv in enhetsnamn / verksamhetsnamn etc" type="text" matInput [matAutocomplete]="unitAutocompleteRef"
                  formControlName="unitSearch">
-        </md-input-container>
+        </mat-input-container>
 
-        <md-autocomplete class="autocomplete" #unitAutocompleteRef="mdAutocomplete" [displayWith]="displayUnitFn">
-          <md-option class="md-option" *ngFor="let unit of unitSearchResult" [value]="unit">
+        <mat-autocomplete class="autocomplete" #unitAutocompleteRef="matAutocomplete" [displayWith]="displayUnitFn">
+          <mat-option class="mat-option" *ngFor="let unit of unitSearchResult" [value]="unit">
             {{dnToFriendly(unit.dn)}}
-          </md-option>
-        </md-autocomplete>
+          </mat-option>
+        </mat-autocomplete>
 
         <div [@slideIn]="apkForm.value.unitSearch?.dn ? 'in': 'out'">
           <div><span class="label">Enhetens sökväg: </span><span style="word-break: break-all">{{dnToFriendly(apkForm.value.unitSearch?.dn)}}</span></div>
@@ -81,222 +81,222 @@
             <span class="label">Benämning: </span><span>{{apkForm.value?.unitSearch?.attributes?.ou}}</span><br/>
           </p>
 
-          <button type="button" md-raised-button (click)="selectUnit(apkForm.value.unitSearch)">Fyll i uppgifter</button>
-          <span><md-icon mdTooltip="Fyll i egenskaper från enheten i fälten nedan">help</md-icon></span>
+          <button type="button" mat-raised-button (click)="selectUnit(apkForm.value.unitSearch)">Fyll i uppgifter</button>
+          <span><mat-icon matTooltip="Fyll i egenskaper från enheten i fälten nedan">help</mat-icon></span>
         </div>
 
-      </md-card-content>
+      </mat-card-content>
 
-    </md-card>
+    </mat-card>
 
     <div class="apk-validate">
 
-      <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
-        <md-card-content>
+      <mat-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+        <mat-card-content>
 
           <h3>Ange ekonomiska koder</h3>
 
-          <md-input-container>
-            <input placeholder="Motpart" type="text" mdInput [mdAutocomplete]="ao3AutocompleteRef"
+          <mat-input-container>
+            <input placeholder="Motpart" type="text" matInput [matAutocomplete]="ao3AutocompleteRef"
                    formControlName="ao3">
-          </md-input-container>
+          </mat-input-container>
 
-          <md-autocomplete class="autocomplete" #ao3AutocompleteRef="mdAutocomplete" [displayWith]="displayAo3Fn">
-            <md-option class="md-option" *ngFor="let option of filteredAo3Options | async" [value]="option">
+          <mat-autocomplete class="autocomplete" #ao3AutocompleteRef="matAutocomplete" [displayWith]="displayAo3Fn">
+            <mat-option class="mat-option" *ngFor="let option of filteredAo3Options | async" [value]="option">
               {{ option.ao3id}} - {{ option.foretagsnamn }}
-            </md-option>
-          </md-autocomplete>
+            </mat-option>
+          </mat-autocomplete>
 
-          <md-input-container>
-            <input mdInput placeholder="Ansvar" formControlName="ansvar" type="text"/>
-            <md-icon mdTooltip="Förklaring...">help</md-icon>
-          </md-input-container>
+          <mat-input-container>
+            <input matInput placeholder="Ansvar" formControlName="ansvar" type="text"/>
+            <mat-icon matTooltip="Förklaring...">help</mat-icon>
+          </mat-input-container>
 
-          <md-input-container *ngIf="apkForm.value.agarform === '4' || apkForm.value.agarform === '5' || apkForm.value.agarform === '6'">
-            <textarea mdInput placeholder="Frivillig uppgift" formControlName="frivilligUppgift" rows="3"></textarea>
-            <md-icon mdTooltip="Förklaring...">help</md-icon>
-          </md-input-container>
+          <mat-input-container *ngIf="apkForm.value.agarform === '4' || apkForm.value.agarform === '5' || apkForm.value.agarform === '6'">
+            <textarea matInput placeholder="Frivillig uppgift" formControlName="frivilligUppgift" rows="3"></textarea>
+            <mat-icon matTooltip="Förklaring...">help</mat-icon>
+          </mat-input-container>
 
           <div formGroupName="externfakturaGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}" class="form-element">
             <label class="field-label">Faktureras externt</label>
-            <md-radio-group formControlName="externfakturamodell">
-                <md-radio-button value="ovr">Ja
-                <md-radio-button value="nej">Nej</md-radio-button>
-              </md-radio-button>
-            </md-radio-group>
+            <mat-radio-group formControlName="externfakturamodell">
+                <mat-radio-button value="ovr">Ja
+                <mat-radio-button value="nej">Nej</mat-radio-button>
+              </mat-radio-button>
+            </mat-radio-group>
           </div>
 
           <div formGroupName="vgpvGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}" class="form-element">
             <label class="field-label">VGPV</label>
-            <md-radio-group formControlName="vgpv">
-              <md-radio-button value="true">Ja</md-radio-button>
-              <md-radio-button value="false">Nej</md-radio-button>
-            </md-radio-group>
+            <mat-radio-group formControlName="vgpv">
+              <mat-radio-button value="true">Ja</mat-radio-button>
+              <mat-radio-button value="false">Nej</mat-radio-button>
+            </mat-radio-group>
           </div>
 
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
-      <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
-        <md-card-content>
+      <mat-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+        <mat-card-content>
 
           <h3>Ange vårdadministrativa koder</h3>
 
-          <md-input-container>
-            <input placeholder="Vårdform" type="text" mdInput
-                   [mdAutocomplete]="vardformAutocompleteRef" formControlName="vardform">
-          </md-input-container>
+          <mat-input-container>
+            <input placeholder="Vårdform" type="text" matInput
+                   [matAutocomplete]="vardformAutocompleteRef" formControlName="vardform">
+          </mat-input-container>
 
-          <md-autocomplete class="autocomplete" #vardformAutocompleteRef="mdAutocomplete"
+          <mat-autocomplete class="autocomplete" #vardformAutocompleteRef="matAutocomplete"
                            [displayWith]="displayVardformFn">
-            <md-option class="md-option" *ngFor="let option of filteredVardformOptions | async" [value]="option">
+            <mat-option class="mat-option" *ngFor="let option of filteredVardformOptions | async" [value]="option">
               {{ option.vardformid}} - {{ option.vardformtext }}
-            </md-option>
-          </md-autocomplete>
+            </mat-option>
+          </mat-autocomplete>
 
-          <md-input-container>
-            <input placeholder="Medicinsk verksamhetskod" type="text" mdInput
-                   [mdAutocomplete]="verksamhetAutocompleteRef" formControlName="verksamhet" name="verksamhet">
-          </md-input-container>
+          <mat-input-container>
+            <input placeholder="Medicinsk verksamhetskod" type="text" matInput
+                   [matAutocomplete]="verksamhetAutocompleteRef" formControlName="verksamhet" name="verksamhet">
+          </mat-input-container>
 
-          <md-autocomplete class="autocomplete" #verksamhetAutocompleteRef="mdAutocomplete"
+          <mat-autocomplete class="autocomplete" #verksamhetAutocompleteRef="matAutocomplete"
                            [displayWith]="displayVerksamhetFn">
-            <md-option class="md-option" *ngFor="let option of filteredVerksamhetOptions | async" [value]="option">
+            <mat-option class="mat-option" *ngFor="let option of filteredVerksamhetOptions | async" [value]="option">
               {{ option.verksamhetid}} - {{ option.verksamhettext }}
-            </md-option>
-          </md-autocomplete>
+            </mat-option>
+          </mat-autocomplete>
 
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
-      <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
-        <md-card-content>
+      <mat-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+        <mat-card-content>
 
           <h3>Välj Concise SumNivå</h3>
 
           <div>
-            <md-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <md-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
+            <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+              <mat-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
                 {{prodn1.kortnamn}}
-              </md-option>
-            </md-select>
+              </mat-option>
+            </mat-select>
           </div>
 
           <div>
-            <md-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <md-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
+            <mat-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+              <mat-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
                 {{prodn2.kortnamn}}
-              </md-option>
-            </md-select>
+              </mat-option>
+            </mat-select>
           </div>
 
           <div>
-            <md-select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-              <md-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
+            <mat-select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+              <mat-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
                 {{prodn3.kortnamn}}
-              </md-option>
-            </md-select>
+              </mat-option>
+            </mat-select>
           </div>
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
-      <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
-        <md-card-content>
+      <mat-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+        <mat-card-content>
 
           <h3>Ange kontaktuppgifter</h3>
 
-          <md-input-container>
-            <input placeholder="HSA-ID" mdInput formControlName="hsaid" type="text"/>
-          </md-input-container>
+          <mat-input-container>
+            <input placeholder="HSA-ID" matInput formControlName="hsaid" type="text"/>
+          </mat-input-container>
 
-          <md-input-container>
+          <mat-input-container>
             <input placeholder="Benämning/enhetsnamn"
-              type="text" mdInput formControlName="benamning" name="banamning">
-          </md-input-container>
+              type="text" matInput formControlName="benamning" name="banamning">
+          </mat-input-container>
 
-          <md-input-container>
+          <mat-input-container>
             <input placeholder="Benämning/enhetsnamn kort version (max 35 tecken)"
-              type="text" mdInput formControlName="benamningKort" name="benamningKort" (keydown)="benamningKortKeyDown($event)" maxlength="35">
-            <md-icon mdTooltip="Om Benämning/enhetsnamn är längre än 35 tecken behöver ett kortare namn anges">help</md-icon>
-          </md-input-container>
+              type="text" matInput formControlName="benamningKort" name="benamningKort" (keydown)="benamningKortKeyDown($event)" maxlength="35">
+            <mat-icon matTooltip="Om Benämning/enhetsnamn är längre än 35 tecken behöver ett kortare namn anges">help</mat-icon>
+          </mat-input-container>
 
           <div formGroupName="addressGroup">
-          <md-input-container>
-            <input placeholder="Adress" type="text" mdInput formControlName="postadress">
-          </md-input-container>
+          <mat-input-container>
+            <input placeholder="Adress" type="text" matInput formControlName="postadress">
+          </mat-input-container>
 
-          <md-input-container>
-            <input placeholder="Postnummer" type="text" mdInput formControlName="postnr">
-          </md-input-container>
+          <mat-input-container>
+            <input placeholder="Postnummer" type="text" matInput formControlName="postnr">
+          </mat-input-container>
 
-          <md-input-container>
-            <input placeholder="Postort" type="text" mdInput formControlName="postort">
-          </md-input-container>
+          <mat-input-container>
+            <input placeholder="Postort" type="text" matInput formControlName="postort">
+          </mat-input-container>
           </div>
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
-      <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
-        <md-card-content>
+      <mat-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+        <mat-card-content>
 
           <h3>Ange giltighetstid</h3>
 
-          <md-input-container class="date">
-            <input placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD)" mdInput [mdDatepicker]="fromDatepicker"
+          <mat-input-container class="date">
+            <input placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD)" matInput [matDatepicker]="fromDatepicker"
                    formControlName="fromDatum">
-            <md-datepicker-toggle mdSuffix [for]="fromDatepicker"></md-datepicker-toggle>
-          </md-input-container>
+            <mat-datepicker-toggle matSuffix [for]="fromDatepicker"></mat-datepicker-toggle>
+          </mat-input-container>
 
-          <md-datepicker #fromDatepicker></md-datepicker>
+          <mat-datepicker #fromDatepicker></mat-datepicker>
 
           <div class="checkbox-container">
-            <md-checkbox align="end" formControlName="noTillDatum" #noTillDatumCheckbox>Giltig tills vidare</md-checkbox>
+            <mat-checkbox align="end" formControlName="noTillDatum" #noTillDatumCheckbox>Giltig tills vidare</mat-checkbox>
           </div>
 
-          <md-input-container class="date">
-            <input placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD)" mdInput [mdDatepicker]="toDatepicker"
+          <mat-input-container class="date">
+            <input placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD)" matInput [matDatepicker]="toDatepicker"
                    formControlName="tillDatum"/>
-            <md-datepicker-toggle mdSuffix [for]="toDatepicker" [disabled]="noTillDatumCheckbox.checked"></md-datepicker-toggle>
-          </md-input-container>
+            <mat-datepicker-toggle matSuffix [for]="toDatepicker" [disabled]="noTillDatumCheckbox.checked"></mat-datepicker-toggle>
+          </mat-input-container>
 
-          <md-datepicker startView="year" #toDatepicker></md-datepicker>
+          <mat-datepicker startView="year" #toDatepicker></mat-datepicker>
 
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
 
-      <md-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
-        <md-card-content>
+      <mat-card class="example-card" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
+        <mat-card-content>
 
           <h3>Ange övrig info</h3>
 
-          <md-input-container>
-            <textarea placeholder="Anmärkning" mdInput formControlName="anmarkning" rows="6"></textarea>
-          </md-input-container>
+          <mat-input-container>
+            <textarea placeholder="Anmärkning" matInput formControlName="anmarkning" rows="6"></textarea>
+          </mat-input-container>
 
-        </md-card-content>
+        </mat-card-content>
 
-      </md-card>
+      </mat-card>
 
-      <md-card class="example-card" [@slideIn]="data.arbetsplatskodlan ? 'in' : 'out'">
-        <md-card-content>
+      <mat-card class="example-card" [@slideIn]="data.arbetsplatskodlan ? 'in' : 'out'">
+        <mat-card-content>
 
           <h3>Enhetens arbetsplatskod</h3>
 
           <p>{{ data.arbetsplatskodlan }} </p>
 
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
-      <md-card class="example-card" [@slideIn]="data.arbetsplatskodlan ? 'in' : 'out'">
-        <md-card-content>
+      <mat-card class="example-card" [@slideIn]="data.arbetsplatskodlan ? 'in' : 'out'">
+        <mat-card-content>
 
           <h3>Ersätts av</h3>
 
-          <md-input-container>
-            <input placeholder="Arbetsplatskod som ersätter denna" type="text" mdInput
+          <mat-input-container>
+            <input placeholder="Arbetsplatskod som ersätter denna" type="text" matInput
                    formControlName="ersattav">
-          </md-input-container>
+          </mat-input-container>
 
           <div [@slideIn]="replacedBy ? 'in': 'out'">
             <div><span class="label">Arbetsplatskod: </span><a routerLink="/apk/{{replacedBy?.id}}">{{replacedBy?.arbetsplatskodlan}}</a></div>
@@ -307,37 +307,37 @@
 
           </div>
 
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
-      <md-card class="example-card" *ngIf="($replaces | async)?.length > 0">
-        <md-card-content>
+      <mat-card class="example-card" *ngIf="($replaces | async)?.length > 0">
+        <mat-card-content>
           <h3>Ersätter</h3>
 
           <div *ngFor="let data of $replaces | async">
             <a routerLink="/apk/{{data.id}}">{{data.arbetsplatskodlan}}</a>
           </div>
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
-      <md-card class="example-card" *ngIf="hasArchivedDatas">
-        <md-card-content>
+      <mat-card class="example-card" *ngIf="hasArchivedDatas">
+        <mat-card-content>
 
           <h3>Tidigare versioner</h3>
 
           <p><a routerLink="/apk/{{data.id}}/archivedDatas">Se tidigare versioner</a> </p>
 
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
 
       <div class="button-row">
 
         <button type="submit"
-                [disabled]="apkForm.pristine" md-raised-button class="btn btn-success">Spara
+                [disabled]="apkForm.pristine" mat-raised-button class="btn btn-success">Spara
         </button>
 
         <button type="button"
-                [disabled]="apkForm.pristine" md-raised-button class="btn btn-success" (click)="resetForm()">Återställ
+                [disabled]="apkForm.pristine" mat-raised-button class="btn btn-success" (click)="resetForm()">Återställ
         </button>
 
       </div>
@@ -350,9 +350,9 @@
         <hr />
         <br />
 
-        <md-card>
-          <md-card-title>Debug - search results</md-card-title>
-          <md-card-content>
+        <mat-card>
+          <mat-card-title>Debug - search results</mat-card-title>
+          <mat-card-content>
             <pre>
               {{unitSearchResult | json}}
               {{data | json}}
@@ -370,12 +370,12 @@
             <!--<p>&nbsp;</p>-->
             <!--<apkFormFormapkFormForm.checkValidity | json}}</pre>-->
             <!--<pre>currentForm: {{currentForm | json}}</pre>-->
-          </md-card-content>
-        </md-card>
+          </mat-card-content>
+        </mat-card>
 
-        <md-card>
-          <md-card-title>Debug info</md-card-title>
-          <md-card-content>
+        <mat-card>
+          <mat-card-title>Debug info</mat-card-title>
+          <mat-card-content>
             <pre>{{apkForm.value | json}}</pre>
             <pre>{{apkForm.status}}</pre>
             <pre>{{apkForm.controls}}</pre>
@@ -383,8 +383,8 @@
             <pre>{{apkForm.status}}</pre>
             <pre>{{apkForm.errors}}</pre>
             <pre>{{apkForm.pristine}}</pre>
-          </md-card-content>
-        </md-card>
+          </mat-card-content>
+        </mat-card>
       </div>
 
     </div>

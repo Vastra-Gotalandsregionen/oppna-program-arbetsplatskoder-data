@@ -1,15 +1,15 @@
-<md-toolbar class="action-toolbar">
+<mat-toolbar class="action-toolbar">
   <h1>
      Användare
   </h1>
   <div class="action-toolbar-spacer"></div>
-  <a class="action-toolbar-item" routerLink="create" md-fab mdTooltip="Lägg till ny användare"><md-icon>person_add</md-icon></a>
+  <a class="action-toolbar-item" routerLink="create" mat-fab matTooltip="Lägg till ny användare"><mat-icon>person_add</mat-icon></a>
   <app-sidenav-toggle-button class="action-toolbar-item"></app-sidenav-toggle-button>
-</md-toolbar>
+</mat-toolbar>
 
-<md-card>
+<mat-card>
 
-  <md-card-content>
+  <mat-card-content>
 
     <table class="apk-table users-table">
       <thead>
@@ -33,30 +33,30 @@
         <td>{{user.role}}</td>
         <td>
 
-          <span class="bubble" mdTooltip="{{prodn1sToString(user.prodn1s)}}">{{count(user.prodn1s)}}</span>
+          <span class="bubble" matTooltip="{{prodn1sToString(user.prodn1s)}}">{{count(user.prodn1s)}}</span>
           <!--
-          <a href="#" (click)="false" mdTooltip="{{prodn1sToString(user.prodn1s)}}">{{count(user.prodn1s)}} st</a>
+          <a href="#" (click)="false" matTooltip="{{prodn1sToString(user.prodn1s)}}">{{count(user.prodn1s)}} st</a>
           -->
         </td>
 
         <td>
-          <button md-icon-button [mdMenuTriggerFor]="menu">
-            <md-icon>more_vert</md-icon>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <md-menu #menu="mdMenu">
-            <button md-menu-item routerLink="{{user.id}}/edit">
-              <md-icon>edit</md-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="{{user.id}}/edit">
+              <mat-icon>edit</mat-icon>
               <span>Redigera</span>
             </button>
-            <button *ngIf="usersWithoutData.indexOf(user.id) === -1" md-menu-item (click)="confirmDelete(user)">
-              <md-icon>delete</md-icon>
+            <button *ngIf="usersWithoutData.indexOf(user.id) === -1" mat-menu-item (click)="confirmDelete(user)">
+              <mat-icon>delete</mat-icon>
               <span>Ta bort</span>
             </button>
-            <button md-menu-item (click)="impersonate(user)">
-              <md-icon>transfer_within_a_station</md-icon>
+            <button mat-menu-item (click)="impersonate(user)">
+              <mat-icon>transfer_within_a_station</mat-icon>
               <span>Uppträd som</span>
             </button>
-          </md-menu>
+          </mat-menu>
 
         </td>
 
@@ -65,5 +65,5 @@
 
     </table>
 
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>
