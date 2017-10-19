@@ -113,8 +113,11 @@
             </div>
 
             <div class="apk-form-field-error" *ngIf="!apkForm.controls['ao3'].valid && apkForm.controls['ao3'].touched">
-              <mat-error>
+              <mat-error *ngIf="getErrors('ao3').required">
                 {{messages.get('field-is-required')}}
+              </mat-error>
+              <mat-error *ngIf="getErrors('ao3').invalidName">
+                {{messages.get('field-is-invalid')}}
               </mat-error>
             </div>
           </div>
@@ -181,7 +184,12 @@
                 <input placeholder="Vårdform" type="text" matInput
                        [matAutocomplete]="vardformAutocompleteRef" formControlName="vardform">
 
-                <mat-error>{{messages.get('field-is-required')}}</mat-error>
+                <mat-error *ngIf="getErrors('vardform') && getErrors('vardform').required">
+                  {{messages.get('field-is-required')}}
+                </mat-error>
+                <mat-error *ngIf="getErrors('vardform') && getErrors('vardform').invalidName">
+                  {{messages.get('field-is-invalid')}}
+                </mat-error>
               </mat-input-container>
 
               <mat-autocomplete class="autocomplete" #vardformAutocompleteRef="matAutocomplete"

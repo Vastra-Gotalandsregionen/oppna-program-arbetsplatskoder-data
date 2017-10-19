@@ -87,6 +87,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     // Messages:
     this.messages = new Map<string, string>();
     this.messages.set('field-is-required', 'Detta fält är obligatoriskt.');
+    this.messages.set('field-is-invalid', 'Ogiltigt värde');
 
     // Default values:
     defaultData.externfakturamodell = 'nej';
@@ -402,7 +403,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }
     });
 
-    vardformFormControl.setValidators(vardformValidator(this.allVardforms));
+    vardformFormControl.setValidators([Validators.required, vardformValidator(this.allVardforms)]);
   }
 
   private initAo3FormControl() {
@@ -425,7 +426,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }
     });
 
-    ao3FormControl.setValidators(ao3Validator(this.allAo3s))
+    ao3FormControl.setValidators([Validators.required, ao3Validator(this.allAo3s)])
   }
 
   private initProdnControls(prodn3: Prodn3) {
@@ -649,17 +650,24 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       this.benamningKortActivelyEdited = true;
     }
   }
+
+  // Convenience method for less code in html file.
+  getErrors(formControlName: string): any {
+    return this.apkForm.controls[formControlName].errors;
+  }
 }
 
 export function ao3Validator(ao3s: Ao3[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
-    return ao3s.indexOf(control.value) === -1 ? {'invalidName': control.value} : null;
+    let value = control.value;
+    return value && value.length > 0 && ao3s.indexOf(value) === -1 ? {'invalidName': value} : null;
   };
 }
 
 export function vardformValidator(vardforms: Vardform[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
-    return vardforms.indexOf(control.value) === -1 ? {'invalidName': control.value} : null;
+    let value = control.value;
+    return value && value.length > 0 && vardforms.indexOf(value) === -1 ? {'invalidName': value} : null;
   };
 }
 
