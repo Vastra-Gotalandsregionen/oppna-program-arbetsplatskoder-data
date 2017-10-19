@@ -18,7 +18,7 @@
 
       <mat-checkbox class="action-toolbar-item" [formControl]="onlyMyDatasCtrl" [(ngModel)]="onlyMyDatas" *ngIf="loggedIn">Bara <span class="tooltip-text" matTooltip="{{usersProdn1sString$ | async}}">mina arbetsplatskoder</span></mat-checkbox>
 
-      <mat-checkbox class="action-toolbar-item" [formControl]="onlyActiveDatasCtrl" [(ngModel)]="onlyActiveDatas" *ngIf="loggedIn">Bara aktiva arbetsplatskoder</mat-checkbox>
+      <mat-checkbox class="action-toolbar-item" [formControl]="onlyActiveDatasCtrl" [(ngModel)]="onlyActiveDatas">Bara aktiva arbetsplatskoder</mat-checkbox>
 
       <div class="action-toolbar-spacer"></div>
 
