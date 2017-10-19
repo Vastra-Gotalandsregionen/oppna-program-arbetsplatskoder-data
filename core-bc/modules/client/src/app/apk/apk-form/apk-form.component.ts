@@ -68,6 +68,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   saveMessage: string;
   benamningKortActivelyEdited: boolean;
 
+  messages: Map<string, string>;
+
   constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
               private snackBar: MatSnackBar,
@@ -81,6 +83,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   ngOnInit() {
 
     const defaultData = new Data();
+
+    // Messages:
+    this.messages = new Map<string, string>();
+    this.messages.set('field-is-required', 'Detta fält är obligatoriskt.');
 
     // Default values:
     defaultData.externfakturamodell = 'nej';
@@ -152,6 +158,47 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.stateService.showDebug = value;
   }
 
+  toDateValidator(toDateField): any {
+      console.log('toDateValidator');
+      //console.log('toDateValidator formGroup: ', formGroup);
+
+      var formGroup = toDateField.parent;
+      var fromDateField = formGroup.controls["fromDatum"];
+
+      //console.log('fromDateField, ', fromDateField);
+      // console.log('toDate: ' + toDateField.value);
+      // console.log('fromDate: ' + fromDateField.value);
+
+      if(fromDateField.value) {
+        console.log('fromDate has a value');
+      }
+
+      if(toDateField.value) {
+        console.log('toDate has a value');
+      }
+
+
+      var fromDateTimestamp, toDateTimestamp;
+
+      var ticker = 0;
+
+      // for(var controlName in formGroup.controls) {
+      //   console.log('toDateValidator - controls loop. ticker has value: ' + ticker);
+      //
+      //   if(controlName.indexOf("fromDatum") !== -1) {
+      //     fromDateTimestamp = Date.parse(formGroup.controls[controlName].value);
+      //   }
+      //   if(controlName.indexOf("tillDatum") !== -1) {
+      //     toDateTimestamp = Date.parse(formGroup.controls[controlName].value);
+      //   }
+      //
+      //   ticker++;
+      // }
+      // return (toDateTimestamp < fromDateTimestamp) ? { endDateLessThanStartDate: true } : null;
+
+      return true;
+  }
+
   private buildForm() {
     this.apkForm = this.formBuilder.group({
       'unitSearch': [],
@@ -186,6 +233,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'tillDatum': [{
         value: Util.dateStringToObject(this.data.tillDatum),
         disabled: !this.data.tillDatum || this.data.tillDatum.length == 0
+      //}, Validators.compose([datePattern(), Validators.required, this.toDateValidator])],
       }, Validators.compose([datePattern(), Validators.required])],
       'ersattav': [this.data.ersattav, []],
     });
