@@ -180,7 +180,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         'vgpv': [this.data.vgpv ? 'true' : 'false', Validators.required]
       }),
       'anmarkning': [this.data.anmarkning],
-      'hsaid': [this.data.hsaid, Validators.required],
+      'hsaid': [this.data.hsaid],
       'fromDatum': [Util.dateStringToObject(this.data.fromDatum), Validators.compose([datePattern(), Validators.required])],
       'noTillDatum': [!this.data.tillDatum || this.data.tillDatum.length === 0],
       'tillDatum': [{
