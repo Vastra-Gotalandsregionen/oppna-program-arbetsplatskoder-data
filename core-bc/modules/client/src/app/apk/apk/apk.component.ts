@@ -58,6 +58,7 @@ export class ApkComponent extends ApkBase implements OnInit {
 
         if (params.page) {
           this.page = Number(params.page);
+          this.selectedPage = this.page + 1;
         }
 
         if (params.sort) {
@@ -131,6 +132,8 @@ export class ApkComponent extends ApkBase implements OnInit {
       this.location.replaceState('/apk');
     }
 
+    this.selectedPage = this.page + 1;
+
     this.fetchDatas();
   }
 
@@ -201,7 +204,6 @@ export class ApkComponent extends ApkBase implements OnInit {
   nextPage(): void {
     if (this.page + 1 < this.response.totalPages) {
       this.page++;
-      this.selectedPage++;
       this.updateState();
     }
   }
@@ -209,17 +211,13 @@ export class ApkComponent extends ApkBase implements OnInit {
   previousPage(): void {
     if (this.page > 0) {
       this.page--;
-      this.selectedPage--;
       this.updateState();
     }
   }
 
   goToSelectedPage(): void {
-    if(this.selectedPage > 0 && (this.selectedPage <= this.response.totalPages)) {
-      this.page = this.selectedPage - 1;
-      this.updateState();
-    }
-
+    this.page = this.selectedPage - 1;
+    this.updateState();
   }
 
   toggleSort(field: string) {

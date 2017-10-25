@@ -52,14 +52,14 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     }
 
     private List<String> toLikableWords(String ofThat) {
-        if (ofThat == null) {
-            return Arrays.asList("%");
+        if (ofThat == null || "".equals(ofThat)) {
+            return new ArrayList<>();
         }
         List<String> result = new ArrayList<>();
         for (String s : ofThat.trim().split(Pattern.quote(" "))) {
             result.add((s.startsWith("%") ? "" : "%")
-                + s
-                + (s.endsWith("%") ? "" : "%"));
+                    + s
+                    + (s.endsWith("%") ? "" : "%"));
         }
         return result;
     }
@@ -70,68 +70,67 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         List wordsToLookFor = toLikableWords(withTextFilter);
         List arguments = new ArrayList();
 
-        if (wordsToLookFor.size() > 0) {
-            sb.append(" where ");
-            List<String> conditions = new ArrayList<>();
-            int i = 1;
-            List<String> allFields = Arrays.asList(
+        sb.append(" where ");
+
+        List<String> conditions = new ArrayList<>();
+        conditions.add("1=1");
+
+        int i = 1;
+        List<String> allFields = Arrays.asList(
                 "lower(d.arbetsplatskodlan)",
                 "lower(d.benamning)",
                 "lower(d.ansvar)",
                 "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
                 "lower(d.prodn3.prodn2.kortnamn)",
                 "lower(d.prodn1.kortnamn)"
-            );
-            for (Object s : wordsToLookFor) {
-                List<String> allFieldsLikeCondtion = new ArrayList<>();
-                for (String field : allFields) {
-                    allFieldsLikeCondtion.add(field + " like ?" + (i++));
-                    arguments.add(s);
-                }
-                conditions.add("(" + String.join(" or ", allFieldsLikeCondtion) + ")");
+        );
+        for (Object s : wordsToLookFor) {
+            List<String> allFieldsLikeCondtion = new ArrayList<>();
+            for (String field : allFields) {
+                allFieldsLikeCondtion.add(field + " like ?" + (i++));
+                arguments.add(s);
             }
-            if (prodn1s != null) {
-                conditions.add("d.prodn1 in ?" + (i++));
-                wordsToLookFor.add(prodn1s);
-            }
+            conditions.add("(" + String.join(" or ", allFieldsLikeCondtion) + ")");
+        }
+        if (prodn1s != null) {
+            conditions.add("d.prodn1 in ?" + (i++));
+            wordsToLookFor.add(prodn1s);
+        }
 
-            if (validToDate != null) {
-                conditions.add("d.tillDatum >= ?" + (i++));
-                arguments.add(validToDate);
-            }
+        if (validToDate != null) {
+            conditions.add("d.tillDatum >= ?" + (i++));
+            arguments.add(validToDate);
+        }
 
-            sb.append(String.join(" and ", conditions));
+        sb.append(String.join(" and ", conditions));
 
-            long count = query(
+        long count = query(
                 Long.class,
                 "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
                 null,
                 arguments,
                 prodn1s).get(0);
 
-            if (pageable.getSort() != null) {
-                Sort sort = pageable.getSort();
-                List<String> orders = new ArrayList<>();
-                for (Sort.Order order : sort) {
-                    orders.add("d." + order.getProperty() + " " + order.getDirection().name());
-                }
-                if (!orders.isEmpty()) {
-                    sb.append(" order by ");
-                    sb.append(String.join(", ", orders));
-                }
+        if (pageable.getSort() != null) {
+            Sort sort = pageable.getSort();
+            List<String> orders = new ArrayList<>();
+            for (Sort.Order order : sort) {
+                orders.add("d." + order.getProperty() + " " + order.getDirection().name());
             }
+            if (!orders.isEmpty()) {
+                sb.append(" order by ");
+                sb.append(String.join(", ", orders));
+            }
+        }
 
-            String jpql = "select d from "
+        String jpql = "select d from "
                 + Data.class.getSimpleName()
                 + " d "
                 + sb.toString();
 
-            List<Data> results = query(Data.class, jpql, pageable, arguments, prodn1s);
+        List<Data> results = query(Data.class, jpql, pageable, arguments, prodn1s);
 
-            return new PageImpl<>(results, pageable, count);
-        }
-
-        throw new RuntimeException();
+        return new PageImpl<>(results, pageable, count);
     }
 
     @Override
@@ -201,10 +200,10 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     @Override
     public List<Data> findEhalsomyndighetensExportBatch() {
         String jpql = "select d\n" +
-            " from Data d \n" +
-            "where length(d.arbetsplatskod) < 12\n" +
-            " and d.tillDatum > :oneYearAgo\n" +
-            "order by d.arbetsplatskodlan";
+                " from Data d \n" +
+                "where length(d.arbetsplatskod) < 12\n" +
+                " and d.tillDatum > :oneYearAgo\n" +
+                "order by d.arbetsplatskodlan";
 
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
@@ -219,11 +218,11 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     @Override
     public List<Data> findStralforsExportBatch() {
         String sql = "SELECT distinct d " +
-            "FROM Data d\n" +
-            "WHERE \n" +
-            " d.tillDatum > current_timestamp and \n" +
-            " d.apodos = false and  \n" +
-            " arbetsplatskod <> '999999'";
+                "FROM Data d\n" +
+                "WHERE \n" +
+                " d.tillDatum > current_timestamp and \n" +
+                " d.apodos = false and  \n" +
+                " arbetsplatskod <> '999999'";
         Query nq = entityManager.createQuery(sql);
         List rl = nq.getResultList();
         return new ArrayList<>(rl);
