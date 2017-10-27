@@ -97,7 +97,7 @@ public class ArchivedData extends AbstractEntity {
     @Column (name = "fakturering", nullable = true)
     private Integer fakturering;
 
-    @Column (name = "anmarkning", nullable = true)
+    @Column (name = "anmarkning", nullable = true, length = 500)
     private String anmarkning;
 
     @JsonFormat(pattern="yyyy-MM-dd", timezone = "Europe/Stockholm")

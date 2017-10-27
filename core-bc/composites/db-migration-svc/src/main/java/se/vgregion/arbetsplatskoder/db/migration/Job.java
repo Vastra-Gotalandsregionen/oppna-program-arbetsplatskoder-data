@@ -1,9 +1,5 @@
 package se.vgregion.arbetsplatskoder.db.migration;
 
-import se.vgregion.arbetsplatskoder.db.migration.sql.meta.Schema;
-
-import java.util.List;
-
 /**
  * Created by clalu4 on 2017-03-22.
  */
@@ -21,6 +17,18 @@ public class Job extends AbstractJob {
         job.copyDataIntoMainDatabase();
         // job.findTableAndColumnNamesInsideFiles();
         // job.createEntitySourceFiles();
+        /*
+
+        After this:
+
+        1, Deploy the web-app so that jpa will modify the db.
+
+        2, Run Levels.main. That will import productions levels from file in this project.
+
+        3, Run se.vgregion.arbetsplatskoder.db.migration.ImportHistory.main. That will migrate historik-table to
+        archived_data.
+
+        */
     }
 
 }
