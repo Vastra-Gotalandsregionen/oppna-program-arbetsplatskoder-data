@@ -120,9 +120,8 @@
           <div formGroupName="externfakturaGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}" class="form-element">
             <label class="field-label">Faktureras externt</label>
             <mat-radio-group formControlName="externfakturamodell">
-                <mat-radio-button value="ovr">Ja
-                <mat-radio-button value="nej">Nej</mat-radio-button>
-              </mat-radio-button>
+              <mat-radio-button value="ovr">Ja</mat-radio-button>
+              <mat-radio-button value="nej">Nej</mat-radio-button>
             </mat-radio-group>
           </div>
 
@@ -291,6 +290,28 @@
 
           <p>{{ data.arbetsplatskodlan }} </p>
 
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="example-card" [@slideIn]="apkForm.value.agarform && !data.arbetsplatskodlan ? 'in' : 'out'">
+        <mat-card-content>
+
+          <h3>Generera arbetsplatskod</h3>
+
+          <div class="checkbox-container">
+            <mat-checkbox align="end" formControlName="generateAutomatically">Generera automatiskt</mat-checkbox>
+          </div>
+
+          <div [@slideIn]="!apkForm.value.generateAutomatically ? 'in' : 'out'">
+            <mat-input-container>
+              <input placeholder="Skriv in arbetsplatskoden manuellt" matInput formControlName="arbetsplatskodlan" />
+            </mat-input-container>
+
+            <div>
+              <span>Högsta arbetsplatskoden som given början:</span>
+              <span>{{highestBeginningWith}}</span>
+            </div>
+          </div>
         </mat-card-content>
       </mat-card>
 

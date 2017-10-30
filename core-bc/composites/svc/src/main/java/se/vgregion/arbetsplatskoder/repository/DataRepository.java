@@ -55,5 +55,8 @@ public interface DataRepository extends JpaRepository<Data, Integer>, DataExtend
 
     List<Data> findAllByErsattavEquals(String ersattav);
 
+    @Query("select d1 from Data d1 where d1.arbetsplatskodlan = (select max(d.arbetsplatskodlan) from Data d where d.arbetsplatskodlan like :arbetsplatskodlanBeginning%)")
+    Data findHighestBeginningWith(@Param("arbetsplatskodlanBeginning") String arbetsplatskodlanBeginning);
+
     List<Data> findAllByProdn1Raderad(Boolean raderad);
 }

@@ -1,13 +1,15 @@
 package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "data", indexes = {@Index(columnList = "benamning"), @Index(columnList = "prodn1")})
+@Table(name = "data", indexes = {
+        @Index(columnList = "benamning"),
+        @Index(columnList = "prodn1"),
+        @Index(columnList = "arbetsplatskodlan", unique = true)
+})
 public class Data extends AbstractEntity {
 
     @Id

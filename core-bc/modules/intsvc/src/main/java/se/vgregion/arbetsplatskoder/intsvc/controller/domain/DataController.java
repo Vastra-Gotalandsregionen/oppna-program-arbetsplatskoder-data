@@ -132,6 +132,19 @@ public class DataController {
         return ResponseEntity.ok(result);
     }
 
+    @RequestMapping(value = "/highestBeginningWith/{arbetsplatskodlanBeginning}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<List<Data>> findHighestBeginningWith(@PathVariable("arbetsplatskodlanBeginning") String arbetsplatskodlanBeginning) {
+        Data result = dataRepository.findHighestBeginningWith(arbetsplatskodlanBeginning);
+
+        List<Data> datas = new ArrayList<>();
+        if (result != null) {
+            datas.add(result);
+        }
+
+        return ResponseEntity.ok(datas);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Data getData(@PathVariable("id") Integer id) {
@@ -160,7 +173,7 @@ public class DataController {
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ResponseEntity<Data> saveData(@RequestBody Data data) {
+    public ResponseEntity<Object> saveData(@RequestBody Data data) {
         User user = getUser();
 
         if (!(user.getProdn1s().contains(data.getProdn1()) || user.getRole().equals(Role.ADMIN))) {
@@ -173,18 +186,38 @@ public class DataController {
             if (!(user.getProdn1s().contains(persisted.getProdn1()) || user.getRole().equals(Role.ADMIN))) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
+
+            // Validate we're not trying to change fields which we're not allowed to change.
+            if (!persisted.getArbetsplatskodlan().equals(data.getArbetsplatskodlan())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
         }
 
         Random random = new Random();
 
         if (data.getId() == null) {
+            // A new entity
             data.setId(Math.abs(random.nextInt())); // todo Improve this
             data.setDeletable(true);
+
+            if (data.getArbetsplatskodlan() != null) {
+                List<Data> byArbetsplatskodlan = dataRepository
+                        .findAllByArbetsplatskodlanEquals(data.getArbetsplatskodlan());
+
+                if (byArbetsplatskodlan.size() > 0) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("Angiven arbetsplatskod finns redan.");
+                }
+            }
+        }
+
+        if (data.getArbetsplatskodlan() == null) {
+            data.setArbetsplatskod(Math.abs(random.nextInt()) + "");
+            data.setArbetsplatskodlan(data.getLankod() + data.getArbetsplatskod());
         }
 
         if (data.getArbetsplatskod() == null) {
-            data.setArbetsplatskod(Math.abs(random.nextInt()) + "");
-            data.setArbetsplatskodlan(data.getLankod() + data.getArbetsplatskod());
+            String lankod = data.getLankod() + "";
+            data.setArbetsplatskod(data.getArbetsplatskodlan().substring(lankod.length()));
         }
 
         data.setUserIdNew(user.getId());

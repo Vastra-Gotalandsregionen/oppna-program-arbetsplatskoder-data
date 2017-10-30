@@ -7,6 +7,7 @@ import {AuthService} from './auth/auth.service';
 import {ErrorHandler} from "../shared/error-handler";
 import {StateService} from "./state/state.service";
 import {Subscription} from "rxjs/Subscription";
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class JwtHttp extends Http {

@@ -1,6 +1,8 @@
 <div class="error-dialog">
     <h4>Oj då, ett fel har inträffat</h4>
 
+  <p *ngIf="err.text()">{{err.text()}}</p>
+
     <div>
         <a href="" (click)="toggleDetails(); false;">Detaljer</a>
     </div>

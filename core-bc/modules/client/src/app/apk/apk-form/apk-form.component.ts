@@ -44,6 +44,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   replacedBy: Data;
   $replaces: Observable<Data[]>;
   unitSearchResult: UnitSearchResult[];
+  highestBeginningWith: string;
 
   hasArchivedDatas: boolean = false;
 
@@ -155,7 +156,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   private buildForm() {
     this.apkForm = this.formBuilder.group({
       'unitSearch': [],
-      'arbetsplatskod': [{value: this.data.arbetsplatskod, disabled: true}, []],
+      'arbetsplatskodlan': [{
+        value: this.data.arbetsplatskodlan,
+        disabled: this.data.arbetsplatskodlan
+      }, [Validators.required]],
       'agarform': [this.data.agarform],
       'ao3': [this.ao3IdMap.get(this.data.ao3), Validators.required],
       'frivilligUppgift': [{value: this.data.frivilligUppgift, disabled: !this.isPrivate}],
@@ -180,6 +184,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         'vgpv': [this.data.vgpv ? 'true' : 'false', Validators.required]
       }),
       'anmarkning': [this.data.anmarkning],
+      'generateAutomatically': [true],
       'hsaid': [this.data.hsaid],
       'fromDatum': [Util.dateStringToObject(this.data.fromDatum), Validators.compose([datePattern(), Validators.required])],
       'noTillDatum': [!this.data.tillDatum || this.data.tillDatum.length === 0],
@@ -309,6 +314,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.initAo3FormControl();
     this.initVardformControl();
     this.initVerksamhetControl();
+    this.initGenerateAutomaticallyControls();
   }
 
   private initVerksamhetControl() {
@@ -332,6 +338,35 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     });
 
     verksamhetFormControl.setValidators(verksamhetValidator(this.allVerksamhets));
+  }
+
+  private initGenerateAutomaticallyControls() {
+    const generateAutomaticallyFormControl = this.apkForm.get('generateAutomatically');
+    const arbetsplatskodlanControl = this.apkForm.get('arbetsplatskodlan');
+
+    generateAutomaticallyFormControl.valueChanges.subscribe(value => {
+      if (value) {
+        arbetsplatskodlanControl.disable();
+      } else {
+        arbetsplatskodlanControl.enable();
+      }
+    });
+
+    arbetsplatskodlanControl.valueChanges
+      .filter(value => value && value.length > 0)
+      .subscribe(value => {
+        this.http.get('/api/data/highestBeginningWith/' + value)
+          .map(response => response.json())
+          .subscribe(
+            datas => {
+              if (datas.length > 0) {
+                this.highestBeginningWith = datas[0].arbetsplatskodlan
+              } else {
+                this.highestBeginningWith = null;
+              }
+            }
+          );
+      });
   }
 
   private initVardformControl() {
@@ -452,9 +487,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       return;
     }
 
-    const data = this.data;
+    const data = this.clone(this.data);
     const formModel = this.apkForm.value;
     data.lankod = data.lankod || '14'; // Hard-coded
+    data.arbetsplatskodlan = data.arbetsplatskodlan || formModel.arbetsplatskodlan;
     data.agarform = formModel.agarform;
     data.groupCode = formModel.groupCode;
     data.ao3 = (<Ao3> formModel.ao3).ao3id;
@@ -484,11 +520,21 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
     this.http.put('/api/data', JSON.stringify(data), options)
       .map(response => response.json())
-      .subscribe((data: Data) => {
-        this.data = data;
-        this.buildForm();
-        this.snackBar.open('Lyckades spara!', null, {duration: 3000});
-      });
+      .subscribe(
+        (data: Data) => {
+          this.data = data;
+          this.buildForm();
+          this.snackBar.open('Lyckades spara!', null, {duration: 3000});
+        },
+        error => {
+          console.log('Error: ' + error);
+        });
+  }
+
+  private clone(source: Data): Data {
+    let target = new Data();
+    Object.assign(target, source);
+    return target;
   }
 
   resetForm() {
