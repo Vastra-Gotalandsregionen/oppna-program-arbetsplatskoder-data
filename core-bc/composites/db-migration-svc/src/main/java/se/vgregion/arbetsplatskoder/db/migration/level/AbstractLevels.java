@@ -226,12 +226,12 @@ public abstract class AbstractLevels {
                 break;
             case 2:
                 query = "select distinct p2.id as id, p2.kortnamn as kortnamn, (p1.kortnamn || p2.kortnamn) as " +
-                        "concatkey from prodn2 p2 left join prodn1 p1 on p2.prodn1=p1.id";
+                    "concatkey from prodn2 p2 left join prodn1 p1 on p2.prodn1=p1.id";
                 break;
             case 3:
                 query = "select distinct p3.id as id, p3.kortnamn as kortnamn, (p1.kortnamn || p2.kortnamn || " +
-                        "p3.kortnamn) as concatkey from prodn3 p3 left join prodn2 p2 on p3.prodn2=p2.id left join " +
-                        "prodn1 p1 on p2.prodn1=p1.id";
+                    "p3.kortnamn) as concatkey from prodn3 p3 left join prodn2 p2 on p3.prodn2=p2.id left join " +
+                    "prodn1 p1 on p2.prodn1=p1.id";
                 break;
         }
         List<Map<String, Object>> result = connection.query(query, 0, 10000);
@@ -239,7 +239,8 @@ public abstract class AbstractLevels {
         final Table prodnType = connection.getSchemas("public").get(0).getTable(tableName);
 
         for (Map<String, Object> prodn : result) {
-            if (!sumNivNamesFromFile.contains(prodn.get("concatkey"))) {
+            Object concatkey = prodn.get("concatkey");
+            if (concatkey != null && !sumNivNamesFromFile.contains(concatkey)) {
                 Map<String, Object> what = new HashMap<>();
                 Map<String, Object> where = new HashMap<>();
                 what.put("raderad", true);
@@ -250,7 +251,7 @@ public abstract class AbstractLevels {
         }
     }
 
-    public void commit(){
+    public void commit() {
         connection.commit();
     }
 }

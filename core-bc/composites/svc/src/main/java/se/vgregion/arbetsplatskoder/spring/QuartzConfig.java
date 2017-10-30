@@ -25,6 +25,8 @@ import java.io.File;
 @Configuration
 public class QuartzConfig {
 
+    static final String everyDayAt23 = "0 0 23 * * ?";
+    
     @Value("${jdbc.driver}")
     private String jdbcDriver;
 
@@ -69,30 +71,30 @@ public class QuartzConfig {
         return getJobDetailFactoryBean("SesamLmnDatabaseIntegrationJob description",
                 SesamLmnDatabaseIntegrationJob.class);
     }
-
+    
     @Bean(name = "ehalsomyndighetenTrigger")
     public CronTriggerFactoryBean triggerEhalsomyndigheten(@Qualifier("jobDetailEhalosmyndigheten") JobDetail job) {
-        return getCronTriggerFactoryBean(job, "0 15,45 * ? * MON-FRI", "EHalsomyndighetenExportFileJob");
+        return getCronTriggerFactoryBean(job, everyDayAt23, "EHalsomyndighetenExportFileJob");
     }
 
     @Bean(name = "kivSesamTrigger")
     public CronTriggerFactoryBean triggerKivSesam(@Qualifier("jobDetailKivSesamLmnDatabaseIntegration") JobDetail job) {
-        return getCronTriggerFactoryBean(job, "0 15,45 * ? * MON-FRI", "KivSesamLmnDatabaseIntegrationJob");
+        return getCronTriggerFactoryBean(job, everyDayAt23, "KivSesamLmnDatabaseIntegrationJob");
     }
 
     @Bean(name = "lokeTrigger")
     public CronTriggerFactoryBean triggerLoke(@Qualifier("jobDetailLokeDatabaseIntegration") JobDetail job) {
-        return getCronTriggerFactoryBean(job, "0 15,45 * ? * MON-FRI", "LokeDatabaseIntegrationJob");
+        return getCronTriggerFactoryBean(job, everyDayAt23, "LokeDatabaseIntegrationJob");
     }
 
     @Bean(name = "stralforsTrigger")
     public CronTriggerFactoryBean triggerStralfors(@Qualifier("jobDetailStralfors") JobDetail job) {
-        return getCronTriggerFactoryBean(job, "0 15,45 * ? * MON-FRI", "StralforsExportFileJob");
+        return getCronTriggerFactoryBean(job, everyDayAt23, "StralforsExportFileJob");
     }
 
     @Bean(name = "sesamTrigger")
     public CronTriggerFactoryBean triggerSesam(@Qualifier("jobDetailSesam") JobDetail job) {
-        return getCronTriggerFactoryBean(job, "0 15,45 * ? * MON-FRI", "SesamLmnDatabaseIntegrationJob");
+        return getCronTriggerFactoryBean(job, everyDayAt23, "SesamLmnDatabaseIntegrationJob");
     }
 
     CronTriggerFactoryBean getCronTriggerFactoryBean(JobDetail job, String cronExpression, String name) {
