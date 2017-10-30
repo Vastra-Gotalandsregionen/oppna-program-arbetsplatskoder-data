@@ -73,6 +73,7 @@ public class ImportHistory {
                     Integer userId = Integer.parseInt((String) archivedData.get("user_id"));
                     archivedData.put("user_id", userId);
                 }
+                archivedData.put("replacer", id);
                 // System.out.println(archivedData);
                 connection.insert("archived_data", archivedData);
                 if (i % 100 == 0) {
