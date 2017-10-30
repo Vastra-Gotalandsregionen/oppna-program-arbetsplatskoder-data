@@ -77,6 +77,7 @@ public class BatchService {
     @Transactional
     public void init() {
 
+        initQuartzTables();
         initLinks();
 
         processDbSchemaChanges();
@@ -308,6 +309,14 @@ public class BatchService {
 
     void processDbSchemaChanges() {
         ClassPathResource classPathResource = new ClassPathResource("init-db.sql");
+        ResourceDatabasePopulator databasePopulator =
+            new ResourceDatabasePopulator(false, false, "UTF-8", classPathResource);
+
+        databasePopulator.execute(dataSource);
+    }
+
+    void initQuartzTables() {
+        ClassPathResource classPathResource = new ClassPathResource("init-quartz.sql");
         ResourceDatabasePopulator databasePopulator =
             new ResourceDatabasePopulator(false, false, "UTF-8", classPathResource);
 

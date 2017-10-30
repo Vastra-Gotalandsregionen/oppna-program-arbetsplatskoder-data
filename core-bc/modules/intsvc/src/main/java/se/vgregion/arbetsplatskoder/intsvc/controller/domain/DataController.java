@@ -13,6 +13,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.Role;
 import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
+import se.vgregion.arbetsplatskoder.domain.json.ErrorMessage;
 import se.vgregion.arbetsplatskoder.intsvc.controller.util.HttpUtil;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
@@ -205,7 +206,7 @@ public class DataController {
                         .findAllByArbetsplatskodlanEquals(data.getArbetsplatskodlan());
 
                 if (byArbetsplatskodlan.size() > 0) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body("Angiven arbetsplatskod finns redan.");
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorMessage("Angiven arbetsplatskod finns redan."));
                 }
             }
         }

@@ -1,7 +1,7 @@
 <div class="error-dialog">
     <h4>Oj då, ett fel har inträffat</h4>
 
-  <p *ngIf="err.text()">{{err.text()}}</p>
+  <p *ngIf="err.json()?.errorMessage">{{err.json()?.errorMessage}}</p>
 
     <div>
         <a href="" (click)="toggleDetails(); false;">Detaljer</a>

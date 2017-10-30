@@ -25,7 +25,7 @@ export class AuthService {
       this.resetAuth();
     }
 
-    Observable.interval(1000)
+    Observable.interval(10000)
       .subscribe(_ => {
         if (this.isTokenExpired()) {
           this.resetAuth();
