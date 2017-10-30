@@ -23,7 +23,8 @@ public class Job extends AbstractJob {
 
         1, Deploy the web-app so that jpa will modify the db.
 
-        2, Run Levels.main. That will import productions levels from file in this project.
+        2, Run Levels.main. That will import/correct productions levels (prodn1-3 for the codes) from file in
+        this project.
 
         3, Run se.vgregion.arbetsplatskoder.db.migration.ImportHistory.main. That will migrate historik-table to
         archived_data.
