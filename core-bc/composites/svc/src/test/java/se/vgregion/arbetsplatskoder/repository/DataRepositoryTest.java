@@ -47,7 +47,7 @@ public class DataRepositoryTest {
     public void testFindAll() {
         List<Data> all = dataRepository.findAll();
 
-        assertEquals(1, all.size());
+        assertEquals(4, all.size());
     }
 
     @Test
