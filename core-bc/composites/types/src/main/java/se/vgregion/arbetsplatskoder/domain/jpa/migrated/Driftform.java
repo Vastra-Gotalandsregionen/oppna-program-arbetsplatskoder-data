@@ -21,7 +21,7 @@ public class Driftform extends AbstractEntity {
     @Column (name = "raderad", nullable = false)
     private java.lang.Boolean raderad;
 
-    @Column (name = "ssma_timestamp", nullable = false)
+    @Deprecated @Transient // @Column (name = "ssma_timestamp", nullable = false)
     private Byte[] ssmaTimestamp;
 
     public java.lang.Integer getId(){

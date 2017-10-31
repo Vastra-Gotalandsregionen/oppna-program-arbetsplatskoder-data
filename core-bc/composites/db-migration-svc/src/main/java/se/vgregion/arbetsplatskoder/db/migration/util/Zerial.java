@@ -1,5 +1,7 @@
 package se.vgregion.arbetsplatskoder.db.migration.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.sql.Blob;
@@ -10,6 +12,19 @@ import java.sql.SQLException;
  * Created by clalu4 on 2016-11-17.
  */
 public class Zerial {
+
+    public static void toJsonFile(Object obj, Path toHere) {
+        try {
+            toJsonFileImpl(obj, toHere);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void toJsonFileImpl(Object obj, Path toHere) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(toHere.toString()), obj);
+    }
 
     public static void toFile(Object obj, Path toHere) {
         try {
@@ -24,6 +39,20 @@ public class Zerial {
         ObjectOutputStream oos = new ObjectOutputStream(fout);
         oos.writeObject(obj);
         oos.close();
+    }
+
+    public static <T> T fromJsonFile(Class<T> havingType, Path whichIsStoredHere) {
+        try {
+            return fromJsonFileImpl(havingType, whichIsStoredHere);
+        } catch (Exception e) {
+            System.out.println("Failed to convert content of file: " + whichIsStoredHere);
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static <T> T fromJsonFileImpl(Class<T> havingType, Path whichIsStoredHere) throws IOException, ClassNotFoundException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(new File(whichIsStoredHere.toString()), havingType);
     }
 
     public static <T> T fromFile(Class<T> havingType, Path whichIsStoredHere) {

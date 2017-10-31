@@ -111,7 +111,7 @@ public class Data20150212 extends AbstractEntity {
     @Column (name = "externfakturamodell", nullable = true)
     private java.lang.String externfakturamodell;
 
-    @Column (name = "ssma_timestamp", nullable = false)
+    @Deprecated @Transient // @Column (name = "ssma_timestamp", nullable = false)
     private Byte[] ssmaTimestamp;
 
     @Column (name = "vgpv", nullable = true)

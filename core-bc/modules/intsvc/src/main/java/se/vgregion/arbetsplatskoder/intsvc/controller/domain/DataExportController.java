@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3;
 import se.vgregion.arbetsplatskoder.export.repository.ViewApkForSesamLmnRepository;
 import se.vgregion.arbetsplatskoder.export.repository.Viewapkwithao3Repository;
-import se.vgregion.arbetsplatskoder.service.EHalsomyndighetenExportFileService;
-import se.vgregion.arbetsplatskoder.service.LokeDatabaseIntegrationService;
-import se.vgregion.arbetsplatskoder.service.SesamLmnExportFileService;
-import se.vgregion.arbetsplatskoder.service.StralforsExportFileService;
+import se.vgregion.arbetsplatskoder.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -45,8 +42,11 @@ public class DataExportController {
     @Autowired
     Viewapkwithao3Repository viewapkwithao3Repository;
 
+    //@Autowired KivSesamLmnDatabaseIntegrationService kivSesamLmnDatabaseIntegrationService;
+
+    //@Autowired private SesamLmnExportFileService sesamLmnExportFileService;
     @Autowired
-    private SesamLmnExportFileService sesamLmnExportFileService;
+    SesamLmnDatabaseIntegrationService sesamLmnDatabaseIntegrationService;
 
     @RequestMapping(value = "ehalsomyndigheten", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -68,6 +68,7 @@ public class DataExportController {
     @RequestMapping(value = "sesam-lmn", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity<List<se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn>> fetchSesamLmnExport() {
+        sesamLmnDatabaseIntegrationService.populateTable();
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", Collections.singletonList("text/plain"));
         List<se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn> result = viewApkForSesamLmnRepository.findAll();

@@ -24,7 +24,7 @@ public class Lk extends AbstractEntity {
     @Column (name = "kommunkod", nullable = true)
     private java.lang.String kommunkod;
 
-    @Column (name = "ssma_timestamp", nullable = false)
+    @Deprecated @Transient // @Column (name = "ssma_timestamp", nullable = false)
     private Byte[] ssmaTimestamp;
 
     public java.lang.Integer getId(){
