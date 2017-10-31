@@ -122,7 +122,8 @@
         <tr>
           <th>Giltig t.o.m.</th>
           <td *ngFor="let data of currentPlusArchivedDatas">
-            {{data.tillDatum | dateX: 'YYYY-MM-DD HH:mm'}}
+            <span *ngIf="data.tillDatum">{{data.tillDatum | dateX: 'YYYY-MM-DD HH:mm'}}</span>
+            <span *ngIf="!data.tillDatum">Tills vidare</span>
           </td>
         </tr>
         <tr>
