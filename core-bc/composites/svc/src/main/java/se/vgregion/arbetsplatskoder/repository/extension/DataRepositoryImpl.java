@@ -40,7 +40,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
             typedQuery.setParameter(i++, w);
         }
 
-        if (prodn1s != null) {
+        if (prodn1s != null && prodn1s.size() > 0) {
             typedQuery.setParameter(i++, prodn1s);
         }
 
@@ -93,8 +93,13 @@ public class DataRepositoryImpl implements DataExtendedRepository {
             conditions.add("(" + String.join(" or ", allFieldsLikeCondtion) + ")");
         }
         if (prodn1s != null) {
-            conditions.add("d.prodn1 in ?" + (i++));
-            wordsToLookFor.add(prodn1s);
+            if (prodn1s.size() == 0) {
+                // Should result in zero entities.
+                conditions.add("1 = 2");
+            } else {
+                conditions.add("d.prodn1 in ?" + (i++));
+                wordsToLookFor.add(prodn1s);
+            }
         }
 
         if (validToDate != null) {
