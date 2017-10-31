@@ -343,6 +343,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   private initGenerateAutomaticallyControls() {
     const generateAutomaticallyFormControl = this.apkForm.get('generateAutomatically');
     const arbetsplatskodlanControl = this.apkForm.get('arbetsplatskodlan');
+    const agarformControl = this.apkForm.get('agarform');
 
     generateAutomaticallyFormControl.valueChanges.subscribe(value => {
       if (value) {
@@ -367,6 +368,14 @@ export class ApkFormComponent extends ApkBase implements OnInit {
             }
           );
       });
+
+    agarformControl.valueChanges.subscribe(value => {
+      if (value === '1' || value === '2' || value === '3' || value === '7' || value === '9') {
+        generateAutomaticallyFormControl.setValue(true);
+      } else if (value === '4' || value === '5' || value === '6') {
+        generateAutomaticallyFormControl.setValue(false);
+      }
+    });
   }
 
   private initVardformControl() {
