@@ -17,8 +17,8 @@ import static se.vgregion.arbetsplatskoder.db.migration.AbstractJob.getDatabaseC
 public class Users {
 
     public static void main(String[] args) {
-        //saveUsersFromDatabaseToFileThenDeleteAll();
-        //insertUsersAndProdLinksFromFile();
+        // saveUsersFromDatabaseToFileThenDeleteAll();
+        // insertUsersAndProdLinksFromFile();
     }
 
     public static void insertUsersAndProdLinksFromFile() {

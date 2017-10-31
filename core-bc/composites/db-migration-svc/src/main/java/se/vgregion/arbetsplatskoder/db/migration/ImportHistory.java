@@ -18,6 +18,8 @@ public class ImportHistory {
     public static void main(String[] args) throws ParseException, IOException {
         ConnectionExt connection = AbstractJob.getMainConnectionExt();
 
+        connection.execute("delete from archived_data where id < 0");
+
         List<Map<String, Object>> orphans = connection.query(
             "select distinct d.* from data d where not d.id in (select data_id from historik)",
             0,
@@ -69,6 +71,7 @@ public class ImportHistory {
                 convertStringToBoolean(archivedData, "apodos");
                 convertLeveransToInteger(archivedData, "leverans");
                 convertFromTextToInteger(archivedData, "fakturering");
+                archivedData.put("andringsdatum", archivedData.get("andring_datum"));
                 if (archivedData.get("user_id") instanceof String) {
                     Integer userId = Integer.parseInt((String) archivedData.get("user_id"));
                     archivedData.put("user_id", userId);
