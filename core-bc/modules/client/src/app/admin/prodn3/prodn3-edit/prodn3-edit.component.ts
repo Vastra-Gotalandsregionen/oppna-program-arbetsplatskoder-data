@@ -80,7 +80,6 @@ export class Prodn3EditComponent implements OnInit {
 
     const prodn3 = {
       id: this.prodn3.id,
-      foretagsnamn: this.prodn3.foretagsnamn, // Just keep the old value.
       kortnamn: formModel.kortnamn,
       prodn2: this.getProdn2ById(formModel.prodn2),
       producentid: this.prodn3.producentid, // Just keep the old value.

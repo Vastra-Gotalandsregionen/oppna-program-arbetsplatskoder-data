@@ -107,7 +107,7 @@ export class ApkComponent extends ApkBase implements OnInit {
     if (this.authService.jwt) {
       this.usersProdn1sString$ = this.http.get('/api/prodn1')
         .map(response => response.json())
-        .map((prodn1: Prodn1[]) => prodn1.map(prodn1 => prodn1.foretagsnamn).join(', '));
+        .map((prodn1: Prodn1[]) => prodn1.map(prodn1 => prodn1.kortnamn).join(', '));
     } else {
       this.usersProdn1sString$ = Observable.from('');
     }

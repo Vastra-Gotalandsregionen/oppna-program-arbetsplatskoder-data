@@ -65,7 +65,7 @@ public class Prodn1Controller {
         List<Prodn1> result;
         if (Role.ADMIN.equals(user.getRole())) {
 
-            Sort.Order sortOrder = new Sort.Order(Sort.Direction.ASC,"foretagsnamn").ignoreCase();
+            Sort.Order sortOrder = new Sort.Order(Sort.Direction.ASC,"kortnamn").ignoreCase();
 
             PageRequest pageable = new PageRequest(0, Integer.MAX_VALUE, new Sort(sortOrder));
             Page<Prodn1> all = prodn1Repository.findAll(pageable);

@@ -16,7 +16,6 @@
     <table class="apk-table prod1-table">
       <thead>
       <tr>
-        <th class="row-name">Namn</th>
         <th class="row-short-name">Concise SumNivå 1</th>
         <th class="row-status">Status</th>
         <th class="row-menu"></th>
@@ -24,9 +23,6 @@
       </thead>
       <tbody>
       <tr *ngFor="let prodn1 of prodn1s$ | async">
-        <td>
-          <span matTooltip="{{prodn1.foretagsnamn?.length > 50 ? prodn1.foretagsnamn : null}}">{{prodn1.foretagsnamn | ellipsis:50}}</span>
-        </td>
         <td>
           <span matTooltip="{{prodn1.kortnamn?.length > 35 ? prodn1.kortnamn : null}}">{{prodn1.kortnamn | ellipsis:35}}</span>
         </td>

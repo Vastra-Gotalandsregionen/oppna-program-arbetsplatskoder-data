@@ -48,7 +48,6 @@ export class Prodn1EditComponent implements OnInit {
   buildForm() {
     this.prodn1Form = this.formBuilder.group({
       'id': [{value: this.prodn1.id, disabled: true}],
-      'foretagsnamn': [this.prodn1.foretagsnamn, Validators.required],
       'kortnamn': [this.prodn1.kortnamn, Validators.required],
       'raderad': [this.prodn1.raderad, []]
     })
@@ -65,7 +64,6 @@ export class Prodn1EditComponent implements OnInit {
 
     const prodn1 = {
       id: this.prodn1.id,
-      foretagsnamn: formModel.foretagsnamn,
       kortnamn: formModel.kortnamn,
       producentid: this.prodn1.producentid, // Just keep the old value.
       raderad: formModel.raderad ? 'true' : 'false'

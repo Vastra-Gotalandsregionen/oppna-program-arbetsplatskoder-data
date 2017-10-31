@@ -63,7 +63,7 @@ public class Prodn2Controller {
 
         User user = userRepository.findOne(userId);
 
-        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "prodn1.foretagsnamn").ignoreCase();
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
         Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "kortnamn").ignoreCase();
         Sort.Order[] orders = new Sort.Order[]{order, order2};
 
@@ -136,13 +136,6 @@ public class Prodn2Controller {
     public Prodn2 getProdn2(@PathVariable(value = "id", required = true) Integer id) {
         return prodn2Repository.findProdn2ByIdEquals(id);
     }
-
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Prodn2> searchProdn2s(@RequestParam(value = "query", required = false) String query) {
-        return prodn2Repository.search(query);
-    }
-
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseBody

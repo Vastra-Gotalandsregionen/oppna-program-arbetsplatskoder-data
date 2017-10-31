@@ -15,9 +15,6 @@ public class Prodn3 extends AbstractEntity {
     @Column (name = "producentid", nullable = true)
     private java.lang.String producentid;
 
-    @Column (name = "foretagsnamn", nullable = true)
-    private java.lang.String foretagsnamn;
-
     @Column (name = "kortnamn", nullable = true)
     private java.lang.String kortnamn;
 
@@ -48,14 +45,6 @@ public class Prodn3 extends AbstractEntity {
 
     public void setProducentid(java.lang.String v){
         this.producentid = v;
-    }
-
-    public java.lang.String getForetagsnamn(){
-        return foretagsnamn;
-    }
-
-    public void setForetagsnamn(java.lang.String v){
-        this.foretagsnamn = v;
     }
 
     public java.lang.String getKortnamn(){

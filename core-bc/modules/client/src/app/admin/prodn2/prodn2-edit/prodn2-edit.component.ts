@@ -54,7 +54,6 @@ export class Prodn2EditComponent implements OnInit {
       'id': [{value: this.prodn2.id, disabled: true}],
       'kortnamn': [this.prodn2.kortnamn, Validators.required],
       'prodn1': [this.prodn2.prodn1 ? this.prodn2.prodn1.id : null, Validators.required],
-      'riktvarde': [this.prodn2.riktvarde, []],
       'raderad': [this.prodn2.raderad, []]
     });
 
@@ -79,12 +78,10 @@ export class Prodn2EditComponent implements OnInit {
 
     const prodn2 = {
       id: this.prodn2.id,
-      avdelning: this.prodn2.avdelning, // Just keep the old value.
       kortnamn: formModel.kortnamn,
       producentid: this.prodn2.producentid, // Just keep the old value.
       n1: this.prodn2.n1, // Just keep the old value.
       prodn1: this.getProdn1ById(formModel.prodn1),
-      riktvarde: formModel.riktvarde,
       raderad: formModel.raderad ? 'true' : 'false',
       autoradering: this.prodn2.autoradering // Just keep the old value.
     };

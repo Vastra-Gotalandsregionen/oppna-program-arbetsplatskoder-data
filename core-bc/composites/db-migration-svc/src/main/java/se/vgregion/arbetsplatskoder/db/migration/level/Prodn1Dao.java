@@ -20,7 +20,6 @@ public class Prodn1Dao extends AbstractDao {
     Map<String, Object> item = new HashMap<>();
     item.put("id", sequence--);
     item.put("producentid", newLevel);
-    item.put("foretagsnamn", newLevel);
     item.put("kortnamn", newLevel);
     item.put("raderad", false);
     connection.insert(table, item);

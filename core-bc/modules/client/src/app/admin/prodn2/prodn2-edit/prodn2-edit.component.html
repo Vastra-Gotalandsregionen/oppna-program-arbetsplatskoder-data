@@ -26,15 +26,11 @@
           <mat-form-field>
             <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{prodn2Form.submitted ? 'submitted' : ''}}">
               <mat-option *ngFor="let prodn1 of prodn1Options" [value]="prodn1.id">
-                {{prodn1.foretagsnamn}}
+                {{prodn1.kortnamn}}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-
-        <mat-input-container>
-          <input placeholder="Riktvärde (Ska vi ha detta?)" type="text" matInput formControlName="riktvarde"/>
-        </mat-input-container>
 
         <div class="checkbox-contaienr">
           <mat-checkbox formControlName="raderad">Raderad</mat-checkbox>

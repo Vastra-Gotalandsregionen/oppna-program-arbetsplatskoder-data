@@ -29,7 +29,7 @@
         <mat-select placeholder="Visa bara för Concise SumNivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
           <mat-option value="">Visa alla</mat-option>
           <mat-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
-            {{prodn1.foretagsnamn}}
+            {{prodn1.kortnamn}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -40,7 +40,7 @@
         <mat-select placeholder="Visa bara för Concise SumNivå 2" [formControl]="filterProdn2" (change)="onFilterProdn2Change()">
           <mat-option value="">Visa alla</mat-option>
           <mat-option *ngFor="let prodn2 of availableProdn2s$ | async" [value]="prodn2.id">
-            {{prodn2.avdelning}}
+            {{prodn2.kortnamn}}
           </mat-option>
         </mat-select>
       </mat-form-field>

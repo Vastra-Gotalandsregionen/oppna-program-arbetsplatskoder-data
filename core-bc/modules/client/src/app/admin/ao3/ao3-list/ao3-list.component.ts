@@ -59,8 +59,4 @@ export class Ao3ListComponent extends BasePaginatorComponent implements OnInit {
     }
   }
 
-  toList(prodn1s: Prodn1[]) {
-    return prodn1s.map(prodn1 => prodn1.foretagsnamn).join(', ');
-  }
-
 }

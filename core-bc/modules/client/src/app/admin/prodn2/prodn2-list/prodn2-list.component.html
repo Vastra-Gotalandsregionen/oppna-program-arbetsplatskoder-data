@@ -27,7 +27,7 @@
         <mat-select placeholder="Visa bara för Concise SumNivå 1" [formControl]="filterProdn1" (change)="onFilterProdn1Change()">
           <mat-option value="">Visa alla</mat-option>
           <mat-option *ngFor="let prodn1 of prodn1s$ | async" [value]="prodn1.id">
-            {{prodn1.foretagsnamn}}
+            {{prodn1.kortnamn}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -53,7 +53,7 @@
               [ngClass]="'circle-alert'">{{prodn2.n1}}
           </span>
 
-          <span matTooltip="{{prodn2.prodn1.kortnamn?.length > 20 ? prodn2.prodn1.foretagsnamn : null}}">{{prodn2.prodn1.foretagsnamn | ellipsis:20}}</span>
+          <span matTooltip="{{prodn2.prodn1.kortnamn?.length > 20}}">{{prodn2.prodn1.kortnamn | ellipsis:20}}</span>
         </td>
         <td>
           <span matTooltip="{{prodn2.kortnamn?.length > 30 ? prodn2.kortnamn : null}}">{{prodn2.kortnamn | ellipsis:30}}</span>

@@ -1,6 +1,6 @@
 <mat-toolbar class="action-toolbar">
   <h1>
-     {{prodn1.foretagsnamn === undefined ? 'Lägg till ny Concise SumNivå 1' : 'Redigera ' + prodn1.foretagsnamn}}
+     {{prodn1.kortnamn === undefined ? 'Lägg till ny Concise SumNivå 1' : 'Redigera ' + prodn1.kortnamn}}
   </h1>
   <div class="action-toolbar-spacer"></div>
   <app-back-button class="action-toolbar-item"></app-back-button>
@@ -16,10 +16,6 @@
 
         <mat-input-container>
           <input placeholder="ID" type="text" matInput formControlName="id"/>
-        </mat-input-container>
-
-        <mat-input-container>
-          <input placeholder="Namn" type="text" matInput formControlName="foretagsnamn"/>
         </mat-input-container>
 
         <mat-input-container>

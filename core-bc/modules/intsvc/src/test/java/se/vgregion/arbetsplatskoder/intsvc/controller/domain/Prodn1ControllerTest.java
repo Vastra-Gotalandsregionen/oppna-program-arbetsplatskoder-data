@@ -49,22 +49,22 @@ public class Prodn1ControllerTest {
         userRepository.save(user);
 
         Prodn1 p1 = new Prodn1();
-        p1.setForetagsnamn("AA");
+        p1.setKortnamn("AA");
         p1.setId(1);
         p1.setRaderad(false);
 
         Prodn1 p2 = new Prodn1();
-        p2.setForetagsnamn("DD");
+        p2.setKortnamn("DD");
         p2.setId(2);
         p2.setRaderad(false);
 
         Prodn1 p3 = new Prodn1();
-        p3.setForetagsnamn("CC");
+        p3.setKortnamn("CC");
         p3.setId(3);
         p3.setRaderad(false);
 
         Prodn1 p4 = new Prodn1();
-        p4.setForetagsnamn("bb");
+        p4.setKortnamn("bb");
         p4.setId(4);
         p4.setRaderad(false);
 
@@ -103,7 +103,7 @@ public class Prodn1ControllerTest {
     public void getProdn1() throws Exception {
         Prodn1 prodn1 = prodn1Controller.getProdn1(3);
 
-        assertEquals("CC", prodn1.getForetagsnamn());
+        assertEquals("CC", prodn1.getKortnamn());
     }
 
     @Test
