@@ -158,7 +158,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'unitSearch': [],
       'arbetsplatskodlan': [{
         value: this.data.arbetsplatskodlan,
-        disabled: this.data.arbetsplatskodlan
+        disabled: true // Always start disabled since generateAutomatically starts as true
       }, [Validators.required]],
       'agarform': [this.data.agarform],
       'ao3': [this.ao3IdMap.get(this.data.ao3), Validators.required],
