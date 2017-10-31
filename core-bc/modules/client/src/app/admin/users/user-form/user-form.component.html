@@ -16,8 +16,8 @@
           </mat-radio-group>
         </div>
 
-        <mat-chip-list id="prodn1ChipList">
-          <mat-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)">
+        <mat-chip-list id="prodn1ChipList" [multiple]="true">
+          <mat-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)" >
             {{prodn1.foretagsnamn}} <span *ngIf="prodn1.raderad"><mat-icon mat-tooltip="Raderad">clear</mat-icon></span>
           </mat-chip>
         </mat-chip-list>
