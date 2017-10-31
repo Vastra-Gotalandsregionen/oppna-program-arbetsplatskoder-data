@@ -88,6 +88,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.messages = new Map<string, string>();
     this.messages.set('field-is-required', 'Detta fält är obligatoriskt.');
     this.messages.set('field-is-invalid', 'Ogiltigt värde');
+    this.messages.set('field-is-invalid-choose-from-dropdown-list', 'Ogiltigt värde. Du måste välja värde från dropdownlistan.');
 
     // Default values:
     defaultData.externfakturamodell = 'nej';
@@ -165,6 +166,9 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
       var formGroup = toDateField.parent;
       var fromDateField = formGroup.controls["fromDatum"];
+
+      //var fromDateField = this.apkForm.get('fromDatum');
+      //var toDateField = this.apkForm.get('toDatum');
 
       //console.log('fromDateField, ', fromDateField);
       // console.log('toDate: ' + toDateField.value);
@@ -380,7 +384,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }
     });
 
-    verksamhetFormControl.setValidators(verksamhetValidator(this.allVerksamhets));
+    verksamhetFormControl.setValidators([Validators.required, verksamhetValidator(this.allVerksamhets)]);
   }
 
   private initVardformControl() {
@@ -453,6 +457,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     } else {
       this.listenToChangesToProdnx();
     }
+
   }
 
   private getItemInstanceInArray(item: any, array: any[]) {

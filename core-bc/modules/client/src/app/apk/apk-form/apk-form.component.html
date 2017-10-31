@@ -103,6 +103,13 @@
                 <input placeholder="Motpart" type="text" matInput [matAutocomplete]="ao3AutocompleteRef"
                        formControlName="ao3">
 
+               <mat-error *ngIf="getErrors('ao3').required">
+                 {{messages.get('field-is-required')}}
+               </mat-error>
+               <mat-error *ngIf="getErrors('ao3').invalidName">
+                 {{messages.get('field-is-invalid-choose-from-dropdown-list')}}
+               </mat-error>
+
               </mat-input-container>
 
               <mat-autocomplete class="autocomplete" #ao3AutocompleteRef="matAutocomplete" [displayWith]="displayAo3Fn">
@@ -112,14 +119,6 @@
               </mat-autocomplete>
             </div>
 
-            <div class="apk-form-field-error" *ngIf="!apkForm.controls['ao3'].valid && apkForm.controls['ao3'].touched">
-              <mat-error *ngIf="getErrors('ao3').required">
-                {{messages.get('field-is-required')}}
-              </mat-error>
-              <mat-error *ngIf="getErrors('ao3').invalidName">
-                {{messages.get('field-is-invalid')}}
-              </mat-error>
-            </div>
           </div>
 
           <div class="apk-form-field-ctn">
@@ -127,12 +126,12 @@
               <mat-input-container>
                 <input matInput placeholder="Ansvar" formControlName="ansvar" type="text"/>
                 <mat-icon matTooltip="Förklaring...">help</mat-icon>
+
+                <mat-error *ngIf="getErrors('ansvar').required">
+                  {{messages.get('field-is-required')}}
+                </mat-error>
+
               </mat-input-container>
-            </div>
-            <div class="apk-form-field-error" *ngIf="!apkForm.controls['ansvar'].valid && apkForm.controls['ansvar'].touched">
-              <mat-error>
-                {{messages.get('field-is-required')}}
-              </mat-error>
             </div>
           </div>
 
@@ -188,7 +187,7 @@
                   {{messages.get('field-is-required')}}
                 </mat-error>
                 <mat-error *ngIf="getErrors('vardform') && getErrors('vardform').invalidName">
-                  {{messages.get('field-is-invalid')}}
+                  {{messages.get('field-is-invalid-choose-from-dropdown-list')}}
                 </mat-error>
               </mat-input-container>
 
@@ -207,7 +206,13 @@
                 <input placeholder="Medicinsk verksamhetskod" type="text" matInput
                        [matAutocomplete]="verksamhetAutocompleteRef" formControlName="verksamhet" name="verksamhet">
 
-                 <mat-error>{{messages.get('field-is-required')}}</mat-error>
+                 <mat-error *ngIf="getErrors('verksamhet').required">
+                   {{messages.get('field-is-required')}}
+                 </mat-error>
+                 <mat-error *ngIf="getErrors('verksamhet').invalidName">
+                   {{messages.get('field-is-invalid-choose-from-dropdown-list')}}
+                 </mat-error>
+
               </mat-input-container>
 
               <mat-autocomplete class="autocomplete" #verksamhetAutocompleteRef="matAutocomplete"
@@ -230,25 +235,34 @@
           <div class="apk-form-field-ctn">
             <div class="apk-form-field">
               <mat-form-field>
-                <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-select #prodn1Select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
                   <mat-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
                     {{prodn1.kortnamn}}
                   </mat-option>
                 </mat-select>
-                <mat-error>{{messages.get('field-is-required')}}</mat-error>
+
+                <mat-error *ngIf="prodn1Select.errorState && getErrors('prodn1').required">
+                  {{messages.get('field-is-required')}}
+                </mat-error>
+
               </mat-form-field>
+
             </div>
           </div>
 
           <div class="apk-form-field-ctn">
             <div class="apk-form-field">
               <mat-form-field>
-                <mat-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-select #prodn2Select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
                   <mat-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
                     {{prodn2.kortnamn}}
                   </mat-option>
                 </mat-select>
-                <mat-error>{{messages.get('field-is-required')}}</mat-error>
+
+                <mat-error *ngIf="prodn2Select.errorState && getErrors('prodn2').required">
+                  {{messages.get('field-is-required')}}
+                </mat-error>
+
               </mat-form-field>
             </div>
           </div>
@@ -256,12 +270,16 @@
           <div class="apk-form-field-ctn">
             <div class="apk-form-field">
               <mat-form-field>
-                <mat-select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-select  #prodn3Select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
                   <mat-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
                     {{prodn3.kortnamn}}
                   </mat-option>
                 </mat-select>
-                <mat-error>{{messages.get('field-is-required')}}</mat-error>
+
+                <mat-error *ngIf="prodn3Select.errorState && getErrors('prodn3').required">
+                  {{messages.get('field-is-required')}}
+                </mat-error>
+
               </mat-form-field>
             </div>
           </div>
@@ -340,9 +358,20 @@
           <h3>Ange giltighetstid</h3>
 
           <mat-input-container class="date">
-            <input placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD)" matInput [matDatepicker]="fromDatepicker"
+            <input #fromDatePickerInput placeholder="Giltig fr.o.m. (ÅÅÅÅ-MM-DD)" matInput [matDatepicker]="fromDatepicker"
                    formControlName="fromDatum">
             <mat-datepicker-toggle matSuffix [for]="fromDatepicker"></mat-datepicker-toggle>
+
+            <mat-error>
+              {{messages.get('field-is-required')}}
+            </mat-error>
+
+            <!--
+            <mat-error *ngIf="getErrors('fromDatum').required">
+              {{messages.get('field-is-required')}}
+            </mat-error>
+            -->
+
           </mat-input-container>
 
           <mat-datepicker #fromDatepicker></mat-datepicker>
@@ -355,6 +384,29 @@
             <input placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD)" matInput [matDatepicker]="toDatepicker"
                    formControlName="tillDatum"/>
             <mat-datepicker-toggle matSuffix [for]="toDatepicker" [disabled]="noTillDatumCheckbox.checked"></mat-datepicker-toggle>
+
+            <!--
+
+            <mat-error *ngIf="!noTillDatumCheckbox.checked && getErrors('tillDatum').required">
+              {{messages.get('field-is-required')}}
+            </mat-error>
+            -->
+
+            <!--
+            -->
+            <mat-error>
+              {{messages.get('field-is-required')}}
+            </mat-error>
+
+            <!--
+            <mat-error *ngIf="getErrors('tillDatum').required">
+              {{messages.get('field-is-required')}}
+            </mat-error>
+            <mat-error *ngIf="getErrors('tillDatum').invalidName">
+              {{messages.get('field-is-invalid-choose-from-dropdown-list')}}
+            </mat-error>
+            -->
+
           </mat-input-container>
 
           <mat-datepicker startView="year" #toDatepicker></mat-datepicker>
