@@ -127,8 +127,6 @@ public class BatchService {
             }
         }
 
-        processAo3s(prodn1Map);
-
         for (Data data : allDatas) {
 
             // We don't want to touch those where prodn3 (and prodn1, but that's taken for granted if prodn3 is set) is
@@ -246,44 +244,6 @@ public class BatchService {
                 data.setProdn1(prodn1);
                 dataRepository.save(data);
             }
-        }
-    }
-
-    private void processAo3s(Map<String, Prodn1> prodn1Map) {
-        List<Ao3> all = ao3Repository.findAll();
-
-        for (Ao3 ao3 : all) {
-            String producent = ao3.getProducent();
-
-            if (ao3.getProdn1s().size() > 0 || (producent == null || producent.length() == 0)) {
-                continue;
-            }
-
-            String[] producents = producent.split(",");
-
-            List<Prodn1> prodn1s = new ArrayList<>();
-
-            for (String producentPart : producents) {
-                Prodn1 prodn1 = prodn1Map.get(producentPart);
-
-                if (prodn1 == null) {
-                    prodn1 = prodn1Map.get(producentPart.toLowerCase());
-                }
-
-                if (prodn1 != null) {
-                    prodn1s.add(prodn1);
-                }
-            }
-
-            ao3.setProdn1s(prodn1s);
-            ao3Repository.save(ao3);
-
-            if (prodn1s.size() == 0) {
-                LOGGER.info("Couldn't set prodn1s for Ao3 with id=" + ao3.getId());
-            } else {
-                LOGGER.info("Set prodn1s for Ao3 with id=" + ao3.getId());
-            }
-
         }
     }
 

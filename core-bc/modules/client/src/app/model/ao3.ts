@@ -5,7 +5,6 @@ export class Ao3 {
   ao3id: string;
   foretagsnamn: string;
   producent: string;
-  prodn1s: Prodn1[];
   kontaktperson: string;
   foretagsnr: string;
   raderad: boolean;

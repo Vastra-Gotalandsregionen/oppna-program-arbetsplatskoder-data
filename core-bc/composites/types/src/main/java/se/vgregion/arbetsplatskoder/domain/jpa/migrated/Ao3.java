@@ -23,9 +23,6 @@ public class Ao3 extends AbstractEntity {
     @Column (name = "producent", nullable = true)
     private java.lang.String producent;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Prodn1> prodn1s = new ArrayList<>();
-
     @Column (name = "kontaktperson", nullable = true)
     private java.lang.String kontaktperson;
 
@@ -65,14 +62,6 @@ public class Ao3 extends AbstractEntity {
 
     public void setProducent(java.lang.String v){
         this.producent = v;
-    }
-
-    public List<Prodn1> getProdn1s() {
-        return prodn1s;
-    }
-
-    public void setProdn1s(List<Prodn1> prodn1s) {
-        this.prodn1s = prodn1s;
     }
 
     public java.lang.String getKontaktperson(){

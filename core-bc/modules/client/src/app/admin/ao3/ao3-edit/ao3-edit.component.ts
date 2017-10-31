@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Ao3} from "../../../model/ao3";
 import {JwtHttp} from "../../../core/jwt-http";
-import {Response} from '@angular/http';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
-import {Prodn1} from "../../../model/prodn1";
 import {Location} from "@angular/common";
 
 @Component({
@@ -14,21 +12,11 @@ import {Location} from "@angular/common";
   styleUrls: ['./ao3-edit.component.scss']
 })
 export class Ao3EditComponent implements OnInit {
-  selectedProdn1s: Prodn1[] = [];
-
-  allProdn1s: Prodn1[];
-
   ao3: Ao3 = new Ao3();
 
   ao3Form: FormGroup;
 
   saveMessage: string;
-
-  editProdn1 = false;
-
-  selectedProdn1Ids: number[] = [];
-
-  prodn1sMap: Map<number, Prodn1> = new Map();
 
   constructor(route: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -51,18 +39,10 @@ export class Ao3EditComponent implements OnInit {
       .subscribe((ao3: Ao3) => {
         this.ao3 = ao3;
         this.buildForm();
-        this.selectedProdn1Ids = ao3.prodn1s.map(prodn1 => prodn1.id);
       });
   }
 
   ngOnInit() {
-    this.http.get('/api/prodn1')
-      .map<Response, Prodn1[]>(response => response.json())
-      .subscribe((prodn1s: Prodn1[]) => {
-        this.allProdn1s = prodn1s;
-        prodn1s.forEach(prodn1 => this.prodn1sMap.set(prodn1.id, prodn1));
-        this.selectedProdn1s = this.selectedProdn1Ids.map(id => this.prodn1sMap.get(id));
-      });
 
   }
 
@@ -90,7 +70,6 @@ export class Ao3EditComponent implements OnInit {
       id: this.ao3.id,
       foretagsnamn: formModel.foretagsnamn,
       ao3id: formModel.ao3id,
-      prodn1s: this.selectedProdn1s,
       foretagsnr: formModel.foretagsnr,
       kontaktperson: formModel.kontaktperson,
       raderad: formModel.raderad ? 'true' : 'false'
@@ -102,31 +81,8 @@ export class Ao3EditComponent implements OnInit {
           this.ao3 = ao3;
           this.snackBar.open('Lyckades spara!', null, {duration: 3000});
           this.buildForm();
-          this.editProdn1 = false;
         }
       );
-  }
-
-  toggleProdn1(prodn1: Prodn1) {
-    const indexOf = this.selectedProdn1Ids.indexOf(prodn1.id);
-    if (indexOf > -1) {
-      this.selectedProdn1Ids.splice(indexOf, 1);
-    } else {
-      this.selectedProdn1Ids.push(prodn1.id);
-    }
-
-    this.selectedProdn1s = this.selectedProdn1Ids.map(id => this.prodn1sMap.get(id));
-
-    this.ao3Form.markAsDirty();
-    this.ao3Form.markAsTouched()
-  }
-
-  isSelected(prodn1: Prodn1) {
-    return this.selectedProdn1Ids.indexOf(prodn1.id) > -1;
-  }
-
-  toggleEditProdn1() {
-    this.editProdn1 = !this.editProdn1;
   }
 
   resetForm() {

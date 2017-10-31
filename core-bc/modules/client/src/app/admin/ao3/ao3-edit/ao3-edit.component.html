@@ -30,23 +30,6 @@
           <input placeholder="Företagsnummer" type="text" matInput formControlName="foretagsnr"/>
         </mat-input-container>
 
-        <div>
-          <label>Concise SumNivå 1:</label>
-          <a href="" (click)="toggleEditProdn1();false" matTooltip="Redigera">
-            <mat-icon>edit</mat-icon>
-          </a>
-
-          <ul *ngIf="!editProdn1">
-            <li *ngFor="let prodn1 of selectedProdn1s">{{prodn1.foretagsnamn}}</li>
-          </ul>
-
-          <mat-chip-list *ngIf="editProdn1">
-            <mat-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggleProdn1(prodn1)">
-              {{prodn1.foretagsnamn}}
-            </mat-chip>
-          </mat-chip-list>
-        </div>
-
         <mat-input-container>
           <input placeholder="Kontaktperson" type="text" matInput formControlName="kontaktperson"/>
         </mat-input-container>

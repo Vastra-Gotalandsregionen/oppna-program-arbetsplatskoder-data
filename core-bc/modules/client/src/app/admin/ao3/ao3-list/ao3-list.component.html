@@ -16,7 +16,6 @@
       <thead>
       <tr>
         <th class="row-name">Företagsnamn</th>
-        <th class="row-prod1">Concise SumNivå 1</th>
         <th class="row-contact-person">Kontaktperson</th>
         <th class="row-company-number">Motpart</th>
         <th class="row-company-number">Företagsnr</th>
@@ -27,9 +26,6 @@
       <tbody>
       <tr *ngFor="let ao3 of response?.content">
         <td>{{ao3.foretagsnamn}}</td>
-        <td>
-          <span *ngFor="let text of [toList(ao3.prodn1s)]" matTooltip="{{text.length > 20 ? text : null}}">{{text | ellipsis:20}}</span>
-        </td>
         <td>{{ao3.kontaktperson}}</td>
         <td>{{ao3.ao3id}}</td>
         <td>{{ao3.foretagsnr}}</td>
