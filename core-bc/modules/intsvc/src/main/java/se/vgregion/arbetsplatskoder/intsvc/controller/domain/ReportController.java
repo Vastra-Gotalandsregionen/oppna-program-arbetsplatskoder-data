@@ -243,6 +243,7 @@ public class ReportController {
 
         AgarformEnum agarform = AgarformEnum.getByKey(data.getAgarform());
 
+        String toDate = toDateString(data.getTillDatum());
         return new String[]{
                 data.getArbetsplatskodlan(),
                 agarform != null ? agarform.getLabel() : data.getAgarform(),
@@ -263,7 +264,7 @@ public class ReportController {
                 data.getPostnr(),
                 data.getPostort(),
                 toDateString(data.getFromDatum()),
-                toDateString(data.getTillDatum()),
+                toDate.equals("") ? "Tills vidare" : toDate,
                 data.getAnmarkning(),
                 data.getErsattav(),
                 data.getAndringsdatum(),
