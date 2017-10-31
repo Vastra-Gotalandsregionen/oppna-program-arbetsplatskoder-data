@@ -406,7 +406,7 @@ public abstract class AbstractJob {
     }
 
 
-    static String getDatabaseCacheDirectory() {
+    public static String getDatabaseCacheDirectory() {
         String path = new File(".").getAbsolutePath();
         path = path.substring(0, path.length() - 2);
         Path p = Paths.get(path, "database-cache");

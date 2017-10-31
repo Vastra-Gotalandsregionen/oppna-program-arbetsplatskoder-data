@@ -220,9 +220,9 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         String sql = "SELECT distinct d " +
                 "FROM Data d\n" +
                 "WHERE \n" +
-                " d.tillDatum > current_timestamp and \n" +
-                " d.apodos = false and  \n" +
-                " arbetsplatskod <> '999999'";
+                " (d.tillDatum > current_timestamp or d.tillDatum is null) and \n" +
+                " (d.apodos = false or d.apodos is null) and  \n" +
+                " arbetsplatskodlan != '14999999'";
         Query nq = entityManager.createQuery(sql);
         List rl = nq.getResultList();
         return new ArrayList<>(rl);

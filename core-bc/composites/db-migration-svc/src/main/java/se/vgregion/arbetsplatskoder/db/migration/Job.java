@@ -17,9 +17,14 @@ public class Job extends AbstractJob {
         job.copyDataIntoMainDatabase();
         // job.findTableAndColumnNamesInsideFiles();
         // job.createEntitySourceFiles();
+
         /*
 
         After this:
+
+        0, Possibly. If there are items in the _user and _user_prodn1 table: Use the
+        se.vgregion.arbetsplatskoder.db.migration.util.Users.main method / functions to backup these items, then remove
+        them and finally put them back into the db.
 
         1, Deploy the web-app so that jpa will modify the db.
 
@@ -28,6 +33,8 @@ public class Job extends AbstractJob {
 
         3, Run se.vgregion.arbetsplatskoder.db.migration.ImportHistory.main. That will migrate historik-table to
         archived_data.
+
+        4, Possibly. Put the _user:s back in the db - se step #0.
 
         */
     }
