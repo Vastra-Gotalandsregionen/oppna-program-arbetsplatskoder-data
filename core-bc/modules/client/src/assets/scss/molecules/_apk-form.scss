@@ -1,0 +1,56 @@
+.apk-form {
+
+  .apk-form-field-ctn {
+
+    // Clearfix
+    &:after {
+      clear: both;
+      display: table;
+      content: "";
+    }
+
+    .apk-form-field {
+      padding: 10px 0;
+      //float: left;
+      //width: 60%;
+    }
+
+    // .apk-form-field-error {
+    //   box-sizing: border-box;
+    //   float: left;
+    //   padding-top: 10px;
+    //   padding-left: 20px;
+    //   position: relative;
+    //   width: 39.8%;
+    //
+    //   .mat-error {
+    //     background: #f44336;
+    //     color: #fff;
+    //     padding: 10px;
+    //
+    //     &:after {
+    //       content: '';
+    //       width: 0;
+    //       height: 0;
+    //       border-top: 10px solid transparent;
+    //       border-bottom: 10px solid transparent;
+    //       border-right:10px solid #f44336;
+    //       position: absolute;
+    //       left: 10px;
+    //       vertical-align: middle;
+    //       //top: 50%;
+    //       //bottom: 50%;
+    //     }
+    //
+    //   }
+    //
+    // }
+
+
+
+
+  }
+
+
+
+}

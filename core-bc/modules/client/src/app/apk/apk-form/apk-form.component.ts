@@ -69,6 +69,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   saveMessage: string;
   benamningKortActivelyEdited: boolean;
 
+  messages: Map<string, string>;
+
   constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
               private snackBar: MatSnackBar,
@@ -82,6 +84,12 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   ngOnInit() {
 
     const defaultData = new Data();
+
+    // Messages:
+    this.messages = new Map<string, string>();
+    this.messages.set('field-is-required', 'Detta fält är obligatoriskt.');
+    this.messages.set('field-is-invalid', 'Ogiltigt värde');
+    this.messages.set('field-is-invalid-choose-from-dropdown-list', 'Ogiltigt värde. Du måste välja värde från dropdownlistan.');
 
     // Default values:
     defaultData.externfakturamodell = 'nej';
@@ -153,6 +161,50 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.stateService.showDebug = value;
   }
 
+  toDateValidator(toDateField): any {
+      console.log('toDateValidator');
+      //console.log('toDateValidator formGroup: ', formGroup);
+
+      var formGroup = toDateField.parent;
+      var fromDateField = formGroup.controls["fromDatum"];
+
+      //var fromDateField = this.apkForm.get('fromDatum');
+      //var toDateField = this.apkForm.get('toDatum');
+
+      //console.log('fromDateField, ', fromDateField);
+      // console.log('toDate: ' + toDateField.value);
+      // console.log('fromDate: ' + fromDateField.value);
+
+      if(fromDateField.value) {
+        console.log('fromDate has a value');
+      }
+
+      if(toDateField.value) {
+        console.log('toDate has a value');
+      }
+
+
+      var fromDateTimestamp, toDateTimestamp;
+
+      var ticker = 0;
+
+      // for(var controlName in formGroup.controls) {
+      //   console.log('toDateValidator - controls loop. ticker has value: ' + ticker);
+      //
+      //   if(controlName.indexOf("fromDatum") !== -1) {
+      //     fromDateTimestamp = Date.parse(formGroup.controls[controlName].value);
+      //   }
+      //   if(controlName.indexOf("tillDatum") !== -1) {
+      //     toDateTimestamp = Date.parse(formGroup.controls[controlName].value);
+      //   }
+      //
+      //   ticker++;
+      // }
+      // return (toDateTimestamp < fromDateTimestamp) ? { endDateLessThanStartDate: true } : null;
+
+      return true;
+  }
+
   private buildForm() {
     this.apkForm = this.formBuilder.group({
       'unitSearch': [],
@@ -191,6 +243,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'tillDatum': [{
         value: Util.dateStringToObject(this.data.tillDatum),
         disabled: !this.data.tillDatum || this.data.tillDatum.length == 0
+      //}, Validators.compose([datePattern(), Validators.required, this.toDateValidator])],
       }, Validators.compose([datePattern(), Validators.required])],
       'ersattav': [this.data.ersattav, []],
     });
@@ -337,7 +390,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }
     });
 
-    verksamhetFormControl.setValidators(verksamhetValidator(this.allVerksamhets));
+    verksamhetFormControl.setValidators([Validators.required, verksamhetValidator(this.allVerksamhets)]);
   }
 
   private initGenerateAutomaticallyControls() {
@@ -398,7 +451,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }
     });
 
-    vardformFormControl.setValidators(vardformValidator(this.allVardforms));
+    vardformFormControl.setValidators([Validators.required, vardformValidator(this.allVardforms)]);
   }
 
   private initAo3FormControl() {
@@ -421,7 +474,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }
     });
 
-    ao3FormControl.setValidators(ao3Validator(this.allAo3s))
+    ao3FormControl.setValidators([Validators.required, ao3Validator(this.allAo3s)])
   }
 
   private initProdnControls(prodn3: Prodn3) {
@@ -448,6 +501,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     } else {
       this.listenToChangesToProdnx();
     }
+
   }
 
   private getItemInstanceInArray(item: any, array: any[]) {
@@ -656,17 +710,24 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       this.benamningKortActivelyEdited = true;
     }
   }
+
+  // Convenience method for less code in html file.
+  getErrors(formControlName: string): any {
+    return this.apkForm.controls[formControlName].errors;
+  }
 }
 
 export function ao3Validator(ao3s: Ao3[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
-    return ao3s.indexOf(control.value) === -1 ? {'invalidName': control.value} : null;
+    let value = control.value;
+    return value && value.length > 0 && ao3s.indexOf(value) === -1 ? {'invalidName': value} : null;
   };
 }
 
 export function vardformValidator(vardforms: Vardform[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
-    return vardforms.indexOf(control.value) === -1 ? {'invalidName': control.value} : null;
+    let value = control.value;
+    return value && value.length > 0 && vardforms.indexOf(value) === -1 ? {'invalidName': value} : null;
   };
 }
 
