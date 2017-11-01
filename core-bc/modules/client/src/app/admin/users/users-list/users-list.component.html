@@ -14,9 +14,9 @@
     <table class="apk-table users-table">
       <thead>
       <tr>
+        <th class="row-id">VGR-ID</th>
         <th class="row-first-name">Förnamn</th>
         <th class="row-last-name">Efternamn</th>
-        <th class="row-id">VGR-ID</th>
         <th class="row-email">E-post</th>
         <th class="row-permissions">Behörighet</th>
         <th class="row-prod1">Concise SumNivå 1</th>
@@ -26,9 +26,9 @@
 
       <tbody>
       <tr *ngFor="let user of users">
+        <td>{{user.id}}</td>
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>
-        <td>{{user.id}}</td>
         <td>{{user.mail}}</td>
         <td>{{user.role}}</td>
         <td>
