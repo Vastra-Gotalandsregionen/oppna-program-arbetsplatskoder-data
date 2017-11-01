@@ -21,4 +21,12 @@ export class ErrorDialogComponent {
     public close(): void {
         this.dialogRef.close();
     }
+
+    public getErrorMessage() {
+      try {
+        return this.err.json().errorMessage;
+      } catch (e) {
+        return null;
+      }
+    }
 }

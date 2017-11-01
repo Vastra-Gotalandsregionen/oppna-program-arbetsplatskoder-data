@@ -24,7 +24,7 @@ public class UserController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public List<User> getUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllByOrderById();
     }
 
     @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
