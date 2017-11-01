@@ -372,12 +372,31 @@
           </div>
 
           <mat-input-container class="date">
-            <input placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD)" matInput [matDatepicker]="toDatepicker"
+            <input #toDateInput placeholder="Giltig t.o.m. (ÅÅÅÅ-MM-DD)" matInput [matDatepicker]="toDatepicker"
                    formControlName="tillDatum"/>
             <mat-datepicker-toggle matSuffix [for]="toDatepicker" [disabled]="noTillDatumCheckbox.checked"></mat-datepicker-toggle>
 
+
+            <!--
+            <mat-error *ngIf="toDateInput.errorState &&  getErrors('tillDatum')?.required">
+              {{messages.get('field-is-required')}}
+            </mat-error>
+            <mat-error *ngIf="toDateInput.errorState &&  getErrors('tillDatum')?.invalidName">
+              {{messages.get('field-is-invalid-choose-from-dropdown-list')}}
+            </mat-error>
+            -->
+
             <mat-error>{{messages.get('field-is-required')}}</mat-error>
+
+
           </mat-input-container>
+
+          <!--
+          <div>
+            tillDatum.errors: <br />
+            {{getErrors('tillDatum') | json}}
+          </div>
+          -->
 
           <mat-datepicker startView="year" #toDatepicker></mat-datepicker>
 

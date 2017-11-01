@@ -165,8 +165,8 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       console.log('toDateValidator');
       //console.log('toDateValidator formGroup: ', formGroup);
 
-      var formGroup = toDateField.parent;
-      var fromDateField = formGroup.controls["fromDatum"];
+      //var formGroup = toDateField.parent;
+      //var fromDateField = formGroup.controls["fromDatum"];
 
       //var fromDateField = this.apkForm.get('fromDatum');
       //var toDateField = this.apkForm.get('toDatum');
@@ -175,18 +175,18 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       // console.log('toDate: ' + toDateField.value);
       // console.log('fromDate: ' + fromDateField.value);
 
-      if(fromDateField.value) {
-        console.log('fromDate has a value');
-      }
-
-      if(toDateField.value) {
-        console.log('toDate has a value');
-      }
-
-
-      var fromDateTimestamp, toDateTimestamp;
-
-      var ticker = 0;
+      // if(fromDateField.value) {
+      //   console.log('fromDate has a value');
+      // }
+      //
+      // if(toDateField.value) {
+      //   console.log('toDate has a value');
+      // }
+      //
+      //
+      // var fromDateTimestamp, toDateTimestamp;
+      //
+      // var ticker = 0;
 
       // for(var controlName in formGroup.controls) {
       //   console.log('toDateValidator - controls loop. ticker has value: ' + ticker);
@@ -202,7 +202,11 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       // }
       // return (toDateTimestamp < fromDateTimestamp) ? { endDateLessThanStartDate: true } : null;
 
-      return true;
+      var returnValue = null;
+
+      //returnValue = {'invalidName' : toDateField.value};
+
+      return returnValue;
   }
 
   private buildForm() {
