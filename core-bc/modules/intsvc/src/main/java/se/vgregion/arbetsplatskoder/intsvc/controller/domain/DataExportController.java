@@ -62,7 +62,8 @@ public class DataExportController {
     public String fetchStralforsExport() {
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", Collections.singletonList("text/plain"));
-        return stralforsExportFileService.generate();
+        return stralforsExportFileService.runFileTransfer();
+        // return stralforsExportFileService.generate();
     }
 
     @RequestMapping(value = "sesam-lmn", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
@@ -94,6 +93,9 @@ public class EHalsomyndighetenExportFileService {
     }
 
     static String trim(String thatText, int toMaximumLength) {
+        if (thatText == null) {
+            return "";
+        }
         if (thatText.length() > toMaximumLength) {
             return thatText.substring(0, toMaximumLength);
         } else {
@@ -119,7 +121,7 @@ public class EHalsomyndighetenExportFileService {
                     , formatFranDatum(item.getFromDatum(), (Date) item.getTillDatum())
                     , formatTillDatum(item.getTillDatum())
                     , trim(item.getPostadress(), 35)
-                    , item.getPostnr()
+                    , formatPostnr(item.getPostnr())
                     , trim(item.getPostort(), 25)
                     , ""
                     , ""
@@ -133,6 +135,13 @@ public class EHalsomyndighetenExportFileService {
             );
         }
         return formatLines(lines);
+    }
+
+    static String formatPostnr(String pnr) {
+        if (pnr == null) {
+            return "";
+        }
+        return pnr.replace(" ", "");
     }
 
     static DateTimeFormatter yyyyMmDd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -149,7 +158,7 @@ public class EHalsomyndighetenExportFileService {
 
     static String formatTillDatum(Date toDate) {
         if (toDate == null) {
-            return "2000-01-01";
+            return "2199-12-01";
         }
         LocalDateTime ld = toLocalDateTime(toDate);
         if (ld.getYear() == 2199) {

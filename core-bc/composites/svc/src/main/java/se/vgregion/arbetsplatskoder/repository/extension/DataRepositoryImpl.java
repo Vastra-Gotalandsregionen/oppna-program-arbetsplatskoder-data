@@ -207,7 +207,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         String jpql = "select d\n" +
                 " from Data d \n" +
                 "where length(d.arbetsplatskod) < 12\n" +
-                " and d.tillDatum > :oneYearAgo\n" +
+                " and (d.tillDatum > :oneYearAgo or d.tillDatum is null)\n" +
                 "order by d.arbetsplatskodlan";
 
         Calendar cal = Calendar.getInstance();
