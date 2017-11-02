@@ -438,7 +438,7 @@
 
           <div [@slideIn]="!apkForm.value.generateAutomatically ? 'in' : 'out'">
             <mat-input-container>
-              <input placeholder="Skriv in arbetsplatskoden manuellt" matInput formControlName="arbetsplatskodlan" />
+              <input placeholder="Skriv in arbetsplatskoden manuellt" autocomplete="off" matInput formControlName="arbetsplatskodlan" />
 
               <mat-error *ngIf="getErrors('arbetsplatskodlan')?.alreadyExists">
                 {{messages.get('code-already-exists')}}

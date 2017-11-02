@@ -423,6 +423,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
               }
             }
           );
+        arbetsplatskodlanControl.markAsTouched();
       });
 
     agarformControl.valueChanges.subscribe(value => {
