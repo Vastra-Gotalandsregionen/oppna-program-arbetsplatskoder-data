@@ -109,9 +109,10 @@ public class LdapLoginService {
         } catch (CommunicationException e) {
             throw new RuntimeException(e);
         } catch (AccountNotFoundException e) {
-            throw new FailedLoginException();
+            throw new FailedLoginException(e.getMessage());
         } catch (Exception e) {
-            throw new FailedLoginException();
+            LOGGER.error(e.getMessage(), e);
+            throw new FailedLoginException(e.getMessage());
         } finally {
             if (serviceCtx != null) {
                 try {

@@ -2,6 +2,8 @@ package se.vgregion.arbetsplatskoder.intsvc.controller;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/login")
 public class LoginController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     private LdapLoginService ldapLoginService;
 
@@ -39,7 +43,7 @@ public class LoginController {
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         try {
             User user = null;
-            if (request.getHeader("iv-user") != null) { // TODO Remove before production.
+            if (request.getHeader("iv-user") != null) {
                 user = ldapLoginService.loginOffline(request.getHeader("iv-user"));
             } else {
                 user = ldapLoginService.login(loginRequest.getUsername(), loginRequest.getPassword());
@@ -53,6 +57,7 @@ public class LoginController {
 
             return ResponseEntity.ok(token);
         } catch (FailedLoginException e) {
+            LOGGER.warn(e.getClass().getCanonicalName() + " - " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
