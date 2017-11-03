@@ -58,8 +58,8 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         List<String> result = new ArrayList<>();
         for (String s : ofThat.trim().split(Pattern.quote(" "))) {
             result.add((s.startsWith("%") ? "" : "%")
-                    + s
-                    + (s.endsWith("%") ? "" : "%"));
+                + s
+                + (s.endsWith("%") ? "" : "%"));
         }
         return result;
     }
@@ -77,12 +77,12 @@ public class DataRepositoryImpl implements DataExtendedRepository {
 
         int i = 1;
         List<String> allFields = Arrays.asList(
-                "lower(d.arbetsplatskodlan)",
-                "lower(d.benamning)",
-                "lower(d.ansvar)",
-                "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
-                "lower(d.prodn3.prodn2.kortnamn)",
-                "lower(d.prodn1.kortnamn)"
+            "lower(d.arbetsplatskodlan)",
+            "lower(d.benamning)",
+            "lower(d.ansvar)",
+            "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
+            "lower(d.prodn3.prodn2.kortnamn)",
+            "lower(d.prodn1.kortnamn)"
         );
         for (Object s : wordsToLookFor) {
             List<String> allFieldsLikeCondtion = new ArrayList<>();
@@ -103,18 +103,18 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         }
 
         if (validToDate != null) {
-            conditions.add("d.tillDatum >= ?" + (i++));
+            conditions.add("(d.tillDatum >= ?" + (i++) + "  or d.tillDatum is null)");
             arguments.add(validToDate);
         }
 
         sb.append(String.join(" and ", conditions));
 
         long count = query(
-                Long.class,
-                "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
-                null,
-                arguments,
-                prodn1s).get(0);
+            Long.class,
+            "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
+            null,
+            arguments,
+            prodn1s).get(0);
 
         if (pageable.getSort() != null) {
             Sort sort = pageable.getSort();
@@ -129,9 +129,9 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         }
 
         String jpql = "select d from "
-                + Data.class.getSimpleName()
-                + " d "
-                + sb.toString();
+            + Data.class.getSimpleName()
+            + " d "
+            + sb.toString();
 
         List<Data> results = query(Data.class, jpql, pageable, arguments, prodn1s);
 
@@ -205,10 +205,10 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     @Override
     public List<Data> findEhalsomyndighetensExportBatch() {
         String jpql = "select d\n" +
-                " from Data d \n" +
-                "where length(d.arbetsplatskod) < 12\n" +
-                " and (d.tillDatum > :oneYearAgo or d.tillDatum is null)\n" +
-                "order by d.arbetsplatskodlan";
+            " from Data d \n" +
+            "where length(d.arbetsplatskod) < 12\n" +
+            " and (d.tillDatum > :oneYearAgo or d.tillDatum is null)\n" +
+            "order by d.arbetsplatskodlan";
 
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
@@ -223,11 +223,11 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     @Override
     public List<Data> findStralforsExportBatch() {
         String sql = "SELECT distinct d " +
-                "FROM Data d\n" +
-                "WHERE \n" +
-                " (d.tillDatum > current_timestamp or d.tillDatum is null) and \n" +
-                " (d.apodos = false or d.apodos is null) and  \n" +
-                " arbetsplatskodlan != '14999999'";
+            "FROM Data d\n" +
+            "WHERE \n" +
+            " (d.tillDatum > current_timestamp or d.tillDatum is null) and \n" +
+            " (d.apodos = false or d.apodos is null) and  \n" +
+            " arbetsplatskodlan != '14999999'";
         Query nq = entityManager.createQuery(sql);
         List rl = nq.getResultList();
         return new ArrayList<>(rl);
