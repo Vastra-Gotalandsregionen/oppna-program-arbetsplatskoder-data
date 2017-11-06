@@ -438,7 +438,7 @@
 
           <div [@slideIn]="!apkForm.value.generateAutomatically ? 'in' : 'out'">
             <mat-input-container>
-              <input placeholder="Skriv in arbetsplatskoden manuellt" autocomplete="off" matInput formControlName="arbetsplatskodlan" />
+              <input placeholder="Skriv in arbetsplatskoden manuellt. Börja med &quot;14&quot;." autocomplete="off" matInput formControlName="arbetsplatskodlan" />
 
               <mat-error *ngIf="getErrors('arbetsplatskodlan')?.alreadyExists">
                 {{messages.get('code-already-exists')}}
@@ -449,7 +449,7 @@
             </mat-input-container>
 
             <div>
-              <span>Högsta arbetsplatskoden som given början:</span>
+              <span>Högsta befintliga arbetsplatskod med samma inledning:</span>
               <span>{{highestBeginningWith}}</span>
             </div>
           </div>
