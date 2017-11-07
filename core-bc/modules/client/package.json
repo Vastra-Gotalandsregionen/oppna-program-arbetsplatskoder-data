@@ -24,6 +24,8 @@
     "@angular/platform-browser": "^4.4.5",
     "@angular/platform-browser-dynamic": "^4.4.5",
     "@angular/router": "^4.4.5",
+    "@ngx-translate/core": "^8.0.0",
+    "@ngx-translate/http-loader": "^2.0.0",
     "angular2-jwt": "^0.2.3",
     "angular2-ladda": "^1.2.2",
     "core-js": "^2.5.1",

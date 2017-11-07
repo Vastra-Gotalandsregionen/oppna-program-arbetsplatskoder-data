@@ -19,6 +19,8 @@ import {ApkBase} from "../apk-base/apk-base";
 import {Util} from "../../core/util/util";
 import {UnitSearchResult} from "../../model/UnitSearchResult";
 
+import { TranslateService} from '@ngx-translate/core';
+
 @Component({
   selector: 'apk-form',
   templateUrl: './apk-form.component.html',
@@ -72,12 +74,14 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   messages: Map<string, string>;
 
   constructor(private http: JwtHttp,
+              private translate: TranslateService,
               private formBuilder: FormBuilder,
               private snackBar: MatSnackBar,
               stateService: StateService,
               private errorHandler: ErrorHandler) {
 
     super();
+    translate.setDefaultLang('sv_SE');
     this.stateService = stateService;
   }
 
@@ -174,17 +178,17 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   toDateValidator(toDateField): any {
     if (!this.apkForm) return null;
     var fromDateField = this.apkForm.get('fromDatum');
-    
+
     if (!toDateField.value) return null;
     if (!fromDateField.value) return null;
     if (toDateField.value < fromDateField.value) {
       return {toDateBeforeFromDate: toDateField.value};
     }
-  
-    return null;
-  
 
-  
+    return null;
+
+
+
     //console.log('toDateValidator formGroup: ', formGroup);
 
       //var formGroup = toDateField.parent;
@@ -259,7 +263,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'generateAutomatically': [true],
       'hsaid': [this.data.hsaid],
 
-      /*      
+      /*
       'fromDatum': [{
         value: Util.dateStringToObject(this.data.fromDatum)
       }, Validators.compose([datePattern(), Validators.required, this.fromDateValidator.bind(this)])],
@@ -272,7 +276,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         },
         Validators.compose([datePattern(), Validators.required, this.fromDateValidator.bind(this)])
       ],
-      
+
       'noTillDatum': [!this.data.tillDatum || this.data.tillDatum.length === 0],
       'tillDatum': [
         {
@@ -456,7 +460,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
             }
           }
         );
-      
+
     agarformControl.valueChanges.subscribe(value => {
       if (value === '1' || value === '2' || value === '3' || value === '7' || value === '9') {
         generateAutomaticallyFormControl.setValue(true);

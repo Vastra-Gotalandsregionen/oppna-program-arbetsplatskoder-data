@@ -14,7 +14,6 @@ import { EllipsisPipe } from './ellipsis/ellipsis.pipe';
 import { DateXPipe } from './date-x-pipe/date-x.pipe';
 import {CKEditorModule} from "ng2-ckeditor";
 
-
 import { LaddaModule } from 'angular2-ladda';
 import { LinkListComponent } from './link-list/link-list.component';
 import { ContentBoxComponent } from './content-box/content-box.component';
