@@ -91,6 +91,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.messages.set('field-is-invalid', 'Ogiltigt värde');
     this.messages.set('field-is-invalid-choose-from-dropdown-list', 'Ogiltigt värde. Du måste välja värde från dropdownlistan.');
     this.messages.set('code-already-exists', 'Koden finns redan. Välj en annan.');
+    this.messages.set('invalid-beginning', 'Koden måste börja med 14.');
 
     // Default values:
     defaultData.externfakturamodell = 'nej';
@@ -411,21 +412,18 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
     arbetsplatskodlanControl.valueChanges
       .filter(value => value && value.length > 0)
-      .subscribe(value => {
-        this.http.get('/api/data/highestBeginningWith/' + value)
-          .map(response => response.json())
-          .subscribe(
-            datas => {
-              if (datas.length > 0) {
-                this.highestBeginningWith = datas[0].arbetsplatskodlan
-              } else {
-                this.highestBeginningWith = null;
-              }
-            }
-          );
+      .flatMap(value => this.http.get('/api/data/highestBeginningWith/' + value))
+      .map(response => response.json())
+      .subscribe(datas => {
         arbetsplatskodlanControl.markAsTouched();
-      });
-
+        if (datas.length > 0) {
+              this.highestBeginningWith = datas[0].arbetsplatskodlan
+            } else {
+              this.highestBeginningWith = null;
+            }
+          }
+        );
+      
     agarformControl.valueChanges.subscribe(value => {
       if (value === '1' || value === '2' || value === '3' || value === '7' || value === '9') {
         generateAutomaticallyFormControl.setValue(true);
@@ -722,6 +720,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
   validateArbetsplatskodlan(control: AbstractControl): Observable<{ [key: string]: any }> {
     if (control.value) {
+      if (control.value.length >= 2 && !control.value.startsWith('14')) {
+        console.log('fel början');
+        return new Observable(observer => observer.next({invalidBeginning: control.value})).take(1);
+      }
       return this.http.get('/api/data/arbetsplatskodlan/' + control.value)
         .map(response => {
           try {
@@ -738,7 +740,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
           }
         });
     } else {
-      return new Observable(observer => observer.next(null));
+      return new Observable(observer => observer.next(null)).take(1);
     }
   };
 

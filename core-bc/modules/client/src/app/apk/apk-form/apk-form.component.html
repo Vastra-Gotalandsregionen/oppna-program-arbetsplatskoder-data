@@ -443,6 +443,10 @@
               <mat-error *ngIf="getErrors('arbetsplatskodlan')?.alreadyExists">
                 {{messages.get('code-already-exists')}}
               </mat-error>
+              <mat-error *ngIf="getErrors('arbetsplatskodlan')?.invalidBeginning">
+                {{messages.get('invalid-beginning')}}
+              </mat-error>
+              
               <mat-error  *ngIf="getErrors('arbetsplatskodlan')?.required">
                 {{messages.get('field-is-required')}}
               </mat-error>
