@@ -580,15 +580,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   }
 
   save() {
-    /*
-      These inputs do not themselves call the method updateValueAndValidity, unlike the others.
-    */
-    this.apkForm.get('prodn1').updateValueAndValidity();
-    this.apkForm.get('prodn2').updateValueAndValidity();
-    this.apkForm.get('prodn3').updateValueAndValidity();
-    this.apkForm.get('tillDatum').updateValueAndValidity();
-    this.apkForm.get('fromDatum').updateValueAndValidity();
-
     if (!this.apkForm.valid) {
       this.saveMessage = 'Alla fält är inte korrekt ifyllda.';
       return;

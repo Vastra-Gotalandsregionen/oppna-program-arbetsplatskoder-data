@@ -235,13 +235,13 @@
           <div class="apk-form-field-ctn">
             <div class="apk-form-field">
               <mat-form-field>
-                <mat-select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-select #prodn1Select placeholder="Concise SumNivå 1" formControlName="prodn1" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
                   <mat-option *ngFor="let prodn1 of allProdn1s" [value]="prodn1">
                     {{prodn1.kortnamn}}
                   </mat-option>
                 </mat-select>
 
-                <mat-error *ngIf="getErrors('prodn1')?.required">
+                <mat-error *ngIf="prodn1Select.errorState && getErrors('prodn1')?.required">
                   {{messages.get('field-is-required')}}
                 </mat-error>
 
@@ -253,13 +253,13 @@
           <div class="apk-form-field-ctn">
             <div class="apk-form-field">
               <mat-form-field>
-                <mat-select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-select #prodn2Select placeholder="Concise SumNivå 2" formControlName="prodn2" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
                   <mat-option *ngFor="let prodn2 of prodn2Options" [value]="prodn2">
                     {{prodn2.kortnamn}}
                   </mat-option>
                 </mat-select>
 
-                <mat-error *ngIf="getErrors('prodn2')?.required">
+                <mat-error *ngIf="prodn2Select.errorState && getErrors('prodn2')?.required">
                   {{messages.get('field-is-required')}}
                 </mat-error>
 
@@ -270,13 +270,13 @@
           <div class="apk-form-field-ctn">
             <div class="apk-form-field">
               <mat-form-field>
-                <mat-select  placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
+                <mat-select #prodn3Select placeholder="Concise SumNivå 3" formControlName="prodn3" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
                   <mat-option *ngFor="let prodn3 of prodn3Options" [value]="prodn3">
                     {{prodn3.kortnamn}}
                   </mat-option>
                 </mat-select>
 
-                <mat-error *ngIf="getErrors('prodn3')?.required">
+                <mat-error *ngIf="prodn3Select.errorState && getErrors('prodn3')?.required">
                   {{messages.get('field-is-required')}}
                 </mat-error>
 
