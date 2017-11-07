@@ -92,6 +92,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.messages.set('field-is-invalid-choose-from-dropdown-list', 'Ogiltigt värde. Du måste välja värde från dropdownlistan.');
     this.messages.set('code-already-exists', 'Koden finns redan. Välj en annan.');
     this.messages.set('invalid-beginning', 'Koden måste börja med 14.');
+    this.messages.set('till-datum-is-before-from-datum', 'Giltig t.o.m. kan inte vara före Giltig fr.o.m.')
 
     // Default values:
     defaultData.externfakturamodell = 'nej';
@@ -163,8 +164,27 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.stateService.showDebug = value;
   }
 
+  fromDateValidator(fromDateField): any {
+    if (!this.apkForm) return null;
+    var toDateField = this.apkForm.get('tillDatum');
+    toDateField.updateValueAndValidity();
+    return null;
+  }
+
   toDateValidator(toDateField): any {
-    console.log('toDateValidator');
+    if (!this.apkForm) return null;
+    var fromDateField = this.apkForm.get('fromDatum');
+    
+    if (!toDateField.value) return null;
+    if (!fromDateField.value) return null;
+    if (toDateField.value < fromDateField.value) {
+      return {toDateBeforeFromDate: toDateField.value};
+    }
+  
+    return null;
+  
+
+  
     //console.log('toDateValidator formGroup: ', formGroup);
 
       //var formGroup = toDateField.parent;
@@ -203,10 +223,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     //   ticker++;
     // }
     // return (toDateTimestamp < fromDateTimestamp) ? { endDateLessThanStartDate: true } : null;
-
-      var returnValue = null;
-
-      //returnValue = {'invalidName' : toDateField.value};return returnValue;
   }
 
   private buildForm() {
@@ -228,9 +244,9 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'benamning': [this.data.benamning, Validators.required],
       'benamningKort': [this.data.benamningKort, Validators.required],
       'addressGroup': this.formBuilder.group({
-        'postadress': [this.data.postadress],
-        'postnr': [this.data.postnr],
-        'postort': [this.data.postort],
+        'postadress': [this.data.postadress, Validators.required],
+        'postnr': [this.data.postnr, Validators.required],
+        'postort': [this.data.postort, Validators.required],
       }),
       'externfakturaGroup': this.formBuilder.group({
         'externfakturamodell': [this.data.externfakturamodell, Validators.required]
@@ -242,13 +258,30 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'anmarkning': [this.data.anmarkning],
       'generateAutomatically': [true],
       'hsaid': [this.data.hsaid],
-      'fromDatum': [Util.dateStringToObject(this.data.fromDatum), Validators.compose([datePattern(), Validators.required])],
+
+      /*      
+      'fromDatum': [{
+        value: Util.dateStringToObject(this.data.fromDatum)
+      }, Validators.compose([datePattern(), Validators.required, this.fromDateValidator.bind(this)])],
+      */
+
+      'fromDatum': [
+        {
+          value: Util.dateStringToObject(this.data.fromDatum),
+          disabled: false
+        },
+        Validators.compose([datePattern(), Validators.required, this.fromDateValidator.bind(this)])
+      ],
+      
       'noTillDatum': [!this.data.tillDatum || this.data.tillDatum.length === 0],
-      'tillDatum': [{
-        value: Util.dateStringToObject(this.data.tillDatum),
-        disabled: !this.data.tillDatum || this.data.tillDatum.length == 0
-        //}, Validators.compose([datePattern(), Validators.required, this.toDateValidator])],
-      }, Validators.compose([datePattern(), Validators.required])],
+      'tillDatum': [
+        {
+          value: Util.dateStringToObject(this.data.tillDatum),
+          disabled: !this.data.tillDatum || this.data.tillDatum.length == 0
+        },
+        Validators.compose([datePattern(), Validators.required, this.toDateValidator.bind(this)])
+      ],
+      //}, Validators.compose([datePattern(), Validators.required])],
       'ersattav': [this.data.ersattav, []],
     });
 
@@ -547,6 +580,15 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   }
 
   save() {
+    /*
+      These inputs do not themselves call the method updateValueAndValidity, unlike the others.
+    */
+    this.apkForm.get('prodn1').updateValueAndValidity();
+    this.apkForm.get('prodn2').updateValueAndValidity();
+    this.apkForm.get('prodn3').updateValueAndValidity();
+    this.apkForm.get('tillDatum').updateValueAndValidity();
+    this.apkForm.get('fromDatum').updateValueAndValidity();
+
     if (!this.apkForm.valid) {
       this.saveMessage = 'Alla fält är inte korrekt ifyllda.';
       return;
