@@ -12,7 +12,7 @@
 
     <mat-toolbar class="action-toolbar">
 
-      <mat-input-container class="action-toolbar-item">
+      <mat-input-container class="action-toolbar-item" (keydown)="$event.stopPropagation();">
         <input matInput placeholder="Skriv in arbetsplatskod, benämning, datum med mera för att filtrera listan nedan..." [formControl]="stateCtrl" [(ngModel)]="query">
       </mat-input-container>
 
