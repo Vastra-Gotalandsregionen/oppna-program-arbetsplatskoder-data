@@ -92,6 +92,12 @@ public class DataRepositoryImpl implements DataExtendedRepository {
             }
             conditions.add("(" + String.join(" or ", allFieldsLikeCondtion) + ")");
         }
+
+        if (validToDate != null) {
+            conditions.add("(d.tillDatum >= ?" + (i++) + "  or d.tillDatum is null)");
+            arguments.add(validToDate);
+        }
+
         if (prodn1s != null) {
             if (prodn1s.size() == 0) {
                 // Should result in zero entities.
@@ -100,11 +106,6 @@ public class DataRepositoryImpl implements DataExtendedRepository {
                 conditions.add("d.prodn1 in ?" + (i++));
                 wordsToLookFor.add(prodn1s);
             }
-        }
-
-        if (validToDate != null) {
-            conditions.add("(d.tillDatum >= ?" + (i++) + "  or d.tillDatum is null)");
-            arguments.add(validToDate);
         }
 
         sb.append(String.join(" and ", conditions));
