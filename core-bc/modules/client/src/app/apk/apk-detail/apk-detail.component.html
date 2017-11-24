@@ -86,6 +86,13 @@
                   </div>
                 </div>
 
+                <div class="apk-details-item" *ngIf="data.externfakturamodell === 'ovr'">
+                  <div class="apk-details-item-label">Vårdgivarkod:</div>
+                  <div class="apk-details-item-data">
+                    {{data.externfaktura}}
+                  </div>
+                </div>
+
                 <div class="apk-details-item">
                   <div class="apk-details-item-label">VGPV:</div>
                   <div class="apk-details-item-data">

@@ -174,55 +174,14 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   toDateValidator(toDateField): any {
     if (!this.apkForm) return null;
     var fromDateField = this.apkForm.get('fromDatum');
-    
+
     if (!toDateField.value) return null;
     if (!fromDateField.value) return null;
     if (toDateField.value < fromDateField.value) {
       return {toDateBeforeFromDate: toDateField.value};
     }
-  
+
     return null;
-  
-
-  
-    //console.log('toDateValidator formGroup: ', formGroup);
-
-      //var formGroup = toDateField.parent;
-      //var fromDateField = formGroup.controls["fromDatum"];
-
-    //var fromDateField = this.apkForm.get('fromDatum');
-    //var toDateField = this.apkForm.get('toDatum');
-
-    //console.log('fromDateField, ', fromDateField);
-    // console.log('toDate: ' + toDateField.value);
-    // console.log('fromDate: ' + fromDateField.value);
-
-      //if(fromDateField.value) {
-        //console.log('fromDate has a value');
-      //}
-//
-      //if(toDateField.value) {
-        //console.log('toDate has a value');
-      //}
-//
-//
-      //var fromDateTimestamp, toDateTimestamp;
-//
-      //var ticker = 0;
-
-    // for(var controlName in formGroup.controls) {
-    //   console.log('toDateValidator - controls loop. ticker has value: ' + ticker);
-    //
-    //   if(controlName.indexOf("fromDatum") !== -1) {
-    //     fromDateTimestamp = Date.parse(formGroup.controls[controlName].value);
-    //   }
-    //   if(controlName.indexOf("tillDatum") !== -1) {
-    //     toDateTimestamp = Date.parse(formGroup.controls[controlName].value);
-    //   }
-    //
-    //   ticker++;
-    // }
-    // return (toDateTimestamp < fromDateTimestamp) ? { endDateLessThanStartDate: true } : null;
   }
 
   private buildForm() {
@@ -251,6 +210,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'externfakturaGroup': this.formBuilder.group({
         'externfakturamodell': [this.data.externfakturamodell, Validators.required]
       }),
+      'externfaktura': [this.data.externfaktura, Validators.required],
       'groupCode': [this.data.groupCode],
       'vgpvGroup': this.formBuilder.group({
         'vgpv': [this.data.vgpv ? 'true' : 'false', Validators.required]
@@ -259,12 +219,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'generateAutomatically': [true],
       'hsaid': [this.data.hsaid],
 
-      /*      
-      'fromDatum': [{
-        value: Util.dateStringToObject(this.data.fromDatum)
-      }, Validators.compose([datePattern(), Validators.required, this.fromDateValidator.bind(this)])],
-      */
-
       'fromDatum': [
         {
           value: Util.dateStringToObject(this.data.fromDatum),
@@ -272,7 +226,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         },
         Validators.compose([datePattern(), Validators.required, this.fromDateValidator.bind(this)])
       ],
-      
+
       'noTillDatum': [!this.data.tillDatum || this.data.tillDatum.length === 0],
       'tillDatum': [
         {
@@ -298,9 +252,11 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       .flatMap(query => {
         return this.http.get('/api/search/unit?query=' + query);
       })
+      .retry() // So it retries even after an error.
       .map(result => result.json())
       .subscribe(
-        result => this.unitSearchResult = result
+        result => this.unitSearchResult = result,
+        error => console.log('error: ' + error)
       );
 
 
@@ -402,6 +358,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     }
 
     this.initAo3FormControl();
+    this.initExternFakturaModellControl();
     this.initVardformControl();
     this.initVerksamhetControl();
     this.initGenerateAutomaticallyControls();
@@ -456,7 +413,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
             }
           }
         );
-      
+
     agarformControl.valueChanges.subscribe(value => {
       if (value === '1' || value === '2' || value === '3' || value === '7' || value === '9') {
         generateAutomaticallyFormControl.setValue(true);
@@ -510,6 +467,22 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     });
 
     ao3FormControl.setValidators([Validators.required, ao3Validator(this.allAo3s)])
+  }
+
+  private initExternFakturaModellControl() {
+    const externFakturaModellControl = this.apkForm.get('externfakturaGroup').get('externfakturamodell');
+    const externFakturControl = this.apkForm.get('externfaktura');
+
+    externFakturaModellControl.valueChanges
+      .startWith(externFakturaModellControl.value)
+      .subscribe(value => {
+        if (value === 'ovr') {
+          externFakturControl.enable();
+        } else {
+          externFakturControl.disable();
+        }
+      });
+
   }
 
   private initProdnControls(prodn3: Prodn3) {
@@ -606,6 +579,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       data.postort = formModel.addressGroup.postort;
     }
     data.externfakturamodell = formModel.externfakturaGroup.externfakturamodell;
+    data.externfaktura = formModel.externfaktura;
     data.prodn1 = formModel.prodn1;
     data.prodn3 = formModel.prodn3;
     data.vgpv = formModel.vgpvGroup.vgpv;

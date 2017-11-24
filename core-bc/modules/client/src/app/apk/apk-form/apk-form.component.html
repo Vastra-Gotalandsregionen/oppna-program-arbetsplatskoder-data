@@ -147,12 +147,23 @@
           <div class="apk-form-field-ctn">
             <div class="apk-form-field">
               <div formGroupName="externfakturaGroup" ngClass="{{theForm.submitted ? 'submitted' : ''}}">
-                <label class="field-label">Faktureras externt</label>
-                <mat-radio-group formControlName="externfakturamodell">
-                    <mat-radio-button value="ovr">Ja</mat-radio-button>
-                    <mat-radio-button value="nej">Nej</mat-radio-button>
+                <div>
+                  <label class="field-label">Faktureras externt</label>
 
-                </mat-radio-group>
+                  <mat-radio-group formControlName="externfakturamodell">
+                      <mat-radio-button value="ovr">Ja</mat-radio-button>
+                      <mat-radio-button value="nej">Nej</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+
+              <div [@slideIn]="apkForm.value.externfakturaGroup.externfakturamodell === 'ovr' ? 'in': 'out'">
+
+                <mat-input-container>
+                  <input matInput placeholder="Vårdgivarkod" formControlName="externfaktura" type="text"/>
+                  <mat-icon matTooltip="Förklaring...">help</mat-icon>
+                  <mat-error>{{messages.get('field-is-required')}}</mat-error>
+                </mat-input-container>
               </div>
             </div>
           </div>
@@ -385,7 +396,7 @@
             <mat-error *ngIf="getErrors('tillDatum')?.toDateBeforeFromDate">
               {{messages.get('till-datum-is-before-from-datum')}}
             </mat-error>
-            
+
           </mat-input-container>
           <mat-datepicker startView="year" #toDatepicker></mat-datepicker>
 
@@ -435,7 +446,7 @@
               <mat-error *ngIf="getErrors('arbetsplatskodlan')?.invalidBeginning">
                 {{messages.get('invalid-beginning')}}
               </mat-error>
-              
+
               <mat-error  *ngIf="getErrors('arbetsplatskodlan')?.required">
                 {{messages.get('field-is-required')}}
               </mat-error>
