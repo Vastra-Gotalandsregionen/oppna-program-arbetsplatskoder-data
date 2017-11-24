@@ -1,5 +1,5 @@
 <div *ngIf="apkForm; else loading">
-  <form class="apk-form" #theForm="ngForm" [formGroup]="apkForm" (ngSubmit)="save()"
+  <form class="apk-form" #theForm="ngForm" [formGroup]="apkForm" (ngSubmit)="save()" autocomplete="off"
         novalidate>
 
       <mat-toolbar class="meta-toolbar" *ngIf="data.arbetsplatskodlan">
@@ -125,12 +125,14 @@
             <div class="apk-form-field">
               <mat-input-container>
                 <input matInput placeholder="Ansvar" formControlName="ansvar" type="text"/>
-                <mat-icon matTooltip="Förklaring...">help</mat-icon>
+                <mat-icon matTooltip="Ange ett nummer på 4-6 siffror">help</mat-icon>
 
                 <mat-error *ngIf="getErrors('ansvar')?.required">
                   {{messages.get('field-is-required')}}
                 </mat-error>
-
+                <mat-error *ngIf="getErrors('ansvar')?.invalidName">
+                  {{messages.get('field-is-invalid')}}
+                </mat-error>
               </mat-input-container>
             </div>
           </div>

@@ -194,7 +194,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       'agarform': [this.data.agarform],
       'ao3': [this.ao3IdMap.get(this.data.ao3), Validators.required],
       'frivilligUppgift': [{value: this.data.frivilligUppgift, disabled: !this.isPrivate}],
-      'ansvar': [this.data.ansvar, Validators.required],
+      'ansvar': [this.data.ansvar, Validators.compose([ansvarValidator(), Validators.required])],
       'vardform': [this.vardformIdMap.get(this.data.vardform), Validators.required],
       'verksamhet': [this.verksamhetIdMap.get(this.data.verksamhet), Validators.required],
       'prodn1': [null, Validators.required], // Set further down
@@ -757,6 +757,14 @@ export function ao3Validator(ao3s: Ao3[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     let value = control.value;
     return value && value.length > 0 && ao3s.indexOf(value) === -1 ? {'invalidName': value} : null;
+  };
+}
+
+export function ansvarValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } => {
+    let value = <string>control.value;
+    return value && (value.match('^[0-9]+$') && value.length >= 4 && value.length <= 6) ? null : {'invalidName': value};
+    // return  /^[0-9]+$/.test(val);
   };
 }
 
