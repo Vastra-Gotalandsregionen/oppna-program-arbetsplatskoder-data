@@ -193,10 +193,12 @@ export class ApkComponent extends ApkBase implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   paginateByArrowKey($event) {
-    if ($event.key === 'ArrowRight') {
-      this.nextPage();
-    } else if ($event.key === 'ArrowLeft') {
-      this.previousPage()
+    if ($event.key) {
+      if ($event.key.toLowerCase().indexOf('right') > -1) {
+        this.nextPage();
+      } else if ($event.key.toLowerCase().indexOf('left') > -1) {
+        this.previousPage()
+      }
     }
   }
 
