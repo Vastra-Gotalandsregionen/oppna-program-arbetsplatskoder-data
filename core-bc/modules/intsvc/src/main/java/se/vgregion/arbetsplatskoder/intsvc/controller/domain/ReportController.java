@@ -246,7 +246,7 @@ public class ReportController {
         String toDate = toDateString(data.getTillDatum());
         return new String[]{
                 data.getArbetsplatskodlan(),
-                agarform != null ? agarform.getLabel() : data.getAgarform(),
+                agarform != null ? agarform.getKey() + ", " + agarform.getLabel() : data.getAgarform(),
                 getAo3Text(data.getAo3()),
                 data.getAnsvar(),
                 data.getFrivilligUppgift(),

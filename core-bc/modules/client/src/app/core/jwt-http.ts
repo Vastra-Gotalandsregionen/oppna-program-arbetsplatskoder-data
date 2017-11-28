@@ -24,6 +24,9 @@ export class JwtHttp extends Http {
               stateService: StateService,
               location: Location) {
     options.headers.set('If-Modified-Since', '0');
+    options.headers.set('Cache-Control', 'no-cache');
+    options.headers.set('Pragma', 'no-cache');
+    options.headers.set('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
 
     super(backend, options);
 

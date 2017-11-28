@@ -69,7 +69,7 @@
           </mat-option>
         </mat-autocomplete>
 
-        <div [@slideIn]="apkForm.value.unitSearch?.dn ? 'in': 'out'">
+        <div *ngIf="apkForm.value.unitSearch?.dn">
           <div><span class="label">Enhetens sökväg: </span><span style="word-break: break-all">{{dnToFriendly(apkForm.value.unitSearch?.dn)}}</span></div>
 
           <h3>Uppgifter som kan fyllas i:</h3>
