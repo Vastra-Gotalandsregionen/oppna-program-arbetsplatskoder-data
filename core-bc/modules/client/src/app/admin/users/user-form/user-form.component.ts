@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ErrorHandler} from '../../../shared/error-handler';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Http, Response} from '@angular/http';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Response} from '@angular/http';
 import {User} from '../../../model/user';
 import {Prodn1} from '../../../model/prodn1';
 import {Observable} from 'rxjs/Observable';
@@ -71,6 +71,19 @@ export class UserFormComponent implements OnInit {
       })
     });
 
+    let userIdField = this.userForm.get('userId');
+
+    userIdField.valueChanges
+      .subscribe(value => {
+        if (value) {
+          let trimmed = value.trim();
+          if (trimmed !== value) {
+            userIdField.setValue(trimmed);
+          }
+        }
+      });
+
+    userIdField.setAsyncValidators(this.validateUserId.bind(this))
   }
 
   toggle(prodn1: Prodn1) {
@@ -102,4 +115,36 @@ export class UserFormComponent implements OnInit {
         this.router.navigate(['/admin/users']);
       });
   }
+
+  // Convenience method for less code in html file.
+  getErrors(formControlName: string): any {
+    return this.userForm.controls[formControlName].errors;
+  }
+
+  validateUserId(control: AbstractControl): Observable<{ [key: string]: any }> {
+    let value = control.value;
+    const newUser = this.user.id !== value;
+
+    if (value && newUser) {
+      return this.http.get('/api/user/' + value)
+        .map(response => {
+          try {
+            return response.json();
+          } catch (e) {
+            return null;
+          }
+        })
+        .map(user => {
+          if (user) {
+            control.markAsTouched();
+            return {alreadyExists: control.value};
+          } else {
+            return null;
+          }
+        });
+    } else {
+      return new Observable(observer => observer.next(null)).take(1);
+    }
+  };
+
 }

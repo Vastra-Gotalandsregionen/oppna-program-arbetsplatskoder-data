@@ -1,11 +1,15 @@
 <div *ngIf="userForm; else loading">
 
-  <form #formRef="ngForm" [formGroup]="userForm" (ngSubmit)="save()" novalidate>
+  <form #formRef="ngForm" [formGroup]="userForm" (ngSubmit)="save()" novalidate autocomplete="off">
     <mat-card>
       <mat-card-content>
 
         <mat-input-container>
           <input placeholder="VGR-ID" type="text" matInput formControlName="userId">
+
+          <mat-error *ngIf="getErrors('userId')?.alreadyExists">
+            VGR-ID:t är upptaget
+          </mat-error>
         </mat-input-container>
 
         <div formGroupName="roleGroup" ngClass="{{formRef.submitted ? 'submitted' : ''}}" class="form-element">
