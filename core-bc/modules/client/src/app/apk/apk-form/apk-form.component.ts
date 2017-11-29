@@ -242,7 +242,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.apkForm.get('unitSearch').valueChanges
       .filter(value => {
         const requiredLength = value && value.length >= 3;
-
         if (!requiredLength) {
           this.unitSearchResult = [];
         }
@@ -250,7 +249,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
         return requiredLength;
       })
       .flatMap(query => {
-        return this.http.get('/api/search/unit?query=' + query);
+        return this.http.get('/api/search/unit?query=' + encodeURIComponent(query));
       })
       .retry() // So it retries even after an error.
       .map(result => result.json())
@@ -679,7 +678,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   }
 
   selectUnit(unit: any): void {
-
     this.apkForm.patchValue({
       'addressGroup': this.getAddressObject(unit)
     });
