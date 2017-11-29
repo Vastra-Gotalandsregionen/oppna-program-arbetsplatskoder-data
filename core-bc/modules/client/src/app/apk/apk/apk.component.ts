@@ -186,7 +186,6 @@ export class ApkComponent extends ApkBase implements OnInit {
 
     const requestOptions = new RequestOptions();
     requestOptions.params = params;
-    requestOptions.headers = new Headers({'Content-Type': 'application/json; charset=UTF-8'});
 
     return this.http.get('/api/data', requestOptions).map(response => response.json());
   }
