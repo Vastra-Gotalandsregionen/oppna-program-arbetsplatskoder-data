@@ -12,7 +12,7 @@ import {
   MatToolbarModule, MatTooltipModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  DateAdapter
+  DateAdapter, MAT_DATE_LOCALE
 } from '@angular/material';
 
 @NgModule({
@@ -65,7 +65,9 @@ import {
   ],
     providers: [
     {provide: DateAdapter, useClass: MyDateAdapter},
+    {provide: MAT_DATE_LOCALE, useValue: 'sv-SE'}
+]
 
-  ]
+
 })
 export class ApkMaterialModule { }

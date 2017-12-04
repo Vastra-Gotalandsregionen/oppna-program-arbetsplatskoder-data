@@ -8,6 +8,13 @@ export class MyDateAdapter extends NativeDateAdapter {
   }
 
   parse(value: any): Date | null {
+    // Strict parsing
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (!value || !value.match(datePattern)) {
+      return null;
+    }
+
     return super.parse(value);
   }
 
