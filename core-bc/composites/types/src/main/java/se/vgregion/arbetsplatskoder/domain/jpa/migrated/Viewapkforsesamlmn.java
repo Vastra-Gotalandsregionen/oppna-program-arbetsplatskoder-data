@@ -3,12 +3,49 @@ package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "viewapkforsesamlmn")
 public class Viewapkforsesamlmn extends AbstractEntity {
+
+    public Viewapkforsesamlmn() {
+        super();
+    }
+
+    public Viewapkforsesamlmn(Data data) {
+        this();
+        setHsaid(data.getHsaid()); // c
+        setId(Long.valueOf(data.getId()));
+        setAo3(data.getAo3()); // c
+        setAnsvar(data.getAnsvar()); // c
+        setFrivilligUppgift(data.getFrivilligUppgift()); // c
+        setAgarform(data.getAgarform()); // c
+        setVardform(data.getVardform());
+        setVerksamhet(data.getVerksamhet());
+        setSorteringskodProd(null); // todo Probably don't need this?
+        setSorteringskodBest(null); // todo Probably don't need this?
+        setBenamning(data.getBenamning()); // c
+        setPostnr(data.getPostnr());
+        setPostort(data.getPostort());
+        setPostadress(data.getPostadress());
+        setLakemedkomm(null); // todo Probably don't need this? Or fixed value?
+        setKontaktAkod(null); // todo Use this?
+        setLeverans(null); // todo Probably don't need this?
+        setFakturering(data.getFakturering());
+        setAnmarkning(data.getAnmarkning());
+        setFromDatum(data.getFromDatum());
+        setTillDatum(data.getTillDatum());
+        setRegDatum(data.getRegDatum());
+        setArbetsplatskodlan(data.getArbetsplatskodlan()); // c
+        setApodos(false); // todo Probably don't need this?
+        setExternfaktura(data.getExternfaktura());
+        setExternfakturamodell(data.getExternfakturamodell());
+        setVgpv(data.getVgpv()); // c
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column (name = "arbetsplatskodlan", nullable = true)
     private java.lang.String arbetsplatskodlan;
@@ -87,6 +124,16 @@ public class Viewapkforsesamlmn extends AbstractEntity {
 
     @Column (name = "reg_datum", nullable = true)
     private java.sql.Timestamp regDatum;
+
+
+    public boolean isOkToAppearInExportView() {
+        if (tillDatum == null) {
+            return true;
+        }
+        return tillDatum.getTime() >= (System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 365));
+    }
+
+
     public Long getId() {
         return id;
     }

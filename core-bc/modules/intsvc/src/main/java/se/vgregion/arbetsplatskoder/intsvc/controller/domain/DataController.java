@@ -14,9 +14,11 @@ import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.domain.json.ErrorMessage;
+import se.vgregion.arbetsplatskoder.export.repository.DataExportRepository;
 import se.vgregion.arbetsplatskoder.intsvc.controller.util.HttpUtil;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
+import se.vgregion.arbetsplatskoder.service.DataOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
@@ -41,6 +43,9 @@ public class DataController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private DataOperations dataOperations;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
@@ -71,7 +76,7 @@ public class DataController {
         }
 
         Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize,
-            finalSort);
+                finalSort);
 
         Page<Data> result;
         Date validToDate = null;
@@ -162,10 +167,11 @@ public class DataController {
     @ResponseBody
     public ResponseEntity deleteData(@PathVariable("id") Integer id) {
         if (!(getUser().getProdn1s().contains(dataRepository.findOne(id).getProdn1())
-            || getUser().getRole().equals(Role.ADMIN))) {
+                || getUser().getRole().equals(Role.ADMIN))) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
+        dataOperations.unexport(id);
         dataRepository.delete(id);
 
         return ResponseEntity.ok().build();
@@ -234,7 +240,10 @@ public class DataController {
 
         data.setAndringsdatum(sdf.format(now));
 
-        return ResponseEntity.ok(dataRepository.saveAndArchive(data));
+        data = dataOperations.saveAndArchive(data);
+        dataOperations.export(data);
+
+        return ResponseEntity.ok(data);
     }
 
 }

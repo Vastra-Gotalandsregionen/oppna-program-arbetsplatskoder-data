@@ -18,16 +18,32 @@ public class SambaFileClientTest {
         Path pp = Paths.get(System.getProperty("user.home"), ".app", "arbetsplatskoder", "samba.test.properties");
         properties.load(Files.newInputStream(pp));
 
-        System.out.println(
-            Arrays.asList(
-                SambaFileClient.listPathContent(
-                    properties.getProperty("export.test.smb.url"),
-                    properties.getProperty("export.test.smb.user.domain"),
-                    properties.getProperty("export.test.smb.user"),
-                    properties.getProperty("export.test.smb.password")
-                )
-            )
+
+        String[] listing = SambaFileClient.listPathContent(
+                properties.getProperty("export.test.smb.url"),
+                properties.getProperty("export.test.smb.user.domain"),
+                properties.getProperty("export.test.smb.user"),
+                properties.getProperty("export.test.smb.password")
         );
+
+        for (String list : listing) {
+            System.out.println(list);
+        }
+
+
+        SambaFileClient client = new SambaFileClient(
+                properties.getProperty("export.test.smb.url"),
+                properties.getProperty("export.test.smb.user.domain"),
+                properties.getProperty("export.test.smb.user"),
+                properties.getProperty("export.test.smb.password")
+        );
+        Path sambaCloneDir =  Paths.get(new File("").getAbsolutePath(), "clone-of-samba-drive");
+        if (!Files.exists(sambaCloneDir)) {
+            Files.createDirectories(sambaCloneDir);
+        }
+        client.download(sambaCloneDir.toString());
+        System.out.println();
+
     }
 
 }

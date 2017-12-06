@@ -17,7 +17,7 @@ public class SesamLmnDatabaseIntegrationJob implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        sesamLmnDatabaseIntegrationService.populateTable();
+        sesamLmnDatabaseIntegrationService.populateTables();
     }
 
 }

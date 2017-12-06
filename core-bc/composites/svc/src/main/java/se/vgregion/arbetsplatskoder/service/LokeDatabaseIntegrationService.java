@@ -10,6 +10,7 @@ import org.springframework.util.StopWatch;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3;
+import se.vgregion.arbetsplatskoder.export.repository.Ao3ExportRepository;
 import se.vgregion.arbetsplatskoder.export.repository.Viewapkwithao3Repository;
 import se.vgregion.arbetsplatskoder.repository.Ao3Repository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
@@ -31,8 +32,10 @@ public class LokeDatabaseIntegrationService {
     @Autowired
     private DataRepository dataRepository;
 
+    @Autowired private Ao3Repository ao3Repository;
+
     @Autowired
-    private Ao3Repository ao3Repository;
+    private Ao3ExportRepository ao3ExportRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LokeDatabaseIntegrationService.class);
 
@@ -41,17 +44,26 @@ public class LokeDatabaseIntegrationService {
         LOGGER.info("Start populateLokeTable()...");
 
         StopWatch stopWatch = new StopWatch();
+
         stopWatch.start();
-
         viewapkwithao3Repository.deleteAll();
-
         stopWatch.stop();
         LOGGER.info("Deleted all Viewapkwithao3: " + stopWatch.getTotalTimeMillis() + " ms");
+
         stopWatch.start();
+        ao3ExportRepository.deleteAll();
+        stopWatch.stop();
+        LOGGER.info("Deleted all ao3 in export repository: " + stopWatch.getTotalTimeMillis() + " ms");
 
         Map<String, Ao3> ao3Map = ao3Repository.findAll().stream()
             .collect(Collectors.toMap(Ao3::getAo3id, ao3 -> ao3));
 
+        stopWatch.start();
+        ao3ExportRepository.save(ao3Map.values());
+        stopWatch.stop();
+        LOGGER.info("Copied all ao3 from main db into export db: " + stopWatch.getTotalTimeMillis() + " ms");
+
+        stopWatch.start();
         List<Data> datas = dataRepository.findAll();
 
         for (Data data : datas) {

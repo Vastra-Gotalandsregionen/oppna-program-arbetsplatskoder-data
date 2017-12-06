@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Ao3;
+import se.vgregion.arbetsplatskoder.export.repository.Ao3ExportRepository;
 import se.vgregion.arbetsplatskoder.repository.Ao3Repository;
+import se.vgregion.arbetsplatskoder.service.Ao3Operations;
 
 import java.util.Random;
 
@@ -25,6 +27,9 @@ public class Ao3Controller {
 
     @Autowired
     private Ao3Repository ao3Repository;
+
+    @Autowired
+    private Ao3Operations ao3Operations;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
@@ -61,6 +66,7 @@ public class Ao3Controller {
             ao3.setId(Math.abs(new Random().nextInt()));
         }
 
-        return ResponseEntity.ok(ao3Repository.save(ao3));
+        ao3Operations.export(ao3 = ao3Operations.save(ao3));
+        return ResponseEntity.ok(ao3);
     }
 }

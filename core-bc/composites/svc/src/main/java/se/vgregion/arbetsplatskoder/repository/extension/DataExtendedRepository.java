@@ -21,8 +21,6 @@ public interface DataExtendedRepository {
 
     Page<Data> advancedSearch(String withTextFilter, Pageable pageable, Set<Prodn1> prodn1s, Date validToDat);
 
-    Data saveAndArchive(Data data);
-
     List<Data> findEhalsomyndighetensExportBatch();
 
     List<Data> findStralforsExportBatch();

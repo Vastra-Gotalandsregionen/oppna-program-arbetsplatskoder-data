@@ -69,7 +69,7 @@ public class DataExportController {
     @RequestMapping(value = "sesam-lmn", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity<List<se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn>> fetchSesamLmnExport() {
-        sesamLmnDatabaseIntegrationService.populateTable();
+        sesamLmnDatabaseIntegrationService.populateTables();
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", Collections.singletonList("text/plain"));
         List<se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn> result = viewApkForSesamLmnRepository.findAll();

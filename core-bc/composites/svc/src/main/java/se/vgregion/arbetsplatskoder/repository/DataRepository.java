@@ -45,6 +45,9 @@ public interface DataRepository extends JpaRepository<Data, Integer>, DataExtend
     @Query("select d from Data d where d.tillDatum >= :than")
     List<Data> findAllTillDatumGreater(@Param("than") Timestamp that);
 
+    @Query("select d from Data d where d.tillDatum >= :than or d.tillDatum is null")
+    List<Data> findAllTillDatumGreaterOrForTheTimeBeing(@Param("than") Timestamp that);
+
     @Query("select d from Data d where d.tillDatum < '2199-12-01' and d.tillDatum >= current_date and d.tillDatum is not null")
     List<Data> findAllValidWithEndDate();
 

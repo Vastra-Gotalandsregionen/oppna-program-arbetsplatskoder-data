@@ -8,6 +8,6 @@ import se.vgregion.arbetsplatskoder.export.repository.extension.Viewapkwithao3Ex
 /**
  * @author clalu4
  */
-public interface ViewApkForSesamLmnRepository extends JpaRepository<Viewapkforsesamlmn, Integer> {
+public interface ViewApkForSesamLmnRepository extends JpaRepository<Viewapkforsesamlmn, Long> {
 
 }

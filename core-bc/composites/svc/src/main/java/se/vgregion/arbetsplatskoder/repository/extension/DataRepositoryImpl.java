@@ -1,20 +1,18 @@
 package se.vgregion.arbetsplatskoder.repository.extension;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
-import se.vgregion.arbetsplatskoder.domain.jpa.ArchivedData;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
+import se.vgregion.arbetsplatskoder.export.repository.DataExportRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -25,6 +23,9 @@ public class DataRepositoryImpl implements DataExtendedRepository {
 
     @PersistenceContext(unitName = "default")
     private EntityManager entityManager;
+
+    @Autowired
+    private DataExportRepository dataExportRepository;
 
 /*
     @Query("select e from Data e where (lower(e.benamning) like :field1) or lower(e.arbetsplatskod) like :field1")
@@ -58,8 +59,8 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         List<String> result = new ArrayList<>();
         for (String s : ofThat.trim().split(Pattern.quote(" "))) {
             result.add((s.startsWith("%") ? "" : "%")
-                + s
-                + (s.endsWith("%") ? "" : "%"));
+                    + s
+                    + (s.endsWith("%") ? "" : "%"));
         }
         return result;
     }
@@ -77,12 +78,12 @@ public class DataRepositoryImpl implements DataExtendedRepository {
 
         int i = 1;
         List<String> allFields = Arrays.asList(
-            "lower(d.arbetsplatskodlan)",
-            "lower(d.benamning)",
-            "lower(d.ansvar)",
-            "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
-            "lower(d.prodn3.prodn2.kortnamn)",
-            "lower(d.prodn1.kortnamn)"
+                "lower(d.arbetsplatskodlan)",
+                "lower(d.benamning)",
+                "lower(d.ansvar)",
+                "function('to_char', d.tillDatum, 'YYYY-MM-DD')",
+                "lower(d.prodn3.prodn2.kortnamn)",
+                "lower(d.prodn1.kortnamn)"
         );
         for (Object s : wordsToLookFor) {
             List<String> allFieldsLikeCondtion = new ArrayList<>();
@@ -111,11 +112,11 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         sb.append(String.join(" and ", conditions));
 
         long count = query(
-            Long.class,
-            "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
-            null,
-            arguments,
-            prodn1s).get(0);
+                Long.class,
+                "select count(d.id) from " + Data.class.getSimpleName() + " d " + sb,
+                null,
+                arguments,
+                prodn1s).get(0);
 
         if (pageable.getSort() != null) {
             Sort sort = pageable.getSort();
@@ -130,9 +131,9 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         }
 
         String jpql = "select d from "
-            + Data.class.getSimpleName()
-            + " d "
-            + sb.toString();
+                + Data.class.getSimpleName()
+                + " d "
+                + sb.toString();
 
         List<Data> results = query(Data.class, jpql, pageable, arguments, prodn1s);
 
@@ -142,33 +143,6 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     @Override
     public Page<Data> advancedSearch(String withTextFilter, Pageable pageable) {
         return advancedSearch(withTextFilter, pageable, null, null);
-    }
-
-    @Override
-    @Transactional
-    public Data saveAndArchive(Data data) {
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            Data currentlyStoredData = entityManager.find(Data.class, data.getId());
-
-            if (currentlyStoredData != null) {
-                String json = mapper.writeValueAsString(currentlyStoredData);
-
-                ArchivedData archivedData = mapper.readValue(json, ArchivedData.class);
-
-                archivedData.setId(null);
-
-                archivedData.setReplacer(data);
-
-                entityManager.merge(archivedData);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return entityManager.merge(data);
     }
 
     private List<Map<String, Object>> query() {
@@ -206,10 +180,10 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     @Override
     public List<Data> findEhalsomyndighetensExportBatch() {
         String jpql = "select d\n" +
-            " from Data d \n" +
-            "where length(d.arbetsplatskod) < 12\n" +
-            " and (d.tillDatum > :oneYearAgo or d.tillDatum is null)\n" +
-            "order by d.arbetsplatskodlan";
+                " from Data d \n" +
+                "where length(d.arbetsplatskod) < 12\n" +
+                " and (d.tillDatum > :oneYearAgo or d.tillDatum is null)\n" +
+                "order by d.arbetsplatskodlan";
 
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
@@ -224,11 +198,11 @@ public class DataRepositoryImpl implements DataExtendedRepository {
     @Override
     public List<Data> findStralforsExportBatch() {
         String sql = "SELECT distinct d " +
-            "FROM Data d\n" +
-            "WHERE \n" +
-            " (d.tillDatum > current_timestamp or d.tillDatum is null) and \n" +
-            " (d.apodos = false or d.apodos is null) and  \n" +
-            " arbetsplatskodlan != '14999999'";
+                "FROM Data d\n" +
+                "WHERE \n" +
+                " (d.tillDatum > current_timestamp or d.tillDatum is null) and \n" +
+                " (d.apodos = false or d.apodos is null) and  \n" +
+                " arbetsplatskodlan != '14999999'";
         Query nq = entityManager.createQuery(sql);
         List rl = nq.getResultList();
         return new ArrayList<>(rl);
