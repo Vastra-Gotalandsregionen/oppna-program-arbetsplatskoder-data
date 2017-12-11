@@ -56,7 +56,8 @@ public class DataController {
                                @RequestParam(value = "sort", required = false) String sort,
                                @RequestParam(value = "asc", required = false) boolean asc,
                                @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas,
-                               @RequestParam(value = "onlyActiveDatas", required = false) boolean onlyActiveDatas) throws NoSuchFieldException {
+                               @RequestParam(value = "onlyActiveDatas", required = false) boolean onlyActiveDatas)
+            throws NoSuchFieldException {
 
         Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
         Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "benamning").ignoreCase();
@@ -209,6 +210,16 @@ public class DataController {
             }
         }
 
+        // Validate HSA-ID
+        String hsaid = data.getHsaid();
+
+        boolean empty = hsaid == null || hsaid.length() == 0 || hsaid.toLowerCase().equals("saknas");
+
+        if (!empty && (hsaid.length() != 26 || !hsaid.startsWith("SE") ||
+                !(hsaid.charAt(13) == 'E' || hsaid.charAt(13) == 'F'))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage("Ogiltigt HSA-ID"));
+        }
+
         Random random = new Random();
 
         if (data.getId() == null) {
@@ -221,7 +232,8 @@ public class DataController {
                         .findAllByArbetsplatskodlanEquals(data.getArbetsplatskodlan());
 
                 if (byArbetsplatskodlan.size() > 0) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorMessage("Angiven arbetsplatskod finns redan."));
+                    ErrorMessage errorMessage = new ErrorMessage("Angiven arbetsplatskod finns redan.");
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
                 }
             }
         }

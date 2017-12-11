@@ -74,3 +74,30 @@
 .material-icons {
   font-feature-settings: "liga";
 }
+
+.loading-indicator {
+  display: block;
+  text-align: center;
+  margin-top: calc(50vh - 50px);
+}
+
+.icon.icon-spinner {
+  animation: rotate .8s infinite;
+  animation-timing-function: cubic-bezier(0.495, 0.405, 0.495, 0.635);
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  border: 2px solid #005c95;
+  border-bottom: 0;
+  border-radius: 50%;
+  border-left: 0;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
