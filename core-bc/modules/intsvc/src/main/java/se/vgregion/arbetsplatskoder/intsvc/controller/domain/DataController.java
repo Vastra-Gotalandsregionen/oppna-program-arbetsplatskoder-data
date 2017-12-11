@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import se.vgregion.arbetsplatskoder.domain.jpa.Role;
@@ -49,6 +50,7 @@ public class DataController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public Page<Data> getDatas(@RequestParam(value = "page", required = false) Integer page,
                                @RequestParam(value = "query", required = false) String query,
                                @RequestParam(value = "sort", required = false) String sort,
@@ -118,6 +120,7 @@ public class DataController {
 
     @RequestMapping(value = "/arbetsplatskodlan/{arbetsplatskodlan}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity<Data> getDataByArbetsplatskodlan(@PathVariable("arbetsplatskodlan") String arbetsplatskodlan) {
         List<Data> result = dataRepository.findAllByArbetsplatskodlanEquals(arbetsplatskodlan);
 
@@ -132,6 +135,7 @@ public class DataController {
 
     @RequestMapping(value = "/ersattav/{ersattav}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity<List<Data>> getDataByErsattav(@PathVariable("ersattav") String ersattav) {
         List<Data> result = dataRepository.findAllByErsattavEquals(ersattav);
 
@@ -140,6 +144,7 @@ public class DataController {
 
     @RequestMapping(value = "/highestBeginningWith/{arbetsplatskodlanBeginning}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity<List<Data>> findHighestBeginningWith(@PathVariable("arbetsplatskodlanBeginning") String arbetsplatskodlanBeginning) {
         Data result = dataRepository.findHighestBeginningWith(arbetsplatskodlanBeginning);
 
@@ -153,18 +158,21 @@ public class DataController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public Data getData(@PathVariable("id") Integer id) {
         return dataRepository.findOne(id);
     }
 
     @RequestMapping(value = "users", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public List<String> findAllUserIdsWithData() {
         return dataRepository.findAllUserIdsWithData();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity deleteData(@PathVariable("id") Integer id) {
         if (!(getUser().getProdn1s().contains(dataRepository.findOne(id).getProdn1())
                 || getUser().getRole().equals(Role.ADMIN))) {
@@ -180,6 +188,7 @@ public class DataController {
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity<Object> saveData(@RequestBody Data data) {
         User user = getUser();
 

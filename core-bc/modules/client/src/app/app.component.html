@@ -58,7 +58,7 @@
             </mat-list-item>
 
             <mat-list-item>
-              <a routerLink="apk" routerLinkActive="active">
+              <a routerLink="apk" routerLinkActive="active" *ngIf="getLoggedInDisplayName()">
                 <span class="nav-label">Arbetsplatskoder</span>
               </a>
             </mat-list-item>

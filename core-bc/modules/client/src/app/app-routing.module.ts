@@ -1,6 +1,7 @@
 import {HomeComponent} from './home/home.component';
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {UserLoggedInGuard} from "./apk/guard/user-logged-in.guard";
 
 const routes: Routes = [
   {
@@ -12,15 +13,18 @@ const routes: Routes = [
       },
       {
         path: 'apk',
-        loadChildren: './apk/apk.module#ApkModule'
+        loadChildren: './apk/apk.module#ApkModule',
+        canActivate: [UserLoggedInGuard],
       },
       {
         path: 'admin',
-        loadChildren: './admin/admin.module#AdminModule'
+        loadChildren: './admin/admin.module#AdminModule',
+        canActivate: [UserLoggedInGuard],
       },
       {
         path: 'report',
-        loadChildren: './report/report.module#ReportModule'
+        loadChildren: './report/report.module#ReportModule',
+        canActivate: [UserLoggedInGuard],
       },
       {
         path: '**',

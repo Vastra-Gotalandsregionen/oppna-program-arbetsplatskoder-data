@@ -2,8 +2,8 @@ package se.vgregion.arbetsplatskoder.intsvc.filter;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -56,17 +56,9 @@ public class SecurityContextFilter implements Filter {
 
             GrantedAuthority authority = new SimpleGrantedAuthority(role);
 
-            Authentication authentication = new AbstractAuthenticationToken(Collections.singletonList(authority)) {
-                @Override
-                public Object getCredentials() {
-                    return "";
-                }
-
-                @Override
-                public Object getPrincipal() {
-                    return subject;
-                }
-            };
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    subject, "", Collections.singletonList(authority)
+            );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
