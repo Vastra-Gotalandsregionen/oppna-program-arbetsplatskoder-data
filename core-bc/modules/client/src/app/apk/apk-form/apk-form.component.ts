@@ -762,7 +762,6 @@ export function ansvarValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     let value = <string>control.value;
     return value && (value.match('^[0-9]+$') && value.length >= 4 && value.length <= 6) ? null : {'invalidName': value};
-    // return  /^[0-9]+$/.test(val);
   };
 }
 

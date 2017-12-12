@@ -1,0 +1,153 @@
+{
+  "meta" : {
+    "Version" : "1.0",
+    "Create time" : "2016-08-09 08:28:09 UTC"
+  },
+  "units" : [ {
+    "dn" : "ou=086kgtest,ou=086test1,ou=Gynekologmottagning,ou=Angereds Närsjukhus,ou=Org,o=VGR",
+    "attributes" : {
+      "createTimestamp" : "20160711132726Z",
+      "creatorsName" : "cn=admin,ou=System,o=VGR",
+      "description" : [ "1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n12345678901234567890123456789012345678901234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567891234567890123456789012345678901234567890\r\n1234567890123456789012345678901234567890\r\n123456789012345678901" ],
+      "hsaGeographicalCoordinates" : [ "X:6475356,Y:1297968" ],
+      "hsaIdentity" : [ "SE2321000131-E000001117210" ],
+      "hsaInternalAddress" : [ "cxvdf" ],
+      "hsaManagementCode" : [ "1" ],
+      "hsaRoute" : [ "fasdfassdfffffffffffffffffffffffff" ],
+      "hsaSedfInvoiceAddress" : [ "xcvb$xcvb$xcvb$xcvb$324 23$sdfsadf" ],
+      "hsaStartDate" : "20140801000000Z",
+      "hsaStreetAddress" : [ "asdfasdf$ $asdfasdf$asdfasdf" ],
+      "hsaVisitingRuleAge" : [ "0-99" ],
+      "hsaVisitingRuleReferral" : [ "asdfasdf" ],
+      "hsaVisitingRules" : [ "dsafdfcc" ],
+      "l" : [ "sdaf" ],
+      "modifiersName" : "cn=kivutvm20,ou=System,o=VGR",
+      "modifyTimestamp" : "20160712030019Z",
+      "ou" : [ "086kgtest" ],
+      "vgrAo3kod" : [ "086" ],
+      "vgrInternalSedfInvoiceAddress" : [ "i12345" ],
+      "vgrModifyTimestamp" : "20160324142208Z",
+      "vgrModifyersName" : "cn=admin,ou=System,o=VGR"
+    }
+  }, {
+    "dn" : "ou=efvd,ou=086test1,ou=Gynekologmottagning,ou=Angereds Närsjukhus,ou=Org,o=VGR",
+    "attributes" : {
+      "createTimestamp" : "20160711132724Z",
+      "creatorsName" : "cn=admin,ou=System,o=VGR",
+      "hsaIdentity" : [ "SE2321000131-E000001117294" ],
+      "modifiersName" : "cn=kivutvm20,ou=System,o=VGR",
+      "modifyTimestamp" : "20160712030019Z",
+      "ou" : [ "efvd" ]
+    }
+  }, {
+    "dn" : "ou=df,ou=086test1,ou=Gynekologmottagning,ou=Angereds Närsjukhus,ou=Org,o=VGR",
+    "attributes" : {
+      "createTimestamp" : "20160711132723Z",
+      "creatorsName" : "cn=admin,ou=System,o=VGR",
+      "hsaIdentity" : [ "SE2321000131-E000001117295" ],
+      "modifiersName" : "cn=kivutvm20,ou=System,o=VGR",
+      "modifyTimestamp" : "20160712030019Z",
+      "ou" : [ "df" ]
+    }
+  }, {
+    "dn" : "ou=zxcv,ou=086test1,ou=Gynekologmottagning,ou=Angereds Närsjukhus,ou=Org,o=VGR",
+    "attributes" : {
+      "countryName" : "AD",
+      "createTimestamp" : "20160711132719Z",
+      "creatorsName" : "cn=admin,ou=System,o=VGR",
+      "hsaCountyCode" : "13",
+      "hsaEndDate" : "20160121000000Z",
+      "hsaIdentity" : [ "SE2321000131-E000001117305" ],
+      "hsaInternalAddress" : [ "cxvdf" ],
+      "hsaManagementCode" : [ "1" ],
+      "hsaMunicipalityCode" : [ "1460" ],
+      "hsaRoute" : [ "fasdfassdfffffffffffffffffffffffff" ],
+      "hsaSedfInvoiceAddress" : [ "xcvb$xcvb$xcvb$xcvb$324 23$sdfsadf" ],
+      "hsaStartDate" : "20160106000000Z",
+      "hsaStreetAddress" : [ "asdfasdf$ $asdfasdf$asdfasdf" ],
+      "l" : [ "sdaf" ],
+      "modifiersName" : "cn=kivutvm20,ou=System,o=VGR",
+      "modifyTimestamp" : "20160712030018Z",
+      "ou" : [ "zxcv" ],
+      "vgrAo3kod" : [ "086" ],
+      "vgrInternalSedfInvoiceAddress" : [ "i12345" ],
+      "vgrModifyTimestamp" : "20160616080321Z",
+      "vgrModifyersName" : "cn=admin,ou=System,o=VGR"
+    }
+  }, {
+    "dn" : "ou=tert,ou=086test1,ou=Gynekologmottagning,ou=Angereds Närsjukhus,ou=Org,o=VGR",
+    "attributes" : {
+      "countryName" : "AD",
+      "createTimestamp" : "20160711132714Z",
+      "creatorsName" : "cn=admin,ou=System,o=VGR",
+      "hsaCountyCode" : "13",
+      "hsaEndDate" : "20160121000000Z",
+      "hsaIdentity" : [ "SE2321000131-E000001117306" ],
+      "hsaInternalAddress" : [ "cxvdf" ],
+      "hsaManagementCode" : [ "1" ],
+      "hsaMunicipalityCode" : [ "1460" ],
+      "hsaRoute" : [ "fasdfassdfffffffffffffffffffffffff" ],
+      "hsaSedfInvoiceAddress" : [ "xcvb$xcvb$xcvb$xcvb$324 23$sdfsadf" ],
+      "hsaStartDate" : "20160106000000Z",
+      "hsaStreetAddress" : [ "asdfasdf$ $asdfasdf$asdfasdf" ],
+      "l" : [ "sdaf" ],
+      "modifiersName" : "cn=kivutvm20,ou=System,o=VGR",
+      "modifyTimestamp" : "20160712030018Z",
+      "ou" : [ "tert" ],
+      "vgrAo3kod" : [ "086" ],
+      "vgrInternalSedfInvoiceAddress" : [ "i12345" ],
+      "vgrModifyTimestamp" : "20160616080553Z",
+      "vgrModifyersName" : "cn=admin,ou=System,o=VGR"
+    }
+  }, {
+    "dn" : "ou=asdfasdfasdf,ou=086test1,ou=Gynekologmottagning,ou=Angereds Närsjukhus,ou=Org,o=VGR",
+    "attributes" : {
+      "countryName" : "AD",
+      "createTimestamp" : "20160711132710Z",
+      "creatorsName" : "cn=admin,ou=System,o=VGR",
+      "hsaCountyCode" : "13",
+      "hsaEndDate" : "20160121000000Z",
+      "hsaIdentity" : [ "SE2321000131-E000001117307" ],
+      "hsaInternalAddress" : [ "cxvdf" ],
+      "hsaManagementCode" : [ "1" ],
+      "hsaMunicipalityCode" : [ "1460" ],
+      "hsaRoute" : [ "fasdfassdfffffffffffffffffffffffff" ],
+      "hsaSedfInvoiceAddress" : [ "xcvb$xcvb$xcvb$xcvb$324 23$sdfsadf" ],
+      "hsaStartDate" : "20160106000000Z",
+      "hsaStreetAddress" : [ "asdfasdf$ $asdfasdf$asdfasdf" ],
+      "l" : [ "sdaf" ],
+      "modifiersName" : "cn=kivutvm20,ou=System,o=VGR",
+      "modifyTimestamp" : "20160712030018Z",
+      "ou" : [ "asdfasdfasdf" ],
+      "vgrAo3kod" : [ "086" ],
+      "vgrInternalSedfInvoiceAddress" : [ "i12345" ],
+      "vgrModifyTimestamp" : "20160616080726Z",
+      "vgrModifyersName" : "cn=admin,ou=System,o=VGR"
+    }
+  }, {
+    "dn" : "ou=xzcvxzcv,ou=086test1,ou=Gynekologmottagning,ou=Angereds Närsjukhus,ou=Org,o=VGR",
+    "attributes" : {
+      "countryName" : "AD",
+      "createTimestamp" : "20160711132706Z",
+      "creatorsName" : "cn=admin,ou=System,o=VGR",
+      "hsaCountyCode" : "13",
+      "hsaEndDate" : "20160121000000Z",
+      "hsaIdentity" : [ "SE2321000131-E000001117309" ],
+      "hsaInternalAddress" : [ "cxvdf" ],
+      "hsaManagementCode" : [ "1" ],
+      "hsaMunicipalityCode" : [ "1460" ],
+      "hsaRoute" : [ "fasdfassdfffffffffffffffffffffffff" ],
+      "hsaSedfInvoiceAddress" : [ "xcvb$xcvb$xcvb$xcvb$324 23$sdfsadf" ],
+      "hsaStartDate" : "20160106000000Z",
+      "hsaStreetAddress" : [ "asdfasdf$ $asdfasdf$asdfasdf" ],
+      "l" : [ "sdaf" ],
+      "modifiersName" : "cn=kivutvm20,ou=System,o=VGR",
+      "modifyTimestamp" : "20160712030018Z",
+      "ou" : [ "xzcvxzcv" ],
+      "vgrAo3kod" : [ "086" ],
+      "vgrInternalSedfInvoiceAddress" : [ "i12345" ],
+      "vgrModifyTimestamp" : "20160616081234Z",
+      "vgrModifyersName" : "cn=admin,ou=System,o=VGR"
+    }
+  } ]
+}
