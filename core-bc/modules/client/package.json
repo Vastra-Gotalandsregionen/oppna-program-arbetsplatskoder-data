@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json --host=0.0.0.0 --disable-host-check",
     "start-prod": "ng serve --prod --build-optimizer --proxy-config proxy.conf.json --host=0.0.0.0",
+    "build-prod": "ng build --prod --build-optimizer",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
