@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 
 import {ApkDetailComponent} from "../apk-detail/apk-detail.component";
 import {AuthService} from "../../core/auth/auth.service";
-import {Http} from "@angular/http";
 import {ActivatedRoute} from "@angular/router";
+import {JwtHttp} from "../../core/jwt-http";
 
 @Component({
   selector: 'app-apk-create',
@@ -15,7 +15,7 @@ export class ApkCreateComponent extends ApkDetailComponent {
   location: Location;
 
   constructor(route: ActivatedRoute,
-              http: Http,
+              http: JwtHttp,
               authService: AuthService) {
     super(route, http, authService);
   }

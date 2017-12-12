@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Http} from '@angular/http';
 import {Data} from '../../model/data';
 import {AuthService} from '../../core/auth/auth.service';
 import {ApkBase} from "../apk-base/apk-base";
 import {Observable} from 'rxjs/Observable';
 import {ApkFormComponent} from "../apk-form/apk-form.component";
+import {JwtHttp} from "../../core/jwt-http";
 
 @Component({
   selector: 'app-apk-detail',
@@ -22,7 +22,7 @@ export class ApkDetailComponent extends ApkBase implements OnInit {
   $replaces: Observable<Data>;
 
   constructor(protected route: ActivatedRoute,
-              protected http: Http,
+              protected http: JwtHttp,
               protected authService: AuthService) {
     super();
   }

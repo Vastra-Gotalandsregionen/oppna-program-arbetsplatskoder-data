@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import se.vgregion.arbetsplatskoder.domain.jpa.Role;
@@ -49,12 +50,14 @@ public class DataController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public Page<Data> getDatas(@RequestParam(value = "page", required = false) Integer page,
                                @RequestParam(value = "query", required = false) String query,
                                @RequestParam(value = "sort", required = false) String sort,
                                @RequestParam(value = "asc", required = false) boolean asc,
                                @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas,
-                               @RequestParam(value = "onlyActiveDatas", required = false) boolean onlyActiveDatas) throws NoSuchFieldException {
+                               @RequestParam(value = "onlyActiveDatas", required = false) boolean onlyActiveDatas)
+            throws NoSuchFieldException {
 
         Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
         Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "benamning").ignoreCase();
@@ -118,6 +121,7 @@ public class DataController {
 
     @RequestMapping(value = "/arbetsplatskodlan/{arbetsplatskodlan}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity<Data> getDataByArbetsplatskodlan(@PathVariable("arbetsplatskodlan") String arbetsplatskodlan) {
         List<Data> result = dataRepository.findAllByArbetsplatskodlanEquals(arbetsplatskodlan);
 
@@ -132,6 +136,7 @@ public class DataController {
 
     @RequestMapping(value = "/ersattav/{ersattav}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity<List<Data>> getDataByErsattav(@PathVariable("ersattav") String ersattav) {
         List<Data> result = dataRepository.findAllByErsattavEquals(ersattav);
 
@@ -140,6 +145,7 @@ public class DataController {
 
     @RequestMapping(value = "/highestBeginningWith/{arbetsplatskodlanBeginning}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity<List<Data>> findHighestBeginningWith(@PathVariable("arbetsplatskodlanBeginning") String arbetsplatskodlanBeginning) {
         Data result = dataRepository.findHighestBeginningWith(arbetsplatskodlanBeginning);
 
@@ -153,18 +159,21 @@ public class DataController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public Data getData(@PathVariable("id") Integer id) {
         return dataRepository.findOne(id);
     }
 
     @RequestMapping(value = "users", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public List<String> findAllUserIdsWithData() {
         return dataRepository.findAllUserIdsWithData();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity deleteData(@PathVariable("id") Integer id) {
         if (!(getUser().getProdn1s().contains(dataRepository.findOne(id).getProdn1())
                 || getUser().getRole().equals(Role.ADMIN))) {
@@ -180,6 +189,7 @@ public class DataController {
     @RequestMapping(value = "", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
+    @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity<Object> saveData(@RequestBody Data data) {
         User user = getUser();
 
@@ -200,6 +210,16 @@ public class DataController {
             }
         }
 
+        // Validate HSA-ID
+        String hsaid = data.getHsaid();
+
+        boolean empty = hsaid == null || hsaid.length() == 0 || hsaid.toLowerCase().equals("saknas");
+
+        if (!empty && (hsaid.length() != 26 || !hsaid.startsWith("SE") ||
+                !(hsaid.charAt(13) == 'E' || hsaid.charAt(13) == 'F'))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage("Ogiltigt HSA-ID"));
+        }
+
         Random random = new Random();
 
         if (data.getId() == null) {
@@ -212,7 +232,8 @@ public class DataController {
                         .findAllByArbetsplatskodlanEquals(data.getArbetsplatskodlan());
 
                 if (byArbetsplatskodlan.size() > 0) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorMessage("Angiven arbetsplatskod finns redan."));
+                    ErrorMessage errorMessage = new ErrorMessage("Angiven arbetsplatskod finns redan.");
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
                 }
             }
         }

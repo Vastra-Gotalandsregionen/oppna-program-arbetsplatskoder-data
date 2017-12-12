@@ -308,6 +308,9 @@
             <div class="apk-form-field">
               <mat-input-container>
                 <input placeholder="HSA-ID" matInput formControlName="hsaid" type="text"/>
+                <mat-icon matTooltip="Kan lämnas tomt, alternativt 26 tecken giltigt HSA-ID för enhet eller funktion. &quot;Saknas&quot; är också OK. ">help</mat-icon>
+
+                <mat-error>{{messages.get('field-is-invalid')}}</mat-error>
               </mat-input-container>
             </div>
           </div>

@@ -217,7 +217,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }),
       'anmarkning': [this.data.anmarkning],
       'generateAutomatically': [true],
-      'hsaid': [this.data.hsaid],
+      'hsaid': [this.data.hsaid, hsaIdValidator()],
 
       'fromDatum': [
         {
@@ -567,7 +567,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     data.anmarkning = formModel.anmarkning;
     data.ansvar = formModel.ansvar;
     data.frivilligUppgift = formModel.frivilligUppgift;
-    data.hsaid = formModel.hsaid;
+    data.hsaid = formModel.hsaid.trim();
     data.vardform = (<Vardform> formModel.vardform).vardformid;
     data.verksamhet = (<Verksamhet> formModel.verksamhet).verksamhetid;
     data.benamning = formModel.benamning;
@@ -763,6 +763,30 @@ export function ansvarValidator(): ValidatorFn {
     let value = <string>control.value;
     return value && (value.match('^[0-9]+$') && value.length >= 4 && value.length <= 6) ? null : {'invalidName': value};
     // return  /^[0-9]+$/.test(val);
+  };
+}
+
+export function hsaIdValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } => {
+    let value = <string>control.value;
+
+    if (!value || value.length === 0 || value.toLowerCase() === 'saknas') {
+      return null;
+    }
+
+    if (value.length !== 26) {
+      return {'invalidName': value};
+    }
+
+    if (!value.startsWith('SE')) {
+      return {'invalidName': value};
+    }
+
+    if (!(value.charAt(13) === 'E' || value.charAt(13) === 'F')) {
+      return {'invalidName': value};
+    }
+
+    return null;
   };
 }
 
