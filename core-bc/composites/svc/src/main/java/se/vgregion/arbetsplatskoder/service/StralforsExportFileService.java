@@ -109,6 +109,7 @@ public class StralforsExportFileService {
                 getFaktureringKortText(item)
             ));
         }
+        Collections.sort(rows);
         return formatLines(rows);
     }
 
@@ -125,7 +126,7 @@ public class StralforsExportFileService {
     }
 
     private String formatLines(List<String> parts) {
-        return String.join("\n", parts);
+        return String.join("\r\n", parts);
     }
 
     private String formatValue(Object s) {

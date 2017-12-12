@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkwithao3;
 import se.vgregion.arbetsplatskoder.export.repository.ViewApkForSesamLmnRepository;
+import se.vgregion.arbetsplatskoder.export.repository.ViewapkHsaidRepository;
 import se.vgregion.arbetsplatskoder.export.repository.Viewapkwithao3Repository;
 import se.vgregion.arbetsplatskoder.service.*;
 
@@ -42,11 +44,14 @@ public class DataExportController {
     @Autowired
     Viewapkwithao3Repository viewapkwithao3Repository;
 
-    //@Autowired KivSesamLmnDatabaseIntegrationService kivSesamLmnDatabaseIntegrationService;
+    @Autowired
+    KivSesamLmnDatabaseIntegrationService kivSesamLmnDatabaseIntegrationService;
 
-    //@Autowired private SesamLmnExportFileService sesamLmnExportFileService;
     @Autowired
     SesamLmnDatabaseIntegrationService sesamLmnDatabaseIntegrationService;
+
+    @Autowired
+    private ViewapkHsaidRepository viewapkHsaidRepository;
 
     @RequestMapping(value = "ehalsomyndigheten", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -83,6 +88,16 @@ public class DataExportController {
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", Collections.singletonList("text/plain"));
         List<Viewapkwithao3> result = viewapkwithao3Repository.findAll();
+        return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping(value = "kiv", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<ViewapkHsaid>> fetchKivExport() {
+        kivSesamLmnDatabaseIntegrationService.run();
+        HttpHeaders headers = new HttpHeaders();
+        headers.put("Content-Type", Collections.singletonList("text/plain"));
+        List<ViewapkHsaid> result = viewapkHsaidRepository.findAll();
         return ResponseEntity.ok(result);
     }
 

@@ -3,14 +3,15 @@ package se.vgregion.arbetsplatskoder.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid;
 import se.vgregion.arbetsplatskoder.export.repository.ViewapkHsaidRepository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ import java.util.List;
  * @author Patrik Björk
  */
 @Service
-@Transactional
+@Transactional(transactionManager = "exportTransactionManager")
 public class KivSesamLmnDatabaseIntegrationService {
 
     @Autowired
@@ -37,22 +38,29 @@ public class KivSesamLmnDatabaseIntegrationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KivSesamLmnDatabaseIntegrationService.class);
 
-    @Transactional
     public void run() {
         LOGGER.info("Starts KivDatabaseIntegrationService.run().");
+        removeOldExportAgain(itemsToExport());
+        LOGGER.info("Finish KivDatabaseIntegrationService.run().");
+    }
+
+    public List<ViewapkHsaid> itemsToExport() {
         List<Data> datas = dataRepository.findAll();
-        viewapkHsaidRepository.deleteAll();
+
+        List<ViewapkHsaid> items = new ArrayList<>();
 
         for (Data data : datas) {
-            ViewapkHsaid exportItem = new ViewapkHsaid();
-            exportItem.setHsaid(data.getHsaid());
-            exportItem.setArbetsplatskodlan(data.getArbetsplatskodlan());
-            exportItem.setFromDatum(data.getFromDatum());
-            exportItem.setTillDatum(data.getTillDatum());
-            viewapkHsaidRepository.save(exportItem);
+            ViewapkHsaid exportItem = new ViewapkHsaid(data);
+            items.add(exportItem);
         }
+        return items;
+    }
 
-        LOGGER.info("Finish KivDatabaseIntegrationService.run().");
+    public void removeOldExportAgain(List<ViewapkHsaid> those) {
+        viewapkHsaidRepository.deleteAll();
+        for (ViewapkHsaid that : those) {
+            viewapkHsaidRepository.saveAndFlush(that);
+        }
     }
 
 }

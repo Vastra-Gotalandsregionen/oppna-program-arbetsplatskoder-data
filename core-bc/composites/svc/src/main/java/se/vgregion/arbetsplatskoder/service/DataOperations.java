@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.ArchivedData;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.DataExport;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn;
 import se.vgregion.arbetsplatskoder.export.repository.DataExportRepository;
 import se.vgregion.arbetsplatskoder.export.repository.ViewApkForSesamLmnRepository;
+import se.vgregion.arbetsplatskoder.export.repository.ViewapkHsaidRepository;
 import se.vgregion.arbetsplatskoder.repository.ArchivedDataRepository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
@@ -30,10 +32,14 @@ public class DataOperations {
     @Autowired
     private ViewApkForSesamLmnRepository viewApkForSesamLmnRepository;
 
+    @Autowired
+    private ViewapkHsaidRepository viewapkHsaidRepository;
+
     @Transactional(value = "exportTransactionManager")
     public void unexport(Integer withThatId) {
         dataExportRepository.delete(withThatId);
         viewApkForSesamLmnRepository.delete(withThatId.longValue());
+        viewapkHsaidRepository.delete(withThatId);
     }
 
     @Transactional
@@ -73,6 +79,8 @@ public class DataOperations {
                 viewApkForSesamLmnRepository.delete(viewapkforsesamlmn);
             }
         }
+
+        viewapkHsaidRepository.save(new ViewapkHsaid(that));
     }
 
 }

@@ -45,7 +45,7 @@ public class JpaConfigTest {
     LocalContainerEntityManagerFactoryBean getLocalContainerEntityManagerFactoryBean(String unitName) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "se.vgregion.arbetsplatskoder.domain.jpa" });
+        em.setPackagesToScan(new String[]{"se.vgregion.arbetsplatskoder.domain.jpa"});
         em.setPersistenceUnitName(unitName);
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -57,7 +57,7 @@ public class JpaConfigTest {
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(jdbcDriver);
         dataSource.setUrl(jdbcUrl);
@@ -67,7 +67,7 @@ public class JpaConfigTest {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf){
+    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
 
@@ -75,7 +75,7 @@ public class JpaConfigTest {
     }
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
