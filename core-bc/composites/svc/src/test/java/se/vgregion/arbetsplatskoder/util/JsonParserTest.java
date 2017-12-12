@@ -9,6 +9,9 @@ import se.vgregion.arbetsplatskoder.domain.json.Unit;
 import se.vgregion.arbetsplatskoder.domain.json.UnitsRoot;
 
 import java.io.IOException;
+import java.util.Optional;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Patrik Björk
@@ -23,14 +26,14 @@ public class JsonParserTest {
 
         ObjectReader objectReader = mapper.readerFor(UnitsRoot.class);
 
-        UnitsRoot unitsRoot = objectReader.readValue(this.getClass().getClassLoader().getResourceAsStream("units.json"));
+        UnitsRoot unitsRoot = objectReader.readValue(this.getClass().getClassLoader().getResourceAsStream("units-test.json"));
 
         LOGGER.info(unitsRoot.toString());
 
-        for (Unit unit : unitsRoot.getUnits()) {
-            if (unit.getAttributes().getOu()[0].toLowerCase().contains("askim")) {
-                LOGGER.info("Found");
-            }
-        }
+        Optional<Unit> found = unitsRoot.getUnits().stream()
+                .filter(unit -> unit.getAttributes().getOu()[0].equals("efvd"))
+                .findAny();
+
+        assertTrue(found.isPresent());
     }
 }
