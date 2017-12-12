@@ -33,15 +33,8 @@ org.quartz.jobStore.clusterCheckinInterval = 20000
 #============================================================================
 
 org.quartz.dataSource.myDS.driver = org.postgresql.Driver
-org.quartz.dataSource.myDS.URL = jdbc:postgresql://localhost:5432/apk-migrate
-org.quartz.dataSource.myDS.user = hotell
-org.quartz.dataSource.myDS.password = hotell
+org.quartz.dataSource.myDS.URL = jdbc:postgresql://localhost:5432/arbetsplatskoder
+org.quartz.dataSource.myDS.user = user
+org.quartz.dataSource.myDS.password = password
 org.quartz.dataSource.myDS.maxConnections = 5
 org.quartz.dataSource.myDS.validationQuery=select 0 from dual
-
-#org.quartz.dataSource.myDS.driver = ${jdbc.driver}
-#org.quartz.dataSource.myDS.URL = ${jdbc.url}
-#org.quartz.dataSource.myDS.user = ${jdbc.user}
-#org.quartz.dataSource.myDS.password = ${jdbc.password}
-#org.quartz.dataSource.myDS.maxConnections = 5
-#org.quartz.dataSource.myDS.validationQuery=select 0 from dual

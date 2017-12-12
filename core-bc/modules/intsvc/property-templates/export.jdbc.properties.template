@@ -1,0 +1,5 @@
+jdbc.export.url=jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+jdbc.export.driver=org.h2.Driver
+jdbc.export.user=sa
+jdbc.export.password=
+jdbc.export.database.platform=org.hibernate.dialect.H2Dialect

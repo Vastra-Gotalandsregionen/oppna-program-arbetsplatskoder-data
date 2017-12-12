@@ -1,0 +1,6 @@
+# Location [user.home]/.app/arbetsplatskoder
+jdbc.driver=org.postgresql.Driver
+jdbc.url=jdbc:postgresql://localhost:5432/database
+jdbc.user=user
+jdbc.password=password
+jdbc.database.platform=org.hibernate.dialect.PostgreSQL9Dialect

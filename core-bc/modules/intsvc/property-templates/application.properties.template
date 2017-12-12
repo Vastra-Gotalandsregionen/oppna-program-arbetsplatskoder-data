@@ -5,13 +5,32 @@ ldap.url=
 
 jwt.sign.secret=
 
+export.sesam-lmn.should.run=false
+
 export.sesam-lmn.smb.url=smb://127.0.0.1/share/;
 export.sesam-lmn.smb.user=user
 export.sesam-lmn.smb.user.domain=VGREGION
 export.sesam-lmn.smb.password=secret
+
+export.ehalsomyndigheten.should.run=false
 
 export.ehalsomyndigheten.smb.url=smb://127.0.0.1/share/;
 export.ehalsomyndigheten.smb.user=user
 export.ehalsomyndigheten.smb.user.domain=VGREGION
 export.ehalsomyndigheten.smb.password=secret
 
+export.stralfors.should.run=false
+export.stralfors.smb.url=smb...
+export.stralfors.smb.user=
+export.stralfors.smb.user.domain=
+export.stralfors.smb.password=
+
+kiv.units.url=
+
+trustStore=
+trustStorePassword=
+trustStoreType=jks
+
+keyStore=
+keyStorePassword=
+keyStoreType=pkcs12
