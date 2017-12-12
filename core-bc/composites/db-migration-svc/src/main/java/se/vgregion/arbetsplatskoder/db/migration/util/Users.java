@@ -18,7 +18,7 @@ public class Users {
 
     public static void main(String[] args) {
         // saveUsersFromDatabaseToFileThenDeleteAll();
-        // insertUsersAndProdLinksFromFile();
+        insertUsersAndProdLinksFromFile();
     }
 
     public static void insertUsersAndProdLinksFromFile() {
