@@ -202,7 +202,8 @@ public class DataRepositoryImpl implements DataExtendedRepository {
                 "WHERE \n" +
                 " (d.tillDatum > current_timestamp or d.tillDatum is null) and \n" +
                 " (d.apodos = false or d.apodos is null) and  \n" +
-                " arbetsplatskodlan != '14999999'";
+                " arbetsplatskodlan != '14999999'" +
+                " order by d.arbetsplatskodlan";
         Query nq = entityManager.createQuery(sql);
         List rl = nq.getResultList();
         return new ArrayList<>(rl);

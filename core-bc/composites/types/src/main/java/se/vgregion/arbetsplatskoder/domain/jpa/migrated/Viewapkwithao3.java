@@ -8,6 +8,10 @@ import java.io.Serializable;
 @Table(name = "viewapkwithao3")
 public class Viewapkwithao3 extends AbstractEntity {
 
+    public Viewapkwithao3() {
+        super();
+    }
+
     @Id
     @Column (name = "id", nullable = false)
     private java.lang.Integer id;
@@ -493,5 +497,53 @@ public class Viewapkwithao3 extends AbstractEntity {
         this.expr2 = v;
     }
 
+    public Viewapkwithao3 loadData(Ao3 ao3Entity) {
+        setExpr1(ao3Entity.getId());
+        setAo3id(ao3Entity.getAo3id());
+        setForetagsnamn(ao3Entity.getForetagsnamn());
+        setProducent(null); // todo Probably don't need this?
+        setKontaktperson(ao3Entity.getKontaktperson());
+        setForetagsnr(ao3Entity.getForetagsnr());
+        setRaderad(ao3Entity.getRaderad());
+        return this;
+    }
+
+    public Viewapkwithao3 loadData(Data data) {
+        setId(data.getId());
+        setLankod(data.getLankod());
+        setArbetsplatskod(data.getArbetsplatskod());
+        setAo3(ao3);
+        setAnsvar(data.getAnsvar());
+        setFrivilligUppgift(data.getFrivilligUppgift());
+        setAgarform(data.getAgarform());
+        setVardform(data.getVardform());
+        setVerksamhet(data.getVerksamhet());
+        setSorteringskodProd(null); // todo Probably don't need this?
+        setSorteringskodBest(null); // todo Probably don't need this?
+        setBenamning(data.getBenamning());
+        setPostnr(data.getPostnr());
+        setPostort(data.getPostort());
+        setPostadress(data.getPostadress());
+        setLakemedkomm(null); // todo Probably don't need this? Or fixed value?
+        setKontaktAkod(null); // todo Use this?
+        setLeverans(null); // todo Probably don't need this?
+        setFakturering(data.getFakturering());
+        setAnmarkning(data.getAnmarkning());
+        setFromDatum(data.getFromDatum());
+        setTillDatum(data.getTillDatum());
+        setRegDatum(data.getRegDatum());
+        setErsattav(data.getErsattav());
+        setUserId(data.getUserId()); // data.getUserIdNew() != null ? data.getUserIdNew() : data.getUserId() + "");
+        setArbetsplatskodlan(data.getArbetsplatskodlan());
+        setNamn(null); // todo Probably don't need this?
+        setAndringsdatum(data.getAndringsdatum());
+        setKommun(null); // todo Probably don't need this?
+        setApodos(false); // todo Probably don't need this?
+        setExternfaktura(data.getExternfaktura());
+        setKommunkod(null); // todo Probably don't need this?
+        setExternfakturamodell(data.getExternfakturamodell());
+        setVgpv(data.getVgpv());
+        return this;
+    }
 
 }

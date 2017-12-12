@@ -75,49 +75,7 @@ public class LokeDatabaseIntegrationService {
                 continue;
             }
 
-            Viewapkwithao3 entry = new Viewapkwithao3();
-
-            entry.setId(data.getId());
-            entry.setLankod(data.getLankod());
-            entry.setArbetsplatskod(data.getArbetsplatskod());
-            entry.setAo3(ao3);
-            entry.setAnsvar(data.getAnsvar());
-            entry.setFrivilligUppgift(data.getFrivilligUppgift());
-            entry.setAgarform(data.getAgarform());
-            entry.setVardform(data.getVardform());
-            entry.setVerksamhet(data.getVerksamhet());
-            entry.setSorteringskodProd(null); // todo Probably don't need this?
-            entry.setSorteringskodBest(null); // todo Probably don't need this?
-            entry.setBenamning(data.getBenamning());
-            entry.setPostnr(data.getPostnr());
-            entry.setPostort(data.getPostort());
-            entry.setPostadress(data.getPostadress());
-            entry.setLakemedkomm(null); // todo Probably don't need this? Or fixed value?
-            entry.setKontaktAkod(null); // todo Use this?
-            entry.setLeverans(null); // todo Probably don't need this?
-            entry.setFakturering(data.getFakturering());
-            entry.setAnmarkning(data.getAnmarkning());
-            entry.setFromDatum(data.getFromDatum());
-            entry.setTillDatum(data.getTillDatum());
-            entry.setRegDatum(data.getRegDatum());
-            entry.setErsattav(data.getErsattav());
-            entry.setUserId(data.getUserId()); // data.getUserIdNew() != null ? data.getUserIdNew() : data.getUserId() + "");
-            entry.setArbetsplatskodlan(data.getArbetsplatskodlan());
-            entry.setNamn(null); // todo Probably don't need this?
-            entry.setAndringsdatum(data.getAndringsdatum());
-            entry.setKommun(null); // todo Probably don't need this?
-            entry.setApodos(false); // todo Probably don't need this?
-            entry.setExternfaktura(data.getExternfaktura());
-            entry.setKommunkod(null); // todo Probably don't need this?
-            entry.setExternfakturamodell(data.getExternfakturamodell());
-            entry.setVgpv(data.getVgpv());
-            entry.setExpr1(ao3Entity.getId());
-            entry.setAo3id(ao3Entity.getAo3id());
-            entry.setForetagsnamn(ao3Entity.getForetagsnamn());
-            entry.setProducent(null); // todo Probably don't need this?
-            entry.setKontaktperson(ao3Entity.getKontaktperson());
-            entry.setForetagsnr(ao3Entity.getForetagsnr());
-            entry.setRaderad(ao3Entity.getRaderad());
+            Viewapkwithao3 entry = new Viewapkwithao3().loadData(data).loadData(ao3Entity);
 
             viewapkwithao3Repository.persist(entry);
         }

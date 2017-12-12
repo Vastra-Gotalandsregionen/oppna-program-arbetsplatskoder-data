@@ -5,13 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.ArchivedData;
-import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
-import se.vgregion.arbetsplatskoder.domain.jpa.migrated.DataExport;
-import se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid;
-import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.*;
 import se.vgregion.arbetsplatskoder.export.repository.DataExportRepository;
 import se.vgregion.arbetsplatskoder.export.repository.ViewApkForSesamLmnRepository;
 import se.vgregion.arbetsplatskoder.export.repository.ViewapkHsaidRepository;
+import se.vgregion.arbetsplatskoder.export.repository.Viewapkwithao3Repository;
+import se.vgregion.arbetsplatskoder.repository.Ao3Repository;
 import se.vgregion.arbetsplatskoder.repository.ArchivedDataRepository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
@@ -35,11 +34,18 @@ public class DataOperations {
     @Autowired
     private ViewapkHsaidRepository viewapkHsaidRepository;
 
+    @Autowired
+    private Viewapkwithao3Repository viewapkwithao3Repository;
+
+    @Autowired
+    private Ao3Repository ao3Repository;
+
     @Transactional(value = "exportTransactionManager")
     public void unexport(Integer withThatId) {
         dataExportRepository.delete(withThatId);
         viewApkForSesamLmnRepository.delete(withThatId.longValue());
         viewapkHsaidRepository.delete(withThatId);
+        viewapkwithao3Repository.delete(withThatId);
     }
 
     @Transactional
@@ -81,6 +87,9 @@ public class DataOperations {
         }
 
         viewapkHsaidRepository.save(new ViewapkHsaid(that));
+        viewapkwithao3Repository.save(
+                new Viewapkwithao3().loadData(that).loadData(ao3Repository.findByAo3id(that.getAo3()))
+        );
     }
 
 }
