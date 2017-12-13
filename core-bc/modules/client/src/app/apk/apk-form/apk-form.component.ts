@@ -370,6 +370,10 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
     setTimeout(() => {
       this.apkForm.markAsPristine()
+    }, 500);
+
+    setTimeout(() => {
+      this.apkForm.markAsPristine()
     }, 1000);
 
     setTimeout(() => {
