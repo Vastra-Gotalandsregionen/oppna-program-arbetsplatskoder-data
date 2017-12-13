@@ -81,7 +81,7 @@
   </dependencies>
 
   <build>
-    <finalName>arbetsplatskoder-data</finalName>
+    <finalName>arbetsplatskoder</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -109,7 +109,7 @@
         <version>2.2</version>
         <configuration>
           <uriEncoding>UTF-8</uriEncoding>
-          <path>/api</path>
+          <path>/arbetsplatskoder</path>
           <port>8080</port>
         </configuration>
       </plugin>
