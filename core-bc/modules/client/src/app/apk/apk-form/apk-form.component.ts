@@ -361,6 +361,20 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     this.initVardformControl();
     this.initVerksamhetControl();
     this.initGenerateAutomaticallyControls();
+
+    this.markAsPristineToWorkaroundIEIssue();
+  }
+
+  private markAsPristineToWorkaroundIEIssue() {
+    this.apkForm.markAsPristine();
+
+    setTimeout(() => {
+      this.apkForm.markAsPristine()
+    }, 1000);
+
+    setTimeout(() => {
+      this.apkForm.markAsPristine()
+    }, 2000);
   }
 
   private initVerksamhetControl() {

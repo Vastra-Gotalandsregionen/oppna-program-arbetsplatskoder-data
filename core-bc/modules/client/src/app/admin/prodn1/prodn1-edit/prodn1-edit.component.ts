@@ -50,7 +50,7 @@ export class Prodn1EditComponent implements OnInit {
       'id': [{value: this.prodn1.id, disabled: true}],
       'kortnamn': [this.prodn1.kortnamn, Validators.required],
       'raderad': [this.prodn1.raderad, []]
-    })
+    });
   }
 
   save() {
