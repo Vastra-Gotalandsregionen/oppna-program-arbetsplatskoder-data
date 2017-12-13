@@ -127,4 +127,5 @@ Do the following steps to import the old data with subsequent modifications:
 2. Start the application to modify entites to conform to the JPA entities as well as transform some of the data to new entity structures (via BatchService).
 3. Stop the application.
 4. Run se.vgregion.arbetsplatskoder.db.migration.level.Levels#main to update data.
-5. The application is now ready.
+5. Run se.vgregion.arbetsplatskoder.db.migration.ImportHistory.main to copy old structure of historic changes to the new structure.
+6. The application is now ready.
