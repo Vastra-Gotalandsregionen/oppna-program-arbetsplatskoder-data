@@ -34,3 +34,6 @@ trustStoreType=jks
 keyStore=
 keyStorePassword=
 keyStoreType=pkcs12
+
+default.admin.username=
+default.admin.encoded.password=

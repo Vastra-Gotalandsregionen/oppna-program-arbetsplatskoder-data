@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import se.vgregion.arbetsplatskoder.domain.jpa.Role;
 import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
+import se.vgregion.arbetsplatskoder.util.PasswordEncoder;
 
 import javax.naming.CommunicationException;
 import javax.naming.Context;
@@ -43,6 +44,12 @@ public class LdapLoginService {
     @Value("${ldap.url}")
     private String ldapUrl;
 
+    @Value("${default.admin.username}")
+    private String defaultAdminUsername;
+
+    @Value("${default.admin.encoded.password}")
+    private String defaultAdminEncodedPassword;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(LdapLoginService.class);
 
     public User login(String username, String password) throws FailedLoginException {
@@ -63,6 +70,26 @@ public class LdapLoginService {
 
     private User login(String username, String password, boolean verifyPassword) throws FailedLoginException {
         username = username.trim().toLowerCase();
+
+        if (username.equals(defaultAdminUsername)
+                && PasswordEncoder.getInstance().matches(password, defaultAdminEncodedPassword)) {
+
+            User user = new User();
+            user.setId(defaultAdminUsername);
+            user.setFirstName("Admin");
+            user.setDisplayName("Admin");
+            user.setRole(Role.ADMIN);
+
+            if (userRepository.findOne(user.getId()) == null) {
+                userRepository.save(user);
+            }
+
+            return user;
+        }
+
+        if (userRepository.findOne(username) == null) {
+            throw new FailedLoginException("The user is not registered in the application.");
+        }
 
         // first create the service context
         DirContext serviceCtx = null;
@@ -91,13 +118,6 @@ public class LdapLoginService {
                 Attribute thumbnailPhoto = result.getAttributes().get("thumbnailPhoto");
                 if (thumbnailPhoto != null) {
                     user.setThumbnailPhoto((byte[]) thumbnailPhoto.get());
-                }
-
-                // The first user to register will be admin.
-                if (userRepository.findAll().size() == 0) {
-                    user.setRole(Role.ADMIN);
-                } else {
-                    user.setRole(Role.USER);
                 }
 
                 user = syncUser(user);
@@ -173,7 +193,7 @@ public class LdapLoginService {
 
             return userRepository.save(user);
         } else {
-            return userRepository.save(user);
+            throw new RuntimeException("Only persisted users should be able to login.");
         }
     }
 
