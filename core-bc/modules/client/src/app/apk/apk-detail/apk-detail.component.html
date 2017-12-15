@@ -209,7 +209,7 @@
         </div>
 
         <div class="row">
-        	<div class="col c12">
+        	<div class="col c6">
         		<div class="col-inner">
               <div class="apk-details">
                 <h3>Övrig info</h3>
@@ -218,6 +218,21 @@
                   <div class="apk-details-item-label">Anmärkning:</div>
                   <div class="apk-details-item-data">
                     {{data.anmarkning || '-'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+        	</div>
+        	<div class="col c6">
+        		<div class="col-inner">
+              <div class="apk-details">
+                <h3>Tidigare versioner</h3>
+
+                <div class="apk-details-item">
+                  <div class="apk-details-item-label">Tidigare versioner:</div>
+                  <div class="apk-details-item-data">
+                    <a *ngIf="archivedDatas.length > 0" routerLink="/apk/{{data.id}}/archivedDatas">{{archivedDatas.length}} st</a>
+                    <span *ngIf="archivedDatas.length === 0">0 st</span>
                   </div>
                 </div>
               </div>

@@ -3,6 +3,9 @@
 <div class="alert alert-danger" *ngIf="loginMessage">{{loginMessage}}</div>
 
 <form #loginForm="ngForm" class="login-form">
+  <p>
+    Särskild behörighet krävs. Frågor besvaras av din kontaktperson.
+  </p>
   <div>
     <mat-input-container>
       <input placeholder="VGR-ID" type="text" matInput [(ngModel)]="userId" name="USER" required>

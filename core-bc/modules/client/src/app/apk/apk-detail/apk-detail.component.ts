@@ -20,6 +20,7 @@ export class ApkDetailComponent extends ApkBase implements OnInit {
   data: Data;
   $replacedBy: Observable<Data>;
   $replaces: Observable<Data>;
+  archivedDatas: Data[] = [];
 
   constructor(protected route: ActivatedRoute,
               protected http: JwtHttp,
@@ -48,6 +49,12 @@ export class ApkDetailComponent extends ApkBase implements OnInit {
         this.$replaces = $data
           .mergeMap((data: Data) => this.http.get('/api/data/ersattav/' + data.arbetsplatskodlan))
           .map(response => response.json());
+
+        this.http.getPage('/api/archivedData/' + this.id)
+          .map(response => response.json())
+          .subscribe((archivedDatas: Data[]) => {
+            this.archivedDatas = archivedDatas;
+          });
 
       }
     });

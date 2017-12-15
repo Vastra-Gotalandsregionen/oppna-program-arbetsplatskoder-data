@@ -30,24 +30,24 @@
     <table *ngIf="response" class="apk-table apks-table">
       <thead>
         <tr>
-          <th class="row-apk">
+          <th class="row-apk" matTooltip="Krävs på elektroniska och pappersrecept för läkemedelssubvention">
             Arbetsplatskod
           </th>
-          <th class="row-name">
+          <th class="row-name" matTooltip="Arbetsplatsens namn">
             <button class="sort-button" mat-button (click)="toggleSort('benamning')" [ngClass]="{'sort-field': sort?.field === 'benamning', 'asc': sort?.ascending, 'desc': sort?.ascending === false}">
               Benämning <mat-icon>arrow_drop_up</mat-icon>
             </button>
           </th>
-          <th class="row-prod1">
+          <th class="row-prod1" matTooltip="Grundnivå för organisation i Concise statistiksystem">
             Concise SumNivå 1
           </th>
-          <th class="row-prod2">
+          <th class="row-prod2" matTooltip="Mellannivå för organisation i Concise statistiksystem">
             Concise SumNivå 2
           </th>
-          <th class="row-prod3">
+          <th class="row-prod3" matTooltip="Undernivå för organisation i Concise statistiksystem">
             Concise SumNivå 3
           </th>
-          <th class="row-ansvar">
+          <th class="row-ansvar" matTooltip="Ekonomisk kod">
             Ansvar
           </th>
           <th class="row-to-date">
@@ -55,10 +55,10 @@
               Giltig till <mat-icon>arrow_drop_up</mat-icon>
             </button>
           </th>
-          <th class="row-status">
+          <th class="row-status" matTooltip="Händelser som påverkar arbetsplatskoden t.ex. giltighet">
             Status
           </th>
-          <th class="row-menu"></th>
+          <th class="row-menu" matTooltip="Klicka på prickarna för att visa flera val">Meny</th>
         </tr>
       </thead>
       <tbody>

@@ -28,7 +28,7 @@
     <mat-card class="example-card">
       <mat-card-content>
 
-        <h3>Välj ägarform</h3>
+        <h3>Välj ägarform <mat-icon matTooltip="Ange arbetsplatsens ägare. Krävs av eHälsomyndigheten">help</mat-icon></h3>
 
 
         <mat-radio-group formControlName="agarform" class="col-2">
@@ -46,7 +46,7 @@
 
         <div class="checkbox-container" [@slideIn]="apkForm.value.agarform ? 'in' : 'out'">
           <mat-checkbox align="end" formControlName="groupCode">Gruppkod</mat-checkbox>
-          <mat-icon matTooltip="Förklaring...">help</mat-icon>
+          <mat-icon matTooltip="Markeras om arbetsplatskoden är gemensam för en särskild typ av förskrivare, t.ex. pensionärer">help</mat-icon>
         </div>
 
       </mat-card-content>
@@ -83,7 +83,7 @@
           </p>
 
           <button type="button" mat-raised-button (click)="selectUnit(apkForm.value.unitSearch)">Fyll i uppgifter</button>
-          <span><mat-icon matTooltip="Fyll i egenskaper från enheten i fälten nedan">help</mat-icon></span>
+          <span><mat-icon matTooltip="Fyller automatiskt i uppgifter från KIV i formuläret nedan">help</mat-icon></span>
         </div>
 
       </mat-card-content>
@@ -103,7 +103,9 @@
                 <input placeholder="Motpart" type="text" matInput [matAutocomplete]="ao3AutocompleteRef"
                        formControlName="ao3">
 
-               <mat-error *ngIf="getErrors('ao3')?.required">
+                <mat-icon matTooltip="Ekonomisk kod på tre siffror. Fylls i automatiskt från KIV, annars välj i rullisten.">help</mat-icon>
+
+                <mat-error *ngIf="getErrors('ao3')?.required">
                  {{messages.get('field-is-required')}}
                </mat-error>
                <mat-error *ngIf="getErrors('ao3')?.invalidName">
@@ -125,7 +127,7 @@
             <div class="apk-form-field">
               <mat-input-container>
                 <input matInput placeholder="Ansvar" formControlName="ansvar" type="text"/>
-                <mat-icon matTooltip="Ange ett nummer på 4-6 siffror">help</mat-icon>
+                <mat-icon matTooltip="Ekonomisk kod. Fylls i manuellt. Normalt fem siffror.">help</mat-icon>
 
                 <mat-error *ngIf="getErrors('ansvar')?.required">
                   {{messages.get('field-is-required')}}
@@ -156,14 +158,16 @@
                       <mat-radio-button value="ovr">Ja</mat-radio-button>
                       <mat-radio-button value="nej">Nej</mat-radio-button>
                   </mat-radio-group>
+
+                  <mat-icon matTooltip="Skall alltid vara ”Nej” för landstingets egna arbetsplatser och normalt även för privata vårdgivare. Markera ”Ja” om förmånskostnaden enligt avtal ska faktureras aktuell arbetsplats.">help</mat-icon>
                 </div>
               </div>
 
-              <div [@slideIn]="apkForm.value.externfakturaGroup.externfakturamodell === 'ovr' ? 'in': 'out'">
+              <div *ngIf="apkForm.value.externfakturaGroup.externfakturamodell === 'ovr'">
 
                 <mat-input-container>
                   <input matInput placeholder="Vårdgivarkod" formControlName="externfaktura" type="text"/>
-                  <mat-icon matTooltip="Förklaring...">help</mat-icon>
+                  <mat-icon matTooltip="Kod för arbetsplats som har avtal med VGR">help</mat-icon>
                   <mat-error>{{messages.get('field-is-required')}}</mat-error>
                 </mat-input-container>
               </div>
@@ -178,6 +182,8 @@
                   <mat-radio-button value="true">Ja</mat-radio-button>
                   <mat-radio-button value="false">Nej</mat-radio-button>
                 </mat-radio-group>
+
+                <mat-icon matTooltip="Markera ”Ja” om arbetsplatsen tillhör landstingets Vårdval">help</mat-icon>
               </div>
             </div>
           </div>
@@ -195,6 +201,7 @@
               <mat-input-container>
                 <input placeholder="Vårdform" type="text" matInput
                        [matAutocomplete]="vardformAutocompleteRef" formControlName="vardform">
+                <mat-icon matTooltip="Ange arbetsplatsens huvudinriktning. Krävs av eHälsomyndigheten.">help</mat-icon>
 
                 <mat-error *ngIf="getErrors('vardform')?.required">
                   {{messages.get('field-is-required')}}
@@ -218,6 +225,7 @@
               <mat-input-container>
                 <input placeholder="Medicinsk verksamhetskod" type="text" matInput
                        [matAutocomplete]="verksamhetAutocompleteRef" formControlName="verksamhet" name="verksamhet">
+                <mat-icon matTooltip="Ange arbetsplatsens verksamhet. Krävs av eHälsomyndigheten.">help</mat-icon>
 
                  <mat-error *ngIf="getErrors('verksamhet')?.required">
                    {{messages.get('field-is-required')}}
@@ -258,6 +266,7 @@
                   {{messages.get('field-is-required')}}
                 </mat-error>
 
+                <mat-icon matTooltip="Välj grundnivå för Concise organisation i rullisten">help</mat-icon>
               </mat-form-field>
 
             </div>
@@ -276,6 +285,7 @@
                   {{messages.get('field-is-required')}}
                 </mat-error>
 
+                <mat-icon matTooltip="Välj mellannivå för Concise organisation i rullisten">help</mat-icon>
               </mat-form-field>
             </div>
           </div>
@@ -293,6 +303,7 @@
                   {{messages.get('field-is-required')}}
                 </mat-error>
 
+                <mat-icon matTooltip="Välj undernivå för Concise organisation i rullisten">help</mat-icon>
               </mat-form-field>
             </div>
           </div>
@@ -331,7 +342,7 @@
               <mat-input-container>
                 <input placeholder="Benämning/enhetsnamn kort version (max 35 tecken)"
                   type="text" matInput formControlName="benamningKort" name="benamningKort" (keydown)="benamningKortKeyDown($event)" maxlength="35">
-                <mat-icon matTooltip="Om Benämning/enhetsnamn är längre än 35 tecken behöver ett kortare namn anges">help</mat-icon>
+                <mat-icon matTooltip="Visas i Concise. Förkorta på lämpligt sätt till max 35 tecken.">help</mat-icon>
                 <mat-error>{{messages.get('field-is-required')}}</mat-error>
               </mat-input-container>
             </div>
@@ -388,6 +399,7 @@
 
           <div class="checkbox-container">
             <mat-checkbox align="end" formControlName="noTillDatum" #noTillDatumCheckbox>Giltig tills vidare</mat-checkbox>
+            <mat-icon matTooltip="Avmarkera och fyll i ”Giltig t.o.m.” om arbetsplatsen ska ha begränsad giltighet.">help</mat-icon>
           </div>
 
           <mat-input-container class="date">
@@ -439,6 +451,7 @@
 
           <div class="checkbox-container">
             <mat-checkbox align="end" formControlName="generateAutomatically">Generera automatiskt</mat-checkbox>
+            <mat-icon matTooltip="Avmarkera om arbetsplatsen ska ha en specifik kod.">help</mat-icon>
           </div>
 
           <div [@slideIn]="!apkForm.value.generateAutomatically ? 'in' : 'out'">
