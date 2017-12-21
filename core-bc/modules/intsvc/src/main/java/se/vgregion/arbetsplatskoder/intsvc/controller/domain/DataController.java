@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import se.vgregion.arbetsplatskoder.domain.jpa.Role;
 import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.DataExport;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.domain.json.ErrorMessage;
 import se.vgregion.arbetsplatskoder.export.repository.DataExportRepository;
@@ -262,6 +263,8 @@ public class DataController {
         data.setAndringsdatum(sdf.format(now));
 
         data = dataOperations.saveAndArchive(data);
+        DataExport de = new DataExport(data);
+
         dataOperations.export(data);
 
         return ResponseEntity.ok(data);

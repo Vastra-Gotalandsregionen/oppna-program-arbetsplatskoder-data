@@ -3,6 +3,9 @@ package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
+import static se.vgregion.arbetsplatskoder.domain.jpa.migrated.DataExport.indefiniteTime;
 
 @Entity
 @Table(name = "viewapkwithao3")
@@ -530,7 +533,11 @@ public class Viewapkwithao3 extends AbstractEntity {
         setFakturering(data.getFakturering());
         setAnmarkning(data.getAnmarkning());
         setFromDatum(data.getFromDatum());
-        setTillDatum(data.getTillDatum());
+        if (data.getTillDatum() == null) {
+            setTillDatum(new Timestamp(indefiniteTime.getTime()));
+        } else {
+            setTillDatum(data.getTillDatum());
+        }
         setRegDatum(data.getRegDatum());
         setErsattav(data.getErsattav());
         setUserId(data.getUserId()); // data.getUserIdNew() != null ? data.getUserIdNew() : data.getUserId() + "");

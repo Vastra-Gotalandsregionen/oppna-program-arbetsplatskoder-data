@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Timestamp;
+
+import static se.vgregion.arbetsplatskoder.domain.jpa.migrated.DataExport.indefiniteTime;
 
 @Entity
 @Table(name = "viewapk_hsaid")
@@ -35,6 +38,11 @@ public class ViewapkHsaid extends AbstractEntity {
         this.hsaid = withContentFromThat.getHsaid();
         this.fromDatum = withContentFromThat.getFromDatum();
         this.tillDatum = withContentFromThat.getTillDatum();
+        if (withContentFromThat.getTillDatum() == null) {
+            setTillDatum(new Timestamp(indefiniteTime.getTime()));
+        } else {
+            setTillDatum(withContentFromThat.getTillDatum());
+        }
     }
 
     public Integer getId() {

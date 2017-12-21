@@ -3,7 +3,6 @@ package se.vgregion.arbetsplatskoder.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
@@ -39,6 +38,7 @@ public class SesamLmnDatabaseIntegrationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SesamLmnDatabaseIntegrationService.class);
 
+    @Transactional
     public void populateTables() {
         LOGGER.info("Start populateTables()...");
         StopWatch stopWatch = new StopWatch();
@@ -62,6 +62,8 @@ public class SesamLmnDatabaseIntegrationService {
         }
         stopWatch.stop();
         LOGGER.info("Finish populateTables()... " + stopWatch.getTotalTimeMillis() + " ms");
+        dataExportRepository.flush();
+        viewApkForSesamLmnRepository.flush();
     }
 
 }

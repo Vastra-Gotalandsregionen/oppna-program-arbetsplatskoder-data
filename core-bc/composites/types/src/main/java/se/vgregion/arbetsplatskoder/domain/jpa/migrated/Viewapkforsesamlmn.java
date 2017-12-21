@@ -5,6 +5,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import static se.vgregion.arbetsplatskoder.domain.jpa.migrated.DataExport.indefiniteTime;
+
 @Entity
 @Table(name = "viewapkforsesamlmn")
 public class Viewapkforsesamlmn extends AbstractEntity {
@@ -35,7 +37,11 @@ public class Viewapkforsesamlmn extends AbstractEntity {
         setFakturering(data.getFakturering());
         setAnmarkning(data.getAnmarkning());
         setFromDatum(data.getFromDatum());
-        setTillDatum(data.getTillDatum());
+        if (data.getTillDatum() == null) {
+            setTillDatum(new Timestamp(indefiniteTime.getTime()));
+        } else {
+            setTillDatum(data.getTillDatum());
+        }
         setRegDatum(data.getRegDatum());
         setArbetsplatskodlan(data.getArbetsplatskodlan()); // c
         setApodos(false); // todo Probably don't need this?

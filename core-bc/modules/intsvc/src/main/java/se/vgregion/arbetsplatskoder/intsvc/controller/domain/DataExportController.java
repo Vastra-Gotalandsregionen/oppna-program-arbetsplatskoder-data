@@ -56,7 +56,7 @@ public class DataExportController {
 
     @RequestMapping(value = "ehalsomyndigheten", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
+    // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public String get() {
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", Collections.singletonList("text/plain"));
@@ -66,7 +66,7 @@ public class DataExportController {
 
     @RequestMapping(value = "stralfors", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
+    // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public String fetchStralforsExport() {
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", Collections.singletonList("text/plain"));
@@ -76,7 +76,7 @@ public class DataExportController {
 
     @RequestMapping(value = "sesam-lmn", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
+    // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<List<se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn>> fetchSesamLmnExport() {
         sesamLmnDatabaseIntegrationService.populateTables();
         HttpHeaders headers = new HttpHeaders();
@@ -87,7 +87,7 @@ public class DataExportController {
 
     @RequestMapping(value = "loke", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
+    // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<List<Viewapkwithao3>> fetchLokeExport() {
         lokeDatabaseIntegrationService.populateLokeTable();
         HttpHeaders headers = new HttpHeaders();
@@ -98,7 +98,7 @@ public class DataExportController {
 
     @RequestMapping(value = "kiv", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
+    // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<List<ViewapkHsaid>> fetchKivExport() {
         kivSesamLmnDatabaseIntegrationService.run();
         HttpHeaders headers = new HttpHeaders();

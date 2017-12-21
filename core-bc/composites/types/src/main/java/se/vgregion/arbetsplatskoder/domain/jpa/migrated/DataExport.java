@@ -6,10 +6,23 @@ package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 @Table(name = "data")
 public class DataExport extends AbstractData {
+
+    final static Date indefiniteTime;
+
+    static {
+        try {
+            indefiniteTime = new SimpleDateFormat("YYYY-mm-dd").parse("2199-12-01");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public DataExport() {
         super();
@@ -28,7 +41,12 @@ public class DataExport extends AbstractData {
         setAnsvar(data.getAnsvar());
         setApodos(data.getApodos());
         setKontaktAkod(data.getKontaktAkod());
-        setTillDatum(data.getTillDatum());
+        if (data.getTillDatum() == null) {
+            setTillDatum(new Timestamp(indefiniteTime.getTime()));
+        } else {
+            setTillDatum(data.getTillDatum());
+        }
+
         setFrivilligUppgift(data.getFrivilligUppgift());
         setLankod(data.getLankod());
         setPostadress(data.getPostadress());
