@@ -38,7 +38,6 @@ public class SesamLmnDatabaseIntegrationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SesamLmnDatabaseIntegrationService.class);
 
-    @Transactional
     public void populateTables() {
         LOGGER.info("Start populateTables()...");
         StopWatch stopWatch = new StopWatch();

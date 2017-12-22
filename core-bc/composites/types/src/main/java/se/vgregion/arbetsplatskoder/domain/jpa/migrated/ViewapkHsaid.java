@@ -37,7 +37,6 @@ public class ViewapkHsaid extends AbstractEntity {
         this.id = withContentFromThat.getId();
         this.hsaid = withContentFromThat.getHsaid();
         this.fromDatum = withContentFromThat.getFromDatum();
-        this.tillDatum = withContentFromThat.getTillDatum();
         if (withContentFromThat.getTillDatum() == null) {
             setTillDatum(new Timestamp(indefiniteTime.getTime()));
         } else {
