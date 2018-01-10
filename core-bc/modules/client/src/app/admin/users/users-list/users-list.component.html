@@ -52,7 +52,7 @@
               <mat-icon>delete</mat-icon>
               <span>Ta bort</span>
             </button>
-            <button mat-menu-item (click)="impersonate(user)">
+            <button *ngIf="canImpersonate()" mat-menu-item (click)="impersonate(user)">
               <mat-icon>transfer_within_a_station</mat-icon>
               <span>Uppträd som</span>
             </button>

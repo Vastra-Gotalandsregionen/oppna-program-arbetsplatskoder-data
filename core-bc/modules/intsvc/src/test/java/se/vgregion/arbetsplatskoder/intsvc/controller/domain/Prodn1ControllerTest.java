@@ -74,7 +74,7 @@ public class Prodn1ControllerTest {
         prodn1Repository.save(p4);
 
         // Inject HttpServletRequest with JWT token
-        String token = JwtUtil.createToken("userId1", "My Name", "ADMIN", new HashSet<>());
+        String token = JwtUtil.createToken("userId1", "My Name", new String[]{"ADMIN"}, new HashSet<>());
 
         HttpServletRequest httpServletRequest = Mockito.mock(HttpServletRequest.class);
         when(httpServletRequest.getHeader("Authorization")).thenReturn("Bearer " + token);

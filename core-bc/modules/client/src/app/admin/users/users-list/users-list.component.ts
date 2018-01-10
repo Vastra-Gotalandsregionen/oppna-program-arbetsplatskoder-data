@@ -64,6 +64,10 @@ export class UsersListComponent implements OnInit {
     return prodn1s.length;
   }
 
+  canImpersonate() {
+    return this.authService.canImpersonate();
+  }
+
   impersonate(user: User) {
     this.http.post('/api/login/impersonate', user).subscribe(response => {
       this.authService.jwt = response.text();

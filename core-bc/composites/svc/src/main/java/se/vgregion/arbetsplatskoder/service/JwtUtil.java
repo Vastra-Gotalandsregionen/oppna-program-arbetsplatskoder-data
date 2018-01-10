@@ -35,7 +35,7 @@ public class JwtUtil {
         secret = jwtSignSecret;
     }
 
-    public static String createToken(String userId, String displayName, String role, Set<Prodn1> prodn1s) {
+    public static String createToken(String userId, String displayName, String[] roles, Set<Prodn1> prodn1s) {
         try {
             Date timeAhead = Date.from(Instant.now().plus(MINUTES_AGE, ChronoUnit.MINUTES));
             Date now = Date.from(Instant.now());
@@ -46,7 +46,7 @@ public class JwtUtil {
 
             return JWT.create()
                     .withSubject(userId != null ? String.valueOf(userId) : null)
-                    .withClaim("roles", role)
+                    .withArrayClaim("roles", roles)
                     .withClaim("displayName", displayName)
                     .withArrayClaim("prodn1s", prodn1sStrings)
                     .withIssuedAt(now)

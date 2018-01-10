@@ -60,6 +60,10 @@ export class AuthService {
     return jwtTokenString ? this.jwtHelper.decodeToken(jwtTokenString) : null;
   }
 
+  isAuthenticated(): boolean {
+    return this.getToken() && !this.isTokenExpired();
+  }
+
   get jwt(): string {
     return localStorage.getItem('apkJwtToken');
   }
@@ -94,13 +98,28 @@ export class AuthService {
     return token ? token.displayName : null;
   }
 
-  getLoggedInRole() {
+  isAdmin() {
     const token = this.getToken();
-    return token ? token.roles : null;
+    if (token) {
+      const roles = <string[]>token.roles;
+      return roles.indexOf('ADMIN') > -1;
+    }
+
+    return false;
+  }
+
+  canImpersonate() {
+    const token = this.getToken();
+    if (token) {
+      const roles = <string[]>token.roles;
+      return roles.indexOf('IMPERSONATE') > -1;
+    }
+
+    return false;
   }
 
   userHasDataEditPermission(data: Data) {
-    if (this.getLoggedInRole() === 'ADMIN') {
+    if (this.isAdmin()) {
       return true;
     }
 

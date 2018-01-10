@@ -12,12 +12,12 @@ export class UserLoggedInGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    let authorized = !!this.authService.getLoggedInRole();
+    let authenticated = this.authService.isAuthenticated();
 
-    if (!authorized) {
+    if (!authenticated) {
       this.router.navigate(['/home']);
     }
 
-    return authorized;
+    return authenticated;
   }
 }

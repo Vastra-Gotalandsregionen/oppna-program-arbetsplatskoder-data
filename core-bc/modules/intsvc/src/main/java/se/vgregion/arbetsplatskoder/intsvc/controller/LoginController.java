@@ -5,6 +5,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import se.vgregion.arbetsplatskoder.service.LdapLoginService;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Patrik Björk
@@ -39,6 +41,9 @@ public class LoginController {
     @Autowired
     private HttpServletRequest request;
 
+    @Value("${impersonate.enabled}")
+    private boolean impersonateEnabled;
+
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         try {
@@ -52,7 +57,9 @@ public class LoginController {
                 }
             }
 
-            String token = JwtUtil.createToken(user.getId(), user.getDisplayName(), user.getRole().name(),
+            String[] roles = getRoles(user);
+
+            String token = JwtUtil.createToken(user.getId(), user.getDisplayName(), roles,
                     user.getProdn1s());
 
             return ResponseEntity.ok(token);
@@ -70,7 +77,9 @@ public class LoginController {
 
             User user = userRepository.findOne(decodedJWT.getSubject());
 
-            String token = JwtUtil.createToken(user.getId(), user.getDisplayName(), user.getRole().name(),
+            String[] roles = getRoles(user);
+
+            String token = JwtUtil.createToken(user.getId(), user.getDisplayName(), roles,
                     user.getProdn1s());
 
             return ResponseEntity.ok(token);
@@ -78,6 +87,18 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
+    }
+
+    String[] getRoles(User user) {
+        String roleName = user.getRole().name();
+
+        String[] roles;
+        if (Role.ADMIN.name().equals(roleName) && impersonateEnabled) {
+            roles = new String[]{roleName, Role.IMPERSONATE.name()};
+        } else {
+            roles = new String[]{roleName};
+        }
+        return roles;
     }
 
     @RequestMapping(value = "/impersonate", method = RequestMethod.POST)
@@ -94,13 +115,15 @@ public class LoginController {
         try {
             jwt = JwtUtil.verify(jwtToken);
 
-            String role = jwt.getClaim("roles").asString();
+            List<String> roles = jwt.getClaim("roles").asList(String.class);
 
-            if (Role.ADMIN.name().equals(role)) {
+            if (roles.contains(Role.IMPERSONATE.name())) {
                 User impersonated = ldapLoginService.loginWithoutPassword(userToImpersonate.getId());
 
+                String[] impersonatedRoles = getRoles(impersonated);
+
                 String token = JwtUtil.createToken(impersonated.getId(), impersonated.getDisplayName(),
-                        impersonated.getRole().name(), impersonated.getProdn1s());
+                        impersonatedRoles, impersonated.getProdn1s());
 
                 return ResponseEntity.ok(token);
             }

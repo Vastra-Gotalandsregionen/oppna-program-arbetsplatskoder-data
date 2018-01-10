@@ -5,6 +5,8 @@ ldap.url=
 
 jwt.sign.secret=
 
+impersonate.enabled=
+
 export.sesam-lmn.should.run=false
 
 export.sesam-lmn.smb.url=smb://127.0.0.1/share/;

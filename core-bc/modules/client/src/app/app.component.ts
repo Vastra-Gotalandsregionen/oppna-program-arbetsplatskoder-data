@@ -59,6 +59,10 @@ export class AppComponent {
     return this.authService.getLoggedInDisplayName();
   }
 
+  isLoggedIn() {
+    return this.authService.isAuthenticated();
+  }
+
   getLoggedInUserId(): string {
     return this.authService.getLoggedInUserId();
   }
@@ -72,6 +76,6 @@ export class AppComponent {
   }
 
   get admin() {
-    return this.authService.getLoggedInRole() === 'ADMIN';
+    return this.authService.isAdmin();
   }
 }

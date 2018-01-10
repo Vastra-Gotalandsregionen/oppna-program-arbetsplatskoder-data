@@ -70,7 +70,7 @@ export class ContentBoxComponent implements OnInit {
   }
 
   get admin() {
-    return this.authService.getLoggedInRole() === 'ADMIN';
+    return this.authService.isAdmin();
   }
 
   getShowContentEdit(): boolean {

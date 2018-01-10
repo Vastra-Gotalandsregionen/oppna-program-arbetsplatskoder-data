@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit {
   }
 
   get admin() {
-    return this.authService.getLoggedInRole() === 'ADMIN';
+    return this.authService.isAdmin();
   }
 
   get loggedIn() {

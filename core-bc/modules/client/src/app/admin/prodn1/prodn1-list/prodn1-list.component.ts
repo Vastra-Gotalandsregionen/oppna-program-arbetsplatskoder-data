@@ -31,7 +31,7 @@ export class Prodn1ListComponent implements OnInit {
   }
 
   get admin() {
-    return this.authService.getLoggedInRole() === 'ADMIN'
+    return this.authService.isAdmin();
   }
 
 }

@@ -33,10 +33,10 @@
               <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
                 {{getLoggedInDisplayName()}}
               </span>
-              <span *ngIf="!getLoggedInDisplayName()" class="header-control-item">
+              <span *ngIf="!isLoggedIn()" class="header-control-item">
                 <button mat-button (click)="openLogin()">Logga in</button>
               </span>
-              <span *ngIf="getLoggedInDisplayName()" class="header-control-item">
+              <span *ngIf="isLoggedIn()" class="header-control-item">
                 <button mat-button (click)="logout()">Logga ut</button>
               </span>
 

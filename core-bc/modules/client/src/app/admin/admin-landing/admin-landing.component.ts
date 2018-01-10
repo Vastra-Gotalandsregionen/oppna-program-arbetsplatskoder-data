@@ -14,10 +14,10 @@ export class AdminLandingComponent implements OnInit {
   }
 
   get admin() {
-    return this.authService.getLoggedInRole() === 'ADMIN';
+    return this.authService.isAdmin();
   }
 
   get loggedIn() {
-    return this.authService.getLoggedInUserId() ? true : false;
+    return this.authService.isAuthenticated();
   }
 }

@@ -241,7 +241,7 @@ export class ApkComponent extends ApkBase implements OnInit {
   }
 
   get admin() {
-    return this.authService.getLoggedInRole() === 'ADMIN';
+    return this.authService.isAdmin();
   }
 
   // getStatus(data: Data) {

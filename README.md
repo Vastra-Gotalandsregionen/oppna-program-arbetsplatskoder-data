@@ -48,6 +48,8 @@ npm start
 
 Now hit `localhost:4200` with your browser.
 
+Default admin credentials can be set in application.properties. A properly encoded password can be generated via `se.vgregion.arbetsplatskoder.util.PasswordEncoder.main` method.
+
 ### Deployment
 There are many options for deployment but these are used at Västra Götalandsregionen:
 

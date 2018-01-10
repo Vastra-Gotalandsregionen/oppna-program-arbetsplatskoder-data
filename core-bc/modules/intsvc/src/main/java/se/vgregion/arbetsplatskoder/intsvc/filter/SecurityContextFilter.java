@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SecurityContextFilter implements Filter {
 
@@ -28,7 +30,8 @@ public class SecurityContextFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
@@ -51,13 +54,14 @@ public class SecurityContextFilter implements Filter {
             }
 
             final String subject = jwt.getSubject();
-            Claim roles = jwt.getClaim("roles");
-            String role = roles.asString();
+            Claim rolesClaim = jwt.getClaim("roles");
+            List<String> roles = rolesClaim.asList(String.class);
 
-            GrantedAuthority authority = new SimpleGrantedAuthority(role);
+            List<SimpleGrantedAuthority> authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role))
+                    .collect(Collectors.toList());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    subject, "", Collections.singletonList(authority)
+                    subject, "", authorities
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
