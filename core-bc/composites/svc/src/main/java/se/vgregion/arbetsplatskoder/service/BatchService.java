@@ -46,9 +46,6 @@ public class BatchService {
     private Ao3Repository ao3Repository;
 
     @Autowired
-    private SesamLmnExportFileService sesamLmnExportFileService;
-
-    @Autowired
     private UnitSearchService unitSearchService;
 
     @Autowired

@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import se.vgregion.arbetsplatskoder.service.EHalsomyndighetenExportFileService;
-import se.vgregion.arbetsplatskoder.service.SesamLmnExportFileService;
 import se.vgregion.arbetsplatskoder.service.StralforsExportFileService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,11 +33,6 @@ public class AppConfigTest {
     @Bean
     public StralforsExportFileService stralforsExportFileService() {
         return Mockito.mock(StralforsExportFileService.class);
-    }
-
-    @Bean
-    public SesamLmnExportFileService sesamLmnExportFileService() {
-        return Mockito.mock(SesamLmnExportFileService.class);
     }
 
 }
