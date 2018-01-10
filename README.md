@@ -22,7 +22,6 @@ Place the files below in ${user.home}/.app/arbetsplatskoder and remove the .temp
 ```
 application.properties.template
 export.jdbc.properties.template
-legacy.jdbc.properties.template
 main.jdbc.properties.template
 quartz.properties.template
 ```
@@ -75,7 +74,7 @@ Make sure you're in the project root. Then:
 mvn package
 ```
 
-Then deploy `core-bc/modules/intsvc/target/arbetsplatskoder-data.war` to Apache Tomcat.
+Then deploy `core-bc/modules/intsvc/target/arbetsplatskoder.war` to Apache Tomcat.
 
 #### Apache HTTP Server configuration
 For the Angular application to function properly all URL:s not pointing to a specific resource should return index.html. In addition, URL:s with a certain context path should be proxied to Apache Tomcat. This is an example configuration which assumes /api is proxied to Tomcat and the static files are located under /var/www/apk:
@@ -96,7 +95,7 @@ For the Angular application to function properly all URL:s not pointing to a spe
         # If the requested resource doesn't exist, use index.html
         RewriteRule ^ /index.html
 
-        ProxyPass /api ajp://localhost:8009/api
+        ProxyPass /arbetsplatskoder ajp://localhost:8009/arbetsplatskoder
 
         CustomLog ${APACHE_LOG_DIR}/application.log combined
 </VirtualHost>
@@ -123,7 +122,7 @@ There are five "outputs" of the application:
 The scheduling is performed with Quartz. The reason is that Quartz handles scheduled jobs in a clustered environment. Only one node should perform each job each time and if one node is down it is the other node's responsibility.
 
 ## Importing data from the old application
-Do the following steps to import the old data with subsequent modifications:
+Do the following steps to import the old data with subsequent modifications (make sure you have legacy.jdbc.properties on the computer you're running from):
 
 1. Run se.vgregion.arbetsplatskoder.db.migration.Job#main to import the data "as-is".
 2. Start the application to modify entites to conform to the JPA entities as well as transform some of the data to new entity structures (via BatchService).

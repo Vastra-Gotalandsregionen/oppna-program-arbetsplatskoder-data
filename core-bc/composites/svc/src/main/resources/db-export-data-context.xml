@@ -9,10 +9,6 @@
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
 >
 
-  <!--<context:property-placeholder location="file:${user.home}/.app/arbetsplatskoder/export.data.jdbc.properties,file:${user.home}/.app/arbetsplatskoder/application.properties"/>
-
-  <import resource="classpath:db-context-direct.xml"/>-->
-
   <!-- Uses by default transaction bean with name transactionManager -->
   <tx:annotation-driven transaction-manager="exportTransactionManager"/>
 
