@@ -11,6 +11,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.migrated.ViewapkHsaid;
 import se.vgregion.arbetsplatskoder.export.repository.ViewapkHsaidRepository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,9 @@ public class KivSesamLmnDatabaseIntegrationService {
     }
 
     public List<ViewapkHsaid> itemsToExport() {
-        List<Data> datas = dataRepository.findAll();
+        Timestamp thanThat = new Timestamp(System.currentTimeMillis());
+        List<Data> datas = dataRepository.findAllTillDatumGreaterOrForTheTimeBeing(thanThat);
+        //List<Data> datas = dataRepository.findAll();
 
         List<ViewapkHsaid> items = new ArrayList<>();
 
@@ -58,6 +61,7 @@ public class KivSesamLmnDatabaseIntegrationService {
 
     public void removeOldExportAgain(List<ViewapkHsaid> those) {
         viewapkHsaidRepository.deleteAll();
+        viewapkHsaidRepository.flush();
         for (ViewapkHsaid that : those) {
             viewapkHsaidRepository.saveAndFlush(that);
         }
