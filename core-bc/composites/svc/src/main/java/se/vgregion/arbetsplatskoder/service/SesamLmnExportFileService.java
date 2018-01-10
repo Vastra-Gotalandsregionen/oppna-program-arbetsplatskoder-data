@@ -35,7 +35,7 @@ public class SesamLmnExportFileService {
         return generate(findAllRelevantItems());
     }
 
-    @Value("${export.sesam-lmn.should.run}")
+/*    @Value("${export.sesam-lmn.should.run}")
     private Boolean exportShouldRun;
 
     @Value("${export.sesam-lmn.smb.url}")
@@ -48,9 +48,10 @@ public class SesamLmnExportFileService {
     private String userDomain;
 
     @Value("${export.sesam-lmn.smb.password}")
-    private String password;
+    private String password;*/
 
     //@Scheduled(cron = "0 15/45 * * * MON-FRI")
+/*
     @Transactional
     public void runFileTransfer() {
         if (!exportShouldRun) {
@@ -75,6 +76,7 @@ public class SesamLmnExportFileService {
         );
         LOGGER.info(SesamLmnExportFileService.class.getName() + ".runFileTransfer() completes.");
     }
+*/
 
     String generate(List<Data> all) {
 

@@ -84,5 +84,11 @@ public class ViewapkHsaid extends AbstractEntity {
         this.tillDatum = v;
     }
 
+    public boolean isOkToAppearInExportView() {
+        if (tillDatum == null) {
+            return true;
+        }
+        return tillDatum.getTime() >= (System.currentTimeMillis());
+    }
 
 }

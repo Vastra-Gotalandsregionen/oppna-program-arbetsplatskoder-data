@@ -86,7 +86,13 @@ public class DataOperations {
             }
         }
 
-        viewapkHsaidRepository.save(new ViewapkHsaid(that));
+        ViewapkHsaid viewapkHsaid = new ViewapkHsaid(that);
+        if (viewapkHsaid.isOkToAppearInExportView()) {
+            viewapkHsaidRepository.save(viewapkHsaid);
+        } else {
+            viewapkHsaidRepository.delete(viewapkHsaid);
+        }
+
         viewapkwithao3Repository.save(
                 new Viewapkwithao3().loadData(that).loadData(ao3Repository.findByAo3id(that.getAo3()))
         );
