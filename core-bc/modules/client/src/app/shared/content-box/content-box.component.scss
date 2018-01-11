@@ -1,0 +1,33 @@
+a.toggle-expand {
+  position: absolute;
+  bottom: 0;
+}
+
+.apk-content {
+  //max-height: 226px;
+  overflow: hidden;
+  transition: max-height .3s ease;
+
+  &.expanded {
+    //max-height: 8000px;
+  }
+}
+
+.content-wrapper {
+  overflow: hidden;
+  transition: all .250s ease;
+}
+
+.fade-area {
+  background: -webkit-linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+  //height: 30px;
+  //height: 80px;
+  position: absolute;
+  /* top: -30px; */
+  bottom: 24px;
+  transition: all .5s ease;
+  width: 100%;
+  /* box-sizing: border-box; */
+  left: 0;
+}

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthService} from "../../core/auth/auth.service";
 import {JwtHttp} from "../../core/jwt-http";
@@ -11,9 +11,11 @@ import {MatSnackBar} from "@angular/material";
   templateUrl: './content-box.component.html',
   styleUrls: ['./content-box.component.scss']
 })
-export class ContentBoxComponent implements OnInit {
+export class ContentBoxComponent implements OnInit, AfterViewInit {
 
   @Input('contentId') contentId: string;
+
+  @ViewChild('rootDiv') contentDiv: ElementRef;
 
   formGroup: FormGroup;
 
@@ -23,6 +25,12 @@ export class ContentBoxComponent implements OnInit {
 
   stateService: StateService;
 
+  expandable = false;
+  expanded = false;
+  offsetHeight = 'auto';
+
+  heightLimit = 256;
+
   constructor(private authService: AuthService,
               private http: JwtHttp,
               private snackBar: MatSnackBar,
@@ -31,6 +39,7 @@ export class ContentBoxComponent implements OnInit {
 
       this.stateService = stateService;
   }
+
 
   ngOnInit() {
 
@@ -42,8 +51,25 @@ export class ContentBoxComponent implements OnInit {
         this.formGroup = this.formBuilder.group({
           'content': this.content.content
         });
+        const ref = this.contentDiv;
+        setTimeout(() => {
+          const contentDiv = ref.nativeElement.getElementsByClassName('apk-content');
+          if (contentDiv.length === 1) {
+            const offsetHeight = contentDiv[0].offsetHeight;
+            this.offsetHeight = offsetHeight;
+            if (offsetHeight > this.heightLimit) {
+              this.expandable = true;
+            }
+          }
+        }, 0);
+
 
       });
+  }
+
+  ngAfterViewInit() {
+    // debugger;
+    // console.log(this.contentDiv.nativeElement.offsetHeight)
   }
 
   editContent() {
@@ -79,6 +105,14 @@ export class ContentBoxComponent implements OnInit {
 
   setShowContentEdit(value : boolean) {
     this.stateService.showContentEdit = value;
+  }
+
+  toggleExpand() {
+    this.expanded = !this.expanded;
+  }
+
+  get height() {
+    return this.expanded ? this.offsetHeight + 'px' : this.heightLimit + 'px';
   }
 
 }
