@@ -9,27 +9,36 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import se.vgregion.arbetsplatskoder.domain.jpa.Role;
 import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.DataExport;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
 import se.vgregion.arbetsplatskoder.domain.json.ErrorMessage;
-import se.vgregion.arbetsplatskoder.export.repository.DataExportRepository;
 import se.vgregion.arbetsplatskoder.intsvc.controller.util.HttpUtil;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
 import se.vgregion.arbetsplatskoder.service.DataOperations;
+import se.vgregion.arbetsplatskoder.util.DateUtil;
+import se.vgregion.arbetsplatskoder.util.ReflectionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.TimeZone;
 
 @Controller
 @RequestMapping("/data")
@@ -57,8 +66,7 @@ public class DataController {
                                @RequestParam(value = "sort", required = false) String sort,
                                @RequestParam(value = "asc", required = false) boolean asc,
                                @RequestParam(value = "onlyMyDatas", required = false) boolean onlyMyDatas,
-                               @RequestParam(value = "onlyActiveDatas", required = false) boolean onlyActiveDatas)
-            throws NoSuchFieldException {
+                               @RequestParam(value = "onlyActiveDatas", required = false) boolean onlyActiveDatas) {
 
         Sort.Order sorteringskodProd = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
         Sort.Order arbetsplatskod = new Sort.Order(Sort.Direction.ASC, "benamning").ignoreCase();
@@ -67,7 +75,7 @@ public class DataController {
         if (sort != null && sort.length() > 0) {
             Sort.Order dynamicSort;
 
-            Class<?> type = Data.class.getDeclaredField(sort).getType();
+            Class<?> type = ReflectionUtil.getDeclaredField(sort, Data.class).getType();
 
             if (type.equals(String.class)) {
                 dynamicSort = new Sort.Order(asc ? Sort.Direction.ASC : Sort.Direction.DESC, sort).ignoreCase();
@@ -86,10 +94,7 @@ public class DataController {
         Date validToDate = null;
 
         if (onlyActiveDatas) {
-            LocalDateTime ldt = LocalDateTime.ofInstant(new Date().toInstant(), TimeZone.getDefault().toZoneId());
-            LocalDateTime now = LocalDateTime.of(ldt.getYear() - 1, ldt.getMonth(), ldt.getDayOfMonth(), 0, 0, 0, 0);
-            ZonedDateTime zdt = now.atZone(ZoneId.systemDefault());
-            validToDate = Date.from(zdt.toInstant());
+            validToDate = DateUtil.aYearAgo();
         }
 
         if (query == null) {
