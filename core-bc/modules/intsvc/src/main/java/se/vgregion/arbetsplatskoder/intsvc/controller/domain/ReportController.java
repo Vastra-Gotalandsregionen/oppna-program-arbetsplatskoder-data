@@ -27,6 +27,7 @@ import se.vgregion.arbetsplatskoder.repository.FileBlobRepository;
 import se.vgregion.arbetsplatskoder.repository.VardformRepository;
 import se.vgregion.arbetsplatskoder.repository.VerksamhetRepository;
 import se.vgregion.arbetsplatskoder.service.HmacUtil;
+import se.vgregion.arbetsplatskoder.util.DateUtil;
 import se.vgregion.arbetsplatskoder.util.ExcelUtil;
 
 import javax.annotation.PostConstruct;
@@ -160,7 +161,7 @@ public class ReportController {
 
                 break;
             case VALID_WITH_END_DATE:
-                result = dataRepository.findAllValidWithEndDate();
+                result = dataRepository.findAllValidWithEndDate(DateUtil.aYearAgo());
                 break;
             case WITH_DELETED_PRODN1:
                 result = dataRepository.findAllByProdn1Raderad(true);
