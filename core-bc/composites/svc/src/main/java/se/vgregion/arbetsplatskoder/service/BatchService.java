@@ -60,10 +60,10 @@ public class BatchService {
 
         for (Data data : all) {
             if (!StringUtils.isEmpty(data.getHsaid()) && data.getHsaid().startsWith("SE")) {
-                Boolean isInKiv = unitSearchService.searchUnits(data.getHsaid()).size() > 0;
+                Boolean missingInKiv = unitSearchService.searchUnits(data.getHsaid()).size() == 0;
 
-                if (!isInKiv.equals(data.getHsaidMissingInKiv())) {
-                    data.setHsaidMissingInKiv(!isInKiv);
+                if (!missingInKiv.equals(data.getHsaidMissingInKiv())) {
+                    data.setHsaidMissingInKiv(missingInKiv);
                     dataRepository.save(data);
                     LOGGER.info("Saved data: " + data.getId() + " - " + data.getBenamning());
                 }
