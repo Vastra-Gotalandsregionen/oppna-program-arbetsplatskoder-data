@@ -1,12 +1,10 @@
 package se.vgregion.arbetsplatskoder.db.migration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import se.vgregion.arbetsplatskoder.db.migration.sql.ConnectionExt;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.ParseException;

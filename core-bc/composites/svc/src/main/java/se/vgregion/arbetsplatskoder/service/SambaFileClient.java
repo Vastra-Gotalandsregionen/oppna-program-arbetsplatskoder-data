@@ -34,6 +34,21 @@ public class SambaFileClient {
         }
     }
 
+    public static void putFile(String here, byte[] withContent, String domain, String user, String pass) {
+        try {
+            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
+            SmbFile smbFile = new SmbFile(here, auth);
+            if (!smbFile.exists()) {
+                smbFile.createNewFile();
+            }
+            try (SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile)) {
+                smbfos.write(withContent);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void createPath(String path, String domain, String user, String pass) {
         try {
             NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);

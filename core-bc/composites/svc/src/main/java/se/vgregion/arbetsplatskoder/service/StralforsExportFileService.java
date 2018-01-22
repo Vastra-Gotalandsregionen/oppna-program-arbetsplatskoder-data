@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
@@ -14,6 +13,8 @@ import se.vgregion.arbetsplatskoder.repository.DataRepository;
 import se.vgregion.arbetsplatskoder.repository.FaktureringRepository;
 import se.vgregion.arbetsplatskoder.repository.LeveransRepository;
 
+import javax.management.relation.RoleUnresolved;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -56,6 +57,15 @@ public class StralforsExportFileService {
 
     @Transactional
     public String runFileTransfer() {
+        try {
+            return   runFileTransferImpl();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    protected String runFileTransferImpl() throws UnsupportedEncodingException {
         if (!exportShouldRun) {
             LOGGER.info("Skipping runFileTransfer()...");
             return "This instance is not set to generate files!";
@@ -64,19 +74,21 @@ public class StralforsExportFileService {
         String urlAtTheTime = url + (url.endsWith("/") ? "" : "/") + getTodaysFileName();
         String result = generate();
 
+        byte[] iso88591Data = result.getBytes("ISO-8859-1");
+
         SambaFileClient.createPath(
-            url,
-            userDomain,
-            user,
-            password
+                url,
+                userDomain,
+                user,
+                password
         );
 
         SambaFileClient.putFile(
-            urlAtTheTime,
-            result,
-            userDomain,
-            user,
-            password
+                urlAtTheTime,
+                iso88591Data,
+                userDomain,
+                user,
+                password
         );
         LOGGER.info("runFileTransfer() completes.");
         return result;
@@ -96,17 +108,17 @@ public class StralforsExportFileService {
     }
 
     @Transactional
-    private String generate(List<Data> items) {
+    protected String generate(List<Data> items) {
         List<String> rows = new ArrayList<>();
         for (Data item : items) {
             rows.add(formatRow(
-                item.getArbetsplatskodlan(),
-                item.getBenamning(),
-                item.getPostadress(),
-                item.getPostnr(),
-                item.getPostort(),
-                getLeveransText(item),
-                getFaktureringKortText(item)
+                    item.getArbetsplatskodlan(),
+                    item.getBenamning(),
+                    item.getPostadress(),
+                    item.getPostnr(),
+                    item.getPostort(),
+                    getLeveransText(item),
+                    getFaktureringKortText(item)
             ));
         }
         Collections.sort(rows);
