@@ -67,7 +67,7 @@
         <property name="breakAfterAcquireFailure" value="false" />
         <!-- refreshing connections -->
         <property name="maxIdleTime" value="180" /> <!-- 3min -->
-        <property name="maxConnectionAge" value="10" /> <!-- 1h -->
+        <property name="maxConnectionAge" value="3600" /> <!-- 1h -->
         <!-- timeouts and testing -->
         <property name="checkoutTimeout" value="5000" /> <!-- 5s -->
         <property name="idleConnectionTestPeriod" value="60" /> <!-- 60 -->
