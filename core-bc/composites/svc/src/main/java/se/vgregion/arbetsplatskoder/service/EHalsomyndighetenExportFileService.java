@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -65,18 +66,27 @@ public class EHalsomyndighetenExportFileService {
         String result;
 
         SambaFileClient.createPath(
-            url,
-            userDomain,
-            user,
-            password
+                url,
+                userDomain,
+                user,
+                password
         );
 
+        result = generate();
+
+        byte[] iso88591Data = new byte[0];
+        try {
+            iso88591Data = result.getBytes("ISO-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
         SambaFileClient.putFile(
-            urlAtTheTime,
-            result = generate(),
-            userDomain,
-            user,
-            password
+                urlAtTheTime,
+                iso88591Data,
+                userDomain,
+                user,
+                password
         );
         markItemsAsSent();
         LOGGER.info("runFileTransfer() completes.");
@@ -111,27 +121,27 @@ public class EHalsomyndighetenExportFileService {
         List<String> lines = new ArrayList<>();
         for (Data item : items) {
             lines.add(
-                formatRow(
-                    item.getArbetsplatskodlan()
-                    , trim(item.getBenamning(), 100)
-                    , ""
-                    , item.getAgarform()
-                    , item.getVardform()
-                    , item.getVerksamhet()
-                    , formatFranDatum(item.getFromDatum(), (Date) item.getTillDatum())
-                    , formatTillDatum(item.getTillDatum())
-                    , trim(item.getPostadress(), 35)
-                    , formatPostnr(item.getPostnr())
-                    , trim(item.getPostort(), 25)
-                    , ""
-                    , ""
-                    , ""
-                    , item.getLakemedkomm()
-                    , ""
-                    , ""
-                    , ""
-                    , ""
-                )
+                    formatRow(
+                            item.getArbetsplatskodlan()
+                            , trim(item.getBenamning(), 100)
+                            , ""
+                            , item.getAgarform()
+                            , item.getVardform()
+                            , item.getVerksamhet()
+                            , formatFranDatum(item.getFromDatum(), (Date) item.getTillDatum())
+                            , formatTillDatum(item.getTillDatum())
+                            , trim(item.getPostadress(), 35)
+                            , formatPostnr(item.getPostnr())
+                            , trim(item.getPostort(), 25)
+                            , ""
+                            , ""
+                            , ""
+                            , item.getLakemedkomm()
+                            , ""
+                            , ""
+                            , ""
+                            , ""
+                    )
             );
         }
         return formatLines(lines);
@@ -196,8 +206,8 @@ public class EHalsomyndighetenExportFileService {
         if (toDate != null) {
             LocalDateTime ldToDate = toLocalDateTime(toDate);
             if (ldFromDate.getYear() == ldToDate.getYear() &&
-                ldFromDate.getMonth() == ldToDate.getMonth() &&
-                ldFromDate.getDayOfMonth() == ldToDate.getDayOfMonth()) {
+                    ldFromDate.getMonth() == ldToDate.getMonth() &&
+                    ldFromDate.getDayOfMonth() == ldToDate.getDayOfMonth()) {
                 return inc(fromDate, -1);
             }
         }
