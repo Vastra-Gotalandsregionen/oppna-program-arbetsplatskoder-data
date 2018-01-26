@@ -113,17 +113,18 @@ public class EHalsomyndighetenExportFileService {
         }
     }
 
-    static String trim(Object thatObject, int toMaximumLength) {
-        return trim(thatObject.toString(), toMaximumLength);
-    }
-
     String generate(List<Data> items) {
         List<String> lines = new ArrayList<>();
         for (Data item : items) {
             lines.add(
                     formatRow(
                             item.getArbetsplatskodlan()
-                            , trim(item.getBenamning(), 100)
+                            //, trim(item.getBenamning(), 100)
+                            //, trim(item.getBenamningKort(), 100)
+                            , (item.getBenamningKort() != null) ?
+                                    item.getBenamningKort()
+                                    :
+                                    trim(item.getBenamningKort(), 100)
                             , ""
                             , item.getAgarform()
                             , item.getVardform()
