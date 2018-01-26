@@ -121,7 +121,7 @@ public class EHalsomyndighetenExportFileService {
                             item.getArbetsplatskodlan()
                             //, trim(item.getBenamning(), 100)
                             //, trim(item.getBenamningKort(), 100)
-                            , (item.getBenamningKort() != null) ?
+                            , (item.getBenamningKort() != null && !item.getBenamningKort().trim().equals("")) ?
                                     item.getBenamningKort()
                                     :
                                     trim(item.getBenamningKort(), 100)
