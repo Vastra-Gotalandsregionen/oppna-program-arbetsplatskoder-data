@@ -516,6 +516,7 @@ public class Viewapkwithao3 extends AbstractEntity {
         setLankod(data.getLankod());
         setArbetsplatskod(data.getArbetsplatskod());
         setAo3(ao3);
+        setHsaid(data.getHsaid());
         setAnsvar(data.getAnsvar());
         setFrivilligUppgift(data.getFrivilligUppgift());
         setAgarform(data.getAgarform());
