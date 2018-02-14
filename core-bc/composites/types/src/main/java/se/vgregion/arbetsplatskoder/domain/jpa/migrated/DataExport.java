@@ -18,7 +18,7 @@ public class DataExport extends AbstractData {
 
     static {
         try {
-            indefiniteTime = new SimpleDateFormat("YYYY-mm-dd").parse("2199-12-01");
+            indefiniteTime = new SimpleDateFormat("yyyy-MM-dd").parse("2199-12-01");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
