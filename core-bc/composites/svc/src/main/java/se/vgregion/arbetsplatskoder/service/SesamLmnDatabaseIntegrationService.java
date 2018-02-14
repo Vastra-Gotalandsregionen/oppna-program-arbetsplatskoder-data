@@ -33,9 +33,6 @@ public class SesamLmnDatabaseIntegrationService {
     @Autowired
     private DataExportRepository dataExportRepository;
 
-    @Autowired
-    private Ao3Repository ao3Repository;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(SesamLmnDatabaseIntegrationService.class);
 
     public void populateTables() {

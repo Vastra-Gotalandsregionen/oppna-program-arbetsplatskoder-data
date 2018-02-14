@@ -305,35 +305,4 @@ public class BatchService {
             });
     }
 
-    private Viewapkforsesamlmn toViewapkforsesamlmn(Data data) {
-        Viewapkforsesamlmn result = new Viewapkforsesamlmn();
-        result.setVgpv(data.getVgpv());
-        result.setAo3(data.getAo3());
-        result.setExternfaktura(data.getExternfaktura());
-        result.setSorteringskodBest(data.getSorteringskodBest());
-        result.setAnsvar(data.getAnsvar());
-        result.setApodos(data.getApodos());
-        result.setKontaktAkod(data.getKontaktAkod());
-        result.setTillDatum(data.getTillDatum());
-        result.setFrivilligUppgift(data.getFrivilligUppgift());
-        result.setPostadress(data.getPostadress());
-        result.setPostnr(data.getPostnr());
-        result.setAnmarkning(data.getAnmarkning());
-        result.setBenamning(data.getBenamning());
-        result.setExternfakturamodell(data.getExternfakturamodell());
-        result.setVardform(data.getVardform());
-        result.setVerksamhet(data.getVerksamhet());
-        result.setArbetsplatskodlan(data.getArbetsplatskodlan());
-        result.setFakturering(data.getFakturering());
-        result.setLeverans(data.getLeverans());
-        result.setAgarform(data.getAgarform());
-        result.setFromDatum(data.getFromDatum());
-        result.setRegDatum(data.getRegDatum());
-        result.setLakemedkomm(data.getLakemedkomm());
-        result.setSorteringskodProd(data.getSorteringskodProd());
-        result.setHsaid(data.getHsaid());
-        result.setPostort(data.getPostort());
-        return result;
-    }
-
 }
