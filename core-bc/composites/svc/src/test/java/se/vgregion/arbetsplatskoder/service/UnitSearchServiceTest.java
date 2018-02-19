@@ -3,6 +3,7 @@ package se.vgregion.arbetsplatskoder.service;
 import org.junit.Before;
 import org.junit.Test;
 import se.vgregion.arbetsplatskoder.domain.json.Attributes;
+import se.vgregion.arbetsplatskoder.domain.json.RolesRoot;
 import se.vgregion.arbetsplatskoder.domain.json.Unit;
 import se.vgregion.arbetsplatskoder.domain.json.UnitsRoot;
 
@@ -48,11 +49,17 @@ public class UnitSearchServiceTest {
         UnitsRoot unitsRoot = new UnitsRoot();
         unitsRoot.setUnits(units);
 
+        RolesRoot rolesRoot = new RolesRoot();
+        rolesRoot.setUnits(new ArrayList<>());
+
         Field unitsRootField = unitSearchService.getClass().getDeclaredField("unitsRoot");
+        Field rolesRootField = unitSearchService.getClass().getDeclaredField("rolesRoot");
 
         unitsRootField.setAccessible(true);
+        rolesRootField.setAccessible(true);
 
         unitsRootField.set(unitSearchService, unitsRoot);
+        rolesRootField.set(unitSearchService, rolesRoot);
     }
 
     @Test
