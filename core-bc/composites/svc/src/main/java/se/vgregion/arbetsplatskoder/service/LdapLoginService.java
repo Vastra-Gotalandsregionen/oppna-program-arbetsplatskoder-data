@@ -10,6 +10,7 @@ import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
 import se.vgregion.arbetsplatskoder.util.PasswordEncoder;
 
+import javax.naming.AuthenticationException;
 import javax.naming.CommunicationException;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
@@ -129,6 +130,8 @@ public class LdapLoginService {
         } catch (CommunicationException e) {
             throw new RuntimeException(e);
         } catch (AccountNotFoundException e) {
+            throw new FailedLoginException(e.getMessage());
+        } catch (AuthenticationException e) {
             throw new FailedLoginException(e.getMessage());
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
