@@ -410,7 +410,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     const agarformControl = this.apkForm.get('agarform');
 
     generateAutomaticallyFormControl.valueChanges.subscribe(value => {
-      if (value) {
+      if (value || this.data.arbetsplatskodlan) { // If arbetsplatskodlan is already present we don't want to generate anymore.
         arbetsplatskodlanControl.disable();
       } else {
         arbetsplatskodlanControl.enable();

@@ -77,6 +77,12 @@
             {{data.ansvar}}
           </td>
         </tr>
+        <tr *ngIf="currentPlusArchivedDatas && anyContainsFrivilligUppgift(currentPlusArchivedDatas)">
+          <th>Frivillig uppgift</th>
+          <td *ngFor="let data of currentPlusArchivedDatas">
+            {{data.frivilligUppgift}}
+          </td>
+        </tr>
         <tr>
           <th>Faktureras externt</th>
           <td *ngFor="let data of currentPlusArchivedDatas">
@@ -98,19 +104,19 @@
         <tr>
           <th>Concise SumNivå 1</th>
           <td *ngFor="let data of currentPlusArchivedDatas">
-            {{data.prodn3?.prodn2?.prodn1?.foretagsnamn}} ({{data.prodn3?.prodn2?.prodn1?.kortnamn}})
+            {{data.prodn3?.prodn2?.prodn1?.kortnamn}}
           </td>
         </tr>
         <tr>
           <th>Concise SumNivå 2</th>
           <td *ngFor="let data of currentPlusArchivedDatas">
-            {{data.prodn3?.prodn2?.avdelning}} ({{data.prodn3?.prodn2?.kortnamn}})
+            {{data.prodn3?.prodn2?.kortnamn}}
           </td>
         </tr>
         <tr>
           <th>Concise SumNivå 3</th>
           <td *ngFor="let data of currentPlusArchivedDatas">
-            {{data.prodn3?.foretagsnamn}} ({{data.prodn3?.kortnamn}})
+            {{data.prodn3?.kortnamn}}
           </td>
         </tr>
         <tr>
