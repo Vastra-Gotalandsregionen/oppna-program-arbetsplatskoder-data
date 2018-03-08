@@ -1,5 +1,7 @@
 package se.vgregion.arbetsplatskoder.service;
 
+import jcifs.CIFSContext;
+import jcifs.context.SingletonContext;
 import jcifs.smb.*;
 
 import java.io.*;
@@ -10,19 +12,12 @@ import java.util.List;
 
 public class SambaFileClient {
 
-    private final String url, domain, user, pass;
-
-    public SambaFileClient(String url, String domain, String user, String pass) {
-        this.url = url;
-        this.domain = domain;
-        this.user = user;
-        this.pass = pass;
+    private SambaFileClient() {
     }
 
     public static void putFile(String here, byte[] withContent, String domain, String user, String pass) {
         try {
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
-            SmbFile smbFile = new SmbFile(here, auth);
+            SmbFile smbFile = new SmbFile(here, getCifsContext(domain, user, pass));
             if (!smbFile.exists()) {
                 smbFile.createNewFile();
             }
@@ -36,8 +31,7 @@ public class SambaFileClient {
 
     public static void createPath(String path, String domain, String user, String pass) {
         try {
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
-            SmbFile smbFile = new SmbFile(path, auth);
+            SmbFile smbFile = new SmbFile(path, getCifsContext(domain, user, pass));
             if (!smbFile.exists()) {
                 smbFile.mkdirs();
             }
@@ -46,23 +40,16 @@ public class SambaFileClient {
         }
     }
 
-    public static String[] listPathContent(String path, String domain, String user, String pass) {
+    static String[] listPathContent(String path, String domain, String user, String pass) {
         try {
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
             if (!path.endsWith("/")) {
                 path += "/";
             }
-            SmbFile smbFile = new SmbFile(path, auth);
-            // System.out.println(path);
-            // System.out.println(new ArrayList(Arrays.asList(smbFile.list())));
+            SmbFile smbFile = new SmbFile(path, getCifsContext(domain, user, pass));
+
             List<String> names = new ArrayList<>();
             if (smbFile.exists()) {
-                for (SmbFile file : smbFile.listFiles(new SmbFilenameFilter() {
-                    @Override
-                    public boolean accept(SmbFile smbFile, String s) throws SmbException {
-                        return "utdata_nassjo_30.txt".equals(s);
-                    }
-                })) {
+                for (SmbFile file : smbFile.listFiles()) {
                     names.add(file.getName());
                 }
             }
@@ -72,15 +59,14 @@ public class SambaFileClient {
         }
     }
 
-    public static SmbFile[] listSambaFiles(String path, String domain, String user, String pass) {
+    private static SmbFile[] listSambaFiles(String path, CIFSContext cifsContext) {
         try {
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domain, user, pass);
             if (!path.endsWith("/")) {
                 path += "/";
             }
-            SmbFile smbFile = new SmbFile(path, auth);
-            // System.out.println(path);
-            // System.out.println(new ArrayList(Arrays.asList(smbFile.list())));
+
+            SmbFile smbFile = new SmbFile(path, cifsContext);
+
             List<SmbFile> names = new ArrayList<>();
             if (smbFile.exists()) {
                 return smbFile.listFiles();
@@ -91,10 +77,9 @@ public class SambaFileClient {
         }
     }
 
-    public void download(String toThatLocalPath) {
-        download(url, domain, user, pass, toThatLocalPath);
+    public static void download(String path, String domain, String user, String pass, String toThatLocalPath) {
+        download(path, getCifsContext(domain, user, pass), toThatLocalPath);
     }
-
 
     private static String removeTrailing(String str, char c) {
         if (str != null && str.length() > 0 && str.charAt(str.length() - 1) == c) {
@@ -103,9 +88,9 @@ public class SambaFileClient {
         return str;
     }
 
-    public static boolean download(String path, String domain, String user, String pass, String destinationPath) {
+    private static boolean download(String path, CIFSContext cifsContext, String destinationPath) {
         System.setProperty("jcifs.encoding", "ISO-8859-1");
-        SmbFile[] files = listSambaFiles(path, domain, user, pass);
+        SmbFile[] files = listSambaFiles(path, cifsContext);
 
         if (files == null)
             return false;
@@ -120,7 +105,7 @@ public class SambaFileClient {
                 if (smbFile.isDirectory()) {
                     Files.createDirectories(Paths.get(destFileName));
                     String deeperRemotePath = path + (path.endsWith("/") ? "" : "/") + smbFile.getName();
-                    download(deeperRemotePath, domain, user, pass, destFileName);
+                    download(deeperRemotePath, cifsContext, destFileName);
                 } else {
                     fileOutputStream = new PrintWriter(destFileName, "ISO-8859-1"); // new FileOutputStream(destFileName);
                     fileOutputStream.write(toString(smbFile.getInputStream()));
@@ -131,6 +116,19 @@ public class SambaFileClient {
             }
         }
         return false;
+    }
+
+    private static CIFSContext getCifsContext(String domain, String user, String pass) {
+        CIFSContext cifsContext = SingletonContext.getInstance();
+
+        NtlmPasswordAuthentication authentication = new NtlmPasswordAuthentication(
+                cifsContext,
+                domain,
+                user,
+                pass
+        );
+
+        return cifsContext.withCredentials(authentication);
     }
 
     static String toString(java.io.InputStream is) throws IOException {
