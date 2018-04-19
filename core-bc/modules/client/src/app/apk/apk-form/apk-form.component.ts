@@ -64,8 +64,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
   vardformIdMap: Map<string, Vardform>;
   verksamhetIdMap: Map<string, Verksamhet>;
 
-  isPrivate: boolean;
-
   saveMessage: string;
   benamningKortActivelyEdited: boolean;
 
@@ -131,8 +129,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
 
         this.allProdn1s = prodn1s;
 
-        this.isPrivate = this.data.agarform === '4' || this.data.agarform === '5' || this.data.agarform === '6';
-
         let tempMap: Map<string, any> = new Map();
         for (const ao3 of ao3s) {
           tempMap.set(ao3.ao3id, ao3);
@@ -193,7 +189,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
       }, [Validators.required], this.validateArbetsplatskodlan.bind(this)],
       'agarform': [this.data.agarform],
       'ao3': [this.ao3IdMap.get(this.data.ao3), Validators.required],
-      'frivilligUppgift': [{value: this.data.frivilligUppgift, disabled: !this.isPrivate}],
+      'frivilligUppgift': [this.data.frivilligUppgift],
       'ansvar': [this.data.ansvar, Validators.compose([ansvarValidator(), Validators.required])],
       'vardform': [this.vardformIdMap.get(this.data.vardform), Validators.required],
       'verksamhet': [this.verksamhetIdMap.get(this.data.verksamhet), Validators.required],
@@ -310,17 +306,6 @@ export class ApkFormComponent extends ApkBase implements OnInit {
           this.apkForm.get('addressGroup').disable();
         } else {
           this.apkForm.get('addressGroup').enable();
-        }
-      });
-
-    this.apkForm.get('agarform').valueChanges
-      .subscribe((value: string) => {
-        this.isPrivate = value === '4' || value === '5' || value === '6';
-        // this.isPrivate = this.apkForm.value.agarform === '4' || this.apkForm.value.agarform === '5' || this.apkForm.value.agarform === '6';
-        if (this.isPrivate) {
-          this.apkForm.get('frivilligUppgift').enable();
-        } else {
-          this.apkForm.get('frivilligUppgift').disable();
         }
       });
 

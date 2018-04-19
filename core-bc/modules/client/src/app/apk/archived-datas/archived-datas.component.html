@@ -77,7 +77,7 @@
             {{data.ansvar}}
           </td>
         </tr>
-        <tr *ngIf="currentPlusArchivedDatas && anyContainsFrivilligUppgift(currentPlusArchivedDatas)">
+        <tr>
           <th>Frivillig uppgift</th>
           <td *ngFor="let data of currentPlusArchivedDatas">
             {{data.frivilligUppgift}}

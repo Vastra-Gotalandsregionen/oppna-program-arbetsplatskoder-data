@@ -49,8 +49,4 @@ export class ArchivedDatasComponent implements OnInit {
     });*/
   }
 
-  anyContainsFrivilligUppgift(datas: Data[]): boolean {
-    return datas.filter(data => !!data.frivilligUppgift).length > 0;
-  }
-
 }
