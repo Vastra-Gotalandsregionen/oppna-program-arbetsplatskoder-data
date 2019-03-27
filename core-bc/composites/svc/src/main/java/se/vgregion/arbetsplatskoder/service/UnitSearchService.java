@@ -120,7 +120,7 @@ public class UnitSearchService {
 
         List<Unit> results = new ArrayList<>();
 
-        List<Unit> units = this.unitsRoot.getUnits();
+        List<Unit> units = new ArrayList<>(this.unitsRoot.getUnits());
         units.addAll(this.rolesRoot.getUnits());
 
         for (Unit unit : units) {
