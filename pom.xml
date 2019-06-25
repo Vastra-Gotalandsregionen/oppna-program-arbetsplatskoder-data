@@ -30,10 +30,23 @@
     <url>https://blandbarhet.googlecode.com/svn/trunk</url>
   </scm>-->
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <release>11</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <properties>
+    <compileSource>11</compileSource>
+    <compileTarget>11</compileTarget>
     <apache.cxf.version>3.1.8</apache.cxf.version>
-    <compileSource>1.8</compileSource>
-    <compileTarget>1.8</compileTarget>
     <jsf.version>2.2.13</jsf.version>
     <jstl.version>1.2</jstl.version>
     <junit.version>4.8.1</junit.version>
