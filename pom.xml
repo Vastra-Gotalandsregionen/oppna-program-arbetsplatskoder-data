@@ -37,15 +37,15 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
         <configuration>
-          <release>11</release>
+          <!--          <release>11</release> TODO enable -->
         </configuration>
       </plugin>
     </plugins>
   </build>
 
   <properties>
-    <compileSource>11</compileSource>
-    <compileTarget>11</compileTarget>
+    <compileSource>1.8</compileSource> <!-- TODO Set 11 -->
+    <compileTarget>1.8</compileTarget> <!-- TODO Set 11 -->
     <apache.cxf.version>3.1.8</apache.cxf.version>
     <jsf.version>2.2.13</jsf.version>
     <jstl.version>1.2</jstl.version>
