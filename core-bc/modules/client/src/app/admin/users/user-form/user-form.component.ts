@@ -25,11 +25,13 @@ export class UserFormComponent implements OnInit {
   allProdn1s: Prodn1[];
   prodn1sMap: Map<number, Prodn1>;
   selectedProdn1Ids: number[];
+  prodnChangeAware: boolean = false;
 
   constructor(private http: JwtHttp,
               private formBuilder: FormBuilder,
               private errorHandler: ErrorHandler,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit() {
 
@@ -46,6 +48,7 @@ export class UserFormComponent implements OnInit {
           this.allProdn1s.forEach(prodn1 => this.prodn1sMap.set(prodn1.id, prodn1));
           this.user = result[1];
           this.selectedProdn1Ids = this.user.prodn1s.map(prodn1 => prodn1.id);
+          this.prodnChangeAware = this.user.prodnChangeAware;
           this.buildForm();
         });
     } else {
@@ -66,6 +69,7 @@ export class UserFormComponent implements OnInit {
 
     this.userForm = this.formBuilder.group({
       'userId': [{value: this.user.id, disabled: false}, [Validators.required]],
+      'prodnChangeAware': [{value: this.user.prodnChangeAware, disabled: false}, []],
       'roleGroup': this.formBuilder.group({
         'role': [{value: this.user.role, disabled: false}, [Validators.required]]
       })
@@ -106,6 +110,7 @@ export class UserFormComponent implements OnInit {
     }
 
     this.user.id = this.userForm.get('userId').value;
+    this.user.prodnChangeAware = this.userForm.get('prodnChangeAware').value;
     this.user.prodn1s = this.selectedProdn1Ids.map(id => this.prodn1sMap.get(id));
     this.user.role = this.userForm.get('roleGroup').get('role').value;
     this.user.inactivated = this.user.inactivated;

@@ -65,4 +65,15 @@ public class Prodn1 {
     public int hashCode() {
         return 31 + (id != null ? id.hashCode() : 0);
     }
+
+    @Override
+    public String toString() {
+        return "Prodn1{" +
+                "id=" + id +
+                ", producentid='" + getProducentid() + '\'' +
+                ", kortnamn='" + getKortnamn() + '\'' +
+                ", raderad=" + getRaderad() +
+                '}';
+    }
+
 }

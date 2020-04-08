@@ -58,3 +58,6 @@ deploy-client-test.sh
 deploy-client.sh
 deploy-server-test.sh
 deploy-server.sh
+/deploy-client-stage.sh
+/deploy-server-stage.sh
+

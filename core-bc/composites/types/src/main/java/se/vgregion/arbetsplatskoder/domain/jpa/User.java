@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,6 +50,9 @@ public class User {
 
     @Column
     private Boolean inactivated = false;
+
+    @Column
+    private Boolean prodnChangeAware;
 
     public String getId() {
         return id;
@@ -121,4 +125,29 @@ public class User {
     public void setInactivated(Boolean inactivated) {
         this.inactivated = inactivated;
     }
+
+    public Boolean getProdnChangeAware() {
+        return prodnChangeAware;
+    }
+
+    public void setProdnChangeAware(Boolean prodnChangeAware) {
+        this.prodnChangeAware = prodnChangeAware;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", prodn1s=" + prodn1s +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mail='" + mail + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", role=" + role +
+                // ", thumbnailPhoto=" + Arrays.toString(thumbnailPhoto) +
+                ", inactivated=" + inactivated +
+                ", prodnChangeAware=" + prodnChangeAware +
+                '}';
+    }
+
 }

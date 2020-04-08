@@ -32,12 +32,14 @@ import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/observable/interval';
+import {JwtModule} from "@auth0/angular-jwt";
 
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpModule
+    HttpModule,
+    JwtModule
   ],
   declarations: [],
   providers: [

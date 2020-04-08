@@ -1,18 +1,19 @@
 import {Injectable} from '@angular/core';
-import {JwtHelper} from 'angular2-jwt/angular2-jwt';
 import {Data} from '../../model/data';
 import {Router} from '@angular/router';
 import {Http} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {Subscription} from "rxjs/Subscription";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable()
 export class AuthService {
 
   renewSubscription: Subscription;
 
-  constructor(private jwtHelper: JwtHelper,
-              private http: Http,
+  jwtHelper = new JwtHelperService();
+
+  constructor(private http: Http,
               private router: Router) {
 
     const localStorageToken = localStorage.getItem('apkJwtToken');

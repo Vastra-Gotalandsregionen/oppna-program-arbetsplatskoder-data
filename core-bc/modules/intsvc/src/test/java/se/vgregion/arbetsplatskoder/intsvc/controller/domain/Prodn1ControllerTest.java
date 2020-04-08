@@ -110,7 +110,7 @@ public class Prodn1ControllerTest {
     @Rollback
     public void saveProdn1() throws Exception {
         Prodn1 prodn1 = new Prodn1();
-        ResponseEntity<Prodn1> prodn1ResponseEntity = prodn1Controller.saveProdn1(prodn1);
+        ResponseEntity<Prodn1> prodn1ResponseEntity = prodn1Controller.saveProdn1(prodn1, null);
 
         assertNotNull(prodn1Repository.findOne(prodn1ResponseEntity.getBody().getId()));
     }

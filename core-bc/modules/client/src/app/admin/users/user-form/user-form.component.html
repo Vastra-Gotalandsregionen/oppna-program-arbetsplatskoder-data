@@ -20,6 +20,16 @@
           </mat-radio-group>
         </div>
 
+        <div class="form-element" *ngIf="user.mail">
+          <mat-checkbox align="end" formControlName="prodnChangeAware">Maila användaren när Concies nivå 1 ändras</mat-checkbox>
+          (till {{user.mail}})
+        </div>
+
+        <div class="form-element" *ngIf="!user.mail">
+          <mat-checkbox align="end" disabled="true">Maila mig när Concies nivå 1 ändras</mat-checkbox>
+          (Den här användaren kan inte få mail, eftersom den saknar epost-adress)
+        </div>
+
         <mat-chip-list id="prodn1ChipList" [multiple]="true">
           <mat-chip *ngFor="let prodn1 of allProdn1s" selected="{{isSelected(prodn1)}}" (click)="toggle(prodn1)" >
             {{prodn1.kortnamn}} <span *ngIf="prodn1.raderad"><mat-icon mat-tooltip="Raderad">clear</mat-icon></span>

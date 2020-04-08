@@ -29,9 +29,16 @@ public class AuthService {
         return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()).contains(role);
     }
 
+    static ThreadLocal<User> currentUser = new ThreadLocal<>();
+
     public boolean hasProdn1Access(Authentication authentication, Prodn1 prodn1) {
         User user = userRepository.findOne((String) authentication.getPrincipal());
-
+        currentUser.set(user);
         return Role.ADMIN.equals(user.getRole()) || user.getProdn1s().contains(prodn1);
     }
+
+    public static User getCurrentUser() {
+        return currentUser.get();
+    }
+
 }

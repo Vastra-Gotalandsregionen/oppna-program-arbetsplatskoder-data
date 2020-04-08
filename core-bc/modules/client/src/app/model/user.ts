@@ -7,4 +7,5 @@ export class User {
   prodn1s: Prodn1[];
   role: string;
   inactivated: boolean;
+  prodnChangeAware: boolean;
 }
