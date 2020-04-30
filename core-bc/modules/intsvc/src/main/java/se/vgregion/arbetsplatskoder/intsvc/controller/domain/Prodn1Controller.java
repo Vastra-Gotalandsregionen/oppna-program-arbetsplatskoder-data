@@ -1,7 +1,6 @@
 package se.vgregion.arbetsplatskoder.intsvc.controller.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -171,10 +170,17 @@ public class Prodn1Controller {
         return result;
     }
 
+    private static String format(String someText) {
+        if (someText == null) {
+            return "";
+        }
+        return someText.trim();
+    }
+
     @Transactional
     MessageTemplate toUpdateMailText(User changer, Prodn1 beforeChange, Prodn1 change) {
 
-        String userName = changer.getFirstName() + " " + changer.getLastName();
+        String userName = format(format(changer.getFirstName()) + " " + format(changer.getLastName()));
         if (changer.getMail() != null) {
             userName += " (" + changer.getMail() + ")";
         }
