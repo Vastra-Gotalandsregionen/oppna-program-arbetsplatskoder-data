@@ -33,7 +33,7 @@ Generation time : 2015-01-14 09:02:50 CET
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
 
