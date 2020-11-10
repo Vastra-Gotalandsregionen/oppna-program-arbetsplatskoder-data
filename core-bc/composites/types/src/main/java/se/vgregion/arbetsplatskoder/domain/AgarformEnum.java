@@ -10,7 +10,6 @@ public enum AgarformEnum {
     PRIVAT_VARDAVTAL("4", "Privat, vårdavtal"),
     PRIVAT_LAKARERSATTNING("5", "Privat, enl lag om läkarvårdsersättning"),
     PRIVAT_UTAN_OFFENTLIG_FINANSIERING("6", "Privat, utan offentlig finansiering"),
-    KOMMUNFORBUND("7", "Kommunförbund"),
     OVRIGT("9", "Övrigt");
     
     private static final Map<String, AgarformEnum> keyLabelMap = new HashMap<>();
