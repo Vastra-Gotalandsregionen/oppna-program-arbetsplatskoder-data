@@ -21,7 +21,7 @@
     <spring.version>3.2.2.RELEASE</spring.version>
     -->
     <spring.fw.version>4.3.6.RELEASE</spring.fw.version>
-    <spring.version>4.3.6.RELEASE</spring.version>
+    <spring.version>5.2.22.RELEASE</spring.version>
     <jackson.version>1.9.10</jackson.version>
     <jdk.version>1.8</jdk.version>
   </properties>
