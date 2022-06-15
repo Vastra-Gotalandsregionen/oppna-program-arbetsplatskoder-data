@@ -337,11 +337,11 @@ public class ReportController {
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Disposition", Collections.singletonList("attachment; filename=" + outputFileName));
 
-        FileBlob one = fileBlobRepository.findOne(tempFileName);
+        FileBlob one = fileBlobRepository.findById(tempFileName).orElseThrow();
 
         byte[] content = one.getContent();
 
-        fileBlobRepository.delete(tempFileName);
+        fileBlobRepository.deleteById(tempFileName);
 
         return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }

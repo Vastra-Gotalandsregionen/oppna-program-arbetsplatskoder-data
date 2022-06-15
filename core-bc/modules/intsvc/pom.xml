@@ -20,15 +20,11 @@
     <!--
     <spring.version>3.2.2.RELEASE</spring.version>
     -->
-    <spring.fw.version>4.3.6.RELEASE</spring.fw.version>
-    <spring.version>4.3.6.RELEASE</spring.version>
     <jackson.version>1.9.10</jackson.version>
-    <jdk.version>1.8</jdk.version>
   </properties>
 
   <dependencies>
 
-    <!-- Spring 3 dependencies -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
@@ -91,15 +87,6 @@
           <downloadSources>true</downloadSources>
           <downloadJavadocs>false</downloadJavadocs>
           <wtpversion>2.0</wtpversion>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>${jdk.version}</source>
-          <target>${jdk.version}</target>
         </configuration>
       </plugin>
 

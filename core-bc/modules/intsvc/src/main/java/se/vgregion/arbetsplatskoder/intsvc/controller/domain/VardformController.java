@@ -27,7 +27,7 @@ public class VardformController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public Page<Vardform> getVardforms() {
-        PageRequest pageRequest = new PageRequest(0, Integer.MAX_VALUE, new Sort(new Sort.Order("vardformid").ignoreCase()));
+        PageRequest pageRequest = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(new Sort.Order(Sort.Direction.ASC, "vardformid").ignoreCase()));
 
         return vardformRepository.findAll(pageRequest);
     }
@@ -35,7 +35,7 @@ public class VardformController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Vardform getVardform(@PathVariable("id") Integer id) {
-        return vardformRepository.findOne(id);
+        return vardformRepository.findById(id).orElse(null);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)

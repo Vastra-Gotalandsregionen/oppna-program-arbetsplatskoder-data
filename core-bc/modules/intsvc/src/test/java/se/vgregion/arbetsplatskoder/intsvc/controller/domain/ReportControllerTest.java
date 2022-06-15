@@ -31,11 +31,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -107,8 +103,8 @@ public class ReportControllerTest {
             return invocation.getArgument(0);
         });
 
-        when(fileBlobRepository.findOne(anyString()))
-                .then(invocation -> this.testDatastore.get(invocation.getArgument(0)));
+        when(fileBlobRepository.findById(anyString()))
+                .then(invocation -> Optional.of(this.testDatastore.get(invocation.getArgument(0))));
 
         when(ao3Repository.findByAo3id(any())).thenReturn(new Ao3());
         when(vardformRepository.findByVardformid(any())).thenReturn(new Vardform());

@@ -78,11 +78,11 @@ public class Prodn3Controller {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId).orElseThrow();
 
         Pageable pageable;
         if (page != null) {
-            pageable = new PageRequest(page, pageSize);
+            pageable = PageRequest.of(page, pageSize);
         } else {
             pageable = null;
         }
@@ -105,7 +105,7 @@ public class Prodn3Controller {
         // Constrain result by permission and possibly request parameter
         Set<Prodn1> prodn1Filter = user.getProdn1s();
         if (prodn1Id != null) {
-            Prodn1 toKeep = prodn1Repository.findOne(prodn1Id);
+            Prodn1 toKeep = prodn1Repository.findById(prodn1Id).orElseThrow();
 
             // The user should only be able to see the one from the request parameter if it is part of those the
             // user has permission to. For some reason java.util.Set.retainAll() didn't work as expected so we use
@@ -118,7 +118,7 @@ public class Prodn3Controller {
         // Constrain result by previous constraint and possibly by prodn2
         List<Prodn2> prodn2Filter = prodn2Repository.findAllByProdn1In(prodn1Filter, null).getContent();
         if (prodn2Id != null) {
-            Prodn2 prodn2 = prodn2Repository.findOne(prodn2Id);
+            Prodn2 prodn2 = prodn2Repository.findById(prodn2Id).orElseThrow();
 
             if (prodn2Filter.contains(prodn2)) {
                 prodn2Filter = new ArrayList<>(Collections.singletonList(prodn2));
@@ -162,7 +162,7 @@ public class Prodn3Controller {
         // Then possibly filter on the prodn2 level.
         List<Prodn2> prodn2Filter = null;
         if (prodn2Id != null) {
-            Prodn2 prodn2 = prodn2Repository.findOne(prodn2Id);
+            Prodn2 prodn2 = prodn2Repository.findById(prodn2Id).orElseThrow();
 
             prodn2Filter = Collections.singletonList(prodn2);
         } else {

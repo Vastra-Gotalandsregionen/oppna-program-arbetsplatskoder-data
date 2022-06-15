@@ -1,5 +1,6 @@
 package se.vgregion.arbetsplatskoder.spring;
 
+import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +108,7 @@ public class QuartzConfig {
         return trigger;
     }
 
-    JobDetailFactoryBean getJobDetailFactoryBean(String description, Class<?> jobClass) {
+    JobDetailFactoryBean getJobDetailFactoryBean(String description, Class<? extends Job> jobClass) {
         JobDetailFactoryBean jobDetailFactory = new JobDetailFactoryBean();
         jobDetailFactory.setJobClass(jobClass);
         jobDetailFactory.setDescription(description);

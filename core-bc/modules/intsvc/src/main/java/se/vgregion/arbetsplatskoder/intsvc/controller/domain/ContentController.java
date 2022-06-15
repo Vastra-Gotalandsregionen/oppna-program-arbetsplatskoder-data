@@ -22,7 +22,7 @@ public class ContentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Content getContent(@PathVariable("id") String id) {
-        Content content = contentRepository.findOne(id);
+        Content content = contentRepository.findById(id).orElse(null);
 
         if (content == null) {
             content = new Content(id, "<p>Redigera innehåll</p>");

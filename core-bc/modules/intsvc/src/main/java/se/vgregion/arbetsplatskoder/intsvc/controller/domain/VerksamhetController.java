@@ -27,7 +27,11 @@ public class VerksamhetController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public List<Verksamhet> getVerksamhets() {
-        PageRequest pageRequest = new PageRequest(0, Integer.MAX_VALUE, new Sort(new Sort.Order("verksamhettext").ignoreCase()));
+        PageRequest pageRequest = PageRequest.of(
+                0,
+                Integer.MAX_VALUE,
+                Sort.by(new Sort.Order(Sort.Direction.ASC, "verksamhettext").ignoreCase())
+        );
 
         return verksamhetRepository.findAll(pageRequest).getContent();
     }
@@ -35,7 +39,7 @@ public class VerksamhetController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Verksamhet getVardform(@PathVariable("id") Integer id) {
-        return verksamhetRepository.findOne(id);
+        return verksamhetRepository.findById(id).orElse(null);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)

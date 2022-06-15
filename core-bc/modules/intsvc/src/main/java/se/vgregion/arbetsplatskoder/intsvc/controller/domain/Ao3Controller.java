@@ -37,14 +37,14 @@ public class Ao3Controller {
                              @RequestParam(value = "page", required = false) Integer page) {
 
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "foretagsnamn").ignoreCase();
-        Sort sort = new Sort(order);
+        Sort sort = Sort.by(order);
 
         Pageable pageable = null;
 
         if (pageSize != null && page != null) {
-            pageable = new PageRequest(page, pageSize, sort);
+            pageable = PageRequest.of(page, pageSize, sort);
         } else {
-            pageable = new PageRequest(0, Integer.MAX_VALUE, sort);
+            pageable = PageRequest.of(0, Integer.MAX_VALUE, sort);
         }
 
         return ao3Repository.findAll(pageable);
@@ -53,7 +53,7 @@ public class Ao3Controller {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Ao3 getAo3(@PathVariable("id") Integer id) {
-        return ao3Repository.findOne(id);
+        return ao3Repository.findById(id).orElse(null);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)

@@ -61,12 +61,12 @@ public class LdapLoginService {
         try {
             return login(username, null, false);
         } catch (Exception e) {
-            return userRepository.findOne(username);
+            return userRepository.findById(username).orElse(null);
         }
     }
 
     public User loginOffline(String username) throws FailedLoginException {
-        return userRepository.findOne(username);
+        return userRepository.findById(username).orElse(null);
     }
 
     private User login(String username, String password, boolean verifyPassword) throws FailedLoginException {
@@ -81,14 +81,14 @@ public class LdapLoginService {
             user.setDisplayName("Admin");
             user.setRole(Role.ADMIN);
 
-            if (userRepository.findOne(user.getId()) == null) {
+            if (userRepository.findById(user.getId()).isEmpty()) {
                 userRepository.save(user);
             }
 
             return user;
         }
 
-        if (userRepository.findOne(username) == null) {
+        if (userRepository.findById(username).isEmpty()) {
             throw new FailedLoginException("The user is not registered in the application.");
         }
 
@@ -186,7 +186,7 @@ public class LdapLoginService {
 
     private User syncUser(User user) throws NamingException {
 
-        User foundUser = userRepository.findOne(user.getId());
+        User foundUser = userRepository.findById(user.getId()).orElse(null);
 
         if (foundUser != null) {
             // Keep these...

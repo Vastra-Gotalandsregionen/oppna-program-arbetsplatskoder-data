@@ -75,7 +75,7 @@ public class LoginController {
         try {
             DecodedJWT decodedJWT = JwtUtil.verify(jwt);
 
-            User user = userRepository.findOne(decodedJWT.getSubject());
+            User user = userRepository.findById(decodedJWT.getSubject()).orElseThrow();
 
             String[] roles = getRoles(user);
 

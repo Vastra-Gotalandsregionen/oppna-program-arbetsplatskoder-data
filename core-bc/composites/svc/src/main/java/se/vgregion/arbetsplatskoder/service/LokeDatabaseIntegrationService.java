@@ -59,7 +59,7 @@ public class LokeDatabaseIntegrationService {
             .collect(Collectors.toMap(Ao3::getAo3id, ao3 -> ao3));
 
         stopWatch.start();
-        ao3ExportRepository.save(ao3Map.values());
+        ao3ExportRepository.saveAll(ao3Map.values());
         stopWatch.stop();
         LOGGER.info("Copied all ao3 from main db into export db: " + stopWatch.getTotalTimeMillis() + " ms");
 

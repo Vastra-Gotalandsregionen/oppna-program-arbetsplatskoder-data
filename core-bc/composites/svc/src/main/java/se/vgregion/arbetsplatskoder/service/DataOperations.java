@@ -2,6 +2,7 @@ package se.vgregion.arbetsplatskoder.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se.vgregion.arbetsplatskoder.domain.jpa.ArchivedData;
@@ -15,6 +16,7 @@ import se.vgregion.arbetsplatskoder.repository.ArchivedDataRepository;
 import se.vgregion.arbetsplatskoder.repository.DataRepository;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class DataOperations {
@@ -42,10 +44,10 @@ public class DataOperations {
 
     @Transactional(value = "exportTransactionManager")
     public void unexport(Integer withThatId) {
-        dataExportRepository.delete(withThatId);
-        viewApkForSesamLmnRepository.delete(withThatId.longValue());
-        viewapkHsaidRepository.delete(withThatId);
-        viewapkwithao3Repository.delete(withThatId);
+        dataExportRepository.deleteById(withThatId);
+        viewApkForSesamLmnRepository.deleteById(withThatId.longValue());
+        viewapkHsaidRepository.deleteById(withThatId);
+        viewapkwithao3Repository.deleteById(withThatId);
     }
 
     @Transactional
@@ -53,10 +55,10 @@ public class DataOperations {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            Data currentlyStoredData = dataRepository.findOne(that.getId());
+            Optional<Data> currentlyStoredData = dataRepository.findById(that.getId());
 
-            if (currentlyStoredData != null) {
-                String json = mapper.writeValueAsString(currentlyStoredData);
+            if (currentlyStoredData.isPresent()) {
+                String json = mapper.writeValueAsString(currentlyStoredData.get());
 
                 ArchivedData archivedData = mapper.readValue(json, ArchivedData.class);
 
@@ -81,7 +83,7 @@ public class DataOperations {
         if (viewapkforsesamlmn.isOkToAppearInExportView()) {
             viewApkForSesamLmnRepository.save(viewapkforsesamlmn);
         } else {
-            if (viewApkForSesamLmnRepository.exists(viewapkforsesamlmn.getId())) {
+            if (viewApkForSesamLmnRepository.existsById(viewapkforsesamlmn.getId())) {
                 viewApkForSesamLmnRepository.delete(viewapkforsesamlmn);
             }
         }

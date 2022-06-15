@@ -64,7 +64,7 @@ public class Prodn3RepositoryImpl implements Prodn3ExtendedRepository {
         TypedQuery<Prodn3> typedQuery = entityManager.createQuery(criteriaQuery);
 
         if (pageable != null) {
-            typedQuery.setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize());
+            typedQuery.setFirstResult((int) pageable.getOffset()).setMaxResults(pageable.getPageSize());
         }
 
         List<Prodn3> resultList = typedQuery.getResultList();

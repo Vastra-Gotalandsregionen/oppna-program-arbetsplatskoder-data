@@ -35,28 +35,28 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.10.1</version>
         <configuration>
           <!--          <release>11</release> TODO enable -->
+          <source>${compileSource}</source>
+          <target>${compileTarget}</target>
         </configuration>
       </plugin>
     </plugins>
   </build>
 
   <properties>
-    <compileSource>1.8</compileSource> <!-- TODO Set 11 -->
-    <compileTarget>1.8</compileTarget> <!-- TODO Set 11 -->
+    <compileSource>11</compileSource>
+    <compileTarget>11</compileTarget>
+<!--    <maven.compiler.source>11</maven.compiler.source>-->
+<!--    <maven.compiler.target>11</maven.compiler.target>-->
     <apache.cxf.version>3.1.8</apache.cxf.version>
-    <jsf.version>2.2.13</jsf.version>
-    <jstl.version>1.2</jstl.version>
     <junit.version>4.8.1</junit.version>
-    <liferay.version>6.2.10.15</liferay.version>
-    <liferay.faces.version>4.2.5-ga6</liferay.faces.version>
     <log4j.version>1.2.16</log4j.version>
-    <portlet-api.version>2.0</portlet-api.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <servlet-api.version>3.0.1</servlet-api.version>
     <slf4j.version>1.6.1</slf4j.version>
-    <spring.fw.version>4.3.6.RELEASE</spring.fw.version>
+    <spring.fw.version>5.3.10</spring.fw.version>
+    <spring.version>${spring.fw.version}</spring.version>
+<!--    <spring.fw.version>4.3.6.RELEASE</spring.fw.version>-->
   </properties>
 </project>

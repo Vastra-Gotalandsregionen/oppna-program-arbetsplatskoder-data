@@ -25,6 +25,8 @@ public class ArchivedDataController {
     @RequestMapping(value = "/{dataId}", method = RequestMethod.GET)
     @ResponseBody
     public List<ArchivedData> findByReplacer(@PathVariable("dataId") Integer dataId) {
-        return archivedDataRepository.findAllByReplacerEqualsOrderByAndringsdatumDesc(dataRepository.getOne(dataId));
+        return archivedDataRepository.findAllByReplacerEqualsOrderByAndringsdatumDesc(
+                dataRepository.findById(dataId).orElseThrow()
+        );
     }
 }

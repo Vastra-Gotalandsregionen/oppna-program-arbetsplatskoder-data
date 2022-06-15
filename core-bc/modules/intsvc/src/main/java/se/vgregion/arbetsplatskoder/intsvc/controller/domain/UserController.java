@@ -36,21 +36,21 @@ public class UserController {
     @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") String userId) {
-        userRepository.delete(userId);
+        userRepository.deleteById(userId);
 
         return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId).orElse(null);
 
         return ResponseEntity.ok(user);
     }
 
     @RequestMapping(value = "/{userId}/thumbnailPhoto", method = RequestMethod.GET, produces = "image/jpg")
     public ResponseEntity<byte[]> getUserThumbnailPhoto(@PathVariable("userId") String userId) {
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId).orElseThrow();
 
         return ResponseEntity.ok(user.getThumbnailPhoto());
     }

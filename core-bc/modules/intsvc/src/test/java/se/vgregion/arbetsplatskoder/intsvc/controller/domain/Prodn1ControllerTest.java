@@ -112,7 +112,7 @@ public class Prodn1ControllerTest {
         Prodn1 prodn1 = new Prodn1();
         ResponseEntity<Prodn1> prodn1ResponseEntity = prodn1Controller.saveProdn1(prodn1, null);
 
-        assertNotNull(prodn1Repository.findOne(prodn1ResponseEntity.getBody().getId()));
+        assertNotNull(prodn1Repository.findById(prodn1ResponseEntity.getBody().getId()).get());
     }
 
 }

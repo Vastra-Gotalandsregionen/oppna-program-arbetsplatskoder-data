@@ -9,12 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import se.vgregion.arbetsplatskoder.domain.jpa.Role;
 import se.vgregion.arbetsplatskoder.domain.jpa.User;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
@@ -24,7 +19,6 @@ import se.vgregion.arbetsplatskoder.repository.Prodn2Repository;
 import se.vgregion.arbetsplatskoder.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -61,7 +55,7 @@ public class Prodn2Controller {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId).orElseThrow();
 
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "prodn1.kortnamn").ignoreCase();
         Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "kortnamn").ignoreCase();
@@ -90,17 +84,17 @@ public class Prodn2Controller {
 
             Pageable pageable;
             if (page != null) {
-                pageable = new PageRequest(page, defaultPageSize, new Sort(orders));
+                pageable = PageRequest.of(page, defaultPageSize, Sort.by(orders));
             } else {
                 pageable = null;
             }
 
-            Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
+            Prodn1 prodn1Reference = prodn1Repository.getById(prodn1Id);
 
             return ResponseEntity.ok(prodn2Repository.findAllByProdn1Equals(prodn1Reference, pageable));
         } else {
             // Not admin + user's prodn1s condition
-            Pageable pageable = new PageRequest(page == null ? 0 : page, defaultPageSize, new Sort(orders));
+            Pageable pageable = PageRequest.of(page == null ? 0 : page, defaultPageSize, Sort.by(orders));
 
             return ResponseEntity.ok(prodn2Repository.findAllByProdn1In(prodn1s, pageable));
         }
@@ -115,17 +109,17 @@ public class Prodn2Controller {
             // Admin + prodn1 condition
             Pageable pageable;
             if (page != null) {
-                pageable = new PageRequest(page, defaultPageSize, new Sort(orders));
+                pageable = PageRequest.of(page, defaultPageSize, Sort.by(orders));
             } else {
-                pageable = new PageRequest(0, Integer.MAX_VALUE, new Sort(orders));
+                pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(orders));
             }
 
-            Prodn1 prodn1Reference = prodn1Repository.getOne(prodn1Id);
+            Prodn1 prodn1Reference = prodn1Repository.getById(prodn1Id);
 
             return ResponseEntity.ok(prodn2Repository.findAllByProdn1Equals(prodn1Reference, pageable));
         } else {
             // Admin + no condition
-            Pageable pageable = new PageRequest(page == null ? 0 : page, defaultPageSize, new Sort(orders));
+            Pageable pageable = PageRequest.of(page == null ? 0 : page, defaultPageSize, Sort.by(orders));
 
             return ResponseEntity.ok(prodn2Repository.findAll(pageable));
         }

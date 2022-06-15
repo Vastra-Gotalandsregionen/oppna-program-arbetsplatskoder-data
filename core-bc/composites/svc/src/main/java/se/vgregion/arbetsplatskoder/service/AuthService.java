@@ -32,7 +32,7 @@ public class AuthService {
     static ThreadLocal<User> currentUser = new ThreadLocal<>();
 
     public boolean hasProdn1Access(Authentication authentication, Prodn1 prodn1) {
-        User user = userRepository.findOne((String) authentication.getPrincipal());
+        User user = userRepository.findById((String) authentication.getPrincipal()).orElse(null);
         currentUser.set(user);
         return Role.ADMIN.equals(user.getRole()) || user.getProdn1s().contains(prodn1);
     }

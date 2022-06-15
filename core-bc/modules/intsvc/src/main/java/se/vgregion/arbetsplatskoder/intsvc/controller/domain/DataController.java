@@ -82,12 +82,12 @@ public class DataController {
             } else {
                 dynamicSort = new Sort.Order(asc ? Sort.Direction.ASC : Sort.Direction.DESC, sort);
             }
-            finalSort = new Sort(dynamicSort, sorteringskodProd, arbetsplatskod);
+            finalSort = Sort.by(dynamicSort, sorteringskodProd, arbetsplatskod);
         } else {
-            finalSort = new Sort(sorteringskodProd, arbetsplatskod);
+            finalSort = Sort.by(sorteringskodProd, arbetsplatskod);
         }
 
-        Pageable pageable = new PageRequest(page == null ? 0 : page, pageSize,
+        Pageable pageable = PageRequest.of(page == null ? 0 : page, pageSize,
                 finalSort);
 
         Page<Data> result;
@@ -122,7 +122,7 @@ public class DataController {
     private User getUser() {
         String userIdFromRequest = HttpUtil.getUserIdFromRequest(request);
 
-        return userRepository.findOne(userIdFromRequest);
+        return userRepository.findById(userIdFromRequest).orElse(null);
     }
 
     @RequestMapping(value = "/arbetsplatskodlan/{arbetsplatskodlan}", method = RequestMethod.GET)
@@ -167,7 +167,7 @@ public class DataController {
     @ResponseBody
     @PreAuthorize("@authService.isLoggedIn(authentication)")
     public Data getData(@PathVariable("id") Integer id) {
-        return dataRepository.findOne(id);
+        return dataRepository.findById(id).orElse(null);
     }
 
     @RequestMapping(value = "users", method = RequestMethod.GET)
@@ -181,13 +181,13 @@ public class DataController {
     @ResponseBody
     @PreAuthorize("@authService.isLoggedIn(authentication)")
     public ResponseEntity deleteData(@PathVariable("id") Integer id) {
-        if (!(getUser().getProdn1s().contains(dataRepository.findOne(id).getProdn1())
+        if (!(getUser().getProdn1s().contains(dataRepository.findById(id).orElseThrow().getProdn1())
                 || getUser().getRole().equals(Role.ADMIN))) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         dataOperations.unexport(id);
-        dataRepository.delete(id);
+        dataRepository.deleteById(id);
 
         return ResponseEntity.ok().build();
     }
@@ -205,7 +205,7 @@ public class DataController {
 
         if (data.getId() != null) {
             // Already persisted entity. Check that the user has permission to that entity.
-            Data persisted = dataRepository.findOne(data.getId());
+            Data persisted = dataRepository.findById(data.getId()).orElseThrow();
             if (!(user.getProdn1s().contains(persisted.getProdn1()) || user.getRole().equals(Role.ADMIN))) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }

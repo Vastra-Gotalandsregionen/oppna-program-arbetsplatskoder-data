@@ -98,14 +98,14 @@ public class Prodn1Controller {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId).orElseThrow();
 
         List<Prodn1> result;
         if (Role.ADMIN.equals(user.getRole())) {
 
             Sort.Order sortOrder = new Sort.Order(Sort.Direction.ASC, "kortnamn").ignoreCase();
 
-            PageRequest pageable = new PageRequest(0, Integer.MAX_VALUE, new Sort(sortOrder));
+            PageRequest pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(sortOrder));
             Page<Prodn1> all = prodn1Repository.findAll(pageable);
 
             result = new ArrayList<>(all.getContent()); // So we don't get an unmodifiable collection.
@@ -132,7 +132,7 @@ public class Prodn1Controller {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Prodn1 getProdn1(@PathVariable(value = "id", required = true) Integer id) {
-        return prodn1Repository.findOne(id);
+        return prodn1Repository.findById(id).orElse(null);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
@@ -146,7 +146,7 @@ public class Prodn1Controller {
             // New entity.
             prodn1.setId(Math.abs(new Random().nextInt()));
         } else {
-            previousVersion = prodn1Repository.findOne(prodn1.getId());
+            previousVersion = prodn1Repository.findById(prodn1.getId()).orElse(null);
         }
 
         if (prodn1.getRaderad() == null) {

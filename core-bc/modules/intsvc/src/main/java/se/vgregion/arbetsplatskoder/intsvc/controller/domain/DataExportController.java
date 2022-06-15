@@ -53,7 +53,7 @@ public class DataExportController {
     @Autowired
     private ViewapkHsaidRepository viewapkHsaidRepository;
 
-    @RequestMapping(value = "ehalsomyndigheten", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "ehalsomyndigheten", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public String get() {
@@ -63,7 +63,7 @@ public class DataExportController {
         // return eHalsomyndighetenExportFileService.generate();
     }
 
-    @RequestMapping(value = "stralfors", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "stralfors", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public String fetchStralforsExport() {
@@ -73,7 +73,7 @@ public class DataExportController {
         // return stralforsExportFileService.generate();
     }
 
-    @RequestMapping(value = "sesam-lmn", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "sesam-lmn", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<List<se.vgregion.arbetsplatskoder.domain.jpa.migrated.Viewapkforsesamlmn>> fetchSesamLmnExport() {
@@ -84,7 +84,7 @@ public class DataExportController {
         return ResponseEntity.ok(result);
     }
 
-    @RequestMapping(value = "loke", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "loke", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<List<Viewapkwithao3>> fetchLokeExport() {
@@ -95,7 +95,7 @@ public class DataExportController {
         return ResponseEntity.ok(result);
     }
 
-    @RequestMapping(value = "kiv", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "kiv", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     // @PreAuthorize("@authService.hasRole(authentication, 'ADMIN')")
     public ResponseEntity<List<ViewapkHsaid>> fetchKivExport() {

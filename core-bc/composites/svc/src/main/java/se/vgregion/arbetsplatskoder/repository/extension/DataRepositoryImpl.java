@@ -46,7 +46,7 @@ public class DataRepositoryImpl implements DataExtendedRepository {
         }
 
         if (pageable != null) {
-            typedQuery.setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize());
+            typedQuery.setFirstResult((int) pageable.getOffset()).setMaxResults(pageable.getPageSize());
         }
         List<T> results = typedQuery.getResultList();
         return results;
