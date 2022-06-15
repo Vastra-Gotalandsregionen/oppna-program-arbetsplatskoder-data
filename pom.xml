@@ -8,9 +8,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>se.vgregion.common</groupId>
-    <artifactId>profile-open</artifactId>
-    <version>2.15</version>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-dependencies</artifactId>
+    <version>2.7.0</version>
   </parent>
 
   <groupId>se.vgregion.arbetsplatskoder</groupId>
@@ -23,6 +23,16 @@
     <module>core-bc</module>
   </modules>
 
+  <!--<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-dependencies</artifactId>
+      <version>2.7.0</version>
+      <type>pom</type>
+    </dependency>
+  </dependencies>
+  </dependencyManagement>-->
   <!--NB! SCM config below assumes system name equals VGR subversion/googlecode project name! -->
   <!-- Open Source repo -->
   <!--<scm>
@@ -45,18 +55,24 @@
     </plugins>
   </build>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+    </dependency>
+  </dependencies>
+
   <properties>
     <compileSource>11</compileSource>
     <compileTarget>11</compileTarget>
 <!--    <maven.compiler.source>11</maven.compiler.source>-->
 <!--    <maven.compiler.target>11</maven.compiler.target>-->
-    <apache.cxf.version>3.1.8</apache.cxf.version>
-    <junit.version>4.8.1</junit.version>
-    <log4j.version>1.2.16</log4j.version>
+<!--    <apache.cxf.version>3.1.8</apache.cxf.version>-->
+<!--    <log4j.version>1.2.16</log4j.version>-->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <slf4j.version>1.6.1</slf4j.version>
-    <spring.fw.version>5.3.10</spring.fw.version>
-    <spring.version>${spring.fw.version}</spring.version>
+<!--    <slf4j.version>1.6.1</slf4j.version>-->
+<!--    <spring.fw.version>5.3.10</spring.fw.version>-->
+<!--    <spring.version>${spring.fw.version}</spring.version>-->
 <!--    <spring.fw.version>4.3.6.RELEASE</spring.fw.version>-->
   </properties>
 </project>

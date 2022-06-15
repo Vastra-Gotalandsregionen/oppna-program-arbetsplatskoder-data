@@ -52,17 +52,13 @@ public class JwtUtil {
                     .withIssuedAt(now)
                     .withExpiresAt(timeAhead)
                     .sign(Algorithm.HMAC256(secret));
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     public static DecodedJWT verify(String jwtToken) throws JWTVerificationException {
-        try {
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
-            return verifier.verify(jwtToken);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
+        return verifier.verify(jwtToken);
     }
 }
