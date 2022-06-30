@@ -4,6 +4,7 @@ package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
  * For integration. SesamLmn wants to have data.
  */
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.sql.Timestamp;
@@ -13,6 +14,15 @@ import java.util.Date;
 @Entity
 @Table(name = "data")
 public class DataExport extends AbstractData {
+
+    @Column(name = "Kortnamn")
+    private String kortnamn;
+
+    @Column(name = "Kortnamn2")
+    private String kortnamn2;
+
+    @Column(name = "Kortnamn3")
+    private String kortnamn3;
 
     final static Date indefiniteTime;
 
@@ -76,6 +86,21 @@ public class DataExport extends AbstractData {
         setSorteringskodProd(data.getSorteringskodProd());
         setHsaid(data.getHsaid());
         setPostort(data.getPostort());
+
+        Prodn1 prodn1 = data.getProdn1();
+        if (prodn1 != null) {
+            setKortnamn(prodn1.getKortnamn());
+        }
+
+        Prodn3 prodn3 = data.getProdn3();
+        if (prodn3 != null) {
+            setKortnamn3(prodn3.getKortnamn());
+
+            Prodn2 prodn2 = prodn3.getProdn2();
+            if (prodn2 != null) {
+                setKortnamn2(prodn2.getKortnamn());
+            }
+        }
     }
 
     /*
@@ -96,5 +121,27 @@ public class DataExport extends AbstractData {
     }
     */
 
+    public String getKortnamn() {
+        return kortnamn;
+    }
 
+    public void setKortnamn(String kortnamn) {
+        this.kortnamn = kortnamn;
+    }
+
+    public String getKortnamn2() {
+        return kortnamn2;
+    }
+
+    public void setKortnamn2(String kortnamn2) {
+        this.kortnamn2 = kortnamn2;
+    }
+
+    public String getKortnamn3() {
+        return kortnamn3;
+    }
+
+    public void setKortnamn3(String kortnamn3) {
+        this.kortnamn3 = kortnamn3;
+    }
 }
