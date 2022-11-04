@@ -86,7 +86,7 @@ public class Prodn2Controller {
             if (page != null) {
                 pageable = PageRequest.of(page, defaultPageSize, Sort.by(orders));
             } else {
-                pageable = null;
+                pageable = PageRequest.of(0, 1000);
             }
 
             Prodn1 prodn1Reference = prodn1Repository.getById(prodn1Id);

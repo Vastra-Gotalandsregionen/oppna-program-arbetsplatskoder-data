@@ -84,7 +84,7 @@ public class Prodn3Controller {
         if (page != null) {
             pageable = PageRequest.of(page, pageSize);
         } else {
-            pageable = null;
+            pageable = PageRequest.of(0, 1000);
         }
 
         if (Role.ADMIN.equals(user.getRole())) {

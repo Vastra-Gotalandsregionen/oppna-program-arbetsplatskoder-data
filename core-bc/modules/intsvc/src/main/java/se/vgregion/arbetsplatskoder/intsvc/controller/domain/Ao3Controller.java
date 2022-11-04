@@ -39,7 +39,7 @@ public class Ao3Controller {
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "foretagsnamn").ignoreCase();
         Sort sort = Sort.by(order);
 
-        Pageable pageable = null;
+        Pageable pageable;
 
         if (pageSize != null && page != null) {
             pageable = PageRequest.of(page, pageSize, sort);
