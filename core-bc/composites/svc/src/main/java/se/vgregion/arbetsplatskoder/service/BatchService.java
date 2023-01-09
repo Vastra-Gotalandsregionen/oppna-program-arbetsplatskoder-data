@@ -12,12 +12,16 @@ import org.springframework.util.StringUtils;
 import se.vgregion.arbetsplatskoder.domain.jpa.Link;
 import se.vgregion.arbetsplatskoder.domain.jpa.migrated.*;
 import se.vgregion.arbetsplatskoder.repository.*;
+import se.vgregion.arbetsplatskoder.util.ExcelUtil;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +33,9 @@ public class BatchService {
 
     @Autowired
     private DataRepository dataRepository;
+
+    @Autowired
+    private DataOperations dataOperations;
 
     @Autowired
     private Prodn1Repository prodn1Repository;
@@ -77,7 +84,17 @@ public class BatchService {
         initQuartzTables();
         initLinks();
 
-        processDbSchemaChanges();
+        try {
+            processDbSchemaChanges();
+        } catch (Exception e) {
+            LOGGER.error("processDbSchemaChanges() failed: " + e.getMessage());
+        }
+
+        try {
+            migrateDataAccordingToNewOrganization();
+        } catch (Exception e) {
+            LOGGER.error("migrateDataAccordingToNewOrganization() failed: " + e.getMessage());
+        }
 
         List<Data> allDatas = dataRepository.findAll();
 
@@ -244,9 +261,77 @@ public class BatchService {
         }
     }
 
+    private void migrateDataAccordingToNewOrganization() {
+        List<Map<String, String>> keyValuesList = ExcelUtil.readRows();
+
+        for (Map<String, String> keyValues : keyValuesList) {
+            String s = keyValues.get("Arbetsplatskod");
+
+            List<Data> allByArbetsplatskodlanEquals = dataRepository.findAllByArbetsplatskodlanEquals(s);
+
+            if (allByArbetsplatskodlanEquals.size() != 1) {
+                throw new IllegalStateException(s + " has " + allByArbetsplatskodlanEquals.size() + " number of entries.");
+            }
+
+            Data data = allByArbetsplatskodlanEquals.get(0);
+
+            // Motpart / Ao3
+            String newAo3 = keyValues.get("Ny Motpart");
+
+            boolean anyChange = false;
+
+            if (StringUtils.hasText(newAo3)) {
+                if (newAo3.contains(",")) {
+                    String[] split = newAo3.split(",");
+                    String newAo3Code = split[0];
+
+                    Ao3 byAo3id = ao3Repository.findByAo3id(newAo3Code);
+                    if (byAo3id == null) {
+                        Ao3 newAo3Entity = new Ao3();
+                        newAo3Entity.setId(Math.abs(new Random().nextInt()));
+                        newAo3Entity.setAo3id(newAo3Code);
+                        newAo3Entity.setForetagsnamn(split[1].trim());
+                        newAo3Entity.setRaderad(false);
+
+                        ao3Repository.save(newAo3Entity);
+                    }
+
+                    if (!newAo3Code.equals(data.getAo3())) {
+                        LOGGER.info("Updating " + data.getBenamning() + ": Motpart " + data.getAo3() + " -> " + newAo3Code);
+                        data.setAo3(newAo3Code);
+                        anyChange = true;
+                    }
+                } else {
+                    throw new IllegalStateException("Unexpected format of Ao3: " + newAo3 + ". Expected \",\".");
+                }
+            }
+
+            // Ansvar
+            String newAnsvar = keyValues.get("Nytt Ansvar");
+
+            if (StringUtils.hasText(newAnsvar) && !newAnsvar.equals(data.getAnsvar())) {
+                LOGGER.info("Updating " + data.getBenamning() + ": Ansvar " + data.getAnsvar() + " -> " + newAnsvar);
+                data.setAnsvar(newAnsvar);
+                anyChange = true;
+            }
+
+            if (anyChange) {
+                Timestamp now = Timestamp.from(Instant.now());
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                sdf.setTimeZone(TimeZone.getTimeZone("Europe/Stockholm"));
+
+                data.setAndringsdatum(sdf.format(now));
+
+                data.setUserIdNew("system");
+                dataOperations.saveAndArchive(data);
+            }
+        }
+    }
+
     void processErsattav(List<Data> allDatas) {
         Map<String, Data> dataByArbetsplataskod = allDatas.stream()
-            .collect(Collectors.toMap(Data::getArbetsplatskod, data -> data));
+                .collect(Collectors.toMap(Data::getArbetsplatskod, data -> data));
 
         // Remove all ersattav where ersattav equals arbetsplatskod and change ersattav to arbetsplatskodlan
         for (Data data : allDatas) {
@@ -265,17 +350,36 @@ public class BatchService {
     }
 
     void processDbSchemaChanges() {
-        ClassPathResource classPathResource = new ClassPathResource("init-db.sql");
-        ResourceDatabasePopulator databasePopulator =
-            new ResourceDatabasePopulator(false, false, "UTF-8", classPathResource);
+        try {
+            ResultSet resultSet = dataSource.getConnection().createStatement().executeQuery("select * from data");
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            boolean found = false;
+            for (int i = 1; i <= columnCount; i++) {
+                String columnName = metaData.getColumnName(i);
+                if (columnName.endsWith("_old")) {
+                    found = true;
+                    break;
+                }
+            }
 
-        databasePopulator.execute(dataSource);
+            if (!found) {
+                ClassPathResource classPathResource = new ClassPathResource("clone-columns-to-legacy.sql");
+
+                ResourceDatabasePopulator databasePopulator =
+                        new ResourceDatabasePopulator(true, false, "UTF-8", classPathResource);
+
+                databasePopulator.execute(dataSource);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     void initQuartzTables() {
         ClassPathResource classPathResource = new ClassPathResource("init-quartz.sql");
         ResourceDatabasePopulator databasePopulator =
-            new ResourceDatabasePopulator(false, false, "UTF-8", classPathResource);
+                new ResourceDatabasePopulator(false, false, "UTF-8", classPathResource);
 
         databasePopulator.execute(dataSource);
     }
@@ -296,13 +400,13 @@ public class BatchService {
 
     private void trimProdn3sProducentid(List<Prodn3> allProdn3s) {
         allProdn3s.stream()
-            .filter(prodn3 -> prodn3.getProducentid() != null)
-            .forEach(prodn3 -> {
-                if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
-                    prodn3.setProducentid(prodn3.getProducentid().trim());
-                    prodn3Repository.save(prodn3);
-                }
-            });
+                .filter(prodn3 -> prodn3.getProducentid() != null)
+                .forEach(prodn3 -> {
+                    if (!prodn3.getProducentid().equals(prodn3.getProducentid().trim())) {
+                        prodn3.setProducentid(prodn3.getProducentid().trim());
+                        prodn3Repository.save(prodn3);
+                    }
+                });
     }
 
 }

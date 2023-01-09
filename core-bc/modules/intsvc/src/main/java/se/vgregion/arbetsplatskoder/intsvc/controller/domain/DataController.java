@@ -268,7 +268,7 @@ public class DataController {
         data.setAndringsdatum(sdf.format(now));
 
         data = dataOperations.saveAndArchive(data);
-        DataExport de = new DataExport(data);
+//        DataExport de = new DataExport(data);
 
         dataOperations.export(data);
 

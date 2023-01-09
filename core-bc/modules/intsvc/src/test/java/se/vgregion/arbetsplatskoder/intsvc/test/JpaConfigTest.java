@@ -12,6 +12,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -21,11 +22,7 @@ import java.util.Properties;
 @Rollback
 public class JpaConfigTest {
 
-    private String jdbcUrl = "jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false";
-    private String jdbcUser = "sa";
-    private String jdbcPassword = "";
-    private String jdbcDriver = "org.h2.Driver";
-    private String hibernateDialect = "org.hibernate.dialect.H2Dialect";
+    private String hibernateDialect = "org.hibernate.dialect.PostgreSQL95Dialect";
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -57,12 +54,25 @@ public class JpaConfigTest {
     }
 
     @Bean
+    PostgreSQLContainer postgreSQLContainer() {
+        PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:9.6.8")
+                .withDatabaseName("test-db")
+                .withUsername("postgres")
+                .withPassword("postgres");
+
+        postgreSQLContainer.start();
+
+        return postgreSQLContainer;
+    }
+
+    @Bean
     public DataSource dataSource() {
+        PostgreSQLContainer postgreSQLContainer = postgreSQLContainer();
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(jdbcDriver);
-        dataSource.setUrl(jdbcUrl);
-        dataSource.setUsername(jdbcUser);
-        dataSource.setPassword(jdbcPassword);
+        dataSource.setDriverClassName(postgreSQLContainer.getDriverClassName());
+        dataSource.setUrl(postgreSQLContainer.getJdbcUrl());
+        dataSource.setUsername(postgreSQLContainer.getUsername());
+        dataSource.setPassword(postgreSQLContainer.getPassword());
         return dataSource;
     }
 

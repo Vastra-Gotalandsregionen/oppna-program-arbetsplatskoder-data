@@ -1,0 +1,19 @@
+# Just type 'docker-compose up' in this directory.
+version: "2"
+services:
+  postgresql-apk:
+    image: postgres:12
+    container_name: postgres-apk
+    ports:
+      - 5441:5432
+    volumes:
+      - pg-apk:/var/lib/postgresql/data/ # persist data even if container shuts downvolumes:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=apk-docker-db
+    restart: on-failure
+
+volumes:
+  pg-apk:
+    driver: local
