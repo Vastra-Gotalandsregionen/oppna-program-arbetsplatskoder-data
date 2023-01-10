@@ -65,7 +65,7 @@ Generation time : 2015-01-14 09:02:50 CET
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>5.4.4.Final</version>
+      <version>5.4.24.Final</version>
     </dependency>
 
     <dependency>
