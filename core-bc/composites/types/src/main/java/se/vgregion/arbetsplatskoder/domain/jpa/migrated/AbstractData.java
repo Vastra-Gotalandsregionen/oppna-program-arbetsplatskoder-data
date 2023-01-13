@@ -185,11 +185,11 @@ public abstract class AbstractData extends AbstractEntity {
     }
 
     public String getFrivilligUppgift() {
-        return frivilligUppgift;
+        return frivilligUppgift != null ? frivilligUppgift.trim() : null;
     }
 
     public void setFrivilligUppgift(String v) {
-        this.frivilligUppgift = v;
+        this.frivilligUppgift = v != null ? v.trim() : null;
     }
 
     public String getAgarform() {
