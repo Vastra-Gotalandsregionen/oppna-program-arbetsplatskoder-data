@@ -6,27 +6,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import se.vgregion.arbetsplatskoder.domain.jpa.Link;
-import se.vgregion.arbetsplatskoder.domain.jpa.migrated.*;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Data;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn1;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn2;
+import se.vgregion.arbetsplatskoder.domain.jpa.migrated.Prodn3;
 import se.vgregion.arbetsplatskoder.repository.*;
-import se.vgregion.arbetsplatskoder.util.ExcelUtil;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -93,12 +91,6 @@ public class BatchService {
             processDbSchemaChanges();
         } catch (Exception e) {
             LOGGER.error("processDbSchemaChanges() failed: " + e.getMessage());
-        }
-
-        try {
-            migrateDataAccordingToNewOrganization();
-        } catch (Exception e) {
-            LOGGER.error("migrateDataAccordingToNewOrganization() failed:", e);
         }
 
         List<Data> allDatas = dataRepository.findAll();
@@ -264,185 +256,6 @@ public class BatchService {
                 dataRepository.save(data);
             }
         }
-    }
-
-    private void migrateDataAccordingToNewOrganization() {
-        Set<Data> datasToSave = updateAo3AndAnsvarFromExcelFile(
-                "Arbetsplatskod",
-                "Ny Motpart",
-                "Nytt Ansvar",
-                "/opt/Arbetsplatskoder_justering_ny_org_2022-12-13.xlsx"
-        );
-
-        Set<Data> moreDatasToSave = updateAo3AndAnsvarFromExcelFile(
-                "arbetsplatskodlan",
-                "Nytt Ao3",
-                "Nytt ansvar",
-                "/opt/APK_Testmiljo-nya_koder_for_justering.xlsx"
-        );
-
-        datasToSave.addAll(moreDatasToSave);
-
-        datasToSave.forEach(
-                data -> dataOperations.saveAndArchive(data)
-        );
-
-        // Before this step, make sure the new prodnX tree is inserted.
-        List<Integer> relevantProdn1Ids = prodn1Repository.findAll().stream()
-                .filter(prodn1 -> prodn1.getKortnamn().startsWith("HSN 2"))
-                .map(Prodn1::getId)
-                .collect(Collectors.toList());
-
-        Prodn1 prodn1 = new Prodn1();
-        prodn1.setKortnamn("OSN 842");
-        Prodn1 newProdn1 = prodn1Repository.findOne(Example.of(prodn1, ExampleMatcher.matching())).orElseThrow();
-
-        List<Prodn3> allPossibleProdn3s = prodn3Repository.findAllByProdn2In(
-                prodn2Repository.findAllByProdn1Equals(newProdn1, Pageable.unpaged()).getContent(),
-                Pageable.unpaged()
-        ).getContent();
-
-        Map<String, Prodn3> prodn3LookupMap = new HashMap<>();
-         for (Prodn3 p3 : allPossibleProdn3s) {
-            String lookupKey = getLookupKey(p3);
-
-            if (prodn3LookupMap.containsKey(lookupKey)) {
-                throw new IllegalStateException();
-            }
-
-            prodn3LookupMap.put(lookupKey, p3);
-        }
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        dataRepository.findAllJoinProdn3().stream()
-                .filter(data -> {
-                    try {
-                        return relevantProdn1Ids.contains(data.getProdn3().getProdn2().getProdn1().getId());
-                    } catch (NullPointerException e) {
-                        LOGGER.error(e.getMessage() + " - is expected in a number of datas.");
-                        return false;
-                    }
-                }).forEach(data -> {
-                    Prodn3 prodn3 = data.getProdn3();
-
-                    // Same prodn3 and prodn2 but with the new prodn1
-                    String lookupKey = prodn3.getKortnamn() + " - " + prodn3.getProdn2().getKortnamn() + " - " + "OSN 842";
-                    Prodn3 newProdn3 = prodn3LookupMap.get(lookupKey);
-
-                    if (!prodn3.equals(newProdn3)) {
-                        Data clone = clone(mapper, data);
-
-                        try {
-                            LOGGER.info("Updating from {" + getLookupKey(prodn3) + "} to {" + getLookupKey(newProdn3) + "}");
-                        } catch (Exception e) {
-                            LOGGER.error(e.getMessage() + " - Just logging error: ");// + prodn3.getId() + ", " + newProdn3.getId());
-                        }
-                        clone.setProdn3(newProdn3);
-                        clone.setProdn1(newProdn1);
-
-                        if (!newProdn3.getProdn2().getProdn1().equals(newProdn1)) {
-                            throw new IllegalStateException("Very wrong and unexpected.");
-                        }
-
-                        dataOperations.saveAndArchive(clone);
-                    }
-                });
-
-
-    }
-
-    private static String getLookupKey(Prodn3 prodn3) {
-        return prodn3.getKortnamn() + " - " + prodn3.getProdn2().getKortnamn() + " - " + prodn3.getProdn2().getProdn1().getKortnamn();
-    }
-
-    private Set<Data> updateAo3AndAnsvarFromExcelFile(String arbetsplatskodlanColumn, String newAo3Column, String newAnsvarColumn, String filePath) {
-        Set<Data> toSave = new HashSet<>();
-
-        List<Map<String, String>> keyValuesList = ExcelUtil.readRows(filePath);
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        for (Map<String, String> keyValues : keyValuesList) {
-            String dataId = keyValues.get(arbetsplatskodlanColumn);
-
-            List<Data> allByArbetsplatskodlanEquals = dataRepository.findAllByArbetsplatskodlanEquals(dataId);
-
-            if (allByArbetsplatskodlanEquals.size() != 1) {
-                throw new IllegalStateException(dataId + " has " + allByArbetsplatskodlanEquals.size() + " number of entries.");
-            }
-
-            Data dataToClone = allByArbetsplatskodlanEquals.get(0);
-
-            Data data = clone(mapper, dataToClone);
-
-            // Motpart / Ao3
-            String newAo3 = keyValues.get(newAo3Column);
-
-            boolean anyChange = false;
-
-            if (StringUtils.hasText(newAo3)) {
-//                if (newAo3.contains(",")) {
-                    String[] split = newAo3.split(",");
-                    String newAo3Code = split[0];
-
-                    Ao3 byAo3id = ao3Repository.findByAo3id(newAo3Code);
-                    if (byAo3id == null) {
-                        Ao3 newAo3Entity = new Ao3();
-                        newAo3Entity.setId(Math.abs(new Random().nextInt()));
-                        newAo3Entity.setAo3id(newAo3Code);
-                        newAo3Entity.setForetagsnamn(split[1].trim());
-                        newAo3Entity.setRaderad(false);
-
-                        ao3Repository.save(newAo3Entity);
-                    }
-
-                    if (!newAo3Code.equals(data.getAo3())) {
-                        LOGGER.info("Updating " + data.getBenamning() + ": Motpart " + data.getAo3() + " -> " + newAo3Code);
-                        data.setAo3(newAo3Code);
-                        anyChange = true;
-                    }
-//                } else {
-//                    throw new IllegalStateException("Unexpected format of Ao3: " + newAo3 + ". Expected \",\".");
-//                }
-            }
-
-            // Ansvar
-            String newAnsvar = keyValues.get(newAnsvarColumn);
-
-            if (StringUtils.hasText(newAnsvar) && !newAnsvar.equals(data.getAnsvar())) {
-                LOGGER.info("Updating " + data.getBenamning() + ": Ansvar " + data.getAnsvar() + " -> " + newAnsvar);
-                data.setAnsvar(newAnsvar);
-                anyChange = true;
-            }
-
-            if (anyChange) {
-                Timestamp now = Timestamp.from(Instant.now());
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                sdf.setTimeZone(TimeZone.getTimeZone("Europe/Stockholm"));
-
-                data.setAndringsdatum(sdf.format(now));
-
-                data.setUserIdNew("system");
-//                dataOperations.saveAndArchive(data);
-                toSave.add(data);
-            }
-        }
-
-        return toSave;
-    }
-
-    private static Data clone(ObjectMapper mapper, Data dataToClone) {
-        String json = null;
-        Data data = null;
-        try {
-            json = mapper.writeValueAsString(dataToClone);
-            data = mapper.readValue(json, Data.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return data;
     }
 
     void processErsattav(List<Data> allDatas) {
