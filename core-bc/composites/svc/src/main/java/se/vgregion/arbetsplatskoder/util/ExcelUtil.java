@@ -5,10 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -58,12 +55,17 @@ public class ExcelUtil {
     }
 
     // TODO temporary feature
-    public static List<Map<String, String>> readRows() {
+    public static List<Map<String, String>> readRows(String filePath) {
 
         List<Map<String, String>> result = new ArrayList<>();
 
-        try {
-            Workbook wb = new XSSFWorkbook("/opt/Arbetsplatskoder_justering_ny_org_2022-12-13.xlsx");
+        Workbook wb = null;
+
+        try (
+                FileInputStream fis = new FileInputStream(filePath);
+                BufferedInputStream bis = new BufferedInputStream(fis)
+        ) {
+            wb = new XSSFWorkbook(bis);
 
             Sheet sheetAt = wb.getSheetAt(0);
 
