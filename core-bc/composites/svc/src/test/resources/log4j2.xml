@@ -9,13 +9,17 @@
         <Root level="info">
             <AppenderRef ref="Console"/>
         </Root>
-<!--        <Logger name="org.springframework.jdbc" level="DEBUG"
+        <Logger name="org.springframework.jdbc" level="DEBUG"
                 additivity="false">
             <Appender-ref ref="Console" level="DEBUG" />
         </Logger>
         <Logger name="org.springframework.orm.jpa.vendor" level="DEBUG"
                 additivity="false">
             <Appender-ref ref="Console" level="DEBUG" />
-        </Logger>-->
+        </Logger>
+        <Logger name="com.microsoft" level="DEBUG"
+                additivity="true">
+            <Appender-ref ref="Console" level="DEBUG" />
+        </Logger>
     </Loggers>
 </Configuration>
