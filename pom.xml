@@ -19,6 +19,11 @@
   <version>1.0-SNAPSHOT</version>
   <name>${project.artifactId}</name>
 
+  <scm>
+    <developerConnection>scm:git:https://github.com/Vastra-Gotalandsregionen/oppna-program-arbetsplatskoder-data.git</developerConnection>
+    <url>https://github.com/Vastra-Gotalandsregionen/oppna-program-arbetsplatskoder-data.git</url>
+  </scm>
+
   <modules>
     <module>core-bc</module>
   </modules>
