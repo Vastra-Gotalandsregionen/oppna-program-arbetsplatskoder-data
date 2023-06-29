@@ -41,7 +41,7 @@
   <bean id="exportJpaVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
     <!--<property name="database" value="POSTGRESQL" />-->
     <property name="databasePlatform" value="${jdbc.export.database.platform}"/>
-    <property name="generateDdl" value="true"/>
+    <property name="generateDdl" value="false"/>
     <property name="showSql" value="false"/>
   </bean>
 
