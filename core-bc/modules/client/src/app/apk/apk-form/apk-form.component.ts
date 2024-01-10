@@ -570,7 +570,7 @@ export class ApkFormComponent extends ApkBase implements OnInit {
     data.anmarkning = formModel.anmarkning;
     data.ansvar = formModel.ansvar;
     data.frivilligUppgift = formModel.frivilligUppgift;
-    data.hsaid = formModel.hsaid.trim();
+    data.hsaid = formModel.hsaid ? formModel.hsaid.trim() : null;
     data.vardform = (<Vardform> formModel.vardform).vardformid;
     data.verksamhet = (<Verksamhet> formModel.verksamhet).verksamhetid;
     data.benamning = formModel.benamning;
