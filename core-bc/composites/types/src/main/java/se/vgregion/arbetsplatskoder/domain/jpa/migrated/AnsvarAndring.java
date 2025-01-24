@@ -31,5 +31,9 @@ public class AnsvarAndring extends AbstractEntity {
         this.nyttansvar = v;
     }
 
+    @Override
+    public Object getId() {
+        return getGammaltansvar();
+    }
 
 }

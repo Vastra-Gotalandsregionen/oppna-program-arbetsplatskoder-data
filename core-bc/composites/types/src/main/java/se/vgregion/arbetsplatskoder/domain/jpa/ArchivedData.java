@@ -169,7 +169,7 @@ public class ArchivedData extends AbstractEntity {
     @OnDelete(action = OnDeleteAction.CASCADE) // Hibernate-specific
     private Data replacer;
 
-    public Integer getId(){
+    public Integer getId() {
         return id;
     }
 

@@ -31,5 +31,8 @@ public class Sequence extends AbstractEntity {
         this.seqCount = v;
     }
 
-
+    @Override
+    public String getId() {
+        return getSeqName();
+    }
 }

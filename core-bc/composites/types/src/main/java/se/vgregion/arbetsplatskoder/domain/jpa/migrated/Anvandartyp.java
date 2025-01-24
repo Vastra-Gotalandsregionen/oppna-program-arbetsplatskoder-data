@@ -31,5 +31,8 @@ public class Anvandartyp extends AbstractEntity {
         this.usertype = v;
     }
 
-
+    @Override
+    public Object getId() {
+        return getAtypid();
+    }
 }

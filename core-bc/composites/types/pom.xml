@@ -55,12 +55,13 @@ Generation time : 2015-01-14 09:02:50 CET
     <!--<dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
-    </dependency>-->
+    </dependency>
     <dependency>
       <groupId>se.vgregion.arbetsplatskoder</groupId>
       <artifactId>arbetsplatskoder-bc-composite-db-migration-svc</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
+    -->
 
     <dependency>
       <groupId>org.hibernate</groupId>

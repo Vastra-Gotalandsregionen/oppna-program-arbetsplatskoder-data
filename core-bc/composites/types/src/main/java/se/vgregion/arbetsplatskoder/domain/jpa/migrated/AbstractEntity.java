@@ -1,39 +1,39 @@
 package se.vgregion.arbetsplatskoder.domain.jpa.migrated;
 
-import se.vgregion.arbetsplatskoder.db.migration.util.BeanMap;
-
 import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Created by clalu4 on 2017-03-24.
  */
-public class AbstractEntity implements Serializable {
+public abstract class AbstractEntity implements Serializable {
+
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (obj instanceof AbstractEntity) {
+            if (((AbstractEntity) obj).getId() == this.getId()) {
+                return true;
+            }
+            if (((AbstractEntity) obj).getId() == null || this.getId() == null) {
+                return false;
+            }
+            return ((AbstractEntity) obj).getId().equals(this.getId());
+        } else {
             return false;
         }
-        if (obj == this) {
-            return true;
-        }
-        HashMap other = new HashMap(new BeanMap(obj));
-        HashMap self = new HashMap(new BeanMap(obj));
-        other.remove("class");
-        self.remove("class");
-        other.keySet().retainAll(self.entrySet());
-        return self.equals(other);
     }
 
     @Override
     public int hashCode() {
-        return new BeanMap(this).hashCode();
+        return getId() != null ? getId().hashCode() : 0;
     }
 
     @Override
     public String toString() {
-        return (new BeanMap(this)).toString();
+        return getClass().getSimpleName() + " [id=" + getId() + "]";
     }
+
+    public abstract <T extends Object> T getId();
 
 }

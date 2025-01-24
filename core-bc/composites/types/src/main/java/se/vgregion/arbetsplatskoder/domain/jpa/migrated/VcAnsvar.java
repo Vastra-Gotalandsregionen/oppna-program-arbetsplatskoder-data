@@ -42,5 +42,8 @@ public class VcAnsvar extends AbstractEntity {
         this.arbetsplatskod = v;
     }
 
-
+    @Override
+    public String getId() {
+        return getArbetsplatskod();
+    }
 }

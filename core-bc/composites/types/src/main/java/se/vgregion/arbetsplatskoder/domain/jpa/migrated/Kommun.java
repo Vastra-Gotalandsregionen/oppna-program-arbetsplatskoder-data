@@ -75,5 +75,8 @@ public class Kommun extends AbstractEntity {
         this.kommkodInt = v;
     }
 
-
+    @Override
+    public Object getId() {
+        return getKommun();
+    }
 }
